@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wet London - Discover Indoor Activities</title>
+    <!-- Version 1.4.1 - Error Handling & Placeholder Images - Dec 23, 2025 -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header class="header">
+        <a href="#" class="logo">Wet London</a>
+        <nav class="nav">
+            <a href="#hero">Home</a>
+            <a href="#activities">Featured</a>
+            <a href="#all-activities">All Activities</a>
+            <a href="#bookmarks">My Bookmarks</a>
+        </nav>
+    </header>
+
+    <section class="hero" id="hero">
+        <div class="rain">
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+        </div>
+
+        <!-- Weather Widget -->
+        <div class="weather-widget" id="weatherWidget">
+            <div class="weather-loading" id="weatherLoading">
+                <div class="weather-spinner"></div>
+                <span>Loading weather...</span>
+            </div>
+            <div class="weather-content" id="weatherContent" style="display: none;">
+                <div class="weather-main">
+                    <div class="weather-icon" id="weatherIcon">🌧️</div>
+                    <div class="weather-info">
+                        <div class="weather-temp" id="weatherTemp">--°C</div>
+                        <div class="weather-desc" id="weatherDesc">Loading...</div>
+                    </div>
+                </div>
+                <div class="weather-details">
+                    <div class="weather-detail">
+                        <span class="weather-label">Feels like</span>
+                        <span class="weather-value" id="weatherFeels">--°C</span>
+                    </div>
+                    <div class="weather-detail">
+                        <span class="weather-label">Humidity</span>
+                        <span class="weather-value" id="weatherHumidity">--%</span>
+                    </div>
+                    <div class="weather-detail">
+                        <span class="weather-label">Rain</span>
+                        <span class="weather-value" id="weatherRain">--</span>
+                    </div>
+                </div>
+                <div class="weather-message" id="weatherMessage"></div>
+                <div class="weather-updated" id="weatherUpdated">Updated: --</div>
+            </div>
+            <button class="weather-refresh" id="weatherRefresh" onclick="refreshWeather()" title="Refresh weather">
+                🔄
+            </button>
+        </div>
+
+        <div class="hero-content">
+            <h1>Discover Wet London</h1>
+            <p>Find the perfect indoor activities tailored to your preferences</p>
+
+            <!-- Search Bar -->
+            <div class="search-container">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="searchInput" class="search-input"
+                        placeholder="Search activities, venues, or categories..." autocomplete="off">
+                    <button class="clear-search-btn" id="clearSearchBtn" onclick="clearSearch()" style="display: none;">
+                        ✕
+                    </button>
+                </div>
+                <div class="search-suggestions" id="searchSuggestions" style="display: none;">
+                    <!-- Dynamic suggestions will appear here -->
+                </div>
+            </div>
+
+            <div class="hero-buttons">
+                <button class="customize-btn">Customize Your Experience</button>
+                <button class="lucky-btn">🎲 I'm Feeling Lucky</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text">Generating your experiences...</div>
+            <div class="loading-subtext">Finding the perfect activities for you</div>
+        </div>
+    </div>
+
+    <!-- Generated Results Section -->
+    <section class="generated-section" id="generatedSection">
+        <div class="generated-results-container">
+            <button class="close-results-btn" onclick="clearResults()">✕</button>
+            <div class="generated-header">
+                <div>
+                    <h2 class="generated-title">Your Personalized Selection</h2>
+                    <span class="generated-count" id="generatedCount">0 activities found</span>
+                </div>
+            </div>
+            <div class="activity-grid" id="generatedGrid"></div>
+            <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+                <button class="load-more-btn" id="loadMoreBtn" onclick="loadMoreVenues()">Load more</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lucky Selection Section (Hidden by default) -->
+    <section class="lucky-selection-section" id="luckySelection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">🎲 Your Lucky Selection</h2>
+                <button class="close-lucky-btn" onclick="closeLuckySelection()">✕</button>
+            </div>
+            <div class="lucky-grid" id="luckyGrid"></div>
+        </div>
+    </section>
+
+    <section class="categories-section" id="categories">
+        <div class="container">
+            <h2 class="section-title">Popular Categories</h2>
+            <div class="category-grid" id="categoryGrid">
+                <div class="category-card">
+                    <div class="category-icon"></div>
+                    <h3>Museums <span class="category-count" data-type="museums">(0)</span></h3>
+                    <p>World-class collections and exhibitions from ancient artifacts to modern history</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"></div>
+                    <h3>Galleries <span class="category-count" data-type="galleries">(0)</span></h3>
+                    <p>Contemporary art spaces showcasing innovative and thought-provoking works</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"></div>
+                    <h3>Theatre <span class="category-count" data-type="theatre">(0)</span></h3>
+                    <p>West End shows, intimate productions, and world-renowned performances</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"></div>
+                    <h3>Dining <span class="category-count" data-type="dining">(0)</span></h3>
+                    <p>Culinary experiences from Michelin-starred restaurants to hidden gems</p>
+                </div>
+
+                <!-- Hidden categories (5-12) -->
+                <div class="category-card category-hidden">
+                    <div class="category-icon"></div>
+                    <h3>Entertainment <span class="category-count" data-type="entertainment">(0)</span></h3>
+                    <p>Immersive experiences, shows, and attractions for all ages</p>
+                </div>
+                <div class="category-card category-hidden">
+                    <div class="category-icon"></div>
+                    <h3>Shopping <span class="category-count" data-type="shopping">(0)</span></h3>
+                    <p>From luxury department stores to quirky boutiques and markets</p>
+                </div>
+                <div class="category-card category-hidden">
+                    <div class="category-icon"></div>
+                    <h3>Music Venues <span class="category-count" data-type="music">(0)</span></h3>
+                    <p>Live music from intimate jazz clubs to iconic concert halls</p>
+                </div>
+                <div class="category-card category-hidden">
+                    <div class="category-icon"></div>
+                    <h3>Comedy Clubs <span class="category-count" data-type="comedy">(0)</span></h3>
+                    <p>Stand-up, improv, and comedy shows to brighten rainy days</p>
+                </div>
+                <div class="category-card category-hidden">
+                    <div class="category-icon"></div>
+                    <h3>Gaming <span class="category-count" data-type="gaming">(0)</span></h3>
+                    <p>VR experiences, arcades, board game cafes, and esports</p>
+                </div>
+                <div class="category-card category-hidden">
+                    <div class="category-icon"></div>
+                    <h3>Wellness & Spa <span class="category-count" data-type="wellness">(0)</span></h3>
+                    <p>Relaxation, rejuvenation, and self-care experiences</p>
+                </div>
+                <div class="category-card category-hidden">
+                    <div class="category-icon"></div>
+                    <h3>Cinemas <span class="category-count" data-type="cinema">(0)</span></h3>
+                    <p>From arthouse screens to IMAX spectacles</p>
+                </div>
+                <div class="category-card category-hidden">
+                    <div class="category-icon"></div>
+                    <h3>Historic Sites <span class="category-count" data-type="historic">(0)</span></h3>
+                    <p>Castles, palaces, and landmarks steeped in history</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="show-more-btn" id="showMoreCategories" onclick="toggleCategories()">
+                    Show More Categories
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="activities-section" id="activities">
+        <div class="container">
+            <h2 class="section-title">Featured Activities</h2>
+            <div class="activity-grid">
+                <div class="activity-card">
+                    <div class="activity-image">
+                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'British Museum')">🔖</div>
+                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
+                    </div>
+                    <div class="activity-content">
+                        <h3>British Museum</h3>
+                        <div class="activity-tags">
+                            <span class="tag">Museum</span>
+                            <span class="tag">Central</span>
+                            <span class="tag">Dry</span>
+                        </div>
+                        <p>2 million years of human history. Direct tube access, fully covered.</p>
+                        <div class="price">FREE</div>
+                        <button class="book-btn">View Details</button>
+                    </div>
+                </div>
+
+                <div class="activity-card">
+                    <div class="activity-image">
+                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'Tate Modern')">🔖</div>
+                        <div class="umbrella-chip" data-tooltip="Slightly Wet - 5-10 min walk">☂️</div>
+                    </div>
+                    <div class="activity-content">
+                        <h3>Tate Modern</h3>
+                        <div class="activity-tags">
+                            <span class="tag">Gallery</span>
+                            <span class="tag">South</span>
+                            <span class="tag">Dry</span>
+                        </div>
+                        <p>Contemporary art gallery on the Thames. 5 min walk from station.</p>
+                        <div class="price">FREE</div>
+                        <button class="book-btn">View Details</button>
+                    </div>
+                </div>
+
+                <div class="activity-card">
+                    <div class="activity-image">
+                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'West End Theatre')">🔖</div>
+                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
+                    </div>
+                    <div class="activity-content">
+                        <h3>West End Theatre</h3>
+                        <div class="activity-tags">
+                            <span class="tag">Theatre</span>
+                            <span class="tag">Central</span>
+                            <span class="tag">Dry</span>
+                        </div>
+                        <p>World-class performances. Most venues under 5 mins from tube.</p>
+                        <div class="price">FROM £45</div>
+                        <button class="book-btn">View Details</button>
+                    </div>
+                </div>
+
+                <!-- Featured Card 1 -->
+                <div class="activity-card featured">
+                    <div class="activity-image">
+                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'Sky Garden')">🔖</div>
+                        <div class="featured-badge">Featured</div>
+                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
+                    </div>
+                    <div class="activity-content">
+                        <h3>Sky Garden</h3>
+                        <div class="activity-tags">
+                            <span class="tag">Dining</span>
+                            <span class="tag">Central</span>
+                            <span class="tag">Dry</span>
+                        </div>
+                        <p>London's highest public garden with panoramic 360° views. Experience fine dining 155 meters
+                            above the city with direct lift access from street level. Free to visit, reservations
+                            essential for the restaurant.</p>
+                        <div class="price">FREE ENTRY</div>
+                        <button class="book-btn">View Details</button>
+                    </div>
+                </div>
+
+                <div class="activity-card">
+                    <div class="activity-image">
+                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'Science Museum')">🔖</div>
+                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
+                    </div>
+                    <div class="activity-content">
+                        <h3>Science Museum</h3>
+                        <div class="activity-tags">
+                            <span class="tag">Museum</span>
+                            <span class="tag">West</span>
+                            <span class="tag">Dry</span>
+                        </div>
+                        <p>Interactive exhibits and innovations. Direct underground access.</p>
+                        <div class="price">FREE</div>
+                        <button class="book-btn">View Details</button>
+                    </div>
+                </div>
+
+                <div class="activity-card">
+                    <div class="activity-image">
+                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'Covent Garden Market')">🔖
+                        </div>
+                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
+                    </div>
+                    <div class="activity-content">
+                        <h3>Covent Garden Market</h3>
+                        <div class="activity-tags">
+                            <span class="tag">Shopping</span>
+                            <span class="tag">Central</span>
+                            <span class="tag">Covered</span>
+                        </div>
+                        <p>Historic covered market with boutiques and street performers.</p>
+                        <div class="price">FREE</div>
+                        <button class="book-btn">View Details</button>
+                    </div>
+                </div>
+
+                <div class="activity-card">
+                    <div class="activity-image">
+                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'Wine Tasting')">🔖</div>
+                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
+                    </div>
+                    <div class="activity-content">
+                        <h3>Wine Tasting</h3>
+                        <div class="activity-tags">
+                            <span class="tag">Food & Drink</span>
+                            <span class="tag">Central</span>
+                            <span class="tag">Dry</span>
+                        </div>
+                        <p>Premium wine experiences. Underground station adjacent.</p>
+                        <div class="price">£65</div>
+                        <button class="book-btn">View Details</button>
+                    </div>
+                </div>
+
+                <div class="activity-card">
+                    <div class="activity-image">
+                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'Escape Room')">🔖</div>
+                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
+                    </div>
+                    <div class="activity-content">
+                        <h3>Escape Room</h3>
+                        <div class="activity-tags">
+                            <span class="tag">Entertainment</span>
+                            <span class="tag">East</span>
+                            <span class="tag">Dry</span>
+                        </div>
+                        <p>Challenging puzzles and immersive scenarios. 3 min walk from station.</p>
+                        <div class="price">£28</div>
+                        <button class="book-btn">View Details</button>
+                    </div>
+                </div>
+
+                <!-- Featured Card 2 -->
+                <div class="activity-card featured">
+                    <div class="activity-image">
+                        <div class="bookmark-icon"
+                            onclick="toggleBookmarkFromCard(event, 'Frameless Immersive Art Experience')">🔖</div>
+                        <div class="featured-badge">Featured</div>
+                        <div class="umbrella-chip" data-tooltip="Slightly Wet - 5-10 min walk">☂️</div>
+                    </div>
+                    <div class="activity-content">
+                        <h3>Frameless Immersive Art Experience</h3>
+                        <div class="activity-tags">
+                            <span class="tag">Exhibitions</span>
+                            <span class="tag">Central</span>
+                            <span class="tag">Slightly Wet</span>
+                        </div>
+                        <p>Step beyond the frame into the world's most iconic artworks. Multi-sensory galleries
+                            featuring works from Canaletto to Kandinsky, brought to life through cutting-edge projection
+                            technology. Perfect rainy day escape into art.</p>
+                        <div class="price">£24</div>
+                        <button class="book-btn">View Details</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Weather-Based Recommendations Section -->
+    <section class="weather-recommendations-section" id="weatherRecommendations" style="display: none;">
+        <div class="container">
+            <div class="weather-rec-header">
+                <div class="weather-rec-icon" id="weatherRecIcon">☔</div>
+                <div class="weather-rec-title-group">
+                    <h2 class="weather-rec-title" id="weatherRecTitle">Perfect for Today's Weather</h2>
+                    <p class="weather-rec-subtitle" id="weatherRecSubtitle">Stay dry and comfortable</p>
+                </div>
+            </div>
+            <div class="activity-grid" id="weatherRecGrid">
+                <!-- Dynamic weather-based recommendations will appear here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- All Activities Section -->
+    <section class="all-activities-section" id="all-activities">
+        <div class="container">
+            <div class="all-activities-header">
+                <div>
+                    <h2 class="section-title">All Activities</h2>
+                    <p class="section-subtitle">Explore all 88+ indoor activities across London</p>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalActivitiesCount">88</span>
+                    <span class="stat-label">Total Activities</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="openNowCount">-</span>
+                    <span class="stat-label">Open Now</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="freeActivitiesCount">-</span>
+                    <span class="stat-label">Free Entry</span>
+                </div>
+            </div>
+
+            <!-- Category Filter Chips -->
+            <div class="filter-chips-container">
+                <div class="filter-chips-header">
+                    <h3>Filter by Category</h3>
+                    <button class="clear-filters-btn" id="clearCategoryFilters" onclick="clearCategoryFilters()"
+                        style="display: none;">
+                        Clear All
+                    </button>
+                </div>
+                <div class="category-chips" id="categoryChips">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Sorting Options -->
+            <div class="sorting-container">
+                <label for="sortSelect">Sort by:</label>
+                <select id="sortSelect" class="sort-select" onchange="sortAllActivities()">
+                    <option value="name-asc">Name (A-Z)</option>
+                    <option value="name-desc">Name (Z-A)</option>
+                    <option value="price-asc">Price (Low to High)</option>
+                    <option value="price-desc">Price (High to Low)</option>
+                    <option value="location">Location</option>
+                </select>
+            </div>
+
+            <!-- Activities Grid -->
+            <div class="activity-grid" id="allActivitiesGrid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+
+            <!-- Load More Button -->
+            <div class="load-more-container" id="allActivitiesLoadMore" style="display: none;">
+                <button class="load-more-btn" onclick="loadMoreAllActivities()">
+                    Load More Activities
+                </button>
+            </div>
+
+            <!-- Back to Top Button -->
+            <button class="back-to-top-btn" id="backToTopBtn" onclick="scrollToTop()" style="display: none;">
+                ↑
+            </button>
+        </div>
+    </section>
+
+    <!-- My Bookmarks Section -->
+    <section class="generated-section" id="bookmarks">
+        <div class="container">
+            <div class="generated-header">
+                <div>
+                    <h2 class="generated-title">My Bookmarks</h2>
+                    <span class="generated-count" id="bookmarksCount">0 bookmarked activities</span>
+                </div>
+                <button class="clear-results-btn" onclick="clearBookmarks()">Clear All Bookmarks</button>
+            </div>
+            <div class="activity-grid" id="bookmarksGrid"></div>
+        </div>
+    </section>
+
+    <!-- Customization Modal -->
+    <div class="modal" id="customizeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Customize Your Experience</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-section">
+                    <label for="preferences">What are you looking to do?</label>
+                    <input type="text" id="preferences"
+                        placeholder="E.g., I want to learn about history, see contemporary art, try new foods...">
+                </div>
+
+                <div class="form-section">
+                    <label>Activity Types</label>
+                    <div class="tag-grid">
+                        <div class="tag-option" data-type="museums">Museums</div>
+                        <div class="tag-option" data-type="galleries">Galleries</div>
+                        <div class="tag-option" data-type="theatre">Theatre</div>
+                        <div class="tag-option" data-type="dining">Dining</div>
+                        <div class="tag-option" data-type="entertainment">Entertainment</div>
+                        <div class="tag-option" data-type="shopping">Shopping</div>
+                        <div class="tag-option" data-type="wellness">Wellness & Spa</div>
+                        <div class="tag-option" data-type="nightlife">Nightlife</div>
+                        <div class="tag-option" data-type="music">Music Venues</div>
+                        <div class="tag-option" data-type="comedy">Comedy Clubs</div>
+                        <div class="tag-option" data-type="cinema">Cinemas</div>
+                        <div class="tag-option" data-type="gaming">Gaming</div>
+                        <div class="tag-option" data-type="workshops">Classes & Workshops</div>
+                        <div class="tag-option" data-type="historic">Historic Sites</div>
+                        <div class="tag-option" data-type="markets">Markets</div>
+                        <div class="tag-option" data-type="sports">Sports & Fitness</div>
+                        <div class="tag-option" data-type="exhibitions">Exhibitions</div>
+                        <div class="tag-option" data-type="libraries">Libraries</div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label>London Area</label>
+                    <div class="location-grid">
+                        <div class="tag-option location-option selected" data-location="all">All London</div>
+                        <div class="tag-option location-option" data-location="north">North</div>
+                        <div class="tag-option location-option" data-location="south">South</div>
+                        <div class="tag-option location-option" data-location="east">East</div>
+                        <div class="tag-option location-option" data-location="west">West</div>
+                        <div class="tag-option location-option" data-location="central">Central</div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label>How wet are you prepared to get?</label>
+                    <div class="wetness-options">
+                        <div class="wetness-option selected" data-wetness="any">
+                            <strong>I don't mind</strong>
+                            <span>Happy to experience any venue regardless of weather exposure.</span>
+                        </div>
+                        <div class="wetness-option" data-wetness="dry">
+                            <strong>Not at all (Completely Dry)</strong>
+                            <span>Direct tube/station access. Entire experience is fully covered and indoor.</span>
+                        </div>
+                        <div class="wetness-option" data-wetness="slightly">
+                            <strong>Slightly Wet</strong>
+                            <span>5-10 min walk from station. Some outdoor elements but mostly covered.</span>
+                        </div>
+                        <div class="wetness-option" data-wetness="wet">
+                            <strong>Prepared to Get Wet</strong>
+                            <span>Longer journey (10+ mins). Significant outdoor portions of the experience.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" id="openNowFilter" onchange="toggleOpenNow()"
+                            style="width: 18px; height: 18px; cursor: pointer;">
+                        <span style="font-weight: 600;">🟢 Show only venues open now</span>
+                    </label>
+                    <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem; margin-left: 1.75rem;">Filter out
+                        venues that are currently closed</p>
+                </div>
+
+                <button class="prerequisites-btn" onclick="openPrerequisites()">
+                    + Add constraints like accessibility, budget, or dietary needs...
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-clear" onclick="clearFilters()">Clear All</button>
+                <button class="btn-done" onclick="applyFilters()">
+                    Done <span class="counter" id="filterCount">(0)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prerequisites Modal -->
+    <div class="prerequisites-modal" id="prerequisitesModal">
+        <div class="prerequisites-content">
+            <div class="modal-header">
+                <h2>Activity Prerequisites</h2>
+                <button class="modal-close" onclick="closePrerequisites()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: #666; margin-bottom: 1.5rem; font-size: 0.9rem;">Select constraints to shape your
+                    perfect experience</p>
+
+                <div class="prereq-grid">
+                    <div>
+                        <div class="prereq-category">
+                            <h4>Access & Mobility</h4>
+                            <div class="prereq-tags">
+                                <div class="prereq-tag">Wheelchair accessible</div>
+                                <div class="prereq-tag">Step-free</div>
+                                <div class="prereq-tag">Lift access</div>
+                                <div class="prereq-tag">Low-impact</div>
+                                <div class="prereq-tag">Seating available</div>
+                                <div class="prereq-tag">Avoid stairs</div>
+                            </div>
+                        </div>
+
+                        <div class="prereq-category">
+                            <h4>Family & Groups</h4>
+                            <div class="prereq-tags">
+                                <div class="prereq-tag">Child-friendly</div>
+                                <div class="prereq-tag">Pushchair-friendly</div>
+                                <div class="prereq-tag">Family tickets</div>
+                                <div class="prereq-tag">Quiet spaces</div>
+                                <div class="prereq-tag">Interactive exhibits</div>
+                            </div>
+                        </div>
+
+                        <div class="prereq-category">
+                            <h4>Budget & Time</h4>
+                            <div class="prereq-tags">
+                                <div class="prereq-tag">Free entry</div>
+                                <div class="prereq-tag">Under £20</div>
+                                <div class="prereq-tag">Under £50</div>
+                                <div class="prereq-tag">Premium</div>
+                                <div class="prereq-tag">Under 1 hour</div>
+                                <div class="prereq-tag">Half day</div>
+                                <div class="prereq-tag">Full day</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="prereq-category">
+                            <h4>Sensory & Comfort</h4>
+                            <div class="prereq-tags">
+                                <div class="prereq-tag">Avoid crowds</div>
+                                <div class="prereq-tag">Quiet environment</div>
+                                <div class="prereq-tag">No flashing lights</div>
+                                <div class="prereq-tag">No loud music</div>
+                                <div class="prereq-tag">Well-lit spaces</div>
+                                <div class="prereq-tag">Climate controlled</div>
+                            </div>
+                        </div>
+
+                        <div class="prereq-category">
+                            <h4>Dietary</h4>
+                            <div class="prereq-tags">
+                                <div class="prereq-tag">Vegan options</div>
+                                <div class="prereq-tag">Vegetarian</div>
+                                <div class="prereq-tag">Gluten-free</div>
+                                <div class="prereq-tag">Halal</div>
+                                <div class="prereq-tag">Kosher</div>
+                                <div class="prereq-tag">Dairy-free</div>
+                                <div class="prereq-tag">Nut-free</div>
+                            </div>
+                        </div>
+
+                        <div class="prereq-category">
+                            <h4>Neurodiverse</h4>
+                            <div class="prereq-tags">
+                                <div class="prereq-tag">Low sensory</div>
+                                <div class="prereq-tag">Quiet hours</div>
+                                <div class="prereq-tag">Predictable layouts</div>
+                                <div class="prereq-tag">Clear signage</div>
+                                <div class="prereq-tag">Relaxed timing</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="prereq-category">
+                            <h4>Practical</h4>
+                            <div class="prereq-tags">
+                                <div class="prereq-tag">Cloakroom</div>
+                                <div class="prereq-tag">Toilets available</div>
+                                <div class="prereq-tag">Cafe on-site</div>
+                                <div class="prereq-tag">Free WiFi</div>
+                                <div class="prereq-tag">Photography allowed</div>
+                                <div class="prereq-tag">Booking required</div>
+                                <div class="prereq-tag">Walk-ins welcome</div>
+                            </div>
+                        </div>
+
+                        <div class="prereq-category">
+                            <h4>Experience Style</h4>
+                            <div class="prereq-tags">
+                                <div class="prereq-tag">Educational</div>
+                                <div class="prereq-tag">Interactive</div>
+                                <div class="prereq-tag">Relaxing</div>
+                                <div class="prereq-tag">Social</div>
+                                <div class="prereq-tag">Solo-friendly</div>
+                                <div class="prereq-tag">Romantic</div>
+                                <div class="prereq-tag">Group activity</div>
+                                <div class="prereq-tag">Unique experience</div>
+                            </div>
+                        </div>
+
+                        <div class="prereq-category">
+                            <h4>Inclusive</h4>
+                            <div class="prereq-tags">
+                                <div class="prereq-tag">LGBTQ+ friendly</div>
+                                <div class="prereq-tag">Gender-neutral facilities</div>
+                                <div class="prereq-tag">Inclusive spaces</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-clear" onclick="clearPrerequisites()">Clear All</button>
+                <button class="btn-done" onclick="applyPrerequisites()">Done <span class="counter"
+                        id="prereqCount">(0)</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Detail Modal -->
+    <div class="activity-modal" id="activityModal">
+        <div class="activity-modal-content">
+            <button class="activity-modal-close" onclick="closeActivityModal()">&times;</button>
+
+            <div class="activity-modal-header">
+                <h2 class="activity-modal-title" id="activityTitle">Activity Name</h2>
+                <div class="activity-modal-meta">
+                    <div class="activity-rating">
+                        <span class="activity-rating-stars" id="activityStars">★★★★★</span>
+                        <span id="activityRating">4.8</span>
+                    </div>
+                    <span class="tag" id="activityPrice">FREE</span>
+                    <span class="tag" id="activityLocation">Central</span>
+                    <span id="activityUmbrella">🌂</span>
+                </div>
+            </div>
+
+            <div class="activity-modal-actions">
+                <button class="action-btn action-btn-primary" id="bookActivityBtn">Book Now / Visit Website</button>
+                <button class="action-btn action-btn-secondary" id="bookmarkActionBtn" onclick="bookmarkActivity()">
+                    <span id="bookmarkIcon">🔖</span> Save
+                </button>
+                <button class="action-btn action-btn-secondary" onclick="shareActivity()">
+                    📤 Share
+                </button>
+            </div>
+
+            <div class="activity-modal-tabs">
+                <div class="activity-tab active" onclick="switchTab('overview')">Overview</div>
+                <div class="activity-tab" onclick="switchTab('gallery')">Gallery</div>
+                <div class="activity-tab" onclick="switchTab('video')">Video</div>
+                <div class="activity-tab" onclick="switchTab('reviews')">Reviews</div>
+                <div class="activity-tab" onclick="switchTab('social')">Social</div>
+            </div>
+
+            <div class="activity-modal-body">
+                <!-- Overview Tab -->
+                <div class="activity-tab-content active" id="overview-tab">
+                    <div class="about-section">
+                        <h3>About</h3>
+                        <p id="activityDescription">Description will appear here...</p>
+
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <div class="info-icon">🚇</div>
+                                <div class="info-content">
+                                    <h4>Getting There</h4>
+                                    <p id="activityTransport">Transport information</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">⏰</div>
+                                <div class="info-content">
+                                    <h4>Duration</h4>
+                                    <p id="activityDuration">Flexible</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">♿</div>
+                                <div class="info-content">
+                                    <h4>Accessibility</h4>
+                                    <p id="activityAccessibility">Accessibility info</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">🎫</div>
+                                <div class="info-content">
+                                    <h4>Booking</h4>
+                                    <p id="activityBooking">Booking info</p>
+                                </div>
+                            </div>
+                            <div class="info-item">
+                                <div class="info-icon">🕒</div>
+                                <div class="info-content">
+                                    <h4>Opening Hours</h4>
+                                    <p id="activityOpeningHours"
+                                        style="white-space: pre-line; font-size: 0.85rem; line-height: 1.6;">Hours not
+                                        available</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>What's Included</h3>
+                        <ul id="activityIncludes">
+                            <li>Experience details will appear here</li>
+                        </ul>
+
+                        <h3>Good to Know</h3>
+                        <ul id="activityTips">
+                            <li>Tips and recommendations</li>
+                        </ul>
+
+                        <div
+                            style="margin-top: 2rem; padding: 1.25rem; background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%); border-radius: 12px; border: 1px solid #e0e7ff;">
+                            <h3 style="margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+                                <span style="font-size: 1.2rem;">📞</span> Need More Information?
+                            </h3>
+                            <p style="color: #555; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.6;">
+                                For the most up-to-date information including specific opening times, current prices,
+                                special events, and booking details,
+                                we recommend checking the venue's official website or contacting them directly.
+                            </p>
+                            <button onclick="searchVenueOnline()" class="search-venue-btn"
+                                style="width: 100%; padding: 0.875rem; background: #DCDAF5; color: #1a1a1a; border: none; border-radius: 8px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                <span>🔍</span> Search "<span id="venueSearchName"></span>" Online
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gallery Tab -->
+                <div class="activity-tab-content" id="gallery-tab">
+                    <div class="activity-gallery">
+                        <div class="gallery-main">📷 Main Image Gallery</div>
+                        <div class="gallery-thumb">Thumb 1</div>
+                        <div class="gallery-thumb">Thumb 2</div>
+                        <div class="gallery-thumb">Thumb 3</div>
+                    </div>
+                    <p style="text-align: center; color: #666; font-size: 0.9rem;">Click thumbnails to view full images
+                    </p>
+                </div>
+
+                <!-- Video Tab -->
+                <div class="activity-tab-content" id="video-tab">
+                    <div class="video-container">
+                        🎥 Video Player
+                        <br><small>Virtual tour and experience preview</small>
+                    </div>
+                    <h3>Watch & Learn</h3>
+                    <p>Get a virtual preview of your experience. See what to expect, explore the venue, and discover
+                        insider tips from previous visitors.</p>
+                </div>
+
+                <!-- Reviews Tab -->
+                <div class="activity-tab-content" id="reviews-tab">
+                    <h3>What People Are Saying</h3>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div>
+                                <div class="reviewer-name">Sarah M.</div>
+                                <div class="review-rating">★★★★★ 5.0</div>
+                            </div>
+                            <div class="review-date">2 weeks ago</div>
+                        </div>
+                        <p class="review-text">"Absolutely incredible experience! The exhibits were fascinating and the
+                            staff were so knowledgeable. Definitely worth multiple visits. The cafe was a nice touch
+                            too."</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div>
+                                <div class="reviewer-name">James T.</div>
+                                <div class="review-rating">★★★★☆ 4.0</div>
+                            </div>
+                            <div class="review-date">1 month ago</div>
+                        </div>
+                        <p class="review-text">"Great venue with lots to see. Can get busy at weekends but still
+                            manageable. Would recommend booking ahead if possible. Easy to get to from the tube."</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div>
+                                <div class="reviewer-name">Emma L.</div>
+                                <div class="review-rating">★★★★★ 5.0</div>
+                            </div>
+                            <div class="review-date">3 months ago</div>
+                        </div>
+                        <p class="review-text">"Perfect for a rainy day! Spent 3 hours here and barely scratched the
+                            surface. The interactive elements were particularly engaging. Will definitely be back."</p>
+                    </div>
+                </div>
+
+                <!-- Social Tab -->
+                <div class="activity-tab-content" id="social-tab">
+                    <h3>Social Media Buzz</h3>
+                    <div class="social-feed">
+                        <div class="social-post">
+                            <div class="social-post-header">
+                                <div class="social-avatar"></div>
+                                <div>
+                                    <div class="social-username">@londonexplorer</div>
+                                    <div class="social-platform">Instagram • 2d ago</div>
+                                </div>
+                            </div>
+                            <p class="social-post-content">
+                                "Spent a rainy afternoon here and it was perfect! ☔️ The exhibits are stunning and
+                                there's so much to see. #LondonIndoors #RainyDayFun"
+                            </p>
+                        </div>
+
+                        <div class="social-post">
+                            <div class="social-post-header">
+                                <div class="social-avatar"></div>
+                                <div>
+                                    <div class="social-username">@culturevulture</div>
+                                    <div class="social-platform">Twitter • 5d ago</div>
+                                </div>
+                            </div>
+                            <p class="social-post-content">
+                                "Absolutely blown away by this place! A must-visit for anyone in London. The
+                                architecture alone is worth the trip 🏛️"
+                            </p>
+                        </div>
+
+                        <div class="social-post">
+                            <div class="social-post-header">
+                                <div class="social-avatar"></div>
+                                <div>
+                                    <div class="social-username">@weekendwarrior</div>
+                                    <div class="social-platform">Instagram • 1w ago</div>
+                                </div>
+                            </div>
+                            <p class="social-post-content">
+                                "Rainy London got you down? This is THE spot. Stayed dry and entertained for hours! 🌧️
+                                ➡️ 🏛️"
+                            </p>
+                        </div>
+
+                        <div class="social-post">
+                            <div class="social-post-header">
+                                <div class="social-avatar"></div>
+                                <div>
+                                    <div class="social-username">@familyadventures</div>
+                                    <div class="social-platform">Facebook • 2w ago</div>
+                                </div>
+                            </div>
+                            <p class="social-post-content">
+                                "The kids loved it! Perfect for families on a wet day. Interactive exhibits kept them
+                                engaged for ages 👨‍👩‍👧‍👦"
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/filter-state.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toastIcon">✓</span>
+        <span class="toast-message" id="toastMessage">Activity saved!</span>
+    </div>
+
+    <!-- Share Modal -->
+    <div class="share-modal" id="shareModal">
+        <div class="share-modal-content">
+            <div class="share-modal-header">
+                <h3>Share Activity</h3>
+                <button class="share-modal-close" onclick="closeShareModal()">×</button>
+            </div>
+
+            <div class="share-activity-info">
+                <div class="share-activity-image" id="shareActivityImage"></div>
+                <div class="share-activity-details">
+                    <h4 id="shareActivityName">Activity Name</h4>
+                    <p id="shareActivityDescription">Activity description goes here...</p>
+                </div>
+            </div>
+
+            <div class="share-options">
+                <button class="share-option" onclick="shareViaWhatsApp()">
+                    <span class="share-option-icon">💬</span>
+                    <span>WhatsApp</span>
+                </button>
+                <button class="share-option" onclick="shareViaEmail()">
+                    <span class="share-option-icon">📧</span>
+                    <span>Email</span>
+                </button>
+                <button class="share-option" onclick="shareViaTwitter()">
+                    <span class="share-option-icon">🐦</span>
+                    <span>Twitter / X</span>
+                </button>
+                <button class="share-option" onclick="shareViaFacebook()">
+                    <span class="share-option-icon">📘</span>
+                    <span>Facebook</span>
+                </button>
+            </div>
+
+            <div class="share-link-section">
+                <div class="share-link-label">Or copy link</div>
+                <div class="share-link-input-wrapper">
+                    <input type="text" class="share-link-input" id="shareLink" readonly>
+                    <button class="share-link-copy-btn" id="copyLinkBtn" onclick="copyShareLink()">
+                        Copy Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

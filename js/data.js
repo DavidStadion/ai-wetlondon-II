@@ -1,0 +1,2092 @@
+const londonVenues = [
+    // MUSEUMS
+    {
+        name: "British Museum",
+        type: ["museums", "historic"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "World-famous collection spanning 2 million years of human history. Direct Russell Square tube access.",
+        rating: 4.8,
+        affiliateLink: "https://www.britishmuseum.org/visit?affiliate=wetlondon",
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "child-friendly", "free entry", "toilets available", "cafe on-site", "educational", "interactive", "cloakroom"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-20:30",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Victoria & Albert Museum",
+        type: ["museums", "galleries"],
+        location: "west",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "World's leading museum of art, design and performance. South Kensington tube adjacent.",
+        rating: 4.8,
+        affiliateLink: "https://www.vam.ac.uk/visit?affiliate=wetlondon",
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "child-friendly", "free entry", "toilets available", "cafe on-site", "educational", "interactive", "photography allowed"],
+        openingHours: {
+            mon: "10:00-17:45",
+            tue: "10:00-17:45",
+            wed: "10:00-17:45",
+            thu: "10:00-17:45",
+            fri: "10:00-22:00",
+            sat: "10:00-17:45",
+            sun: "10:00-17:45"
+        }
+    },
+    {
+        name: "Science Museum",
+        type: ["museums", "exhibitions"],
+        location: "west",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Interactive exhibits showcasing scientific innovations. South Kensington station adjacent.",
+        rating: 4.7,
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "child-friendly", "free entry", "toilets available", "cafe on-site", "educational", "interactive", "family tickets"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Natural History Museum",
+        type: ["museums"],
+        location: "west",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Dinosaur skeletons, wildlife specimens, and the famous blue whale. South Kensington.",
+        rating: 4.8,
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "child-friendly", "free entry", "toilets available", "cafe on-site", "educational", "interactive", "family tickets"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Churchill War Rooms",
+        type: ["museums", "historic"],
+        location: "central",
+        wetness: "dry",
+        price: 26,
+        priceDisplay: "£26",
+        description: "Winston Churchill's secret WWII underground headquarters. Westminster station 3 mins.",
+        rating: 4.7,
+        prerequisites: ["wheelchair accessible", "under £50", "toilets available", "educational", "quiet spaces", "booking required", "half day"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Imperial War Museum",
+        type: ["museums", "historic"],
+        location: "south",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Military history from WWI to present day conflicts. Lambeth North 3 min walk.",
+        rating: 4.7,
+        prerequisites: ["wheelchair accessible", "step-free", "free entry", "child-friendly", "toilets available", "cafe on-site", "educational", "interactive"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Museum of London",
+        type: ["museums", "historic"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "London's history from prehistoric to modern times. Barbican station 2 mins.",
+        rating: 4.6,
+        prerequisites: ["wheelchair accessible", "step-free", "free entry", "child-friendly", "toilets available", "cafe on-site", "educational"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Design Museum",
+        type: ["museums", "galleries"],
+        location: "west",
+        wetness: "slightly",
+        price: 18,
+        priceDisplay: "£18",
+        description: "Contemporary design and architecture. High Street Kensington 5 min walk.",
+        rating: 4.5,
+        prerequisites: ["wheelchair accessible", "under £20", "toilets available", "cafe on-site", "educational", "photography allowed"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Wellcome Collection",
+        type: ["museums", "galleries"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Free museum exploring medicine, life and art. Euston Square direct access.",
+        rating: 4.6,
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "free entry", "toilets available", "cafe on-site", "educational", "unique experience", "photography allowed"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "London Transport Museum",
+        type: ["museums"],
+        location: "central",
+        wetness: "dry",
+        price: 19,
+        priceDisplay: "£19",
+        description: "History of London's iconic transport. Covent Garden direct.",
+        rating: 4.6,
+        affiliateLink: "https://www.ltmuseum.co.uk/visit/tickets?affiliate=wetlondon",
+        prerequisites: ["wheelchair accessible", "child-friendly", "family tickets", "under £20", "toilets available", "cafe on-site", "educational", "interactive"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Tate Modern",
+        type: ["galleries"],
+        location: "south",
+        wetness: "slightly",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Britain's national gallery of modern and contemporary art. 5 min walk from Southwark station.",
+        rating: 4.7,
+        tubeDistance: "5 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "child-friendly", "free entry", "toilets available", "cafe on-site", "educational", "photography allowed"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "National Gallery",
+        type: ["galleries"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "European paintings from 13th-19th centuries in Trafalgar Square. Direct Charing Cross access.",
+        rating: 4.8,
+        tubeDistance: "1 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "step-free", "free entry", "toilets available", "cafe on-site", "educational", "quiet spaces", "cloakroom"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Victoria & Albert Museum",
+        type: ["museums", "galleries"],
+        location: "west",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "World's leading museum of art, design and performance. South Kensington tube adjacent.",
+        rating: 4.8,
+        tubeDistance: "2 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "child-friendly", "free entry", "toilets available", "cafe on-site", "educational", "interactive", "photography allowed"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Science Museum",
+        type: ["museums", "exhibitions"],
+        location: "west",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Interactive exhibits showcasing scientific innovations. South Kensington station adjacent.",
+        rating: 4.7,
+        tubeDistance: "2 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "child-friendly", "free entry", "toilets available", "cafe on-site", "educational", "interactive", "family tickets"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Natural History Museum",
+        type: ["museums"],
+        location: "west",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Dinosaur skeletons, wildlife specimens, and the famous blue whale. South Kensington.",
+        rating: 4.8,
+        tubeDistance: "2 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "child-friendly", "free entry", "toilets available", "cafe on-site", "educational", "interactive", "family tickets"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Hamilton - West End",
+        type: ["theatre", "music"],
+        location: "central",
+        wetness: "dry",
+        price: 75,
+        priceDisplay: "FROM £75",
+        description: "Award-winning musical at Victoria Palace Theatre. Leicester Square tube 5 mins.",
+        rating: 4.9,
+        tubeDistance: "5 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "toilets available", "cafe on-site", "booking required", "premium"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    {
+        name: "Sky Garden",
+        type: ["dining", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "London's highest public garden with panoramic views. Monument station 3 mins.",
+        rating: 4.6,
+        affiliateLink: "https://skygarden.london/booking?affiliate=wetlondon",
+        tubeDistance: "3 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "free entry", "toilets available", "vegan options", "vegetarian", "gluten-free", "booking required", "romantic"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "Borough Market",
+        type: ["markets", "dining", "shopping"],
+        location: "south",
+        wetness: "slightly",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Historic food market under Victorian railway arches. London Bridge station 2 mins.",
+        rating: 4.7,
+        tubeDistance: "2 min walk",
+        covered: true,
+        prerequisites: ["free entry", "vegan options", "vegetarian", "gluten-free", "halal", "dairy-free", "walk-ins welcome", "social"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "Dishoom Covent Garden",
+        type: ["dining"],
+        location: "central",
+        wetness: "dry",
+        price: 35,
+        priceDisplay: "£35",
+        description: "Bombay-style café serving Indian cuisine. Covent Garden station adjacent.",
+        rating: 4.8,
+        tubeDistance: "1 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "under £50", "vegan options", "vegetarian", "gluten-free", "halal", "dairy-free", "toilets available", "walk-ins welcome", "social", "romantic"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "The Shard Viewing Platform",
+        type: ["entertainment", "exhibitions"],
+        location: "south",
+        wetness: "dry",
+        price: 32,
+        priceDisplay: "£32",
+        description: "Breathtaking 360° views from Western Europe's tallest building. London Bridge direct.",
+        rating: 4.6,
+        affiliateLink: "https://www.theviewfromtheshard.com/book-tickets/?affiliate=wetlondon",
+        tubeDistance: "1 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "under £50", "toilets available", "cafe on-site", "booking required", "romantic", "unique experience"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+
+    {
+        name: "Escape Reality London",
+        type: ["gaming", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        price: 28,
+        priceDisplay: "£28",
+        description: "Immersive escape room challenges near Leicester Square. 2 min tube walk.",
+        rating: 4.7,
+        affiliateLink: "https://www.escapereality.com/london/?affiliate=wetlondon",
+        tubeDistance: "2 min walk",
+        covered: true,
+        prerequisites: ["under £50", "toilets available", "booking required", "group activity", "social", "under 1 hour", "interactive"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "The Comedy Store",
+        type: ["comedy", "nightlife", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        price: 22,
+        priceDisplay: "£22",
+        description: "London's most iconic comedy club. Piccadilly Circus station 4 min walk.",
+        rating: 4.6,
+        affiliateLink: "https://london.thecomedystore.co.uk/tickets/?affiliate=wetlondon",
+        tubeDistance: "4 min walk",
+        covered: true,
+        prerequisites: ["under £50", "toilets available", "booking required", "social", "unique experience"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    {
+        name: "Curzon Soho Cinema",
+        type: ["cinema", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        price: 18,
+        priceDisplay: "£18",
+        description: "Independent cinema showing arthouse and mainstream films. Leicester Square 3 mins.",
+        rating: 4.5,
+        tubeDistance: "3 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "under £20", "toilets available", "booking required", "relaxing", "romantic", "solo-friendly"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "Namco Funscape",
+        type: ["gaming", "entertainment"],
+        location: "central",
+        wetness: "slightly",
+        price: 25,
+        priceDisplay: "£25",
+        description: "Multi-level arcade and bowling at County Hall. Waterloo station 5 min walk.",
+        rating: 4.4,
+        tubeDistance: "5 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "child-friendly", "family tickets", "under £50", "toilets available", "cafe on-site", "walk-ins welcome", "social", "group activity", "interactive"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "Yoga Haven Camden",
+        type: ["wellness", "sports"],
+        location: "north",
+        wetness: "dry",
+        price: 20,
+        priceDisplay: "£20",
+        description: "Peaceful yoga studio offering various classes. Camden Town station 3 min walk.",
+        rating: 4.7,
+        tubeDistance: "3 min walk",
+        covered: true,
+        prerequisites: ["step-free", "under £50", "toilets available", "quiet environment", "climate controlled", "booking required", "relaxing", "solo-friendly", "under 1 hour"],
+        openingHours: {
+            mon: "07:00-21:00",
+            tue: "07:00-21:00",
+            wed: "07:00-21:00",
+            thu: "07:00-21:00",
+            fri: "07:00-21:00",
+            sat: "08:00-20:00",
+            sun: "08:00-20:00"
+        }
+    },
+    {
+        name: "Bounce Ping Pong",
+        type: ["sports", "entertainment", "dining"],
+        location: "central",
+        wetness: "dry",
+        price: 15,
+        priceDisplay: "£15",
+        description: "Ping pong bar with street food and cocktails. Farringdon station 2 min walk.",
+        rating: 4.5,
+        tubeDistance: "2 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "under £20", "toilets available", "vegan options", "vegetarian", "gluten-free", "social", "group activity", "walk-ins welcome"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "Gordon's Wine Bar",
+        type: ["dining", "nightlife"],
+        location: "central",
+        wetness: "dry",
+        price: 40,
+        priceDisplay: "£40",
+        description: "Historic candlelit wine cellar. Embankment station 2 min walk.",
+        rating: 4.6,
+        tubeDistance: "2 min walk",
+        covered: true,
+        prerequisites: ["under £50", "vegetarian", "vegan options", "toilets available", "walk-ins welcome", "romantic", "social", "unique experience"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "British Library",
+        type: ["libraries", "museums"],
+        location: "north",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "View original manuscripts from history's greatest writers. King's Cross 2 mins.",
+        rating: 4.7,
+        tubeDistance: "2 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "step-free", "free entry", "quiet spaces", "toilets available", "cafe on-site", "educational", "quiet environment", "solo-friendly", "relaxing"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Wellcome Collection",
+        type: ["museums", "galleries"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Free museum exploring medicine, life and art. Euston Square direct access.",
+        rating: 4.6,
+        tubeDistance: "1 min walk",
+        covered: true,
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "free entry", "toilets available", "cafe on-site", "educational", "unique experience", "photography allowed"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Sketch Afternoon Tea",
+        type: ["dining"],
+        location: "central",
+        wetness: "dry",
+        price: 75,
+        priceDisplay: "£75",
+        description: "Instagram-famous pink tearoom. Oxford Circus station 4 min walk.",
+        rating: 4.5,
+        tubeDistance: "4 min walk",
+        covered: true,
+        prerequisites: ["premium", "vegetarian", "vegan options", "gluten-free", "toilets available", "booking required", "romantic", "unique experience", "photography allowed"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "London Dungeon",
+        type: ["entertainment", "museums"],
+        location: "south",
+        wetness: "dry",
+        price: 32,
+        priceDisplay: "£32",
+        description: "Interactive journey through London's dark history. Waterloo station 3 mins.",
+        rating: 4.5,
+        affiliateLink: "https://www.thedungeons.com/london/tickets/?affiliate=wetlondon",
+        tubeDistance: "3 min walk",
+        covered: true,
+        prerequisites: ["under £50", "child-friendly", "family tickets", "toilets available", "booking required", "interactive", "group activity", "unique experience"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Ronnie Scott's Jazz Club",
+        type: ["music", "nightlife"],
+        location: "central",
+        wetness: "dry",
+        price: 45,
+        priceDisplay: "£45",
+        description: "World-famous jazz venue in Soho. Leicester Square 4 min walk.",
+        rating: 4.7,
+        tubeDistance: "4 min walk",
+        covered: true,
+        prerequisites: ["under £50", "toilets available", "booking required", "social", "romantic", "unique experience"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    {
+        name: "Barbican Centre",
+        type: ["theatre", "cinema", "galleries", "music"],
+        location: "central",
+        wetness: "dry",
+        price: 20,
+        priceDisplay: "FROM £20",
+        description: "Multi-arts venue with cinema, galleries, and performances. Barbican direct.",
+        rating: 4.6,
+        prerequisites: ["wheelchair accessible", "step-free", "lift access", "under £50", "toilets available", "cafe on-site", "booking required", "educational", "unique experience"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    // MORE THEATRES
+    {
+        name: "Wicked",
+        type: ["theatre", "music"],
+        location: "central",
+        wetness: "dry",
+        price: 60,
+        priceDisplay: "FROM £60",
+        description: "The untold story of the Witches of Oz. Apollo Victoria, Victoria 2 mins.",
+        rating: 4.8,
+        affiliateLink: "https://www.wickedthemusical.co.uk/?affiliate=wetlondon",
+        prerequisites: ["wheelchair accessible", "child-friendly", "toilets available", "booking required", "premium"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    {
+        name: "The Mousetrap",
+        type: ["theatre"],
+        location: "central",
+        wetness: "dry",
+        price: 35,
+        priceDisplay: "£35",
+        description: "World's longest-running play. St Martin's Theatre, Leicester Square 5 mins.",
+        rating: 4.5,
+        affiliateLink: "https://www.the-mousetrap.co.uk/?affiliate=wetlondon",
+        prerequisites: ["wheelchair accessible", "toilets available", "booking required", "under £50", "unique experience"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    {
+        name: "Phantom of the Opera",
+        type: ["theatre", "music"],
+        location: "central",
+        wetness: "dry",
+        price: 55,
+        priceDisplay: "FROM £55",
+        description: "Andrew Lloyd Webber's classic musical. His Majesty's Theatre, Piccadilly 3 mins.",
+        rating: 4.7,
+        affiliateLink: "https://uk.thephantomoftheopera.com/?affiliate=wetlondon",
+        prerequisites: ["wheelchair accessible", "toilets available", "booking required", "under £50", "premium", "romantic"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    // COMEDY CLUBS
+    {
+        name: "Soho Theatre",
+        type: ["comedy", "theatre"],
+        location: "central",
+        wetness: "dry",
+        price: 18,
+        priceDisplay: "£18",
+        description: "Cutting-edge comedy and theatre. Tottenham Court Road 3 mins.",
+        rating: 4.5,
+        prerequisites: ["wheelchair accessible", "under £20", "toilets available", "booking required", "social"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    {
+        name: "Top Secret Comedy Club",
+        type: ["comedy", "nightlife"],
+        location: "central",
+        wetness: "dry",
+        price: 15,
+        priceDisplay: "£15",
+        description: "Hidden comedy gem in Covent Garden. Covent Garden 2 mins.",
+        rating: 4.6,
+        prerequisites: ["under £20", "toilets available", "booking required", "social"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    {
+        name: "Angel Comedy",
+        type: ["comedy"],
+        location: "north",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Free comedy above a pub. Angel station 2 mins.",
+        rating: 4.4,
+        prerequisites: ["free entry", "walk-ins welcome", "social"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    // CINEMAS
+    {
+        name: "BFI IMAX",
+        type: ["cinema"],
+        location: "south",
+        wetness: "dry",
+        price: 22,
+        priceDisplay: "£22",
+        description: "Britain's biggest cinema screen. Waterloo 3 mins.",
+        rating: 4.6,
+        prerequisites: ["wheelchair accessible", "under £50", "toilets available", "booking required"],
+        openingHours: {
+            mon: "10:00-23:30",
+            tue: "10:00-23:30",
+            wed: "10:00-23:30",
+            thu: "10:00-23:30",
+            fri: "10:00-00:30",
+            sat: "10:00-00:30",
+            sun: "10:00-23:00"
+        }
+    },
+    {
+        name: "Electric Cinema Notting Hill",
+        type: ["cinema"],
+        location: "west",
+        wetness: "dry",
+        price: 25,
+        priceDisplay: "£25",
+        description: "Luxury cinema with sofas and footstools. Notting Hill Gate 5 mins.",
+        rating: 4.7,
+        prerequisites: ["under £50", "toilets available", "booking required", "romantic", "unique experience"],
+        openingHours: {
+            mon: "10:00-23:30",
+            tue: "10:00-23:30",
+            wed: "10:00-23:30",
+            thu: "10:00-23:30",
+            fri: "10:00-00:30",
+            sat: "10:00-00:30",
+            sun: "10:00-23:00"
+        }
+    },
+    {
+        name: "Prince Charles Cinema",
+        type: ["cinema"],
+        location: "central",
+        wetness: "dry",
+        price: 12,
+        priceDisplay: "£12",
+        description: "Cult classics and sing-alongs. Leicester Square 2 mins.",
+        rating: 4.6,
+        prerequisites: ["under £20", "toilets available", "booking required", "social", "unique experience"],
+        openingHours: {
+            mon: "10:00-23:30",
+            tue: "10:00-23:30",
+            wed: "10:00-23:30",
+            thu: "10:00-23:30",
+            fri: "10:00-00:30",
+            sat: "10:00-00:30",
+            sun: "10:00-23:00"
+        }
+    },
+    // DINING
+    {
+        name: "Duck & Waffle",
+        type: ["dining"],
+        location: "central",
+        wetness: "dry",
+        price: 50,
+        priceDisplay: "£50",
+        description: "24-hour dining on the 40th floor. Liverpool Street 5 mins.",
+        rating: 4.5,
+        prerequisites: ["under £50", "premium", "vegan options", "vegetarian", "gluten-free", "toilets available", "booking required", "romantic", "unique experience"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "Dishoom King's Cross",
+        type: ["dining"],
+        location: "north",
+        wetness: "dry",
+        price: 30,
+        priceDisplay: "£30",
+        description: "Bombay café in a historic building. King's Cross 3 mins.",
+        rating: 4.8,
+        prerequisites: ["wheelchair accessible", "under £50", "vegan options", "vegetarian", "gluten-free", "halal", "toilets available", "walk-ins welcome"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "Sketch Gallery",
+        type: ["dining"],
+        location: "central",
+        wetness: "slightly",
+        price: 80,
+        priceDisplay: "£80",
+        description: "Art-filled dining experience. Oxford Circus 5 mins.",
+        rating: 4.6,
+        prerequisites: ["premium", "vegan options", "vegetarian", "gluten-free", "toilets available", "booking required", "romantic", "unique experience", "photography allowed"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "Hawksmoor Seven Dials",
+        type: ["dining"],
+        location: "central",
+        wetness: "dry",
+        price: 65,
+        priceDisplay: "£65",
+        description: "British steakhouse. Covent Garden 3 mins.",
+        rating: 4.7,
+        prerequisites: ["wheelchair accessible", "premium", "gluten-free", "toilets available", "booking required", "romantic"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "Flat Iron Square",
+        type: ["dining", "markets"],
+        location: "south",
+        wetness: "slightly",
+        price: 25,
+        priceDisplay: "£25",
+        description: "Street food and bars under railway arches. London Bridge 3 mins.",
+        rating: 4.4,
+        prerequisites: ["under £50", "vegan options", "vegetarian", "gluten-free", "walk-ins welcome", "social"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "Petersham Nurseries",
+        type: ["dining"],
+        location: "central",
+        wetness: "dry",
+        price: 70,
+        priceDisplay: "£70",
+        description: "Garden-inspired dining in Covent Garden. Covent Garden 2 mins.",
+        rating: 4.5,
+        prerequisites: ["premium", "vegan options", "vegetarian", "gluten-free", "dairy-free", "toilets available", "booking required", "romantic"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    // MARKETS & SHOPPING
+    {
+        name: "Covent Garden Market",
+        type: ["markets", "shopping"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Historic covered market with boutiques. Covent Garden direct.",
+        rating: 4.6,
+        prerequisites: ["free entry", "toilets available", "walk-ins welcome", "social"],
+        openingHours: {
+            mon: "10:00-20:00",
+            tue: "10:00-20:00",
+            wed: "10:00-20:00",
+            thu: "10:00-21:00",
+            fri: "10:00-21:00",
+            sat: "09:00-21:00",
+            sun: "11:00-18:00"
+        }
+    },
+    {
+        name: "Camden Market",
+        type: ["markets", "shopping", "dining"],
+        location: "north",
+        wetness: "slightly",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Alternative market with food and fashion. Camden Town 2 mins.",
+        rating: 4.5,
+        prerequisites: ["free entry", "vegan options", "vegetarian", "halal", "walk-ins welcome", "social"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "Leadenhall Market",
+        type: ["markets", "shopping", "historic"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Victorian covered market used in Harry Potter. Bank 3 mins.",
+        rating: 4.6,
+        prerequisites: ["free entry", "toilets available", "walk-ins welcome", "photography allowed"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Harrods",
+        type: ["shopping"],
+        location: "west",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Iconic luxury department store. Knightsbridge direct.",
+        rating: 4.6,
+        prerequisites: ["wheelchair accessible", "free entry", "toilets available", "cafe on-site"],
+        openingHours: {
+            mon: "10:00-20:00",
+            tue: "10:00-20:00",
+            wed: "10:00-20:00",
+            thu: "10:00-21:00",
+            fri: "10:00-21:00",
+            sat: "09:00-21:00",
+            sun: "11:00-18:00"
+        }
+    },
+    {
+        name: "Liberty London",
+        type: ["shopping"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Tudor-style department store. Oxford Circus 3 mins.",
+        rating: 4.7,
+        prerequisites: ["wheelchair accessible", "free entry", "toilets available", "cafe on-site", "unique experience"],
+        openingHours: {
+            mon: "10:00-20:00",
+            tue: "10:00-20:00",
+            wed: "10:00-20:00",
+            thu: "10:00-21:00",
+            fri: "10:00-21:00",
+            sat: "09:00-21:00",
+            sun: "11:00-18:00"
+        }
+    },
+    {
+        name: "Fortnum & Mason",
+        type: ["shopping", "dining"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Historic food hall and tea rooms. Piccadilly Circus 2 mins.",
+        rating: 4.7,
+        prerequisites: ["wheelchair accessible", "free entry", "toilets available", "cafe on-site"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    // MUSIC VENUES
+    {
+        name: "Royal Albert Hall",
+        type: ["music"],
+        location: "west",
+        wetness: "wet",
+        price: 35,
+        priceDisplay: "FROM £35",
+        description: "Iconic concert hall. South Kensington 10 mins.",
+        rating: 4.8,
+        prerequisites: ["wheelchair accessible", "under £50", "toilets available", "cafe on-site", "booking required", "unique experience"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    {
+        name: "Jazz Cafe",
+        type: ["music", "nightlife"],
+        location: "north",
+        wetness: "dry",
+        price: 25,
+        priceDisplay: "£25",
+        description: "Intimate jazz and soul venue. Camden Town 3 mins.",
+        rating: 4.5,
+        prerequisites: ["under £50", "toilets available", "booking required", "social"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    {
+        name: "O2 Shepherd's Bush Empire",
+        type: ["music"],
+        location: "west",
+        wetness: "dry",
+        price: 30,
+        priceDisplay: "FROM £30",
+        description: "Historic music venue. Shepherd's Bush 2 mins.",
+        rating: 4.4,
+        prerequisites: ["under £50", "toilets available", "booking required", "social"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    {
+        name: "KOKO",
+        type: ["music", "nightlife"],
+        location: "north",
+        wetness: "dry",
+        price: 25,
+        priceDisplay: "£25",
+        description: "Former theatre hosting live music. Mornington Crescent 2 mins.",
+        rating: 4.5,
+        prerequisites: ["under £50", "toilets available", "booking required", "social"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    // ENTERTAINMENT & GAMING
+    {
+        name: "All Star Lanes",
+        type: ["gaming", "entertainment", "dining"],
+        location: "central",
+        wetness: "dry",
+        price: 28,
+        priceDisplay: "£28",
+        description: "Retro bowling with diner food. Holborn 3 mins.",
+        rating: 4.5,
+        prerequisites: ["under £50", "child-friendly", "toilets available", "vegan options", "vegetarian", "walk-ins welcome", "social", "group activity"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "Flight Club",
+        type: ["gaming", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        price: 20,
+        priceDisplay: "£20",
+        description: "Social darts venue. Multiple locations.",
+        rating: 4.6,
+        prerequisites: ["under £50", "toilets available", "walk-ins welcome", "social", "group activity"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "TOCA Social",
+        type: ["gaming", "entertainment", "dining"],
+        location: "central",
+        wetness: "dry",
+        price: 35,
+        priceDisplay: "£35",
+        description: "Football-themed gaming and dining. The O2 direct.",
+        rating: 4.4,
+        prerequisites: ["under £50", "toilets available", "vegan options", "vegetarian", "booking required", "social", "group activity"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "Dabbers Social Bingo",
+        type: ["gaming", "nightlife"],
+        location: "central",
+        wetness: "dry",
+        price: 15,
+        priceDisplay: "£15",
+        description: "Bingo with a party atmosphere. King's Cross 5 mins.",
+        rating: 4.5,
+        prerequisites: ["under £20", "toilets available", "booking required", "social", "group activity"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "Swingers West End",
+        type: ["gaming", "dining"],
+        location: "central",
+        wetness: "dry",
+        price: 25,
+        priceDisplay: "£25",
+        description: "Crazy golf with street food. Oxford Circus 4 mins.",
+        rating: 4.5,
+        prerequisites: ["under £50", "toilets available", "vegan options", "vegetarian", "walk-ins welcome", "social"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "DNA VR",
+        type: ["gaming", "entertainment"],
+        location: "north",
+        wetness: "dry",
+        price: 38,
+        priceDisplay: "£38",
+        description: "Immersive VR experiences. Hammersmith 5 mins.",
+        rating: 4.7,
+        prerequisites: ["under £50", "toilets available", "booking required", "interactive", "unique experience"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    // WELLNESS & SPORTS
+    {
+        name: "ESPA Life at Corinthia",
+        type: ["wellness"],
+        location: "central",
+        wetness: "dry",
+        price: 150,
+        priceDisplay: "£150",
+        description: "Luxury spa with pool and treatments. Embankment 3 mins.",
+        rating: 4.8,
+        prerequisites: ["premium", "toilets available", "booking required", "relaxing", "romantic", "climate controlled"],
+        openingHours: {
+            mon: "07:00-21:00",
+            tue: "07:00-21:00",
+            wed: "07:00-21:00",
+            thu: "07:00-21:00",
+            fri: "07:00-21:00",
+            sat: "08:00-20:00",
+            sun: "08:00-20:00"
+        }
+    },
+    {
+        name: "Third Space Tower Bridge",
+        type: ["wellness", "sports"],
+        location: "central",
+        wetness: "dry",
+        price: 35,
+        priceDisplay: "£35",
+        description: "Premium gym and spa facilities. Tower Hill 5 mins.",
+        rating: 4.6,
+        prerequisites: ["under £50", "toilets available", "booking required", "climate controlled"],
+        openingHours: {
+            mon: "07:00-21:00",
+            tue: "07:00-21:00",
+            wed: "07:00-21:00",
+            thu: "07:00-21:00",
+            fri: "07:00-21:00",
+            sat: "08:00-20:00",
+            sun: "08:00-20:00"
+        }
+    },
+    {
+        name: "Frame Fitness",
+        type: ["wellness", "sports"],
+        location: "central",
+        wetness: "dry",
+        price: 22,
+        priceDisplay: "£22",
+        description: "Fun fitness classes. Multiple locations.",
+        rating: 4.6,
+        prerequisites: ["under £50", "toilets available", "booking required", "social"],
+        openingHours: {
+            mon: "07:00-21:00",
+            tue: "07:00-21:00",
+            wed: "07:00-21:00",
+            thu: "07:00-21:00",
+            fri: "07:00-21:00",
+            sat: "08:00-20:00",
+            sun: "08:00-20:00"
+        }
+    },
+    {
+        name: "Psycle",
+        type: ["wellness", "sports"],
+        location: "central",
+        wetness: "dry",
+        price: 26,
+        priceDisplay: "£26",
+        description: "Premium cycling studio. Multiple locations.",
+        rating: 4.7,
+        prerequisites: ["under £50", "toilets available", "booking required", "climate controlled"],
+        openingHours: {
+            mon: "07:00-21:00",
+            tue: "07:00-21:00",
+            wed: "07:00-21:00",
+            thu: "07:00-21:00",
+            fri: "07:00-21:00",
+            sat: "08:00-20:00",
+            sun: "08:00-20:00"
+        }
+    },
+    // EXHIBITIONS & EXPERIENCES
+    {
+        name: "Frameless",
+        type: ["exhibitions", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        price: 28,
+        priceDisplay: "£28",
+        description: "Immersive art experience. Marble Arch 2 mins.",
+        rating: 4.5,
+        prerequisites: ["wheelchair accessible", "under £50", "toilets available", "booking required", "interactive", "unique experience"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "Outernet",
+        type: ["exhibitions", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Immersive digital art spaces. Tottenham Court Road direct.",
+        rating: 4.6,
+        prerequisites: ["wheelchair accessible", "free entry", "walk-ins welcome", "unique experience", "photography allowed"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "The Crystal Maze LIVE",
+        type: ["gaming", "entertainment"],
+        location: "north",
+        wetness: "dry",
+        price: 55,
+        priceDisplay: "£55",
+        description: "Interactive game show experience. Angel 10 mins.",
+        rating: 4.7,
+        prerequisites: ["under £50", "premium", "toilets available", "booking required", "group activity", "interactive"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "Madame Tussauds",
+        type: ["entertainment", "exhibitions"],
+        location: "central",
+        wetness: "dry",
+        price: 35,
+        priceDisplay: "£35",
+        description: "Wax figure museum. Baker Street 3 mins.",
+        rating: 4.3,
+        prerequisites: ["wheelchair accessible", "child-friendly", "family tickets", "under £50", "toilets available", "booking required", "photography allowed"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "SEA LIFE London",
+        type: ["exhibitions"],
+        location: "south",
+        wetness: "dry",
+        price: 32,
+        priceDisplay: "£32",
+        description: "Underwater aquarium experience. Westminster 5 mins.",
+        rating: 4.4,
+        prerequisites: ["wheelchair accessible", "child-friendly", "family tickets", "under £50", "toilets available", "booking required", "educational"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "London Eye",
+        type: ["entertainment"],
+        location: "south",
+        wetness: "dry",
+        price: 32,
+        priceDisplay: "£32",
+        description: "Iconic observation wheel with Thames views. Waterloo 5 mins.",
+        rating: 4.5,
+        prerequisites: ["wheelchair accessible", "step-free", "under £50", "toilets available", "booking required", "romantic", "unique experience"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    // LIBRARIES
+    {
+        name: "London Library",
+        type: ["libraries"],
+        location: "central",
+        wetness: "dry",
+        price: 20,
+        priceDisplay: "£20",
+        description: "Historic independent library. Piccadilly Circus 5 mins.",
+        rating: 4.7,
+        prerequisites: ["under £50", "quiet spaces", "toilets available", "booking required", "educational", "quiet environment", "solo-friendly"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Barbican Library",
+        type: ["libraries"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Modern library in the Barbican complex. Barbican direct.",
+        rating: 4.5,
+        prerequisites: ["wheelchair accessible", "step-free", "free entry", "quiet spaces", "toilets available", "quiet environment", "solo-friendly"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    // WORKSHOPS & CLASSES
+    {
+        name: "Obby Classes",
+        type: ["workshops"],
+        location: "central",
+        wetness: "dry",
+        price: 45,
+        priceDisplay: "FROM £45",
+        description: "Various creative workshops across London. Multiple locations.",
+        rating: 4.6,
+        prerequisites: ["under £50", "booking required", "social", "interactive", "educational"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "The Cheese Shed",
+        type: ["workshops", "dining"],
+        location: "north",
+        wetness: "dry",
+        price: 55,
+        priceDisplay: "£55",
+        description: "Cheese-making and tasting workshops. Camden 5 mins.",
+        rating: 4.7,
+        prerequisites: ["under £50", "premium", "toilets available", "booking required", "social", "unique experience"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:00"
+        }
+    },
+    {
+        name: "Drink Shop & Do",
+        type: ["workshops", "gaming"],
+        location: "north",
+        wetness: "dry",
+        price: 25,
+        priceDisplay: "£25",
+        description: "Craft workshops and board games. King's Cross 3 mins.",
+        rating: 4.5,
+        prerequisites: ["under £50", "toilets available", "vegan options", "vegetarian", "walk-ins welcome", "social", "interactive"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    // HISTORIC SITES
+    {
+        name: "Tower of London",
+        type: ["historic", "museums"],
+        location: "central",
+        wetness: "slightly",
+        price: 34,
+        priceDisplay: "£34",
+        description: "Historic royal palace and fortress. Tower Hill direct.",
+        rating: 4.7,
+        prerequisites: ["wheelchair accessible", "child-friendly", "family tickets", "under £50", "toilets available", "cafe on-site", "booking required", "educational"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Westminster Abbey",
+        type: ["historic"],
+        location: "central",
+        wetness: "dry",
+        price: 27,
+        priceDisplay: "£27",
+        description: "Gothic abbey church. Westminster 3 mins.",
+        rating: 4.7,
+        prerequisites: ["under £50", "toilets available", "booking required", "educational", "quiet spaces"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "St Paul's Cathedral",
+        type: ["historic"],
+        location: "central",
+        wetness: "dry",
+        price: 23,
+        priceDisplay: "£23",
+        description: "Iconic baroque cathedral. St Paul's direct.",
+        rating: 4.7,
+        prerequisites: ["wheelchair accessible", "under £50", "toilets available", "cafe on-site", "booking required", "educational"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Hampton Court Palace",
+        type: ["historic"],
+        location: "west",
+        wetness: "slightly",
+        price: 28,
+        priceDisplay: "£28",
+        description: "Tudor palace with gardens. Hampton Court 5 mins.",
+        rating: 4.6,
+        prerequisites: ["wheelchair accessible", "child-friendly", "family tickets", "under £50", "toilets available", "cafe on-site", "booking required", "educational", "full day"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    // NIGHTLIFE
+    {
+        name: "Fabric",
+        type: ["nightlife"],
+        location: "central",
+        wetness: "dry",
+        price: 25,
+        priceDisplay: "£25",
+        description: "Legendary nightclub. Farringdon 3 mins.",
+        rating: 4.5,
+        prerequisites: ["under £50", "toilets available", "social"],
+        openingHours: {
+            mon: "18:00-02:00",
+            tue: "18:00-02:00",
+            wed: "18:00-02:00",
+            thu: "18:00-03:00",
+            fri: "18:00-04:00",
+            sat: "18:00-04:00",
+            sun: "18:00-01:00"
+        }
+    },
+    {
+        name: "The Box Soho",
+        type: ["nightlife"],
+        location: "central",
+        wetness: "dry",
+        price: 35,
+        priceDisplay: "£35",
+        description: "Exclusive nightclub with performances. Leicester Square 5 mins.",
+        rating: 4.4,
+        prerequisites: ["under £50", "toilets available", "booking required", "unique experience"],
+        openingHours: {
+            mon: "18:00-02:00",
+            tue: "18:00-02:00",
+            wed: "18:00-02:00",
+            thu: "18:00-03:00",
+            fri: "18:00-04:00",
+            sat: "18:00-04:00",
+            sun: "18:00-01:00"
+        }
+    },
+    {
+        name: "Egg London",
+        type: ["nightlife"],
+        location: "north",
+        wetness: "wet",
+        price: 20,
+        priceDisplay: "£20",
+        description: "Multi-room club venue. King's Cross 10 mins.",
+        rating: 4.3,
+        prerequisites: ["under £50", "toilets available", "social"],
+        openingHours: {
+            mon: "18:00-02:00",
+            tue: "18:00-02:00",
+            wed: "18:00-02:00",
+            thu: "18:00-03:00",
+            fri: "18:00-04:00",
+            sat: "18:00-04:00",
+            sun: "18:00-01:00"
+        }
+    },
+    {
+        name: "The Piano Works",
+        type: ["nightlife", "music"],
+        location: "central",
+        wetness: "slightly",
+        price: 20,
+        priceDisplay: "£20",
+        description: "Live music request venue. Farringdon 5 mins.",
+        rating: 4.6,
+        prerequisites: ["under £50", "toilets available", "walk-ins welcome", "social", "unique experience"],
+        openingHours: {
+            mon: "10:00-23:00",
+            tue: "10:00-23:00",
+            wed: "10:00-23:00",
+            thu: "10:00-23:00",
+            fri: "10:00-23:30",
+            sat: "10:00-23:30",
+            sun: "10:00-22:30"
+        }
+    },
+    {
+        name: "Churchill War Rooms",
+        type: ["museums", "historic"],
+        location: "central",
+        wetness: "dry",
+        price: 26,
+        priceDisplay: "£26",
+        description: "Underground WWII bunker and museum. Westminster direct access.",
+        rating: 4.8,
+        prerequisites: ["wheelchair accessible", "audio guide", "historical"],
+        openingHours: {
+            mon: "09:30-18:00",
+            tue: "09:30-18:00",
+            wed: "09:30-18:00",
+            thu: "09:30-18:00",
+            fri: "09:30-18:00",
+            sat: "09:30-18:00",
+            sun: "09:30-18:00"
+        }
+    },
+    {
+        name: "Borough Market",
+        type: ["dining", "shopping"],
+        location: "south",
+        wetness: "slightly",
+        price: 0,
+        priceDisplay: "Free Entry",
+        description: "Historic food market with gourmet stalls. London Bridge 3 mins.",
+        rating: 4.7,
+        prerequisites: ["food available", "under £30", "family-friendly"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "08:00-17:00",
+            sun: "Closed"
+        }
+    },
+    {
+        name: "Royal Albert Hall",
+        type: ["music", "theatre"],
+        location: "west",
+        wetness: "dry",
+        price: 40,
+        priceDisplay: "FROM £40",
+        description: "Iconic concert venue. High Street Kensington direct access.",
+        rating: 4.9,
+        prerequisites: ["toilets available", "wheelchair accessible"],
+        openingHours: {
+            mon: "09:00-21:00",
+            tue: "09:00-21:00",
+            wed: "09:00-21:00",
+            thu: "09:00-21:00",
+            fri: "09:00-22:00",
+            sat: "09:00-22:00",
+            sun: "09:00-21:00"
+        }
+    },
+    {
+        name: "London Aquarium",
+        type: ["entertainment"],
+        location: "south",
+        wetness: "dry",
+        price: 35,
+        priceDisplay: "£35",
+        description: "Marine life exhibits and ocean tunnel. Waterloo direct access.",
+        rating: 4.5,
+        prerequisites: ["family-friendly", "wheelchair accessible", "unique experience"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-19:00",
+            sat: "09:30-19:00",
+            sun: "09:30-18:00"
+        }
+    },
+    {
+        name: "Barbican Centre",
+        type: ["galleries", "theatre", "cinema"],
+        location: "central",
+        wetness: "dry",
+        price: 15,
+        priceDisplay: "FROM £15",
+        description: "Arts complex with galleries, theatre, and cinema. Barbican direct access.",
+        rating: 4.6,
+        prerequisites: ["wheelchair accessible", "cafe on-site", "toilets available"],
+        openingHours: {
+            mon: "09:00-23:00",
+            tue: "09:00-23:00",
+            wed: "09:00-23:00",
+            thu: "09:00-23:00",
+            fri: "09:00-23:00",
+            sat: "09:00-23:00",
+            sun: "11:00-23:00"
+        }
+    },
+    {
+        name: "Wellcome Collection",
+        type: ["museums", "galleries"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "Free",
+        description: "Medical and science museum. Euston Square 2 mins walk.",
+        rating: 4.6,
+        prerequisites: ["free entry", "wheelchair accessible", "cafe on-site"],
+        openingHours: {
+            mon: "Closed",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-21:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Design Museum",
+        type: ["museums"],
+        location: "west",
+        wetness: "dry",
+        price: 16,
+        priceDisplay: "£16",
+        description: "Contemporary design and architecture. High Street Kensington 5 mins.",
+        rating: 4.4,
+        prerequisites: ["wheelchair accessible", "cafe on-site"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Leake Street Arches",
+        type: ["galleries"],
+        location: "south",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "Free",
+        description: "Legal graffiti tunnel and street art. Waterloo 2 mins.",
+        rating: 4.5,
+        prerequisites: ["free entry", "unique experience", "photo opportunities"],
+        openingHours: {
+            mon: "00:00-23:59",
+            tue: "00:00-23:59",
+            wed: "00:00-23:59",
+            thu: "00:00-23:59",
+            fri: "00:00-23:59",
+            sat: "00:00-23:59",
+            sun: "00:00-23:59"
+        }
+    },
+    {
+        name: "Fortnum & Mason",
+        type: ["shopping", "dining"],
+        location: "central",
+        wetness: "dry",
+        price: 25,
+        priceDisplay: "£25",
+        description: "Historic department store with afternoon tea. Piccadilly direct.",
+        rating: 4.7,
+        prerequisites: ["luxury experience", "cafe on-site", "toilets available"],
+        openingHours: {
+            mon: "10:00-21:00",
+            tue: "10:00-21:00",
+            wed: "10:00-21:00",
+            thu: "10:00-21:00",
+            fri: "10:00-21:00",
+            sat: "10:00-21:00",
+            sun: "11:30-18:00"
+        }
+    },
+    {
+        name: "Somerset House",
+        type: ["galleries", "exhibitions"],
+        location: "central",
+        wetness: "slightly",
+        price: 0,
+        priceDisplay: "Free Entry",
+        description: "Neoclassical building with galleries and courtyard. Temple 3 mins.",
+        rating: 4.6,
+        prerequisites: ["wheelchair accessible", "cafe on-site", "photo opportunities"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Foyles Bookshop",
+        type: ["shopping"],
+        location: "central",
+        wetness: "dry",
+        price: 0,
+        priceDisplay: "Free Entry",
+        description: "Iconic bookshop with cafe. Tottenham Court Road direct.",
+        rating: 4.5,
+        prerequisites: ["free entry", "cafe on-site", "toilets available"],
+        openingHours: {
+            mon: "09:30-21:00",
+            tue: "09:30-21:00",
+            wed: "09:30-21:00",
+            thu: "09:30-21:00",
+            fri: "09:30-21:00",
+            sat: "09:30-21:00",
+            sun: "11:30-18:00"
+        }
+    },
+    {
+        name: "Electric Cinema",
+        type: ["cinema"],
+        location: "west",
+        wetness: "dry",
+        price: 22,
+        priceDisplay: "£22",
+        description: "Luxury cinema with leather armchairs. Notting Hill Gate 2 mins.",
+        rating: 4.7,
+        prerequisites: ["luxury experience", "bar on-site"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "11:00-00:00",
+            sun: "11:00-23:00"
+        }
+    },
+    {
+        name: "God's Own Junkyard",
+        type: ["galleries"],
+        location: "east",
+        wetness: "slightly",
+        price: 0,
+        priceDisplay: "Free Entry",
+        description: "Neon art installation warehouse. Walthamstow Central 10 mins.",
+        rating: 4.8,
+        prerequisites: ["free entry", "unique experience", "photo opportunities"],
+        openingHours: {
+            mon: "Closed",
+            tue: "Closed",
+            wed: "Closed",
+            thu: "Closed",
+            fri: "11:00-18:30",
+            sat: "11:00-18:30",
+            sun: "11:00-18:30"
+        }
+    },
+    {
+        name: "Little Venice",
+        type: ["wellness", "scenic"],
+        location: "west",
+        wetness: "wet",
+        price: 0,
+        priceDisplay: "Free",
+        description: "Canal walks and waterside cafes. Warwick Avenue direct.",
+        rating: 4.3,
+        prerequisites: ["free entry", "scenic", "walk-ins welcome"],
+        openingHours: {
+            mon: "00:00-23:59",
+            tue: "00:00-23:59",
+            wed: "00:00-23:59",
+            thu: "00:00-23:59",
+            fri: "00:00-23:59",
+            sat: "00:00-23:59",
+            sun: "00:00-23:59"
+        }
+    }
+];
