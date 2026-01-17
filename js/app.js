@@ -403,6 +403,12 @@ function filterVenues() {
             if (venue.wetness !== filters.wetness) return false;
         }
 
+        // Filter by wetness score threshold
+        if (filters.maxWetnessScore < 100) {
+            const venueScore = venue.wetnessScore || 0;
+            if (venueScore > filters.maxWetnessScore) return false;
+        }
+
         // Filter by prerequisites (use unified filter state)
         if (filters.constraints.size > 0) {
             const venuePrereqs = venue.prerequisites || [];
@@ -426,6 +432,83 @@ function filterVenues() {
 let currentResults = [];
 let currentOffset = 0;
 const PAGE_SIZE = 6;
+
+// Reusable function to generate Activity Card HTML
+function createActivityCardHTML(venue, index, options = {}) {
+    const {
+        idPrefix = 'card',
+        isSaved = false,
+        dataAttrs = '',
+        showId = true
+    } = options;
+
+    const cachedImage = getCachedImage(venue.name);
+    const backgroundStyle = cachedImage
+        ? `background-image: url('${cachedImage}'); background-size: cover; background-position: center;`
+        : `background-image: url('${getPlaceholderImage(venue)}'); background-size: cover; background-position: center;`;
+
+    // Create badges
+    let openBadge = '';
+    if (venue.openingHours) {
+        const isOpen = isVenueOpenNow(venue);
+        if (isOpen === true) {
+            if (isClosingSoon(venue)) {
+                const timeLeft = getHoursUntilClosing(venue);
+                openBadge = `<div class="open-now-badge closing-soon-badge">Closes in ${timeLeft}</div>`;
+            } else {
+                openBadge = '<div class="open-now-badge">Open Now</div>';
+            }
+        } else if (isOpen === false) {
+            openBadge = '<div class="open-now-badge closed-badge">Closed</div>';
+        }
+    }
+
+    // ADD SPONSORED BADGE - MONETIZATION FEATURE
+    const sponsoredBadge = isSponsored(venue) 
+        ? '<div class="sponsored-badge">✨ Featured Partner</div>' 
+        : '';
+
+    const umbrellaEmoji = venue.wetness === 'slightly' ? '☂️' : (venue.wetness === 'wet' ? '☔️' : '🌂');
+    const tooltipText = venue.wetness === 'slightly' ? 'Slightly Wet' : (venue.wetness === 'wet' ? 'Wet (Outdoor)' : 'Dry (Indoor)');
+
+    // Wetness score for display
+    const wetnessScore = venue.wetnessScore || 0;
+    const wetnessPercent = Math.round(wetnessScore);
+    const safeNameId = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
+    const idAttr = showId ? `id="${idPrefix}-${safeNameId}-${index}"` : '';
+    const bookmarkClass = isSaved ? 'bookmark-icon saved' : 'bookmark-icon';
+
+    // ADD SPONSORED CLASS TO CARD - MONETIZATION FEATURE
+    const sponsoredClass = isSponsored(venue) ? 'sponsored-card' : '';
+
+    return `
+        <div class="activity-card ${sponsoredClass}" ${idAttr} ${dataAttrs}>
+            <div class="activity-image" style="${backgroundStyle}">
+                ${sponsoredBadge}
+                ${openBadge}
+                <div class="${bookmarkClass}" onclick="toggleBookmarkFromCard(event, '${venue.name.replace(/'/g, "\\'")}')">🔖</div>
+                <div class="umbrella-chip" data-tooltip="${tooltipText}">${umbrellaEmoji}</div>
+            </div>
+            <div class="activity-content">
+                <h3>${venue.name}</h3>
+                <div class="activity-tags">
+                    <span class="tag">${venue.type[0]}</span>
+                    <span class="tag">${venue.location}</span>
+                    <span class="tag">${venue.wetness}</span>
+                </div>
+                <p>${venue.description}</p>
+                <div class="wetness-indicator">
+                    <div class="wetness-bar">
+                        <div class="wetness-bar-fill" style="width: ${wetnessPercent}%"></div>
+                    </div>
+                    <span class="wetness-label">${wetnessPercent}% wet</span>
+                </div>
+                <div class="price">${venue.priceDisplay}</div>
+                <button class="book-btn">View Details</button>
+            </div>
+        </div>
+    `;
+}
 
 function setGeneratedResults(list, opts = {}) {
     currentResults = Array.isArray(list) ? list : [];
@@ -532,45 +615,7 @@ async function renderVenues(venues, options = {}) {
             ? `background-image: url('${cachedUrl}');`
             : `background-image: url('${getPlaceholderImage(venue)}'); background-size: cover;`;
 
-        // Create badges
-        let openBadge = '';
-        if (venue.openingHours) {
-            const isOpen = isVenueOpenNow(venue);
-            if (isOpen === true) {
-                if (isClosingSoon(venue)) {
-                    const timeLeft = getHoursUntilClosing(venue);
-                    openBadge = `<div class="open-now-badge closing-soon-badge">Closes in ${timeLeft}</div>`;
-                } else {
-                    openBadge = '<div class="open-now-badge">Open Now</div>';
-                }
-            } else if (isOpen === false) {
-                openBadge = '<div class="open-now-badge closed-badge">Closed</div>';
-            }
-        }
-
-        const umbrellaEmoji = venue.wetness === 'slightly' ? '☂️' : (venue.wetness === 'wet' ? '☔️' : '🌂');
-        const tooltipText = venue.wetness === 'slightly' ? 'Slightly Wet' : (venue.wetness === 'wet' ? 'Wet (Outdoor)' : 'Dry (Indoor)');
-
-        return `
-        <div class="activity-card" id="card-${venue.name.replace(/[^a-zA-Z0-9]/g, '-')}-${index}">
-                <div class="activity-image" style="${backgroundStyle}">
-                    ${openBadge}
-                    <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, '${venue.name.replace(/'/g, "\\'")}')">🔖</div>
-                    <div class="umbrella-chip" data-tooltip="${tooltipText}">${umbrellaEmoji}</div>
-                </div >
-        <div class="activity-content">
-            <h3>${venue.name}</h3>
-            <div class="activity-tags">
-                <span class="tag">${venue.type[0]}</span>
-                <span class="tag">${venue.location}</span>
-                <span class="tag">${venue.wetness}</span>
-            </div>
-            <p>${venue.description}</p>
-            <div class="price">${venue.priceDisplay}</div>
-            <button class="book-btn">View Details</button>
-        </div>
-            </div >
-        `;
+        return createActivityCardHTML(venue, index);
     }).join('');
 
     if (append) {
@@ -665,13 +710,25 @@ function updatePrereqCounter() {
 }
 
 function openModal() {
-    console.log('customize open');
-    document.getElementById('customizeModal').classList.add('active');
+    console.log('--- [app.js] openModal called ---');
+    const modal = document.getElementById('customizeModal');
+    if (modal) {
+        modal.classList.add('active');
+        console.log('--- [app.js] Modal "customizeModal" opened ---');
+    } else {
+        console.error('--- [app.js] ERROR: Modal "customizeModal" not found! ---');
+    }
 }
 
 function closeModal() {
-    console.log('closeModal called');
-    document.getElementById('customizeModal').classList.remove('active');
+    console.log('--- [app.js] closeModal called ---');
+    const modal = document.getElementById('customizeModal');
+    if (modal) {
+        modal.classList.remove('active');
+        console.log('--- [app.js] Modal "customizeModal" closed ---');
+    } else {
+        console.error('--- [app.js] ERROR: Modal "customizeModal" not found! ---');
+    }
 }
 
 function openPrerequisites() {
@@ -874,6 +931,14 @@ function openActivityModal(venue) {
     if (venue.wetness === 'slightly') umbrellaEmoji = '☂️';
     else if (venue.wetness === 'wet') umbrellaEmoji = '☔️';
     document.getElementById('activityUmbrella').textContent = umbrellaEmoji;
+
+    // Set wetness score indicator
+    const wetnessScore = venue.wetnessScore || 0;
+    const wetnessPercent = Math.round(wetnessScore);
+    const modalWetnessFill = document.getElementById('modalWetnessFill');
+    const modalWetnessLabel = document.getElementById('modalWetnessLabel');
+    if (modalWetnessFill) modalWetnessFill.style.width = `${wetnessPercent}%`;
+    if (modalWetnessLabel) modalWetnessLabel.textContent = `${wetnessPercent}% wet`;
 
     // Set stars
     const fullStars = Math.floor(venue.rating);
@@ -1534,44 +1599,7 @@ async function feelingLucky() {
                 ? `background-image: url('${cachedImage}'); background-size: cover; background-position: center;`
                 : `background-image: url('${getPlaceholderImage(venue)}'); background-size: cover; background-position: center;`;
 
-            const isOpen = isVenueOpenNow(venue);
-            const closingSoon = isClosingSoon(venue);
-            let openBadge = '';
-
-            if (isOpen === true) {
-                if (closingSoon) {
-                    const timeLeft = getHoursUntilClosing(venue);
-                    openBadge = `<div class="open-now-badge closing-soon-badge">Closes in ${timeLeft}</div>`;
-                } else {
-                    openBadge = '<div class="open-now-badge">Open Now</div>';
-                }
-            } else if (isOpen === false) {
-                openBadge = '<div class="open-now-badge closed-badge">Closed</div>';
-            }
-
-            const umbrellaEmoji = venue.wetness === 'slightly' ? '☂️' : (venue.wetness === 'wet' ? '☔️' : '🌂');
-            const tooltipText = venue.wetness === 'slightly' ? 'Slightly Wet' : (venue.wetness === 'wet' ? 'Wet (Outdoor)' : 'Dry (Indoor)');
-
-            return `
-                <div class="activity-card" id="lucky-card-${index}">
-                    <div class="activity-image" style="${backgroundStyle}">
-                        ${openBadge}
-                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, '${venue.name.replace(/'/g, "\\'")}')">🔖</div>
-                        <div class="umbrella-chip" data-tooltip="${tooltipText}">${umbrellaEmoji}</div>
-                    </div>
-                    <div class="activity-content">
-                        <h3>${venue.name}</h3>
-                        <div class="activity-tags">
-                            <span class="tag">${venue.type[0]}</span>
-                            <span class="tag">${venue.location}</span>
-                            <span class="tag">${venue.wetness}</span>
-                        </div>
-                        <p>${venue.description}</p>
-                        <div class="price">${venue.priceDisplay}</div>
-                        <button class="book-btn">View Details</button>
-                    </div>
-                </div>
-            `;
+            return createActivityCardHTML(venue, index, { idPrefix: 'lucky-card', showId: true });
         }).join('');
 
         luckyGrid.innerHTML = luckyHTML;
@@ -1724,41 +1752,7 @@ async function showBookmarks() {
             }
 
             // Check opening status for bookmarked venue
-            const isOpen = isVenueOpenNow(venue);
-            const closingSoon = isClosingSoon(venue);
-            let openBadge = '';
-
-            if (isOpen === true) {
-                if (closingSoon) {
-                    const timeLeft = getHoursUntilClosing(venue);
-                    openBadge = `<div class="open-now-badge closing-soon-badge">Closes in ${timeLeft}</div>`;
-                } else {
-                    openBadge = '<div class="open-now-badge">Open Now</div>';
-                }
-            } else if (isOpen === false) {
-                openBadge = '<div class="open-now-badge closed-badge">Closed</div>';
-            }
-
-            return `
-                    <div class="activity-card">
-                        <div class="activity-image" style="${backgroundStyle}">
-                            ${openBadge}
-                            <div class="bookmark-icon saved" onclick="toggleBookmarkFromCard(event, '${venue.name.replace(/'/g, "\\'")}')">🔖</div>
-                            <div class="umbrella-chip" data-tooltip="${tooltipText}">${umbrellaEmoji}</div>
-                        </div>
-                        <div class="activity-content">
-                            <h3>${venue.name}</h3>
-                            <div class="activity-tags">
-                                <span class="tag">${venue.type[0]}</span>
-                                <span class="tag">${venue.location}</span>
-                                <span class="tag">${venue.wetness}</span>
-                            </div>
-                            <p>${venue.description}</p>
-                            <div class="price">${venue.priceDisplay}</div>
-                            <button class="book-btn">View Details</button>
-                        </div>
-                    </div>
-                    `;
+            return createActivityCardHTML(venue, index, { isSaved: true, showId: false });
         }).join('');
 
         // Hook up the View Details buttons
@@ -1983,52 +1977,7 @@ async function renderAllActivities(append = false) {
             ? `background-image: url('${imageUrl}');`
             : `background-image: url('${getPlaceholderImage(venue)}'); background-size: cover;`;
 
-        let umbrellaEmoji = '🌂';
-        let tooltipText = 'Dry - Direct tube access';
-        if (venue.wetness === 'slightly') {
-            umbrellaEmoji = '☂️';
-            tooltipText = 'Slightly Wet - 5-10 min walk';
-        } else if (venue.wetness === 'wet') {
-            umbrellaEmoji = '☔️';
-            tooltipText = 'Wet - 10+ min walk';
-        }
-
-        // Check opening status
-        const isOpen = isVenueOpenNow(venue);
-        const closingSoon = isClosingSoon(venue);
-        let openBadge = '';
-
-        if (isOpen === true) {
-            if (closingSoon) {
-                const timeLeft = getHoursUntilClosing(venue);
-                openBadge = `<div class="open-now-badge closing-soon-badge">Closes in ${timeLeft}</div>`;
-            } else {
-                openBadge = '<div class="open-now-badge">Open Now</div>';
-            }
-        } else if (isOpen === false) {
-            openBadge = '<div class="open-now-badge closed-badge">Closed</div>';
-        }
-
-        return `
-                    <div class="activity-card">
-                        <div class="activity-image" style="${backgroundStyle}">
-                            ${openBadge}
-                            <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, '${venue.name.replace(/'/g, "\\'")}')">🔖</div>
-                            <div class="umbrella-chip" data-tooltip="${tooltipText}">${umbrellaEmoji}</div>
-                        </div>
-                        <div class="activity-content">
-                            <h3>${venue.name}</h3>
-                            <div class="activity-tags">
-                                <span class="tag">${venue.type[0]}</span>
-                                <span class="tag">${venue.location}</span>
-                                <span class="tag">${venue.wetness}</span>
-                            </div>
-                            <p>${venue.description}</p>
-                            <div class="price">${venue.priceDisplay}</div>
-                            <button class="book-btn">View Details</button>
-                        </div>
-                    </div>
-                `;
+        return createActivityCardHTML(venue, index, { showId: false });
     }).join('');
 
     console.log('Generated HTML length:', venueHTML.length, 'characters');
@@ -2091,6 +2040,12 @@ async function sortAllActivities() {
             break;
         case 'location':
             allActivitiesFiltered.sort((a, b) => a.location.localeCompare(b.location));
+            break;
+        case 'wetness-asc':
+            allActivitiesFiltered.sort((a, b) => (a.wetnessScore || 0) - (b.wetnessScore || 0));
+            break;
+        case 'wetness-desc':
+            allActivitiesFiltered.sort((a, b) => (b.wetnessScore || 0) - (a.wetnessScore || 0));
             break;
     }
 
@@ -2585,52 +2540,10 @@ async function updateWeatherRecommendations(weather) {
             const placeholderImage = getPlaceholderImage(venue);
             const backgroundStyle = `background-image: url('${placeholderImage}'); background-size: cover; background-position: center;`;
 
-            let umbrellaEmoji = '🌂';
-            let tooltipText = 'Dry - Direct tube access';
-            if (venue.wetness === 'slightly') {
-                umbrellaEmoji = '☂️';
-                tooltipText = 'Slightly Wet - 5-10 min walk';
-            } else if (venue.wetness === 'wet') {
-                umbrellaEmoji = '☔️';
-                tooltipText = 'Wet - 10+ min walk';
-            }
-
-            // Check opening status
-            const isOpen = isVenueOpenNow(venue);
-            const closingSoon = isClosingSoon(venue);
-            let openBadge = '';
-
-            if (isOpen === true) {
-                if (closingSoon) {
-                    const timeLeft = getHoursUntilClosing(venue);
-                    openBadge = `<div class="open-now-badge closing-soon-badge">Closes in ${timeLeft}</div>`;
-                } else {
-                    openBadge = '<div class="open-now-badge">Open Now</div>';
-                }
-            } else if (isOpen === false) {
-                openBadge = '<div class="open-now-badge closed-badge">Closed</div>';
-            }
-
-            const cardHTML = `
-                    <div class="activity-card" data-venue-index="${index}" data-venue-name="${venue.name}">
-                        <div class="activity-image" style="${backgroundStyle}">
-                            ${openBadge}
-                            <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, '${venue.name.replace(/'/g, "\\'")}')">🔖</div>
-                            <div class="umbrella-chip" data-tooltip="${tooltipText}">${umbrellaEmoji}</div>
-                        </div>
-                        <div class="activity-content">
-                            <h3>${venue.name}</h3>
-                            <div class="activity-tags">
-                                <span class="tag">${venue.type[0]}</span>
-                                <span class="tag">${venue.location}</span>
-                                <span class="tag">${venue.wetness}</span>
-                            </div>
-                            <p>${venue.description}</p>
-                            <div class="price">${venue.priceDisplay}</div>
-                            <button class="book-btn">View Details</button>
-                        </div>
-                    </div>
-                    `;
+            const cardHTML = createActivityCardHTML(venue, index, {
+                showId: false,
+                dataAttrs: `data-venue-index="${index}" data-venue-name="${venue.name}"`
+            });
 
             return cardHTML;
         }).join('');
@@ -2764,7 +2677,13 @@ window.closeModal = closeModal;
 window.openPrerequisites = openPrerequisites;
 window.closePrerequisites = closePrerequisites;
 window.clearFilters = clearFilters;
-window.applyFilters = applyFilters;
+
+// Ensure filtering functions are exposed
+window.filterVenues = filterVenues;
+window.setGeneratedResults = setGeneratedResults;
+
+// window.applyFilters is already set in filter-state.js
+// window.applyFilters = applyFilters; // Removed redundant/incorrect assignment
 window.clearPrerequisites = clearPrerequisites;
 window.applyPrerequisites = applyPrerequisites;
 window.closeActivityModal = closeActivityModal;
@@ -2958,3 +2877,40 @@ document.addEventListener('DOMContentLoaded', async function () {
         luckyBtn.addEventListener('click', feelingLucky);
     }
 });
+// Wetness slider event listener and functionality
+// This should be added to app.js after DOMContentLoaded
+
+document.addEventListener('DOMContentLoaded', function () {
+    const wetnessSlider = document.getElementById('wetnessSlider');
+    const wetnessValue = document.getElementById('wetnessValue');
+
+    if (wetnessSlider && wetnessValue) {
+        // Update label as slider moves
+        wetnessSlider.addEventListener('input', function () {
+            const value = parseInt(this.value);
+            wetnessValue.textContent = value + '%';
+
+            // Update slider gradient based on value
+            const percentage = (value / 100) * 100;
+            this.style.background = `linear-gradient(to right, #6C63FF 0%, #8B7CFF ${percentage}%, #E5E5E5 ${percentage}%, #E5E5E5 100%)`;
+        });
+
+        // Update filter state when slider changes
+        wetnessSlider.addEventListener('change', function () {
+            const value = parseInt(this.value);
+            filters.maxWetnessScore = value;
+            updateDoneButtonLabels();
+        });
+    }
+});
+// ============================================
+// MONETIZATION FUNCTION - Added for sponsored venues
+// ============================================
+
+
+// ============================================
+// MONETIZATION - Minimal addition for sponsored badges
+// ============================================
+function isSponsored(venue) {
+    return venue.sponsored === true;
+}

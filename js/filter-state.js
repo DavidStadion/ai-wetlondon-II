@@ -4,6 +4,7 @@ const filters = {
     types: new Set(),
     areas: new Set(),
     wetness: null,  // 'dry' | 'slightly' | 'wet' | null
+    maxWetnessScore: 100,  // 0-100, filter by wetness score threshold
     openNow: false,
     constraints: new Set()
 };
@@ -14,11 +15,12 @@ function getFilterCounts() {
         types: filters.types.size,
         areas: filters.areas.size,
         wetness: filters.wetness ? 1 : 0,
+        maxWetnessScore: filters.maxWetnessScore < 100 ? 1 : 0,
         openNow: filters.openNow ? 1 : 0,
         keywords: filters.keywords.trim() ? 1 : 0,
         constraints: filters.constraints.size,
         total: function () {
-            return this.types + this.areas + this.wetness + this.openNow + this.keywords + this.constraints;
+            return this.types + this.areas + this.wetness + this.maxWetnessScore + this.openNow + this.keywords + this.constraints;
         }
     };
 }
@@ -42,31 +44,55 @@ function updateDoneButtonLabels() {
 
 // Apply filters and render results (THE ONE AND ONLY applyFilters)
 function applyFilters() {
-    console.log('[filter-state.js:44] window.applyFilters called');
-    console.log('customize done');
+    console.log('🚀 [filter-state.js] applyFilters triggered');
 
-    closeModal();
+    // Close the customize modal
+    if (typeof closeModal === 'function') {
+        console.log('--- [applyFilters] Attempting to close modal ---');
+        closeModal();
+    } else {
+        console.warn('--- [applyFilters] closeModal function not found ---');
+    }
 
     // Read filter state
     const filtersSummary = {
+        keywords: filters.keywords,
         types: Array.from(filters.types),
         areas: Array.from(filters.areas),
         wetness: filters.wetness,
+        maxWetnessScore: filters.maxWetnessScore,
         openNow: filters.openNow,
-        keywords: filters.keywords,
         constraints: Array.from(filters.constraints)
     };
-    console.log('filters summary:', JSON.stringify(filtersSummary));
+    console.log('--- [applyFilters] Current Filters State ---', filtersSummary);
 
     // Use existing filterVenues function from app.js
-    const filtered = filterVenues();
+    if (typeof filterVenues === 'function') {
+        console.log('--- [applyFilters] Calling filterVenues() ---');
+        const filtered = filterVenues();
+        console.log('--- [applyFilters] Filtered venues count: ' + filtered.length + ' ---');
 
-    console.log('filtered count:', filtered.length);
+        // Render results immediately
+        if (typeof setGeneratedResults === 'function') {
+            console.log('--- [applyFilters] Calling setGeneratedResults() ---');
+            setGeneratedResults(filtered, { title: 'Your Personalized Selection' });
 
-    // Render results immediately
-    setGeneratedResults(filtered, { title: 'Your Personalized Selection' });
+            // Scroll to results section if results were found
+            if (filtered.length > 0) {
+                const section = document.getElementById('generatedSection');
+                if (section) {
+                    console.log('--- [applyFilters] Scrolling to results section ---');
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        } else {
+            console.error('❌ [applyFilters] ERROR: setGeneratedResults function not found!');
+        }
+    } else {
+        console.error('❌ [applyFilters] ERROR: filterVenues function not found!');
+    }
 
-    console.log('render complete');
+    console.log('✅ [filter-state.js] applyFilters execution complete');
 }
 
 // Expose THE ONE applyFilters function globally
