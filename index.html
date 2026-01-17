@@ -1122,18 +1122,46 @@
         </div>
     </div>
 
-    <!-- Load JavaScript files in correct order -->
+   <!-- Load JavaScript files in correct order -->
+    
+    <!-- 1. Load Supabase library from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- 2. Load your Supabase client configuration -->
+    <script src="js/supabase-client.js"></script>
+    
+    <!-- 3. Load filter state -->
     <script src="js/filter-state.js"></script>
+    
+    <!-- 4. Load data.js (as fallback, can remove later) -->
     <script src="js/data.js"></script>
+    
+    <!-- 5. Load main app -->
     <script src="js/app.js"></script>
     
-    <!-- Google AdSense - COMMENTED OUT
-         Uncomment AFTER deployment to Vercel AND Google AdSense approval
-         Local testing with AdSense script causes page to become unresponsive
+    <!-- 6. Initialize: Load venues from Supabase FIRST, then init app -->
+    <script>
+        // Wait for Supabase to load venues before initializing app
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🌐 Page loaded, fetching venues from Supabase...');
+            
+            // Load venues from database
+            const success = await loadVenuesFromSupabase();
+            
+            if (!success) {
+                console.log('⚠️ Using local data.js as fallback');
+            }
+            
+            // Now initialize the rest of the app
+            console.log('✅ Venues loaded, app ready!');
+        });
+    </script>
+    
+    <!-- Google AdSense - COMMENTED OUT -->
+    <!-- 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1382628707656079"
          crossorigin="anonymous"></script>
     -->
 
 </body>
-
 </html>

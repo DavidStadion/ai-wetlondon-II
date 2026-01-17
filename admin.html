@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wet London - Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .stat-card h3 {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .auth-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .login-form {
+            max-width: 400px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        input[type="email"],
+        input[type="password"],
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+        
+        .btn-success {
+            background: #48bb78;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #f56565;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #718096;
+            color: white;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        th {
+            background: #f7fafc;
+            font-weight: 600;
+            color: #2d3748;
+        }
+        
+        tr:hover {
+            background: #f7fafc;
+        }
+        
+        .sponsored-badge {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #1a1a1a;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .toggle-sponsored {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+        
+        .success {
+            background: #c6f6d5;
+            color: #22543d;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Auth Section -->
+        <div id="authSection" class="auth-section">
+            <h2>Admin Login</h2>
+            <div id="loginMessage"></div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+        </div>
+
+        <!-- Admin Panel (hidden until logged in) -->
+        <div id="adminPanel" class="hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <h1>🌧️ Wet London Admin</h1>
+                    <p style="color: #666;">Manage your venues and content</p>
+                </div>
+                <button onclick="logout()" class="btn-secondary">Logout</button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Total Venues</h3>
+                    <div class="number" id="totalVenues">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Sponsored Venues</h3>
+                    <div class="number" id="sponsoredCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Free Venues</h3>
+                    <div class="number" id="freeCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Avg Rating</h3>
+                    <div class="number" id="avgRating">0</div>
+                </div>
+            </div>
+
+            <div id="message"></div>
+
+            <!-- Venues Table -->
+            <h2>All Venues</h2>
+            <div class="loading" id="loadingVenues">Loading venues...</div>
+            <table id="venuesTable" class="hidden">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Location</th>
+                        <th>Price</th>
+                        <th>Rating</th>
+                        <th>Sponsored</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="venuesTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://iguspxisuudvvlcbtaxk.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlndXNweGlzdXVkdnZsY2J0YXhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg2NTk1MjQsImV4cCI6MjA4NDIzNTUyNH0.hEE1PirNeuGnewi8qqbbCqYs9WuuY124vevo5fIpVr8';
+        
+        const { createClient } = supabase;
+        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Check if user is already logged in
+        checkAuth();
+
+        async function checkAuth() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            
+            if (session) {
+                showAdminPanel();
+            }
+        }
+
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
+            
+            if (error) {
+                document.getElementById('loginMessage').innerHTML = `<div class="error">${error.message}</div>`;
+            } else {
+                showAdminPanel();
+            }
+        });
+
+        // Logout
+        async function logout() {
+            await supabaseClient.auth.signOut();
+            location.reload();
+        }
+
+        // Show admin panel
+        function showAdminPanel() {
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('adminPanel').classList.remove('hidden');
+            loadVenues();
+        }
+
+        // Load venues
+        async function loadVenues() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('venues')
+                    .select('*')
+                    .order('name');
+                
+                if (error) throw error;
+                
+                displayVenues(data);
+                updateStats(data);
+                
+                document.getElementById('loadingVenues').classList.add('hidden');
+                document.getElementById('venuesTable').classList.remove('hidden');
+            } catch (error) {
+                document.getElementById('loadingVenues').innerHTML = `<div class="error">Error loading venues: ${error.message}</div>`;
+            }
+        }
+
+        // Display venues in table
+        function displayVenues(venues) {
+            const tbody = document.getElementById('venuesTableBody');
+            tbody.innerHTML = '';
+            
+            venues.forEach(venue => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><strong>${venue.name}</strong></td>
+                    <td>${venue.location}</td>
+                    <td>${venue.price_display}</td>
+                    <td>⭐ ${venue.rating}</td>
+                    <td>
+                        <input type="checkbox" 
+                               class="toggle-sponsored" 
+                               ${venue.sponsored ? 'checked' : ''} 
+                               onchange="toggleSponsored(${venue.id}, this.checked)">
+                        ${venue.sponsored ? '<span class="sponsored-badge">✨ Sponsored</span>' : ''}
+                    </td>
+                    <td class="actions">
+                        <button class="btn-danger" onclick="deleteVenue(${venue.id}, '${venue.name}')">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Update stats
+        function updateStats(venues) {
+            document.getElementById('totalVenues').textContent = venues.length;
+            document.getElementById('sponsoredCount').textContent = venues.filter(v => v.sponsored).length;
+            document.getElementById('freeCount').textContent = venues.filter(v => v.price === 0).length;
+            
+            const avgRating = venues.reduce((sum, v) => sum + parseFloat(v.rating), 0) / venues.length;
+            document.getElementById('avgRating').textContent = avgRating.toFixed(1);
+        }
+
+        // Toggle sponsored status
+        async function toggleSponsored(id, sponsored) {
+            try {
+                const { error } = await supabaseClient
+                    .from('venues')
+                    .update({ sponsored })
+                    .eq('id', id);
+                
+                if (error) throw error;
+                
+                showMessage(`Sponsored status updated!`, 'success');
+                loadVenues(); // Reload to update display
+            } catch (error) {
+                showMessage(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Delete venue
+        async function deleteVenue(id, name) {
+            if (!confirm(`Are you sure you want to delete "${name}"?`)) {
+                return;
+            }
+            
+            try {
+                const { error } = await supabaseClient
+                    .from('venues')
+                    .delete()
+                    .eq('id', id);
+                
+                if (error) throw error;
+                
+                showMessage(`Deleted "${name}"`, 'success');
+                loadVenues();
+            } catch (error) {
+                showMessage(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Show message
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = `<div class="${type}">${text}</div>`;
+            setTimeout(() => messageDiv.innerHTML = '', 3000);
+        }
+    </script>
+</body>
+</html>
