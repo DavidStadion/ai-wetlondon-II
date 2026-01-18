@@ -2194,3 +2194,6 @@ const londonVenues = [
         }
     }
 ];
+
+// Expose fallback data globally so Supabase can replace it at runtime
+window.londonVenues = londonVenues;

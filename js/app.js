@@ -1,3 +1,23 @@
+console.log("WetLondon version:", "2026-01-18 06:45");
+
+function setVenuesLoading(isLoading) {
+    const el = document.getElementById('venuesLoading');
+    if (el) el.style.display = isLoading ? 'flex' : 'none';
+
+    const luckyBtn = document.querySelector('.lucky-btn');
+    if (luckyBtn) {
+        luckyBtn.disabled = isLoading || window.__venuesSource !== 'supabase';
+        luckyBtn.style.opacity = luckyBtn.disabled ? '0.55' : '1';
+        luckyBtn.style.cursor = luckyBtn.disabled ? 'not-allowed' : 'pointer';
+    }
+}
+
+function formatCategoryLabel(key) {
+    if (!key) return '';
+    return String(key)
+        .replace(/[-_]+/g, ' ')
+        .replace(/\b\w/g, c => c.toUpperCase());
+}
 let selectedTypes = [];
 let selectedLocations = [];
 let selectedWetness = [];
@@ -15,6 +35,16 @@ const UNSPLASH_ACCESS_KEY = 'urKB9lnQ7Uj4_qzMJ0ov70YmRdJIgW_VUZp35uuLb-E';
 const UNSPLASH_API_URL = 'https://api.unsplash.com';
 const IMAGE_CACHE_KEY = 'wet_london_images_cache';
 const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days
+
+// Formatting helpers
+function labelCategory(categoryKey) {
+    if (!categoryKey) return '';
+    return String(categoryKey)
+        .replace(/_/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .replace(/\b\w/g, c => c.toUpperCase());
+}
 
 // Unsplash Image Functions
 function getImageCache() {
@@ -266,7 +296,7 @@ function showSearchSuggestions(query) {
 function searchVenues(query) {
     const lowerQuery = query.toLowerCase();
 
-    return londonVenues.filter(venue => {
+    return window.londonVenues.filter(venue => {
         // Search in name
         if (venue.name.toLowerCase().includes(lowerQuery)) return true;
 
@@ -313,7 +343,7 @@ function highlightMatch(text, query) {
 }
 
 function selectVenue(venueName) {
-    const venue = londonVenues.find(v => v.name === venueName);
+    const venue = window.londonVenues.find(v => v.name === venueName);
     if (venue) {
         openActivityModal(venue);
         document.getElementById('searchSuggestions').style.display = 'none';
@@ -386,7 +416,7 @@ function clearSearch() {
 
 
 function filterVenues() {
-    return londonVenues.filter(venue => {
+    return window.londonVenues.filter(venue => {
         // Filter by activity types (use unified filter state)
         if (filters.types.size > 0) {
             const hasMatchingType = venue.type.some(t => filters.types.has(t));
@@ -492,9 +522,9 @@ function createActivityCardHTML(venue, index, options = {}) {
             <div class="activity-content">
                 <h3>${venue.name}</h3>
                 <div class="activity-tags">
-                    <span class="tag">${venue.type[0]}</span>
-                    <span class="tag">${venue.location}</span>
-                    <span class="tag">${venue.wetness}</span>
+                    <span class="tag">${labelCategory(venue.type[0])}</span>
+                    <span class="tag">${labelCategory(venue.location)}</span>
+                    <span class="tag">${labelCategory(venue.wetness)}</span>
                 </div>
                 <p>${venue.description}</p>
                 <div class="wetness-indicator">
@@ -1478,7 +1508,7 @@ function updateViewDetailsButtons() {
             e.stopPropagation(); // Prevent card click from also firing
             const card = this.closest('.activity-card');
             const venueName = card.querySelector('h3').textContent;
-            let venue = londonVenues.find(v => v.name === venueName);
+            let venue = window.londonVenues.find(v => v.name === venueName);
 
             // If venue not found in database, create a fallback venue object
             if (!venue) {
@@ -1521,7 +1551,7 @@ function updateViewDetailsButtons() {
             }
 
             const venueName = this.querySelector('h3').textContent;
-            let venue = londonVenues.find(v => v.name === venueName);
+            let venue = window.londonVenues.find(v => v.name === venueName);
 
             if (!venue) {
                 const description = this.querySelector('p')?.textContent || 'A wonderful London activity perfect for any weather.';
@@ -1578,8 +1608,13 @@ function toggleCategories() {
 
 // I'm Feeling Lucky function
 async function feelingLucky() {
+    if (window.__venuesSource !== 'supabase' || !window.__venuesLoaded) {
+        alert('Venues are still loading from Supabase. Try again in a moment.');
+        return;
+    }
+
     // Get 6 random venues
-    const shuffled = [...londonVenues].sort(() => Math.random() - 0.5);
+    const shuffled = [...window.londonVenues].sort(() => Math.random() - 0.5);
     const randomVenues = shuffled.slice(0, 6);
 
     try {
@@ -1651,7 +1686,7 @@ async function toggleBookmarkFromCard(event, venueName) {
     const savedActivities = JSON.parse(localStorage.getItem('savedActivities') || '[]');
 
     // Find the venue in our database
-    let venue = londonVenues.find(v => v.name === venueName);
+    let venue = window.londonVenues.find(v => v.name === venueName);
 
     // If venue not found, create a fallback object from the card
     if (!venue) {
@@ -1801,7 +1836,7 @@ const ALL_ACTIVITIES_PER_PAGE = 18;
 
 async function initializeAllActivities() {
     // Show all venues first
-    allActivitiesFiltered = [...londonVenues];
+    allActivitiesFiltered = [...window.londonVenues];
     allActivitiesDisplayedCount = 0;
 
     // Initialize category chips
@@ -1822,7 +1857,7 @@ function initializeCategoryChips() {
 
     // Get unique categories and count venues per category
     const categoryCounts = {};
-    londonVenues.forEach(venue => {
+    window.londonVenues.forEach(venue => {
         venue.type.forEach(type => {
             categoryCounts[type] = (categoryCounts[type] || 0) + 1;
         });
@@ -1834,7 +1869,7 @@ function initializeCategoryChips() {
 
     // Create chips
     categoryChips.innerHTML = sortedCategories.map(([category, count]) => {
-        const displayName = category.charAt(0).toUpperCase() + category.slice(1);
+        const displayName = labelCategory(category);
         return `
                     <div class="category-chip" data-category="${category}" onclick="toggleCategoryFilter('${category}')">
                         ${displayName}
@@ -1884,7 +1919,7 @@ async function clearCategoryFilters() {
     document.getElementById('clearCategoryFilters').style.display = 'none';
 
     // Reset to all venues
-    allActivitiesFiltered = [...londonVenues];
+    allActivitiesFiltered = [...window.londonVenues];
     allActivitiesDisplayedCount = 0;
     await renderAllActivities();
 
@@ -1895,13 +1930,13 @@ async function clearCategoryFilters() {
 async function applyAllActivitiesFilters() {
     console.log('=== Apply Filters Called ===');
     console.log('Active category filters:', activeCategoryFilters);
-    console.log('Total venues before filter:', londonVenues.length);
+    console.log('Total venues before filter:', window.londonVenues.length);
 
     if (activeCategoryFilters.length === 0) {
-        allActivitiesFiltered = [...londonVenues];
+        allActivitiesFiltered = [...window.londonVenues];
         console.log('No filters active, showing all venues');
     } else {
-        allActivitiesFiltered = londonVenues.filter(venue => {
+        allActivitiesFiltered = window.londonVenues.filter(venue => {
             const matchesFilter = venue.type.some(type => activeCategoryFilters.includes(type));
             if (matchesFilter) {
                 console.log('Venue matches filter:', venue.name, 'types:', venue.type);
@@ -2092,7 +2127,7 @@ function updateOpenNowBadges() {
         if (!h3) return;
 
         const venueName = h3.textContent.trim();
-        const venue = londonVenues.find(v => v.name === venueName);
+        const venue = window.londonVenues.find(v => v.name === venueName);
 
         if (!venue || !venue.openingHours) return;
 
@@ -2139,7 +2174,7 @@ function updateCategoryCounts() {
     // Count activities for each category type
     const categoryCounts = {};
 
-    londonVenues.forEach(venue => {
+    window.londonVenues.forEach(venue => {
         venue.type.forEach(type => {
             categoryCounts[type] = (categoryCounts[type] || 0) + 1;
         });
@@ -2423,7 +2458,7 @@ async function updateWeatherRecommendations(weather) {
         iconEmoji = '';  // No emoji
         titleText = 'Perfect for Rainy Weather';
         subtitleText = 'Stay completely dry at these venues';
-        recommendedVenues = londonVenues
+        recommendedVenues = window.londonVenues
             .filter(v => v.wetness === 'dry')
             .sort((a, b) => b.rating - a.rating)
             .slice(0, 6);
@@ -2433,7 +2468,7 @@ async function updateWeatherRecommendations(weather) {
         iconEmoji = '';  // No emoji
         titleText = 'Cozy Indoor Escapes';
         subtitleText = 'Warm up at these comfortable venues';
-        recommendedVenues = londonVenues
+        recommendedVenues = window.londonVenues
             .filter(v =>
                 v.wetness === 'dry' &&
                 (v.type.includes('dining') || v.type.includes('cinema') || v.type.includes('wellness'))
@@ -2446,7 +2481,7 @@ async function updateWeatherRecommendations(weather) {
         // Fallback if not enough cozy venues
         if (recommendedVenues.length < 6) {
             console.log('Not enough cozy venues, using fallback');
-            recommendedVenues = londonVenues
+            recommendedVenues = window.londonVenues
                 .filter(v => v.wetness === 'dry')
                 .sort((a, b) => b.rating - a.rating)
                 .slice(0, 6);
@@ -2456,7 +2491,7 @@ async function updateWeatherRecommendations(weather) {
         iconEmoji = '';  // No emoji
         titleText = 'Light & Bright Activities';
         subtitleText = 'Enjoy indoor spaces with natural light';
-        recommendedVenues = londonVenues
+        recommendedVenues = window.londonVenues
             .filter(v =>
                 (v.wetness === 'dry' || v.wetness === 'slightly') &&
                 (v.type.includes('galleries') || v.type.includes('shopping') || v.type.includes('exhibitions'))
@@ -2469,7 +2504,7 @@ async function updateWeatherRecommendations(weather) {
         // Fallback if not enough
         if (recommendedVenues.length < 6) {
             console.log('Not enough bright venues, using fallback');
-            recommendedVenues = londonVenues
+            recommendedVenues = window.londonVenues
                 .filter(v => v.wetness === 'dry')
                 .sort((a, b) => b.rating - a.rating)
                 .slice(0, 6);
@@ -2479,7 +2514,7 @@ async function updateWeatherRecommendations(weather) {
         iconEmoji = '';  // No emoji
         titleText = 'Climate Controlled Comfort';
         subtitleText = 'Cool and comfortable venues';
-        recommendedVenues = londonVenues
+        recommendedVenues = window.londonVenues
             .filter(v =>
                 v.wetness === 'dry' &&
                 (v.type.includes('cinema') || v.type.includes('museums') || v.type.includes('shopping'))
@@ -2492,7 +2527,7 @@ async function updateWeatherRecommendations(weather) {
         // Fallback if not enough
         if (recommendedVenues.length < 6) {
             console.log('Not enough AC venues, using fallback');
-            recommendedVenues = londonVenues
+            recommendedVenues = window.londonVenues
                 .filter(v => v.wetness === 'dry')
                 .sort((a, b) => b.rating - a.rating)
                 .slice(0, 6);
@@ -2502,7 +2537,7 @@ async function updateWeatherRecommendations(weather) {
         iconEmoji = '';  // No emoji
         titleText = 'Top Indoor Attractions';
         subtitleText = 'Popular activities for today';
-        recommendedVenues = londonVenues
+        recommendedVenues = window.londonVenues
             .filter(v => v.rating >= 4.5)
             .sort((a, b) => b.rating - a.rating)
             .slice(0, 6);
@@ -2640,7 +2675,7 @@ async function loadFeaturedActivityImages() {
         if (imageDiv.style.backgroundImage) continue;
 
         // Find venue in database for fallback gradient
-        const venue = londonVenues.find(v => v.name === venueName);
+        const venue = window.londonVenues.find(v => v.name === venueName);
 
         // Fetch image
         const imageUrl = await fetchUnsplashImage(venueName);
@@ -2719,6 +2754,19 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Load images for static Featured Activities
     loadFeaturedActivityImages();
+
+    // Show loading state while Supabase fetches
+    setVenuesLoading(true);
+
+    // Load venues from Supabase (fallback to local data.js if it fails)
+    if (typeof loadVenuesFromSupabase === 'function') {
+        await loadVenuesFromSupabase();
+    }
+
+    // Hide loading state and refresh counters
+    setVenuesLoading(false);
+    updateCategoryCounts();
+    updateActivityStats();
 
     // Initialize All Activities section
     await initializeAllActivities();

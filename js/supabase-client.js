@@ -2,10 +2,11 @@
 // This connects your app to the Supabase database
 
 const SUPABASE_URL = 'https://iguspxisuudvvlcbtaxk.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlndXNweGlzdXVkdnZsY2J0YXhrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg2NTk1MjQsImV4cCI6MjA4NDIzNTUyNH0.hEE1PirNeuGnewi8qqbbCqYs9WuuY124vevo5fIpVr8'; // Paste your copied key here
-// Initialize Supabase client (uses CDN-loaded library)
-const { createClient } = supabase;
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+// Using the Publishable API Key you provided
+const SUPABASE_ANON_KEY = 'sb_publishable_7NmZ0J9oVtEaU6xxOAn9NQ_U80zq9cV'; 
+
+// Initialize Supabase client using the global 'supabase' object from the CDN
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /**
  * Fetch all venues from Supabase database
@@ -24,7 +25,7 @@ async function fetchVenuesFromDB() {
             throw error;
         }
         
-        console.log('✅ Fetched', data.length, 'venues from database');
+        console.log('✅ Fetched ' + data.length + ' venues from database');
         return data;
     } catch (error) {
         console.error('❌ Error fetching venues:', error);
@@ -37,9 +38,39 @@ async function fetchVenuesFromDB() {
  * This ensures compatibility with existing app code
  */
 function convertVenue(dbVenue) {
+    function normaliseCategory(raw) {
+        if (raw == null) return null;
+
+        let s = String(raw).trim();
+
+        // Strip any leading/trailing braces that can appear in Postgres array-style strings
+        s = s.replace(/^[{]+/, '').replace(/[}]+$/, '');
+
+        // Remove stray punctuation, collapse whitespace
+        s = s.replace(/[^\w\s-]/g, '').replace(/\s+/g, ' ').trim();
+
+        if (!s) return null;
+        return s.toLowerCase();
+    }
+
+    function toTypeArray(dbType) {
+        if (Array.isArray(dbType)) return dbType;
+        if (typeof dbType === 'string') {
+            // Handles values like "{museums, dining}" or "museums, dining"
+            const trimmed = dbType.trim();
+            const withoutOuterBraces = trimmed.replace(/^[{]+/, '').replace(/[}]+$/, '');
+            return withoutOuterBraces.split(',').map(s => s.trim());
+        }
+        return [];
+    }
+
+    const rawTypes = toTypeArray(dbVenue.type);
+    const cleanedTypes = rawTypes.map(normaliseCategory).filter(Boolean);
+    const uniqueTypes = Array.from(new Set(cleanedTypes));
+
     return {
         name: dbVenue.name,
-        type: dbVenue.type,
+        type: uniqueTypes,
         location: dbVenue.location,
         wetness: dbVenue.wetness,
         wetnessScore: dbVenue.wetness_score,
@@ -60,24 +91,49 @@ function convertVenue(dbVenue) {
  */
 async function loadVenuesFromSupabase() {
     console.log('🚀 Loading venues from Supabase...');
+
+    // Global flags the rest of the app can rely on
+    window.__venuesLoading = true;
+    window.__venuesLoaded = false;
+    window.__venuesSource = 'unknown';
     
     try {
         const dbVenues = await fetchVenuesFromDB();
         
+        if (!dbVenues || dbVenues.length === 0) {
+            throw new Error('No data returned from Supabase');
+        }
+
         // Convert to app format and store globally
         window.londonVenues = dbVenues.map(convertVenue);
         
-        console.log('✅ Successfully loaded', window.londonVenues.length, 'venues');
-        console.log('📊 Sponsored venues:', window.londonVenues.filter(v => v.sponsored).length);
-        
+        console.log('✅ Successfully loaded ' + window.londonVenues.length + ' venues');
+
+        window.__venuesLoading = false;
+        window.__venuesLoaded = true;
+        window.__venuesSource = 'supabase';
+
+        // Let the app know data is ready
+        window.dispatchEvent(new CustomEvent('venues:loaded', { detail: { success: true, source: 'supabase', count: window.londonVenues.length } }));
+
+        // Re-initialize app components that depend on data
+        if (typeof updateActivityStats === 'function') updateActivityStats();
+        if (typeof updateCategoryCounts === 'function') updateCategoryCounts();
+
         return true;
     } catch (error) {
         console.error('❌ Failed to load venues from Supabase:', error);
         console.log('⚠️ Falling back to local data.js if available');
+
+        window.__venuesLoading = false;
+        window.__venuesLoaded = false;
+        window.__venuesSource = 'fallback';
+        window.dispatchEvent(new CustomEvent('venues:loaded', { detail: { success: false, source: 'fallback', count: (window.londonVenues || []).length } }));
+
         return false;
     }
 }
 
-// Expose functions globally for testing
+// Expose functions and client globally
 window.loadVenuesFromSupabase = loadVenuesFromSupabase;
-window.supabaseClient = supabaseClient;
+window.supabase = supabaseClient;
