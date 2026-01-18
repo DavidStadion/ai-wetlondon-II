@@ -263,235 +263,35 @@
     <section class="activities-section" id="activities">
         <div class="container">
             <h2 class="section-title">Featured Activities</h2>
-            <div class="activity-grid">
-                <div class="activity-card">
-                    <div class="activity-image">
-                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'British Museum')">🔖</div>
-                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
-                    </div>
-                    <div class="activity-content">
-                        <h3>British Museum</h3>
-                        <div class="activity-tags">
-                            <span class="tag">Museum</span>
-                            <span class="tag">Central</span>
-                            <span class="tag">Dry</span>
-                        </div>
-                        <p>2 million years of human history. Direct tube access, fully covered.</p>
-                        <div class="wetness-indicator">
-                            <div class="wetness-bar">
-                                <div class="wetness-bar-fill" style="width: 0%"></div>
-                            </div>
-                            <span class="wetness-label">0% wet</span>
-                        </div>
-                        <div class="price">FREE</div>
-                        <button class="book-btn">View Details</button>
-                    </div>
-                </div>
-
-                <div class="activity-card">
-                    <div class="activity-image">
-                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'Tate Modern')">🔖</div>
-                        <div class="umbrella-chip" data-tooltip="Slightly Wet - 5-10 min walk">☂️</div>
-                    </div>
-                    <div class="activity-content">
-                        <h3>Tate Modern</h3>
-                        <div class="activity-tags">
-                            <span class="tag">Gallery</span>
-                            <span class="tag">South</span>
-                            <span class="tag">Dry</span>
-                        </div>
-                        <p>Contemporary art gallery on the Thames. 5 min walk from station.</p>
-                        <div class="wetness-indicator">
-                            <div class="wetness-bar">
-                                <div class="wetness-bar-fill" style="width: 30%"></div>
-                            </div>
-                            <span class="wetness-label">30% wet</span>
-                        </div>
-                        <div class="price">FREE</div>
-                        <button class="book-btn">View Details</button>
-                    </div>
-                </div>
-
-                <div class="activity-card">
-                    <div class="activity-image">
-                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'West End Theatre')">🔖</div>
-                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
-                    </div>
-                    <div class="activity-content">
-                        <h3>West End Theatre</h3>
-                        <div class="activity-tags">
-                            <span class="tag">Theatre</span>
-                            <span class="tag">Central</span>
-                            <span class="tag">Dry</span>
-                        </div>
-                        <p>World-class performances. Most venues under 5 mins from tube.</p>
-                        <div class="wetness-indicator">
-                            <div class="wetness-bar">
-                                <div class="wetness-bar-fill" style="width: 15%"></div>
-                            </div>
-                            <span class="wetness-label">15% wet</span>
-                        </div>
-                        <div class="price">FROM £45</div>
-                        <button class="book-btn">View Details</button>
-                    </div>
-                </div>
-
-                <!-- Featured Card 1 -->
-                <div class="activity-card featured">
-                    <div class="activity-image">
-                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'Sky Garden')">🔖</div>
-                        <div class="featured-badge">Featured</div>
-                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
-                    </div>
-                    <div class="activity-content">
-                        <h3>Sky Garden</h3>
-                        <div class="activity-tags">
-                            <span class="tag">Dining</span>
-                            <span class="tag">Central</span>
-                            <span class="tag">Dry</span>
-                        </div>
-                        <p>London's highest public garden with panoramic 360° views. Experience fine dining 155 meters
-                            above the city with direct lift access from street level. Free to visit, reservations
-                            essential for the restaurant.</p>
-                        <div class="wetness-indicator">
-                            <div class="wetness-bar">
-                                <div class="wetness-bar-fill" style="width: 10%"></div>
-                            </div>
-                            <span class="wetness-label">10% wet</span>
-                        </div>
-                        <div class="price">FREE ENTRY</div>
-                        <button class="book-btn">View Details</button>
-                    </div>
-                </div>
-
-                <div class="activity-card">
-                    <div class="activity-image">
-                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'Science Museum')">🔖</div>
-                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
-                    </div>
-                    <div class="activity-content">
-                        <h3>Science Museum</h3>
-                        <div class="activity-tags">
-                            <span class="tag">Museum</span>
-                            <span class="tag">West</span>
-                            <span class="tag">Dry</span>
-                        </div>
-                        <p>Interactive exhibits and innovations. Direct underground access.</p>
-                        <div class="wetness-indicator">
-                            <div class="wetness-bar">
-                                <div class="wetness-bar-fill" style="width: 0%"></div>
-                            </div>
-                            <span class="wetness-label">0% wet</span>
-                        </div>
-                        <div class="price">FREE</div>
-                        <button class="book-btn">View Details</button>
-                    </div>
-                </div>
-
-                <div class="activity-card">
-                    <div class="activity-image">
-                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'Covent Garden Market')">🔖
-                        </div>
-                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
-                    </div>
-                    <div class="activity-content">
-                        <h3>Covent Garden Market</h3>
-                        <div class="activity-tags">
-                            <span class="tag">Shopping</span>
-                            <span class="tag">Central</span>
-                            <span class="tag">Covered</span>
-                        </div>
-                        <p>Historic covered market with boutiques and street performers.</p>
-                        <div class="wetness-indicator">
-                            <div class="wetness-bar">
-                                <div class="wetness-bar-fill" style="width: 15%"></div>
-                            </div>
-                            <span class="wetness-label">15% wet</span>
-                        </div>
-                        <div class="price">FREE</div>
-                        <button class="book-btn">View Details</button>
-                    </div>
-                </div>
-
-                <div class="activity-card">
-                    <div class="activity-image">
-                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'Wine Tasting')">🔖</div>
-                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
-                    </div>
-                    <div class="activity-content">
-                        <h3>Wine Tasting</h3>
-                        <div class="activity-tags">
-                            <span class="tag">Food & Drink</span>
-                            <span class="tag">Central</span>
-                            <span class="tag">Dry</span>
-                        </div>
-                        <p>Premium wine experiences. Underground station adjacent.</p>
-                        <div class="wetness-indicator">
-                            <div class="wetness-bar">
-                                <div class="wetness-bar-fill" style="width: 15%"></div>
-                            </div>
-                            <span class="wetness-label">15% wet</span>
-                        </div>
-                        <div class="price">£65</div>
-                        <button class="book-btn">View Details</button>
-                    </div>
-                </div>
-
-                <div class="activity-card">
-                    <div class="activity-image">
-                        <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, 'Escape Room')">🔖</div>
-                        <div class="umbrella-chip" data-tooltip="Dry - Direct tube access">🌂</div>
-                    </div>
-                    <div class="activity-content">
-                        <h3>Escape Room</h3>
-                        <div class="activity-tags">
-                            <span class="tag">Entertainment</span>
-                            <span class="tag">East</span>
-                            <span class="tag">Dry</span>
-                        </div>
-                        <p>Challenging puzzles and immersive scenarios. 3 min walk from station.</p>
-                        <div class="wetness-indicator">
-                            <div class="wetness-bar">
-                                <div class="wetness-bar-fill" style="width: 15%"></div>
-                            </div>
-                            <span class="wetness-label">15% wet</span>
-                        </div>
-                        <div class="price">£28</div>
-                        <button class="book-btn">View Details</button>
-                    </div>
-                </div>
-
-                <!-- Featured Card 2 -->
-                <div class="activity-card featured">
-                    <div class="activity-image">
-                        <div class="bookmark-icon"
-                            onclick="toggleBookmarkFromCard(event, 'Frameless Immersive Art Experience')">🔖</div>
-                        <div class="featured-badge">Featured</div>
-                        <div class="umbrella-chip" data-tooltip="Slightly Wet - 5-10 min walk">☂️</div>
-                    </div>
-                    <div class="activity-content">
-                        <h3>Frameless Immersive Art Experience</h3>
-                        <div class="activity-tags">
-                            <span class="tag">Exhibitions</span>
-                            <span class="tag">Central</span>
-                            <span class="tag">Slightly Wet</span>
-                        </div>
-                        <p>Step beyond the frame into the world's most iconic artworks. Multi-sensory galleries
-                            featuring works from Canaletto to Kandinsky, brought to life through cutting-edge projection
-                            technology. Perfect rainy day escape into art.</p>
-                        <div class="wetness-indicator">
-                            <div class="wetness-bar">
-                                <div class="wetness-bar-fill" style="width: 30%"></div>
-                            </div>
-                            <span class="wetness-label">30% wet</span>
-                        </div>
-                        <div class="price">£24</div>
-                        <button class="book-btn">View Details</button>
-                    </div>
-                </div>
-
+            <div class="activity-grid" id="spotlightGrid" style="margin-bottom: 1.5rem;">
+                <div style="grid-column: 1 / -1; text-align:center; padding: 1.5rem; color: #666;">Loading spotlight activity...</div>
+            </div>
+            <div class="activity-grid" id="featuredActivitiesGrid">
+                <div style="grid-column: 1 / -1; text-align:center; padding: 2rem; color: #666;">Loading featured activities...</div>
             </div>
         </div>
+    </section>
+
+
+    <!-- Advertisement Block -->
+    <section class="ad-block" aria-label="Advertisement">
+        <div class="container">
+            <div class="ad-block__inner">
+                <div class="ad-block__meta">
+                    <span class="ad-block__label">Sponsored</span>
+                    <span class="ad-block__hint">Advertisement</span>
+                </div>
+                <div class="ad-block__content">
+                    <div class="ad-block__copy">
+                        <h3 class="ad-block__title">Partner spotlight</h3>
+                        <p class="ad-block__text">A space for a featured partner, offer, or campaign.</p>
+                    </div>
+                    <a class="ad-block__cta" href="#" rel="noopener">Learn more</a>
+                </div>
+                <div class="ad-block__media" aria-hidden="true">
+                    <div class="ad-block__logo">AD</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -501,12 +301,35 @@
             <div class="weather-rec-header">
                 <div class="weather-rec-icon" id="weatherRecIcon">☔</div>
                 <div class="weather-rec-title-group">
-                    <h2 class="weather-rec-title" id="weatherRecTitle">Perfect for Today's Weather</h2>
-                    <p class="weather-rec-subtitle" id="weatherRecSubtitle">Stay dry and comfortable</p>
+                    <h2 class="weather-rec-title" id="weatherRecTitle">Top Indoor Attractions</h2>
+                    <p class="weather-rec-subtitle" id="weatherRecSubtitle">Popular activities for today</p>
                 </div>
             </div>
             <div class="activity-grid" id="weatherRecGrid">
                 <!-- Dynamic weather-based recommendations will appear here -->
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Advertisement Block -->
+    <section class="ad-block" aria-label="Advertisement">
+        <div class="container">
+            <div class="ad-block__inner">
+                <div class="ad-block__meta">
+                    <span class="ad-block__label">Sponsored</span>
+                    <span class="ad-block__hint">Advertisement</span>
+                </div>
+                <div class="ad-block__content">
+                    <div class="ad-block__copy">
+                        <h3 class="ad-block__title">Partner spotlight</h3>
+                        <p class="ad-block__text">A space for a featured partner, offer, or campaign.</p>
+                    </div>
+                    <a class="ad-block__cta" href="#" rel="noopener">Learn more</a>
+                </div>
+                <div class="ad-block__media" aria-hidden="true">
+                    <div class="ad-block__logo">AD</div>
+                </div>
             </div>
         </div>
     </section>
@@ -1157,6 +980,40 @@
     <script src="js/app.js"></script>
 
 </div> <!-- Your last closing div -->
+
+
+
+<section class="partners-banner" aria-label="Partners">
+  <div class="container">
+    <div class="partners-banner__inner">
+      <div class="partners-banner__header">
+        <h2 class="partners-banner__title">Our Partners</h2>
+        <p class="partners-banner__subtitle">Helping us highlight the best indoor places in London</p>
+      </div>
+
+      <div class="partners-banner__logos" role="list">
+        <!-- Replace src + alt + href with your real partners -->
+        <a class="partner-logo" role="listitem" href="#" target="_blank" rel="noopener">
+          <img src="assets/partners/partner-1.png" alt="Partner 1" loading="lazy" />
+        </a>
+
+        <a class="partner-logo" role="listitem" href="#" target="_blank" rel="noopener">
+          <img src="assets/partners/partner-2.png" alt="Partner 2" loading="lazy" />
+        </a>
+
+        <a class="partner-logo" role="listitem" href="#" target="_blank" rel="noopener">
+          <img src="assets/partners/partner-3.png" alt="Partner 3" loading="lazy" />
+        </a>
+
+        <a class="partner-logo" role="listitem" href="#" target="_blank" rel="noopener">
+          <img src="assets/partners/partner-4.png" alt="Partner 4" loading="lazy" />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 
    <!-- ============================================
      WET LONDON FOOTER

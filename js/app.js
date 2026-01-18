@@ -498,6 +498,11 @@ function createActivityCardHTML(venue, index, options = {}) {
         ? '<div class="sponsored-badge">✨ Featured Partner</div>' 
         : '';
 
+
+    // FEATURED BADGE - Admin controlled
+    const featuredBadge = (venue && venue.featured)
+        ? `<div class=\"featured-badge${isSponsored(venue) ? ' offset' : ''}\">Featured</div>`
+        : '';
     const umbrellaEmoji = venue.wetness === 'slightly' ? '☂️' : (venue.wetness === 'wet' ? '☔️' : '🌂');
     const tooltipText = venue.wetness === 'slightly' ? 'Slightly Wet' : (venue.wetness === 'wet' ? 'Wet (Outdoor)' : 'Dry (Indoor)');
 
@@ -511,12 +516,79 @@ function createActivityCardHTML(venue, index, options = {}) {
     // ADD SPONSORED CLASS TO CARD - MONETIZATION FEATURE
     const sponsoredClass = isSponsored(venue) ? 'sponsored-card' : '';
 
+    const bookmarkSvg = `
+        <svg class="bookmark-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M7 3h10a1 1 0 0 1 1 1v18l-6-3-6 3V4a1 1 0 0 1 1-1z"></path>
+        </svg>
+    `;
+
     return `
         <div class="activity-card ${sponsoredClass}" ${idAttr} ${dataAttrs}>
             <div class="activity-image" style="${backgroundStyle}">
                 ${sponsoredBadge}
+                ${featuredBadge}
                 ${openBadge}
-                <div class="${bookmarkClass}" onclick="toggleBookmarkFromCard(event, '${venue.name.replace(/'/g, "\\'")}')">🔖</div>
+                <div class="${bookmarkClass}" role="button" aria-label="Add to bookmarks" onclick="toggleBookmarkFromCard(event, '${venue.name.replace(/'/g, "\\'")}')">${bookmarkSvg}</div>
+                <div class="umbrella-chip" data-tooltip="${tooltipText}">${umbrellaEmoji}</div>
+            </div>
+            <div class="activity-content">
+                <h3>${venue.name}</h3>
+                <div class="activity-tags">
+                    <span class="tag">${labelCategory(venue.type[0])}</span>
+                    <span class="tag">${labelCategory(venue.location)}</span>
+                    <span class="tag">${labelCategory(venue.wetness)}</span>
+                </div>
+                <p>${venue.description}</p>
+                <div class="wetness-indicator">
+                    <div class="wetness-bar">
+                        <div class="wetness-bar-fill" style="width: ${wetnessPercent}%"></div>
+                    </div>
+                    <span class="wetness-label">${wetnessPercent}% wet</span>
+                </div>
+                <div class="price">${venue.priceDisplay}</div>
+                <button class="book-btn">View Details</button>
+            </div>
+        </div>
+    `;
+}
+
+function createSpotlightCardHTML(venue) {
+    const cachedImage = getCachedImage(venue.name);
+    const backgroundStyle = cachedImage
+        ? `background-image: url('${cachedImage}'); background-size: cover; background-position: center;`
+        : `background-image: url('${getPlaceholderImage(venue)}'); background-size: cover; background-position: center;`;
+
+    let openBadge = '';
+    if (venue.openingHours) {
+        const isOpen = isVenueOpenNow(venue);
+        if (isOpen === true) {
+            if (isClosingSoon(venue)) {
+                const timeLeft = getHoursUntilClosing(venue);
+                openBadge = `<div class="open-now-badge closing-soon-badge">Closes in ${timeLeft}</div>`;
+            } else {
+                openBadge = '<div class="open-now-badge">Open Now</div>';
+            }
+        } else if (isOpen === false) {
+            openBadge = '<div class="open-now-badge closed-badge">Closed</div>';
+        }
+    }
+
+    const umbrellaEmoji = venue.wetness === 'slightly' ? '☂️' : (venue.wetness === 'wet' ? '☔️' : '🌂');
+    const tooltipText = venue.wetness === 'slightly' ? 'Slightly Wet' : (venue.wetness === 'wet' ? 'Wet (Outdoor)' : 'Dry (Indoor)');
+    const wetnessScore = venue.wetnessScore || 0;
+    const wetnessPercent = Math.round(wetnessScore);
+
+    const sponsoredBadge = isSponsored(venue)
+        ? '<div class="sponsored-badge">✨ Featured Partner</div>'
+        : '';
+
+    return `
+        <div class="activity-card spotlight ${isSponsored(venue) ? 'sponsored-card' : ''}">
+            <div class="activity-image" style="${backgroundStyle}">
+                ${sponsoredBadge}
+                <div class="spotlight-badge">Featured</div>
+                ${openBadge}
+                <div class="bookmark-icon" onclick="toggleBookmarkFromCard(event, '${venue.name.replace(/'/g, "\\'")}')">🔖</div>
                 <div class="umbrella-chip" data-tooltip="${tooltipText}">${umbrellaEmoji}</div>
             </div>
             <div class="activity-content">
@@ -1593,6 +1665,88 @@ document.getElementById('activityModal').addEventListener('click', function (e) 
 });
 
 // Category functions
+
+
+// Featured Activities (Admin controlled)
+function getFeaturedVenues(limit = 6) {
+    const all = Array.isArray(window.londonVenues) ? window.londonVenues : [];
+    const featured = all.filter(v => v && v.featured);
+
+    // Keep featured first, then top up with best rated if fewer than limit
+    const picked = [...featured];
+    if (picked.length < limit) {
+        const remaining = all
+            .filter(v => v && !picked.some(p => p.name === v.name))
+            .sort((a, b) => (parseFloat(b.rating) || 0) - (parseFloat(a.rating) || 0));
+        picked.push(...remaining.slice(0, limit - picked.length))
+    }
+    return picked.slice(0, limit);
+}
+
+async function renderFeaturedActivitiesSection() {
+    const grid = document.getElementById('featuredActivitiesGrid');
+    const spotlightGrid = document.getElementById('spotlightGrid');
+    if (!grid) return;
+
+    const all = Array.isArray(window.londonVenues) ? window.londonVenues : [];
+    const spotlightVenue = all.find(v => v && v.spotlight);
+
+    if (spotlightGrid) {
+        if (spotlightVenue) {
+            spotlightGrid.style.display = '';
+            spotlightGrid.innerHTML = createSpotlightCardHTML(spotlightVenue);
+        } else {
+            spotlightGrid.innerHTML = '';
+            spotlightGrid.style.display = 'none';
+        }
+    }
+
+    const list = getFeaturedVenues(6);
+
+    if (list.length == 0) {
+        grid.innerHTML = '<div style="grid-column: 1 / -1; text-align:center; padding: 2rem; color: #666;">No featured activities yet. Add them in the admin panel.</div>';
+        return;
+    }
+
+    grid.innerHTML = list.map((venue, index) => createActivityCardHTML(venue, index, { idPrefix: 'featured-card' })).join('');
+
+    // Load images
+    if (spotlightVenue && !getCachedImage(spotlightVenue.name)) {
+        const img = await fetchUnsplashImage(spotlightVenue.name);
+        if (img && spotlightGrid) {
+            const imgDiv = spotlightGrid.querySelector('.activity-image');
+            if (imgDiv) {
+                imgDiv.style.backgroundImage = `url('${img}')`;
+                imgDiv.style.backgroundSize = 'cover';
+                imgDiv.style.backgroundPosition = 'center';
+            }
+        }
+    }
+
+    for (let i = 0; i < list.length; i++) {
+        const v = list[i];
+        if (!getCachedImage(v.name)) {
+            const img = await fetchUnsplashImage(v.name);
+            if (img) {
+                const safeNameId = v.name.replace(/[^a-zA-Z0-9]/g, '-');
+                const card = document.getElementById(`featured-card-${safeNameId}-${i}`);
+                if (card) {
+                    const imgDiv = card.querySelector('.activity-image');
+                    if (imgDiv) {
+                        imgDiv.style.backgroundImage = `url('${img}')`;
+                        imgDiv.style.backgroundSize = 'cover';
+                        imgDiv.style.backgroundPosition = 'center';
+                    }
+                }
+            }
+        }
+    }
+
+    setTimeout(() => {
+        if (typeof updateViewDetailsButtons === 'function') updateViewDetailsButtons();
+        if (typeof updateBookmarkIcons === 'function') updateBookmarkIcons();
+    }, 100);
+}
 function toggleCategories() {
     const grid = document.getElementById('categoryGrid');
     const btn = document.getElementById('showMoreCategories');
@@ -1682,7 +1836,8 @@ async function feelingLucky() {
 async function toggleBookmarkFromCard(event, venueName) {
     event.stopPropagation();
 
-    const bookmarkIcon = event.target;
+    const bookmarkIcon = event.target.closest('.bookmark-icon');
+    if (!bookmarkIcon) return;
     const savedActivities = JSON.parse(localStorage.getItem('savedActivities') || '[]');
 
     // Find the venue in our database
@@ -1730,14 +1885,17 @@ async function toggleBookmarkFromCard(event, venueName) {
     // Check if already bookmarked
     const index = savedActivities.findIndex(v => v.name === venueName);
 
+    let wasAdded = false;
     if (index > -1) {
         // Remove bookmark
         savedActivities.splice(index, 1);
         bookmarkIcon.classList.remove('saved');
+        wasAdded = false;
     } else {
         // Add bookmark
         savedActivities.push(venue);
         bookmarkIcon.classList.add('saved');
+        wasAdded = true;
     }
 
     // Save to localStorage
@@ -1745,6 +1903,13 @@ async function toggleBookmarkFromCard(event, venueName) {
 
     // Update bookmarks section
     await showBookmarks();
+
+    // Toast feedback
+    if (wasAdded) {
+        showToast('🔖', 'Added to Bookmarks');
+    } else {
+        showToast('🗑️', 'Removed from Bookmarks');
+    }
 }
 
 // Expose toggleBookmarkFromCard globally for inline onclick handlers
@@ -1845,6 +2010,9 @@ async function initializeAllActivities() {
     // Update stats (after allActivitiesFiltered is set)
     updateActivityStats();
 
+    // Render Featured Activities section (Admin controlled)
+    await renderFeaturedActivitiesSection();
+
     // Render activities
     await renderAllActivities();
 
@@ -1925,6 +2093,9 @@ async function clearCategoryFilters() {
 
     // Update stats
     updateActivityStats();
+
+    // Render Featured Activities section (Admin controlled)
+    await renderFeaturedActivitiesSection();
 }
 
 async function applyAllActivitiesFilters() {
@@ -1956,6 +2127,9 @@ async function applyAllActivitiesFilters() {
 
     // Update stats
     updateActivityStats();
+
+    // Render Featured Activities section (Admin controlled)
+    await renderFeaturedActivitiesSection();
     console.log('=== Apply Filters Complete ===');
 }
 
@@ -2421,9 +2595,10 @@ function getWeatherMessage(isRaining, temp) {
 }
 
 // Weather-Based Recommendations
+// Highlighted Recommendations (admin-controlled)
 async function updateWeatherRecommendations(weather) {
-    console.log('=== Weather Recommendations Debug ===');
-    console.log('Weather data:', JSON.stringify(weather, null, 2));
+    // This section is now controlled by the 'Highlighted' flag in Supabase.
+    // We keep the function name because fetchWeather() already calls it.
 
     const section = document.getElementById('weatherRecommendations');
     const grid = document.getElementById('weatherRecGrid');
@@ -2431,207 +2606,52 @@ async function updateWeatherRecommendations(weather) {
     const title = document.getElementById('weatherRecTitle');
     const subtitle = document.getElementById('weatherRecSubtitle');
 
-    console.log('Section element:', section);
-    console.log('Grid element:', grid);
-    console.log('Grid ID check:', document.getElementById('weatherRecGrid') === grid);
-
     if (!section || !grid) {
-        console.error('ERROR: Weather recommendations elements not found!');
-        console.error('section:', section);
-        console.error('grid:', grid);
+        console.error('ERROR: Highlighted section elements not found');
         return;
     }
 
-    // Add test content to verify grid is accessible
-    grid.innerHTML = '<div style="padding: 2rem; background: red; color: white; font-size: 2rem;">TEST CONTENT - If you see this, grid is working!</div>';
-    console.log('Added test content to grid');
-    console.log('Grid innerHTML after test:', grid.innerHTML.substring(0, 100));
+    // Copy for the home section
+    if (icon) icon.textContent = '';
+    if (title) title.textContent = 'Top Indoor Attractions';
+    if (subtitle) subtitle.textContent = 'Popular activities for today';
 
-    let recommendedVenues = [];
-    let iconEmoji = '';
-    let titleText = '';
-    let subtitleText = '';
+    const venues = Array.isArray(window.londonVenues) ? window.londonVenues : [];
 
-    // Determine recommendations based on weather conditions
-    if (weather.isRaining) {
-        // Heavy rain - prioritize completely dry venues
-        iconEmoji = '';  // No emoji
-        titleText = 'Perfect for Rainy Weather';
-        subtitleText = 'Stay completely dry at these venues';
-        recommendedVenues = window.londonVenues
-            .filter(v => v.wetness === 'dry')
-            .sort((a, b) => b.rating - a.rating)
-            .slice(0, 6);
-        console.log('Rainy weather detected');
-    } else if (weather.temp < 10) {
-        // Cold - prioritize cozy indoor venues
-        iconEmoji = '';  // No emoji
-        titleText = 'Cozy Indoor Escapes';
-        subtitleText = 'Warm up at these comfortable venues';
-        recommendedVenues = window.londonVenues
-            .filter(v =>
-                v.wetness === 'dry' &&
-                (v.type.includes('dining') || v.type.includes('cinema') || v.type.includes('wellness'))
-            )
-            .sort((a, b) => b.rating - a.rating)
-            .slice(0, 6);
+    // 1) Prefer venues explicitly marked as Highlighted in the admin panel
+    let highlighted = venues.filter(v => v && v.highlighted === true);
 
-        console.log('Cold weather detected, found', recommendedVenues.length, 'cozy venues');
-
-        // Fallback if not enough cozy venues
-        if (recommendedVenues.length < 6) {
-            console.log('Not enough cozy venues, using fallback');
-            recommendedVenues = window.londonVenues
-                .filter(v => v.wetness === 'dry')
-                .sort((a, b) => b.rating - a.rating)
-                .slice(0, 6);
-        }
-    } else if (weather.temp > 20) {
-        // Warm/sunny - show light activities with some airiness
-        iconEmoji = '';  // No emoji
-        titleText = 'Light & Bright Activities';
-        subtitleText = 'Enjoy indoor spaces with natural light';
-        recommendedVenues = window.londonVenues
-            .filter(v =>
-                (v.wetness === 'dry' || v.wetness === 'slightly') &&
-                (v.type.includes('galleries') || v.type.includes('shopping') || v.type.includes('exhibitions'))
-            )
-            .sort((a, b) => b.rating - a.rating)
-            .slice(0, 6);
-
-        console.log('Warm weather detected, found', recommendedVenues.length, 'bright venues');
-
-        // Fallback if not enough
-        if (recommendedVenues.length < 6) {
-            console.log('Not enough bright venues, using fallback');
-            recommendedVenues = window.londonVenues
-                .filter(v => v.wetness === 'dry')
-                .sort((a, b) => b.rating - a.rating)
-                .slice(0, 6);
-        }
-    } else if (weather.humidity > 80) {
-        // High humidity - prioritize air-conditioned venues
-        iconEmoji = '';  // No emoji
-        titleText = 'Climate Controlled Comfort';
-        subtitleText = 'Cool and comfortable venues';
-        recommendedVenues = window.londonVenues
-            .filter(v =>
-                v.wetness === 'dry' &&
-                (v.type.includes('cinema') || v.type.includes('museums') || v.type.includes('shopping'))
-            )
-            .sort((a, b) => b.rating - a.rating)
-            .slice(0, 6);
-
-        console.log('High humidity detected, found', recommendedVenues.length, 'AC venues');
-
-        // Fallback if not enough
-        if (recommendedVenues.length < 6) {
-            console.log('Not enough AC venues, using fallback');
-            recommendedVenues = window.londonVenues
-                .filter(v => v.wetness === 'dry')
-                .sort((a, b) => b.rating - a.rating)
-                .slice(0, 6);
-        }
-    } else {
-        // Pleasant weather - show popular venues
-        iconEmoji = '';  // No emoji
-        titleText = 'Top Indoor Attractions';
-        subtitleText = 'Popular activities for today';
-        recommendedVenues = window.londonVenues
-            .filter(v => v.rating >= 4.5)
-            .sort((a, b) => b.rating - a.rating)
-            .slice(0, 6);
-        console.log('Pleasant weather detected');
+    // 2) If fewer than 6, top up with best-rated dry venues (excluding duplicates)
+    if (highlighted.length < 6) {
+        const already = new Set(highlighted.map(v => v.name));
+        const topUps = venues
+            .filter(v => v && !already.has(v.name))
+            .filter(v => (v.wetness === 'dry' || v.wetness === 'slightly'))
+            .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+            .slice(0, 6 - highlighted.length);
+        highlighted = highlighted.concat(topUps);
     }
 
-    console.log('Final recommended venues count:', recommendedVenues.length);
-    console.log('Venue names:', recommendedVenues.map(v => v.name));
+    // 3) Only show up to 6
+    const finalList = highlighted.slice(0, 6);
 
-    // Update header (hide icon if no emoji)
-    if (icon) {
-        if (iconEmoji) {
-            icon.textContent = iconEmoji;
-            icon.style.display = 'block';
-        } else {
-            icon.style.display = 'none';  // Hide icon element
-        }
-    }
-    if (title) title.textContent = titleText;
-    if (subtitle) subtitle.textContent = subtitleText;
-
-    // Show section if we have recommendations
-    if (recommendedVenues.length > 0) {
-        console.log('Setting section display to block');
-        section.style.display = 'block';
-
-        console.log('Starting to build HTML...');
-
-        // CLEAR the test content before adding real content
-        grid.innerHTML = '';
-
-        // Build cards HTML
-        const cardsHTML = recommendedVenues.map((venue, index) => {
-            // Use placeholder immediately
-            const placeholderImage = getPlaceholderImage(venue);
-            const backgroundStyle = `background-image: url('${placeholderImage}'); background-size: cover; background-position: center;`;
-
-            const cardHTML = createActivityCardHTML(venue, index, {
-                showId: false,
-                dataAttrs: `data-venue-index="${index}" data-venue-name="${venue.name}"`
-            });
-
-            return cardHTML;
-        }).join('');
-
-        console.log('HTML length:', cardsHTML.length, 'characters');
-        console.log('First 500 chars:', cardsHTML.substring(0, 500));
-
-        // Insert the HTML
-        grid.innerHTML = cardsHTML;
-
-        console.log('Grid innerHTML set');
-        console.log('Grid children count:', grid.children.length);
-        console.log('Grid display:', window.getComputedStyle(grid).display);
-        console.log('Grid visibility:', window.getComputedStyle(grid).visibility);
-        console.log('Section display:', window.getComputedStyle(section).display);
-
-        // Update View Details buttons for these cards
-        setTimeout(() => {
-            updateViewDetailsButtons();
-            updateBookmarkIcons();
-            console.log('Updated buttons and icons');
-        }, 100);
-
-        // NOW fetch real images in background and update if available
-        setTimeout(async () => {
-            try {
-                console.log('Fetching Unsplash images...');
-                const imagePromises = recommendedVenues.map(venue => fetchUnsplashImage(venue.name));
-                const images = await Promise.all(imagePromises);
-
-                // Update images if we got better ones
-                images.forEach((imageUrl, index) => {
-                    if (imageUrl) {
-                        const card = grid.querySelector(`[data-venue-index="${index}"] .activity-image`);
-                        if (card) {
-                            card.style.backgroundImage = `url('${imageUrl}')`;
-                            console.log('Updated image for venue', index);
-                        }
-                    }
-                });
-                console.log('Finished updating Unsplash images');
-            } catch (error) {
-                console.error('Could not fetch Unsplash images:', error);
-            }
-        }, 500);
-
-    } else {
-        // Hide section if no recommendations
-        console.log('No recommendations found, hiding section');
+    if (finalList.length === 0) {
         section.style.display = 'none';
+        return;
     }
 
-    console.log('=== End Weather Recommendations Debug ===');
+    // Render
+    const html = finalList.map((v, i) => {
+        const isSaved = typeof isBookmarked === 'function' ? isBookmarked(v.name) : false;
+        return createActivityCardHTML(v, i, { idPrefix: 'highlighted', isSaved });
+    }).join('');
+
+    grid.innerHTML = html;
+    section.style.display = 'block';
+
+    // Ensure clicks and bookmarks work
+    updateViewDetailsButtons();
+    if (typeof updateBookmarkIcons === 'function') updateBookmarkIcons();
 }
 
 function refreshWeather() {
@@ -2752,9 +2772,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Update Open Now badges every minute
     setInterval(updateOpenNowBadges, 60000);
 
-    // Load images for static Featured Activities
-    loadFeaturedActivityImages();
-
     // Show loading state while Supabase fetches
     setVenuesLoading(true);
 
@@ -2767,6 +2784,13 @@ document.addEventListener('DOMContentLoaded', async function () {
     setVenuesLoading(false);
     updateCategoryCounts();
     updateActivityStats();
+
+    // Render Featured Activities section (Admin controlled)
+    await renderFeaturedActivitiesSection();
+
+    // Render Highlighted section (Top Indoor Attractions)
+    await updateWeatherRecommendations({});
+
 
     // Initialize All Activities section
     await initializeAllActivities();
