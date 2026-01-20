@@ -1856,85 +1856,6 @@
             color: white;
         }
 
-        /* Spotlight Card (full width) */
-        .activity-card.spotlight {
-            grid-column: 1 / -1;
-            background: #1a1a1a;
-            color: white;
-            display: grid;
-            grid-template-columns: 1.15fr 1fr;
-            min-height: 420px;
-        }
-
-        .activity-card.spotlight .activity-image {
-            height: 100%;
-            min-height: 420px;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .activity-card.spotlight .activity-image::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.45) 100%);
-            z-index: 0;
-        }
-
-        .activity-card.spotlight .activity-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 2.5rem;
-        }
-
-        .activity-card.spotlight h3 {
-            color: white;
-            font-size: 2.1rem;
-            margin-bottom: 1rem;
-        }
-
-        .activity-card.spotlight p {
-            color: #e5e5e5;
-            line-height: 1.7;
-            font-size: 1.05rem;
-        }
-
-        .activity-card.spotlight .price {
-            color: white;
-            background: rgba(220, 218, 245, 0.0);
-            border: 1px solid rgba(220, 218, 245, 0.0);
-        }
-
-        .activity-card.spotlight .book-btn {
-            background: #DCDAF5;
-            color: #1a1a1a;
-        }
-
-        .activity-card.spotlight .book-btn:hover {
-            background: #c9c6e8;
-        }
-
-        .activity-card.spotlight .tag {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .spotlight-badge {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            background: #DCDAF5;
-            color: #1a1a1a;
-            padding: 0.6rem 1.1rem;
-            border-radius: 6px;
-            font-size: 0.95rem;
-            font-weight: 800;
-            letter-spacing: 0.06em;
-            z-index: 2;
-        }
-
         .featured-badge {
             position: absolute;
             top: 1rem;
@@ -1950,11 +1871,7 @@
             z-index: 10;
         }
 
-        
-        .featured-badge.offset {
-            top: 3.5rem;
-        }
-.activity-image {
+        .activity-image {
             height: 200px;
             background: linear-gradient(135deg, #f5f5f5 0%, #e5e5e5 100%);
             background-size: cover;
@@ -2059,20 +1976,6 @@
         .bookmark-icon.saved {
             background: #DCDAF5;
             border-color: #DCDAF5;
-        }
-
-        .bookmark-icon .bookmark-svg {
-            width: 18px;
-            height: 18px;
-            stroke: #1a1a1a;
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .bookmark-icon.saved .bookmark-svg {
-            fill: #1a1a1a;
         }
 
         .open-now-badge {
@@ -2556,19 +2459,6 @@
 
             .activity-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
-
-            .activity-card.spotlight {
-                grid-template-columns: 1fr;
-                min-height: 0;
-            }
-
-            .activity-card.spotlight .activity-image {
-                min-height: 260px;
-            }
-
-            .activity-card.spotlight h3 {
-                font-size: 1.7rem;
             }
         }
 
@@ -3212,6 +3102,260 @@
 .affiliate-disclosure strong {
     color: #333;
 }
+
+/* ============================================
+   PREMIUM MOBILE REFINEMENTS
+   Mobile-first alignment, tighter rhythm, and consistent cards
+   ============================================ */
+
+:root {
+  --wl-page-pad: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  /* Global rhythm */
+  body {
+    line-height: 1.4;
+  }
+
+  /* Consistent horizontal padding across the full experience */
+  .header,
+  .hero,
+  .container,
+  .generated-results-container,
+  .weather-recommendations-section,
+  .footer-container {
+    padding-left: var(--wl-page-pad) !important;
+    padding-right: var(--wl-page-pad) !important;
+  }
+
+  /* Sections that already include a .container should not add extra horizontal padding */
+  .categories-section,
+  .activities-section,
+  .all-activities-section,
+  .generated-section {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+
+
+  /* Wet London mobile button stack */
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-buttons .customize-btn,
+  .hero-buttons .lucky-btn {
+    width: 100%;
+  }
+
+  /* Hide category expand button on mobile (carousel only) */
+  .show-more-btn {
+    display: none !important;
+  }
+
+  /* Reduce big desktop padding that leaks into mobile */
+  .container {
+    padding-top: 2.25rem !important;
+    padding-bottom: 2.25rem !important;
+  }
+
+  .hero {
+    padding-top: 3.5rem !important;
+    padding-bottom: 2.25rem !important;
+  }
+
+  /* Type scale tightening */
+  .hero h1 {
+    font-size: 2.15rem !important;
+    line-height: 1.12;
+  }
+
+  .hero p,
+  .section-title,
+  .subtitle,
+  .weather-rec-subtitle {
+    line-height: 1.35;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+  }
+
+  /* Weather widget: smaller above the fold */
+  .weather-widget {
+    padding: 0.9rem !important;
+    border-radius: 12px;
+  }
+
+  .weather-content {
+    gap: 0.65rem;
+  }
+
+  .weather-icon {
+    font-size: 2.1rem;
+  }
+
+  .weather-temp {
+    font-size: 1.5rem;
+  }
+
+  .weather-desc {
+    font-size: 0.85rem;
+  }
+
+  .weather-details {
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+  }
+
+  .weather-label {
+    font-size: 0.7rem;
+  }
+
+  .weather-value {
+    font-size: 0.85rem;
+  }
+
+  /* Activity grids: keep a clean 2-column app-like layout */
+  .activity-grid,
+  .generated-results-container .activity-grid,
+  .weather-recommendations-section .activity-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+  }
+
+  /* Full-width cards should still span the row */
+  .activity-grid .activity-card.featured,
+  .activity-grid .activity-card.spotlight,
+  .activity-grid .activity-card.spotlight-card {
+    grid-column: 1 / -1 !important;
+  }
+
+  /* Hide busy corner UI on mobile. Details live in the modal. */
+  .activity-card .bookmark-icon,
+  .activity-card .umbrella-chip {
+    display: none !important;
+  }
+
+  /* Card consistency: equal heights, pinned price, clamped text */
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .activity-image {
+    height: 120px;
+  }
+
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .activity-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0.9rem;
+  }
+
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .activity-content h3 {
+    font-size: 0.98rem;
+    line-height: 1.25;
+    margin-bottom: 0.45rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(2 * 1.25em);
+  }
+
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .activity-content p {
+    font-size: 0.84rem;
+    line-height: 1.35;
+    margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(3 * 1.35em);
+  }
+
+  /* Let the bottom area line up perfectly across the row */
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .wetness-indicator,
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .activity-tags {
+    display: none !important;
+  }
+
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .price {
+    margin-top: auto;
+    padding-top: 1rem;
+    margin-bottom: 0;
+    font-size: 0.98rem;
+  }
+
+  /* Hide CTA on mobile for discovery density */
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .book-btn {
+    display: none !important;
+  }
+
+  /* Popular Categories carousel: consistent height cards */
+  .category-grid {
+    display: flex !important;
+    gap: 0.9rem;
+    overflow-x: auto;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .category-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-card {
+    width: 200px;
+    min-width: 200px;
+    height: 110px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: start;
+  }
+
+  .category-card h3 {
+    font-size: 0.95rem;
+    line-height: 1.25;
+    margin-bottom: 0.25rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .category-card p {
+    font-size: 0.82rem;
+    line-height: 1.3;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 420px) {
+  :root {
+    --wl-page-pad: 1.25rem;
+  }
+
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .activity-image {
+    height: 110px;
+  }
+}
 /* ============================================
    DISPLAY AD SLOTS
    ============================================ */
@@ -3635,239 +3779,292 @@
 .affiliate-disclosure strong {
     color: #333;
 }
-.partners-banner {
-  padding: 28px 0;
-  margin-top: 28px;
+/* === Wet London: Spotlight + Featured overrides (Supabase-driven) === */
+
+/* Spotlight card should span full row of the grid */
+#spotlightGrid .activity-card.spotlight {
+  grid-column: 1 / -1;
 }
 
-.partners-banner__inner {
-  border: 1px solid rgba(0, 0, 0, 0.08);
+/* Dark theme spotlight treatment */
+.activity-card.spotlight {
+  background: #0f172a;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.activity-card.spotlight h3,
+.activity-card.spotlight .price,
+.activity-card.spotlight .tag,
+.activity-card.spotlight p {
+  color: #ffffff;
+}
+
+.activity-card.spotlight p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* Remove the odd tinted price pill behind the price on spotlight */
+.activity-card.spotlight .price {
+  background: transparent;
+  border: none;
+}
+
+/* Spotlight badge */
+.activity-card.spotlight .spotlight-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: #0f172a;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  z-index: 12;
+}
+
+/* If a sponsored badge also exists, nudge Featured badge down a touch */
+.featured-badge.offset {
+  top: 3.1rem;
+}
+
+/* Responsive: ensure spotlight looks good on smaller screens */
+@media (max-width: 768px) {
+  #spotlightGrid .activity-card.spotlight {
+    grid-column: 1 / -1;
+  }
+
+  .activity-card.spotlight .activity-content {
+    padding: 1.5rem;
+  }
+}
+
+/* Spotlight full-width card (robust selectors) */
+.activities-section .activity-grid .activity-card.spotlight,
+.activities-section .activity-grid .activity-card.spotlight-card {
+  grid-column: 1 / -1;
+}
+
+/* Ensure spotlight uses dark theme even if class name differs */
+.activities-section .activity-card.spotlight-card {
+  background: #121212;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.activities-section .activity-card.spotlight-card h3,
+.activities-section .activity-card.spotlight-card p,
+.activities-section .activity-card.spotlight-card .tag,
+.activities-section .activity-card.spotlight-card .price {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Remove the odd tinted price pill behind the price on spotlight (cover all variants) */
+.activities-section .activity-card.spotlight-card .price,
+.activities-section .activity-card.spotlight .price {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Make spotlight card visually larger */
+.activities-section .activity-grid .activity-card.spotlight {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  min-height: 320px;
+}
+
+.activities-section .activity-grid .activity-card.spotlight .activity-image {
+  min-height: 380px;
+}
+
+@media (max-width: 980px) {
+  .activities-section .activity-grid .activity-card.spotlight {
+    grid-template-columns: 1fr;
+  }
+  .activities-section .activity-grid .activity-card.spotlight .activity-image {
+    min-height: 240px;
+  }
+}
+
+/* Ensure the Spotlight badge is visible even if we render it as a featured-badge */
+.activities-section .activity-card.spotlight .featured-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 12;
+}
+
+/* === Spotlight final overrides (force dark + full width) === */
+.activity-grid .activity-card.spotlight,
+.activity-grid .activity-card.spotlight-card {
+  grid-column: 1 / -1 !important;
+  background: #121212 !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+}
+.partners {
+  padding: 32px 0;
+}
+
+.partners-inner {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
   border-radius: 16px;
-  padding: 18px;
-  background: #fff;
+  padding: 18px 16px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(8px);
 }
 
-.partners-banner__header {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
+.partners-title {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 700;
+  opacity: 0.9;
 }
 
-.partners-banner__title {
-  margin: 0;
-  font-size: 1.05rem;
-  line-height: 1.2;
-}
-
-.partners-banner__subtitle {
-  margin: 0;
-  color: rgba(0, 0, 0, 0.65);
-  font-size: 0.95rem;
-}
-
-.partners-banner__logos {
+.partners-logos {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
+  align-items: center;
 }
 
-.partner-logo {
+.partner {
   display: grid;
   place-items: center;
-  min-height: 72px;
-  border-radius: 12px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #fff;
-  padding: 10px;
+  border-radius: 14px;
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  transition: transform 0.12s ease, background 0.12s ease;
   text-decoration: none;
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
-.partner-logo img {
+.partner:hover {
+  transform: translateY(-1px);
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.partner img {
   max-width: 100%;
-  max-height: 44px;
-  width: auto;
-  height: auto;
+  height: 88px;
   object-fit: contain;
+  display: block;
   filter: grayscale(1);
   opacity: 0.9;
 }
 
-.partner-logo:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-}
-
-.partner-logo:hover img {
-  filter: none;
+.partner:hover img {
+  filter: grayscale(0);
   opacity: 1;
 }
 
 @media (max-width: 900px) {
-  .partners-banner__header {
-    flex-direction: column;
-    align-items: flex-start;
+  .partners-logos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .partners-banner__logos {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .partner img {
+    height: 32px;
   }
 }
 
 @media (max-width: 420px) {
-  .partners-banner__inner {
-    padding: 14px;
+  .partners-inner {
+    padding: 16px 12px;
   }
 
-  .partners-banner__logos {
-    grid-template-columns: 1fr;
-  }
-
-  .partner-logo {
-    min-height: 64px;
+  .partner img {
+    height: 28px;
   }
 }
-
-
-/* Advertisement Block */
-.ad-block {
-  margin: 18px 0;
+.ad-slot {
+  margin: 32px 0;
 }
 
-.ad-block__inner {
-  position: relative;
-  border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  background: #fff;
-  padding: 16px;
-  overflow: hidden;
+.ad-slot-inner {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
 }
 
-.ad-block__meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 10px;
+.ad-badge {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.6;
+  margin-bottom: 6px;
 }
 
-.ad-block__label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 6px 10px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.06);
-}
-
-.ad-block__hint {
-  font-size: 0.85rem;
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.ad-block__content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-}
-
-.ad-block__copy {
-  min-width: 0;
-}
-
-.ad-block__title {
-  margin: 0 0 4px;
-  font-size: 1rem;
-  line-height: 1.2;
-}
-
-.ad-block__text {
-  margin: 0;
-  font-size: 0.95rem;
-  color: rgba(0, 0, 0, 0.7);
-}
-
-.ad-block__cta {
-  flex: 0 0 auto;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 12px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: 700;
-  background: #DCDAF5;
-  color: #1a1a1a;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  white-space: nowrap;
-}
-
-.ad-block__cta:hover {
-  filter: brightness(0.98);
-}
-
-.ad-block__media {
-  position: absolute;
-  right: 12px;
-  top: 12px;
-  opacity: 0.12;
-  pointer-events: none;
-}
-
-.ad-block__logo {
-  width: 54px;
-  height: 54px;
-  border-radius: 14px;
+.ad-placeholder {
   display: grid;
   place-items: center;
-  font-weight: 900;
-  border: 2px solid rgba(0, 0, 0, 0.25);
-}
-
-@media (max-width: 700px) {
-  .ad-block__content {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .ad-block__cta {
-    width: 100%;
-  }
-}
-/* Spotlight: kill the price bar background + stroke */
-.spotlight-card .price-bar,
-.spotlight-card .venue-price,
-.spotlight-card .price-display,
-.spotlight-card .price-container {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-.toast {
-  position: fixed;
-  left: 50%;
-  bottom: 18px;
-  transform: translateX(-50%) translateY(14px);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 9999;
-
-  background: rgba(18, 18, 18, 0.92);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  padding: 10px 12px;
-  font-weight: 700;
-  font-size: 0.95rem;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-  transition: opacity 160ms ease, transform 160ms ease;
-  max-width: calc(100vw - 24px);
+  min-height: 160px;
+  border-radius: 16px;
+  border: 1px dashed rgba(0, 0, 0, 0.25);
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.03),
+    rgba(0, 0, 0, 0.03) 10px,
+    rgba(0, 0, 0, 0.05) 10px,
+    rgba(0, 0, 0, 0.05) 20px
+  );
   text-align: center;
 }
 
-.toast.is-visible {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+.ad-placeholder span {
+  font-size: 16px;
+  font-weight: 700;
+  opacity: 0.75;
+}
+
+.ad-placeholder small {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+  .ad-placeholder {
+    min-height: 120px;
+  }
+}
+
+/* ============================================
+   PREMIUM MOBILE OVERRIDES (FINAL)
+   Keep these at the end so they win the cascade
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Busy corner UI off */
+  .activity-card .bookmark-icon,
+  .activity-card .umbrella-chip {
+    display: none !important;
+  }
+
+  /* 2-column app-like grid */
+  .activity-grid,
+  .generated-results-container .activity-grid,
+  .weather-recommendations-section .activity-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+  }
+
+  /* Consistent card layout */
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .activity-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .price {
+    margin-top: auto;
+    padding-top: 1rem;
+  }
 }

@@ -155,14 +155,60 @@
             font-size: 0.75rem;
             font-weight: 600;
         }
+
+        .highlighted-badge {
+            background: linear-gradient(135deg, #38b2ac 0%, #319795 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
         
         .toggle-sponsored {
             cursor: pointer;
             width: 20px;
             height: 20px;
         }
+
+        .toggle-highlighted {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+        }
         
-        .actions {
+        
+
+        .featured-badge {
+            background: linear-gradient(135deg, #DCDAF5 0%, #c9c6e8 100%);
+            color: #1a1a1a;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .toggle-featured {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+        }
+
+        .spotlight-badge {
+            background: linear-gradient(135deg, #1a1a1a 0%, #3a3a3a 100%);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .toggle-spotlight {
+            cursor: pointer;
+            width: 20px;
+            height: 20px;
+        }
+.actions {
             display: flex;
             gap: 8px;
         }
@@ -234,6 +280,20 @@
                     <div class="number" id="sponsoredCount">0</div>
                 </div>
                 <div class="stat-card">
+                    <h3>Highlighted Venues</h3>
+                    <div class="number" id="highlightedCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Featured Venues</h3>
+                    <div class="number" id="featuredCount">0</div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Spotlight Venues</h3>
+                    <div class="number" id="spotlightCount">0</div>
+                </div>
+
+                <div class="stat-card">
                     <h3>Free Venues</h3>
                     <div class="number" id="freeCount">0</div>
                 </div>
@@ -256,6 +316,9 @@
                         <th>Price</th>
                         <th>Rating</th>
                         <th>Sponsored</th>
+                        <th>Highlighted</th>
+                        <th>Featured</th>
+                        <th>Spotlight</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -358,6 +421,27 @@
                                onchange="toggleSponsored(${venue.id}, this.checked)">
                         ${venue.sponsored ? '<span class="sponsored-badge">✨ Sponsored</span>' : ''}
                     </td>
+                    <td>
+                        <input type="checkbox" 
+                               class="toggle-highlighted" 
+                               ${venue.highlighted ? 'checked' : ''} 
+                               onchange="toggleHighlighted(${venue.id}, this.checked)">
+                        ${venue.highlighted ? '<span class="highlighted-badge">⭐ Highlighted</span>' : ''}
+                    </td>
+                    <td>
+                        <input type="checkbox" 
+                               class="toggle-featured" 
+                               ${venue.featured ? 'checked' : ''} 
+                               onchange="toggleFeatured(${venue.id}, this.checked)">
+                        ${venue.featured ? '<span class=\"featured-badge\">Featured</span>' : ''}
+                    </td>
+                    <td>
+                        <input type="checkbox" 
+                               class="toggle-spotlight" 
+                               ${venue.spotlight ? 'checked' : ''} 
+                               onchange="toggleSpotlight(${venue.id}, this.checked)">
+                        ${venue.spotlight ? '<span class=\"spotlight-badge\">Spotlight</span>' : ''}
+                    </td>
                     <td class="actions">
                         <button class="btn-danger" onclick="deleteVenue(${venue.id}, '${venue.name}')">Delete</button>
                     </td>
@@ -370,6 +454,18 @@
         function updateStats(venues) {
             document.getElementById('totalVenues').textContent = venues.length;
             document.getElementById('sponsoredCount').textContent = venues.filter(v => v.sponsored).length;
+            const highlightedEl = document.getElementById('highlightedCount');
+            if (highlightedEl) {
+                highlightedEl.textContent = venues.filter(v => v.highlighted).length;
+            }
+            const featuredEl = document.getElementById('featuredCount');
+            if (featuredEl) {
+                featuredEl.textContent = venues.filter(v => v.featured).length;
+            }
+            const spotlightEl = document.getElementById('spotlightCount');
+            if (spotlightEl) {
+                spotlightEl.textContent = venues.filter(v => v.spotlight).length;
+            }
             document.getElementById('freeCount').textContent = venues.filter(v => v.price === 0).length;
             
             const avgRating = venues.reduce((sum, v) => sum + parseFloat(v.rating), 0) / venues.length;
@@ -392,6 +488,58 @@
                 showMessage(`Error: ${error.message}`, 'error');
             }
         }
+
+        // Toggle highlighted status
+        async function toggleHighlighted(id, highlighted) {
+            try {
+                const { error } = await supabaseClient
+                    .from('venues')
+                    .update({ highlighted })
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                showMessage(`Highlighted status updated!`, 'success');
+                loadVenues(); // Reload to update display
+            } catch (error) {
+                showMessage(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Toggle featured status
+        async function toggleFeatured(id, featured) {
+            try {
+                const { error } = await supabaseClient
+                    .from('venues')
+                    .update({ featured })
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                showMessage(`Featured status updated!`, 'success');
+                loadVenues();
+            } catch (error) {
+                showMessage(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // Toggle spotlight status
+        async function toggleSpotlight(id, spotlight) {
+            try {
+                const { error } = await supabaseClient
+                    .from('venues')
+                    .update({ spotlight })
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                showMessage(`Spotlight status updated!`, 'success');
+                loadVenues();
+            } catch (error) {
+                showMessage(`Error: ${error.message}`, 'error');
+            }
+        }
+
 
         // Delete venue
         async function deleteVenue(id, name) {

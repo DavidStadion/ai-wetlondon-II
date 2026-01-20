@@ -79,6 +79,9 @@ function convertVenue(dbVenue) {
         description: dbVenue.description,
         rating: parseFloat(dbVenue.rating) || 4.5,
         sponsored: dbVenue.sponsored || false,
+        highlighted: dbVenue.highlighted || false,
+        featured: dbVenue.featured || false,
+        spotlight: dbVenue.spotlight || false,
         affiliateLink: dbVenue.affiliate_link || null,
         prerequisites: dbVenue.prerequisites || [],
         openingHours: dbVenue.opening_hours || null
