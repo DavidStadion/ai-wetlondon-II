@@ -1655,24 +1655,22 @@
             display: block;
         }
 
-        .show-more-btn {
-            background: white;
-            border: 1px solid #e5e5e5;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            color: #1a1a1a;
-        }
-
-        .show-more-btn:hover {
-            border-color: #DCDAF5;
-            background: #DCDAF5;
-        }
-
-        /* Category Modal */
+        .show-more-btn{
+  background: rgba(15,22,36,0.92);
+  border: 1px solid var(--wl-border);
+  color: var(--wl-text);
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.show-more-btn:hover{
+  background: rgba(77,163,255,0.16);
+  border-color: rgba(77,163,255,0.45);
+}
+/* Category Modal */
         .activities-section {
             background: #fafafa;
         }
@@ -1794,13 +1792,10 @@
 
         /* Featured Card */
         .activity-card.featured {
-            grid-column: span 2;
-            background: #1a1a1a;
-            color: white;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            min-height: 400px;
-        }
+    background: inherit;
+    border: inherit;
+    box-shadow: inherit;
+}
 
         .activity-card.featured .activity-image {
             height: 100%;
@@ -1950,33 +1945,41 @@
         }
 
         .bookmark-icon {
-            position: absolute;
-            top: 0.75rem;
-            right: 4.5rem;
-            background: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid #e5e5e5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.125rem;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.2s;
-        }
+  position: absolute;
+  top: 0.75rem;
+  right: 4.5rem;
+  background: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+}
 
-        .bookmark-icon:hover {
-            background: #DCDAF5;
-            border-color: #DCDAF5;
-            transform: scale(1.05);
-        }
+/* Default state – outline bookmark */
+.bookmark-icon svg {
+  fill: none;
+  stroke: #000000;
+  stroke-width: 2;
+}
 
-        .bookmark-icon.saved {
-            background: #DCDAF5;
-            border-color: #DCDAF5;
-        }
+/* Hover */
+.bookmark-icon:hover {
+  border-color: #1a1a1a;
+  transform: scale(1.05);
+}
+
+/* Saved state – filled black bookmark */
+.bookmark-icon.saved svg {
+  fill: #000000;
+  stroke: #000000;
+}
+
 
         .open-now-badge {
             position: absolute;
@@ -2354,77 +2357,96 @@
         }
 
         /* Prerequisites Modal */
-        .prerequisites-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            z-index: 2000;
-            overflow-y: auto;
-        }
+      .prerequisites-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  overflow-y: auto;
+}
 
-        .prerequisites-modal.active {
-            display: flex;
-            align-items: flex-start;
-            justify-content: center;
-            padding: 2rem;
-        }
+.prerequisites-modal.active {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem;
+}
 
-        .prerequisites-content {
-            background: white;
-            max-width: 1000px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            margin-top: 2rem;
-        }
+/* MAIN MODAL PANEL */
+.prerequisites-content {
+  background: rgba(15, 22, 36, 0.96);
+  max-width: 1000px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 14px;
+  border: 1px solid var(--wl-border);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  margin-top: 2rem;
+  color: var(--wl-text);
+}
 
-        .prereq-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
+/* GRID */
+.prereq-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
 
-        .prereq-category {
-            margin-bottom: 1.5rem;
-        }
+/* CATEGORY BLOCK */
+.prereq-category {
+  margin-bottom: 1.5rem;
+}
 
-        .prereq-category h4 {
-            font-size: 0.95rem;
-            margin-bottom: 0.75rem;
-            padding-bottom: 0.625rem;
-            border-bottom: 1px solid #e5e5e5;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 600;
-            letter-spacing: -0.01em;
-        }
+/* CATEGORY TITLE */
+.prereq-category h4 {
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 1px solid var(--wl-border);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--wl-text);
+}
 
-        .prereq-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
+/* TAGS WRAPPER */
+.prereq-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
 
-        /* Material Design 3 Chip Style for Prerequisites */
-        .prereq-tag {
-            padding: 0.4rem 0.75rem;
-            border: 1px solid #e5e5e5;
-            border-radius: 50px;
-            background: #f5f5f5;
-            cursor: pointer;
-            font-size: 0.8rem;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
+/* TAGS */
+.prereq-tag {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--wl-text);
+  transition: all 0.2s ease;
+}
+
+.prereq-tag:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.prereq-tag.selected {
+  background: rgba(77, 163, 255, 0.18);
+  border-color: rgba(77, 163, 255, 0.45);
+  color: var(--wl-text);
+}
+
 
         .prereq-tag:hover {
             background: #e5e5e5;
@@ -3848,7 +3870,7 @@
 
 /* Ensure spotlight uses dark theme even if class name differs */
 .activities-section .activity-card.spotlight-card {
-  background: #121212;
+  background: #272D3A;
   border: 1px solid rgba(255, 255, 255, 0.10);
 }
 
@@ -3899,7 +3921,7 @@
 .activity-grid .activity-card.spotlight,
 .activity-grid .activity-card.spotlight-card {
   grid-column: 1 / -1 !important;
-  background: #121212 !important;
+  background: #0F1523 !important;
   border: 1px solid rgba(255, 255, 255, 0.10) !important;
 }
 .partners {
@@ -4067,4 +4089,1170 @@
     margin-top: auto;
     padding-top: 1rem;
   }
+}
+.filter-chips-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.filter-chips-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.filter-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  padding: 8px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font: inherit;
+}
+
+.filter-toggle-btn:focus-visible {
+  outline: 2px solid rgba(0, 0, 0, 0.25);
+  outline-offset: 2px;
+}
+
+.filter-toggle-btn .chevron {
+  transition: transform 180ms ease;
+}
+
+.chips-collapsible {
+  overflow: hidden;
+  transition: max-height 220ms ease, opacity 220ms ease;
+  max-height: 2000px;
+  opacity: 1;
+}
+
+.chips-collapsible.is-collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+
+.filter-toggle-btn[aria-expanded="false"] .chevron {
+  transform: rotate(-90deg);
+}
+
+/* Mobile behavior: default collapsed and keep label hidden */
+@media (max-width: 768px) {
+  .filter-toggle-label {
+    display: none;
+  }
+}
+.bookmark-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 6px;
+}
+
+.bookmark-icon svg {
+  display: block;
+}
+
+
+
+/* =========================
+   Wet London UI Refresh
+   Dark blue + graphite theme
+   ========================= */
+
+:root{
+  --wl-bg: #0b0f17;
+  --wl-surface: #0f1624;
+  --wl-surface-2: #111b2b;
+  --wl-surface-3: #0c1220;
+  --wl-text: #e8eefc;
+  --wl-muted: #a7b2c8;
+  --wl-faint: #7f8aa3;
+  --wl-border: rgba(255,255,255,0.10);
+  --wl-border-2: rgba(255,255,255,0.14);
+  --wl-accent: #4da3ff;
+  --wl-accent-2: #7cc3ff;
+  --wl-accent-soft: rgba(77,163,255,0.18);
+  --wl-good: #36d399;
+  --wl-warn: #fbbf24;
+  --wl-bad: #fb7185;
+  --wl-radius: 16px;
+  --wl-radius-sm: 12px;
+  --wl-shadow: 0 16px 50px rgba(0,0,0,0.55);
+  --wl-shadow-soft: 0 10px 28px rgba(0,0,0,0.35);
+}
+
+html{
+  color-scheme: dark;
+}
+
+body{
+  background: radial-gradient(1200px 700px at 20% 0%, rgba(77,163,255,0.12), transparent 55%),
+              radial-gradient(900px 500px at 90% 10%, rgba(124,195,255,0.08), transparent 55%),
+              var(--wl-bg);
+  color: var(--wl-text);
+}
+
+/* Header */
+.header{
+  background: rgba(11,15,23,0.78);
+  border-bottom: 1px solid var(--wl-border);
+  backdrop-filter: blur(10px);
+}
+
+.logo{
+  color: var(--wl-text);
+}
+
+.nav a{
+  color: var(--wl-muted);
+}
+
+.nav a:hover{
+  color: var(--wl-text);
+}
+
+/* Sections */
+.hero{
+  background: transparent;
+}
+
+.categories-section{
+  background: transparent;
+}
+
+.activities-section,
+.all-activities-section,
+.generated-section{
+  background: transparent;
+  border-bottom: 1px solid var(--wl-border);
+}
+
+/* Titles */
+.section-title,
+.generated-title,
+.hero h1{
+  color: var(--wl-text);
+}
+
+.hero p,
+.section-subtitle,
+.generated-count,
+.nav a{
+  color: var(--wl-muted);
+}
+
+/* Rain drops */
+.rain-drop{
+  background: linear-gradient(to bottom, transparent, rgba(77,163,255,0.55));
+  opacity: 0.9;
+}
+
+/* Weather widget */
+.weather-widget{
+  background: rgba(15,22,36,0.92);
+  border: 1px solid var(--wl-border);
+  box-shadow: var(--wl-shadow-soft);
+}
+
+.weather-loading,
+.weather-desc,
+.weather-updated{
+  color: var(--wl-muted);
+}
+
+.weather-value{
+  color: var(--wl-text);
+}
+
+.weather-details{
+  border-top: 1px solid var(--wl-border);
+}
+
+.weather-message{
+  background: var(--wl-accent-soft);
+  color: var(--wl-text);
+  border: 1px solid rgba(77,163,255,0.25);
+}
+
+.weather-message.sunny{
+  background: rgba(251,191,36,0.14);
+  border: 1px solid rgba(251,191,36,0.22);
+  color: var(--wl-text);
+}
+
+.weather-refresh{
+  background: rgba(15,22,36,0.85);
+  border: 1px solid var(--wl-border);
+  color: var(--wl-text);
+}
+
+.weather-refresh:hover{
+  background: rgba(17,27,43,0.95);
+}
+
+/* Search */
+.search-bar{
+  background: rgba(15,22,36,0.92);
+  border: 1px solid var(--wl-border);
+  box-shadow: var(--wl-shadow-soft);
+}
+
+.search-bar:focus-within{
+  border-color: rgba(77,163,255,0.55);
+  box-shadow: 0 18px 46px rgba(0,0,0,0.50);
+}
+
+.search-icon,
+.search-input::placeholder{
+  color: var(--wl-faint);
+}
+
+.search-input{
+  color: var(--wl-text);
+}
+
+.clear-search-btn{
+  color: var(--wl-muted);
+}
+
+.clear-search-btn:hover{
+  background: rgba(255,255,255,0.06);
+  color: var(--wl-text);
+}
+
+.search-suggestions{
+  background: rgba(15,22,36,0.98);
+  border: 1px solid var(--wl-border);
+  box-shadow: var(--wl-shadow);
+}
+
+.suggestion-item{
+  border-bottom: 1px solid var(--wl-border);
+}
+
+.suggestion-item:hover{
+  background: rgba(255,255,255,0.04);
+}
+
+.suggestion-name{
+  color: var(--wl-text);
+}
+
+.suggestion-meta{
+  color: var(--wl-muted);
+}
+
+.suggestion-item strong{
+  color: var(--wl-text);
+  background: rgba(77,163,255,0.20);
+}
+
+/* Buttons */
+.customize-btn{
+  background: linear-gradient(135deg, rgba(77,163,255,1), rgba(124,195,255,1));
+  color: #07101b;
+  border-radius: 999px;
+  box-shadow: 0 12px 28px rgba(77,163,255,0.25);
+}
+
+.customize-btn:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 16px 36px rgba(77,163,255,0.32);
+}
+
+.lucky-btn{
+  background: rgba(15,22,36,0.70);
+  color: var(--wl-text);
+  border: 1px solid rgba(77,163,255,0.55);
+  border-radius: 999px;
+}
+
+.lucky-btn:hover{
+  background: rgba(77,163,255,0.16);
+  box-shadow: 0 14px 30px rgba(0,0,0,0.40);
+}
+
+/* Cards */
+.category-card,
+.activity-card,
+.stat-item,
+.filter-chips-container{
+  background: rgba(15,22,36,0.92);
+  border: 1px solid var(--wl-border);
+  border-radius: var(--wl-radius);
+  box-shadow: var(--wl-shadow-soft);
+}
+
+.category-card:hover,
+.activity-card:hover{
+  border-color: rgba(77,163,255,0.35);
+  box-shadow: var(--wl-shadow);
+}
+
+.activity-content p{
+  color: var(--wl-muted);
+}
+
+.tag{
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--wl-border);
+  color: var(--wl-text);
+}
+
+.price{
+  color: var(--wl-text);
+}
+
+/* Bookmark icon */
+.bookmark-icon{
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: rgba(15,22,36,0.72);
+  border: 1px solid var(--wl-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+}
+
+.bookmark-icon {
+  position: absolute;
+  top: 0.75rem;
+  right: 4.5rem;
+  background: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s;
+}
+
+/* Default state – outline bookmark */
+.bookmark-icon svg {
+  fill: none;
+  stroke: #000000;
+  stroke-width: 2;
+}
+
+/* Hover */
+.bookmark-icon:hover {
+  border-color: #1a1a1a;
+  transform: scale(1.05);
+}
+
+/* Saved state – filled black bookmark */
+.bookmark-icon.saved svg {
+  fill: #000000;
+  stroke: #000000;
+}
+
+
+/* Chips */
+.umbrella-chip{
+  background: rgba(11,15,23,0.65);
+  border: 1px solid var(--wl-border);
+  color: var(--wl-text);
+}
+
+/* Generated + load more */
+.generated-count{
+  background: rgba(15,22,36,0.92);
+  border: 1px solid var(--wl-border);
+  color: var(--wl-muted);
+}
+
+.load-more-btn,
+.clear-results-btn,
+.back-btn{
+  background: rgba(15,22,36,0.92);
+  border: 1px solid var(--wl-border);
+  color: var(--wl-text);
+  border-radius: 999px;
+}
+
+.load-more-btn:hover,
+.clear-results-btn:hover,
+.back-btn:hover{
+  background: rgba(77,163,255,0.16);
+  border-color: rgba(77,163,255,0.45);
+}
+
+/* Loading overlay */
+.loading-overlay{
+  background: rgba(0,0,0,0.58);
+  backdrop-filter: blur(6px);
+}
+
+.loading-text{
+  color: var(--wl-text);
+}
+
+.loading-subtext{
+  color: var(--wl-muted);
+}
+
+.loading-spinner{
+  border-color: rgba(255,255,255,0.16);
+  border-top-color: rgba(77,163,255,0.95);
+}
+
+/* Ads */
+.ad-slot-inner{
+  background: rgba(15,22,36,0.92);
+  border: 1px solid var(--wl-border);
+  border-radius: var(--wl-radius);
+  box-shadow: var(--wl-shadow-soft);
+}
+
+.ad-badge{
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--wl-border);
+  color: var(--wl-muted);
+}
+
+/* Scrollbar (webkit) */
+*::-webkit-scrollbar{
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb{
+  background: rgba(255,255,255,0.14);
+  border-radius: 999px;
+}
+*::-webkit-scrollbar-track{
+  background: rgba(255,255,255,0.04);
+}
+
+
+/* === UI alignment tweaks (chips, sorting, mobile nav) === */
+.filter-chips-header h3 {
+    color: var(--wl-text, #ffffff);
+}
+
+.category-chip {
+    background: var(--wl-surface-2, #141922);
+    border: 1px solid var(--wl-border, rgba(255, 255, 255, 0.10));
+    color: var(--wl-text, #ffffff);
+}
+
+.category-chip:hover {
+    border-color: rgba(108, 99, 255, 0.55);
+    background: rgba(108, 99, 255, 0.12);
+}
+
+.category-chip.active {
+    background: rgba(108, 99, 255, 0.18);
+    border-color: rgba(108, 99, 255, 0.75);
+    color: var(--wl-text, #ffffff);
+}
+
+.chip-count {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.category-chip.active .chip-count {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+.sorting-container label {
+    color: var(--wl-text, #ffffff);
+    opacity: 0.85;
+}
+
+.sort-select {
+    background: var(--wl-surface-2, #141922);
+    border: 1px solid var(--wl-border, rgba(255, 255, 255, 0.10));
+    color: var(--wl-text, #ffffff);
+}
+
+.sort-select:hover,
+.sort-select:focus {
+    border-color: rgba(108, 99, 255, 0.55);
+    outline: none;
+}
+
+.sort-select option {
+    background: #0b0f17;
+    color: #ffffff;
+}
+
+/* Hide the top-right wetness icon on activity cards */
+.umbrella-chip {
+    display: none !important;
+}
+
+/* Mobile navigation */
+.nav-toggle {
+    display: none;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    border: 1px solid var(--wl-border, rgba(255, 255, 255, 0.10));
+    background: var(--wl-surface-2, #141922);
+    color: var(--wl-text, #ffffff);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-toggle svg {
+    width: 22px;
+    height: 22px;
+}
+
+.nav-scrim {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 90;
+}
+
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: inline-flex;
+    }
+
+    .header {
+        padding: 1rem 1.25rem;
+    }
+
+    .nav {
+        display: none;
+    }
+
+    body.nav-open .nav {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        position: fixed;
+        top: 72px;
+        right: 12px;
+        left: 12px;
+        background: var(--wl-surface-1, #0b0f17);
+        border: 1px solid var(--wl-border, rgba(255, 255, 255, 0.10));
+        border-radius: 16px;
+        padding: 10px;
+        z-index: 100;
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+    }
+
+    body.nav-open .nav a {
+        padding: 12px 12px;
+        border-radius: 12px;
+        color: var(--wl-text, #ffffff);
+    }
+
+    body.nav-open .nav a:hover {
+        background: rgba(108, 99, 255, 0.12);
+        color: var(--wl-text, #ffffff);
+    }
+
+    body.nav-open .nav-scrim {
+        display: block;
+    }
+}
+
+
+/* === UI ONLY CHANGES === */
+
+/* 1. Partners section background */
+.partners,
+.premium-partners-section {
+  background: #0F1523;
+}
+
+/* 2. Spotlight / Featured card matches other cards */
+.activity-card.featured {
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* 3. Bookmark icon top-right of card image */
+.activity-image {
+  position: relative;
+}
+
+.activity-image .bookmark-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 3;
+
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  cursor: pointer;
+}
+
+/* === Modal polish (UI only): non-white surface + guaranteed internal scroll === */
+.modal {
+  background: rgba(10, 14, 20, 0.55);
+  backdrop-filter: blur(6px);
+}
+
+.modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.modal-content {
+  /* Slightly tinted surface to match site, but still feels like a modal */
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  border: 1px solid #e6e6e6;
+  border-radius: 18px;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.22);
+
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  width: min(860px, 100%);
+  max-height: min(90vh, 860px);
+  overflow: hidden; /* scroll happens in modal-body */
+}
+
+.modal-header {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.modal-header h2 {
+  font-size: 1.35rem;
+  letter-spacing: -0.02em;
+}
+
+.modal-body {
+  padding: 18px 22px 22px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.modal-footer {
+  padding: 14px 22px 18px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.modal-close {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* Chips feel like the rest of the site */
+.tag-option,
+.location-option {
+  border: 1px solid #e6e6e6;
+  background: #ffffff;
+}
+
+.tag-option:hover,
+.location-option:hover {
+  border-color: #dcdcdc;
+  background: #fafafa;
+}
+
+.tag-option.selected,
+.location-option.selected {
+  background: rgba(220, 218, 245, 0.75);
+  border-color: rgba(150, 140, 240, 0.45);
+}
+
+/* Wetness option cards */
+.wetness-option {
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+}
+
+.wetness-option:hover {
+  background: #fafafa;
+}
+
+.wetness-option.selected {
+  background: rgba(220, 218, 245, 0.55);
+  border-color: rgba(150, 140, 240, 0.45);
+}
+/* === Partners: dark theme override === */
+.partners-inner {
+  background: rgba(18, 18, 18, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(8px);
+}
+
+.partners-title {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.partner {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.partner:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.partner img {
+  /* keep the “subtle sponsor wall” vibe */
+  filter: grayscale(1);
+  opacity: 0.85;
+}
+
+.partner:hover img {
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+
+
+/* Gentle card reveal and image shimmer loading */
+.activity-card.lazy-reveal{
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.activity-card.lazy-reveal.is-visible{
+  opacity: 1;
+  transform: translateY(0);
+}
+.activity-image.is-loading::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0.00), rgba(255,255,255,0.10), rgba(255,255,255,0.00));
+  transform: translateX(-100%);
+  animation: wlShimmer 1.2s infinite;
+  pointer-events: none;
+}
+@keyframes wlShimmer{
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+/* === Dark mode: Customize Your Experience modal only === */
+#customizeModal.modal {
+  background: rgba(10, 14, 20, 0.70);
+  backdrop-filter: blur(8px);
+}
+
+#customizeModal .modal-content {
+  background: rgba(15, 22, 36, 0.96);
+  border: 1px solid var(--wl-border);
+  color: var(--wl-text);
+}
+
+#customizeModal .modal-header,
+#customizeModal .modal-footer {
+  background: rgba(15, 22, 36, 0.96);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+#customizeModal .modal-header h2 {
+  color: var(--wl-text);
+}
+
+#customizeModal .modal-close {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--wl-text);
+}
+
+#customizeModal .modal-close:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+/* Labels */
+#customizeModal label,
+#customizeModal .form-section label {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Input */
+#customizeModal input[type="text"],
+#customizeModal textarea {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: var(--wl-text);
+}
+
+#customizeModal input[type="text"]::placeholder,
+#customizeModal textarea::placeholder {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Chips */
+#customizeModal .tag-option,
+#customizeModal .location-option {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.90);
+}
+
+#customizeModal .tag-option:hover,
+#customizeModal .location-option:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+#customizeModal .tag-option.selected,
+#customizeModal .location-option.selected {
+  background: rgba(77, 163, 255, 0.18);
+  border-color: rgba(77, 163, 255, 0.45);
+  color: var(--wl-text);
+}
+
+/* Wetness options (the big cards) */
+#customizeModal .wetness-option {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: var(--wl-text);
+}
+
+#customizeModal .wetness-option:hover {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+#customizeModal .wetness-option.selected {
+  background: rgba(77, 163, 255, 0.18);
+  border-color: rgba(77, 163, 255, 0.45);
+}
+/* ================================
+   Activity modal: dark theme + mobile first
+   Paste at END of styles.css
+   ================================ */
+
+/* Overlay */
+.activity-modal {
+  background: rgba(10, 14, 20, 0.70) !important;
+  backdrop-filter: blur(8px);
+  padding: 0.75rem !important; /* mobile-first */
+}
+
+/* Panel */
+.activity-modal-content {
+  background: rgba(15, 22, 36, 0.96) !important; /* overrides white */
+  border: 1px solid var(--wl-border) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55) !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+  margin: 0.75rem auto !important; /* mobile-first */
+}
+
+/* Make common text readable */
+.activity-modal-content h2,
+.activity-modal-content h3,
+.activity-modal-content h4,
+.activity-modal-title {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.activity-modal-content p,
+.activity-modal-content li,
+.activity-modal-content .activity-rating,
+.activity-modal-content .wetness-label,
+.activity-modal-content .info-content p {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+/* Close button */
+.activity-modal-close {
+  background: rgba(255, 255, 255, 0.06) !important; /* overrides white */
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.activity-modal-close:hover {
+  background: rgba(255, 255, 255, 0.10) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+
+/* Header spacing (mobile-first) */
+.activity-modal-header {
+  padding: 1.25rem 1.25rem 0 !important;
+}
+
+.activity-modal-title {
+  font-size: 1.35rem !important;
+  line-height: 1.25 !important;
+}
+
+/* Tags in header (FREE, Central) if they look too light */
+.activity-modal .tag {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* Actions: mobile-first grid */
+.activity-modal-actions {
+  padding: 0 1.25rem 1rem !important;
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 0.6rem !important;
+}
+
+/* Primary CTA full width */
+.action-btn-primary {
+  grid-column: 1 / -1 !important;
+  border-radius: 999px !important;
+  padding: 0.85rem 1rem !important;
+  background: rgba(77, 163, 255, 0.18) !important;
+  border: 1px solid rgba(77, 163, 255, 0.45) !important;
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.action-btn-primary:hover {
+  background: rgba(77, 163, 255, 0.26) !important;
+  border-color: rgba(77, 163, 255, 0.60) !important;
+}
+
+/* Secondary actions compact (Save, Share) */
+.action-btn-secondary {
+  border-radius: 999px !important;
+  padding: 0.65rem 0.75rem !important;
+  font-size: 0.88rem !important;
+  line-height: 1 !important;
+
+  background: rgba(255, 255, 255, 0.06) !important; /* overrides white */
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.action-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.10) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+}
+
+/* Ensure bookmark SVG inherits color */
+#bookmarkActionBtn .bookmark-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+#bookmarkActionBtn .bookmark-icon svg {
+  width: 16px;
+  height: 16px;
+  color: currentColor;
+}
+
+/* Tabs: sticky + scrollable on mobile */
+.activity-modal-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+
+  background: rgba(15, 22, 36, 0.96) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+
+  padding: 0 1.25rem !important;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.activity-modal-tabs::-webkit-scrollbar { display: none; }
+
+.activity-tab {
+  color: rgba(255, 255, 255, 0.70) !important;
+  padding: 0.9rem 0 !important;
+  white-space: nowrap;
+}
+
+.activity-tab:hover {
+  color: rgba(255, 255, 255, 0.92) !important;
+}
+
+.activity-tab.active {
+  color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 2px solid rgba(77, 163, 255, 0.55) !important;
+}
+
+/* Body padding mobile-first */
+.activity-modal-body {
+  padding: 1.25rem !important;
+}
+
+/* Info grid: one column on mobile */
+.info-grid {
+  grid-template-columns: 1fr !important;
+  gap: 1rem !important;
+}
+
+/* Inner cards (reviews etc.) */
+.review-card {
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.review-text {
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+/* Gallery placeholders */
+.gallery-main,
+.gallery-thumb {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  color: rgba(255, 255, 255, 0.70) !important;
+}
+
+/* Desktop refinements */
+@media (min-width: 900px) {
+  .activity-modal { padding: 2rem 1rem !important; }
+  .activity-modal-content { margin: 2rem auto !important; }
+  .activity-modal-header { padding: 2rem 2rem 0 !important; }
+  .activity-modal-title { font-size: 2rem !important; }
+
+  .activity-modal-actions {
+    padding: 0 2rem 1.5rem !important;
+    display: flex !important;
+    gap: 0.75rem !important;
+    flex-wrap: wrap !important;
+  }
+
+  .action-btn-primary { width: auto; }
+  .action-btn-secondary { padding: 0.6rem 0.9rem !important; }
+
+  .activity-modal-tabs { padding: 0 2rem !important; }
+
+  .info-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.25rem !important;
+  }
+}
+/* Activity modal actions: make ALL buttons match Book Tickets styling */
+
+/* Layout */
+.activity-modal-actions{
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.75rem !important;
+  padding: 0 1.25rem 1rem !important;
+}
+
+/* All action buttons consistent */
+.activity-modal-actions .action-btn{
+  width: 100% !important;
+  padding: 0.95rem 1.1rem !important;
+  border-radius: 999px !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.55rem !important;
+  border: 1px solid rgba(77,163,255,0.45) !important;
+  background: rgba(77,163,255,0.18) !important;
+  color: rgba(255,255,255,0.95) !important;
+  text-decoration: none !important;
+}
+
+.activity-modal-actions .action-btn:hover{
+  background: rgba(77,163,255,0.26) !important;
+  border-color: rgba(77,163,255,0.60) !important;
+}
+
+/* If any secondary class overrides exist, neutralise them */
+.activity-modal-actions .action-btn-secondary{
+  border: 1px solid rgba(77,163,255,0.45) !important;
+  background: rgba(77,163,255,0.18) !important;
+  color: rgba(255,255,255,0.95) !important;
+}
+
+/* Desktop: horizontal row */
+@media (min-width: 900px){
+  .activity-modal-actions{
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    padding: 0 2rem 1.5rem !important;
+  }
+
+  .activity-modal-actions .action-btn{
+    width: auto !important;
+    padding: 0.85rem 1.25rem !important;
+  }
+}
+
+
+
+
+
+
+
+/* Activity modal: Need More Information panel */
+.activity-modal .need-more-info {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+}
+
+.activity-modal .need-more-title {
+  margin: 0 0 0.75rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.activity-modal .need-more-text {
+  margin: 0 0 1rem 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+/* Match Book Tickets button styling */
+.activity-modal .search-venue-btn {
+  width: 100%;
+  padding: 0.95rem 1.1rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  border: 1px solid rgba(77, 163, 255, 0.45);
+  background: rgba(77, 163, 255, 0.18);
+  color: rgba(255, 255, 255, 0.95);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+}
+
+.activity-modal .search-venue-btn:hover {
+  background: rgba(77, 163, 255, 0.26);
+  border-color: rgba(77, 163, 255, 0.60);
 }

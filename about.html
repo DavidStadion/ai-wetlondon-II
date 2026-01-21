@@ -1,662 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Wet London</title>
-  <meta name="description" content="Wet London helps you discover the best indoor things to do in London when it rains. Save, filter, and find places that match your vibe." />
-  <link rel="stylesheet" href="css/styles.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Wet London</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        /* About page additions, kept small and aligned with existing dark UI */
+        .about-wrap {
+            padding: 32px 0 80px;
+        }
+        .about-hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 28px 20px 18px;
+        }
+        .about-hero h1 {
+            font-size: clamp(2rem, 3vw, 3rem);
+            letter-spacing: -0.02em;
+            margin: 10px 0 12px;
+            color: var(--wl-text, #e6eefc);
+        }
+        .about-hero p {
+            max-width: 70ch;
+            margin: 0;
+            color: var(--wl-muted, rgba(230, 238, 252, 0.75));
+            line-height: 1.6;
+        }
+        .about-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 26px 20px;
+        }
+        .about-section h2 {
+            margin: 0 0 14px;
+            font-size: 1.35rem;
+            color: var(--wl-text, #e6eefc);
+            letter-spacing: -0.01em;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 16px;
+        }
+        .about-card {
+            grid-column: span 4;
+            background: rgba(15, 22, 36, 0.92);
+            border: 1px solid var(--wl-border, rgba(255,255,255,0.14));
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+        }
+        .about-card h3 {
+            margin: 0 0 6px;
+            font-size: 1rem;
+            color: var(--wl-text, #e6eefc);
+        }
+        .about-card p {
+            margin: 0;
+            color: var(--wl-muted, rgba(230, 238, 252, 0.75));
+            line-height: 1.55;
+            font-size: 0.95rem;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 750;
+            letter-spacing: -0.02em;
+            margin: 0 0 2px;
+            color: var(--wl-text, #e6eefc);
+        }
+        .stat-label {
+            margin: 0;
+            color: var(--wl-muted, rgba(230, 238, 252, 0.72));
+            font-size: 0.92rem;
+        }
+        .how-grid .about-card {
+            grid-column: span 6;
+        }
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            background: rgba(77,163,255,0.12);
+            border: 1px solid rgba(77,163,255,0.28);
+            color: var(--wl-text, #e6eefc);
+            margin-bottom: 10px;
+        }
+        .faq {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .faq details {
+            background: rgba(15, 22, 36, 0.92);
+            border: 1px solid var(--wl-border, rgba(255,255,255,0.14));
+            border-radius: 16px;
+            padding: 14px 16px;
+        }
+        .faq summary {
+            cursor: pointer;
+            color: var(--wl-text, #e6eefc);
+            font-weight: 650;
+            list-style: none;
+            outline: none;
+        }
+        .faq summary::-webkit-details-marker {
+            display: none;
+        }
+        .faq details p {
+            margin: 10px 0 0;
+            color: var(--wl-muted, rgba(230, 238, 252, 0.75));
+            line-height: 1.6;
+        }
+        .about-cta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .about-cta p {
+            margin: 0;
+            color: var(--wl-muted, rgba(230, 238, 252, 0.75));
+            max-width: 70ch;
+        }
 
-  <style>
-    /* About page additions that sit on top of your existing styles.css */
-
-    .about-hero {
-      margin-top: 80px;
-      padding: 5.5rem 3rem 3.5rem;
-      background: #fafafa;
-      position: relative;
-      overflow: hidden;
-      text-align: center;
-    }
-
-    .about-hero .hero-inner {
-      position: relative;
-      z-index: 2;
-      max-width: 980px;
-      margin: 0 auto;
-    }
-
-    .about-kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 14px;
-      background: rgba(108, 99, 255, 0.10);
-      border: 1px solid rgba(108, 99, 255, 0.25);
-      border-radius: 999px;
-      font-size: 0.9rem;
-      color: #444;
-      margin-bottom: 18px;
-    }
-
-    .about-title {
-      font-size: 3rem;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      margin: 0 0 14px;
-      font-weight: 650;
-    }
-
-    .about-subtitle {
-      font-size: 1.05rem;
-      color: #666;
-      max-width: 780px;
-      margin: 0 auto 26px;
-    }
-
-    .about-hero-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 8px;
-    }
-
-    .about-primary-btn {
-      padding: 1rem 2.25rem;
-      background: #DCDAF5;
-      color: #1a1a1a;
-      border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: -0.01em;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .about-primary-btn:hover {
-      background: #c9c6e8;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(220, 218, 245, 0.4);
-    }
-
-    .about-secondary-btn {
-      padding: 1rem 2.25rem;
-      background: #ffffff;
-      color: #1a1a1a;
-      border: 2px solid #DCDAF5;
-      border-radius: 6px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: -0.01em;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .about-secondary-btn:hover {
-      background: #DCDAF5;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(220, 218, 245, 0.4);
-    }
-
-    .about-section {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    .about-block {
-      padding: 4rem 0;
-      border-top: 1px solid #eee;
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 32px;
-      align-items: start;
-    }
-
-    @media (max-width: 900px) {
-      .about-hero { padding: 4.75rem 1.25rem 3rem; }
-      .about-title { font-size: 2.4rem; }
-      .about-grid { grid-template-columns: 1fr; }
-    }
-
-    .about-card {
-      background: #ffffff;
-      border: 1px solid #e6e6e6;
-      border-radius: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      padding: 20px;
-    }
-
-    .about-card h3 {
-      margin: 0 0 10px;
-      font-size: 1.05rem;
-      letter-spacing: -0.02em;
-    }
-
-    .about-card p {
-      margin: 0;
-      color: #666;
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    .about-list {
-      margin: 12px 0 0;
-      padding-left: 18px;
-      color: #666;
-      line-height: 1.7;
-      font-size: 0.95rem;
-    }
-
-    .about-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 16px;
-    }
-
-    @media (max-width: 720px) {
-      .about-stats { grid-template-columns: 1fr; }
-    }
-
-    .stat {
-      background: linear-gradient(135deg, rgba(108,99,255,0.10) 0%, rgba(220,218,245,0.45) 100%);
-      border: 1px solid rgba(108,99,255,0.18);
-      border-radius: 16px;
-      padding: 16px 16px 14px;
-    }
-
-    .stat .num {
-      font-size: 1.6rem;
-      font-weight: 750;
-      letter-spacing: -0.03em;
-      margin-bottom: 6px;
-    }
-
-    .stat .label {
-      color: #666;
-      font-size: 0.9rem;
-    }
-
-    .about-pill-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
-
-    .pill {
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid #e5e5e5;
-      background: #fff;
-      font-size: 0.9rem;
-      color: #555;
-    }
-
-    .about-divider {
-      height: 1px;
-      background: #eee;
-      margin: 18px 0;
-    }
-
-    .faq {
-      display: grid;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .faq-item {
-      border: 1px solid #e6e6e6;
-      border-radius: 14px;
-      background: #fff;
-      overflow: hidden;
-    }
-
-    .faq-q {
-      width: 100%;
-      text-align: left;
-      background: #fff;
-      border: 0;
-      padding: 18px 18px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      font-size: 1.05rem;
-      color: #1a1a1a;
-    }
-
-    .faq-q span {
-      color: #666;
-      font-weight: 650;
-      transition: transform 0.2s;
-    }
-
-    .faq-a {
-      display: none;
-      padding: 0 16px 14px;
-      color: #666;
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    .faq-item.active .faq-a { display: block; }
-    .faq-item.active .faq-q span { transform: rotate(45deg); }
-
-    .about-cta {
-      background: #1a1a1a;
-      color: #fff;
-      border-radius: 18px;
-      padding: 22px;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 16px;
-      align-items: center;
-    }
-
-    @media (max-width: 900px) {
-      .about-cta { grid-template-columns: 1fr; }
-    }
-
-    .about-cta p {
-      margin: 6px 0 0;
-      color: rgba(255,255,255,0.78);
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    .about-mini-form {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-    }
-
-    .about-input {
-      min-width: 240px;
-      flex: 1;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.22);
-      background: rgba(255,255,255,0.08);
-      color: #fff;
-      outline: none;
-    }
-
-    .about-input::placeholder { color: rgba(255,255,255,0.65); }
-
-    .about-submit {
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 0;
-      background: #DCDAF5;
-      color: #1a1a1a;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      white-space: nowrap;
-    }
-
-    .about-submit:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(220, 218, 245, 0.25);
-    }
-
-    .form-note {
-      margin: 8px 0 0;
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.7);
-    }
-@media (min-width: 900px) {
-      .faq-q { font-size: 1.1rem; }
-    }
-  </style>
+        @media (max-width: 900px) {
+            .about-card {
+                grid-column: span 6;
+            }
+            .how-grid .about-card {
+                grid-column: span 12;
+            }
+            .faq {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 640px) {
+            .about-card {
+                grid-column: span 12;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <header class="header">
-    <a href="index.html#hero" class="logo">Wet London</a>
-    <nav class="nav">
-      <a href="index.html">Home</a>
-      <a href="index.html#activities">Featured</a>
-      <a href="index.html#all-activities">All Activities</a>
-      <a href="index.html#bookmarks">My Bookmarks</a>
-      <a href="about.html" aria-current="page" style="color:#1a1a1a;">About</a>
-    </nav>
-  </header>
+<header class="header">
+        <a href="index.html#hero" class="logo">Wet London</a>
 
-  <section class="about-hero" aria-label="About Wet London">
-    <div class="rain" aria-hidden="true">
-      <div class="rain-drop"></div><div class="rain-drop"></div><div class="rain-drop"></div><div class="rain-drop"></div><div class="rain-drop"></div>
-      <div class="rain-drop"></div><div class="rain-drop"></div><div class="rain-drop"></div><div class="rain-drop"></div><div class="rain-drop"></div>
-      <div class="rain-drop"></div><div class="rain-drop"></div><div class="rain-drop"></div><div class="rain-drop"></div><div class="rain-drop"></div>
-      <div class="rain-drop"></div><div class="rain-drop"></div><div class="rain-drop"></div><div class="rain-drop"></div><div class="rain-drop"></div>
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="siteNav">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+
+        <nav class="nav" id="siteNav">
+            <a href="#hero">Home</a>
+            <a href="index.html#activities">Featured</a>
+            <a href="index.html#all-activities">All Activities</a>
+            <a href="index.html#bookmarks">My Bookmarks</a>
+            <a href="about.html">About Us</a>
+        </nav>
+    </header>
+    <div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+
+    
+
+<main class="about-wrap" id="about">
+    <div class="about-hero">
+        <h1>About Wet London</h1>
+        <p>
+            Wet London is a simple way to find genuinely good things to do when the weather is doing that classic London thing.
+            Search, filter, or let luck decide. Either way, you stay dry and get on with your day.
+        </p>
     </div>
 
-    <div class="hero-inner">
-      <div class="about-kicker">
-        <span aria-hidden="true">🌧️</span>
-        <span>Built for days when London does its thing</span>
-      </div>
-
-      <h1 class="about-title">Wet London is your indoor plan B, upgraded.</h1>
-
-      <p class="about-subtitle">
-        When the forecast turns, you should not have to scroll ten tabs, read five blog posts,
-        and still end up in a damp queue. Wet London surfaces indoor activities that match your vibe,
-        your time, and how wet you are prepared to get.
-      </p>
-
-      <div class="about-hero-actions">
-        <a class="about-primary-btn" href="index.html#hero" aria-label="Go to the Wet London homepage">
-          Go explore <span aria-hidden="true">→</span>
-        </a>
-        <a class="about-secondary-btn" href="index.html#all-activities" aria-label="Browse all activities">
-          Browse venues <span aria-hidden="true">↘</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <main class="about-section">
-    <section class="about-block" id="why">
-      <div class="about-grid">
-        <div>
-          <h2 class="section-title" style="margin-bottom: 1.25rem;">Why Wet London exists</h2>
-
-          <div class="about-card">
-            <h3>Rain is not a reason to stay in</h3>
-            <p>
-              London has world class indoor everything, it is just hard to discover quickly when plans change.
-              Wet London is designed for fast decisions and zero fuss.
-            </p>
-
-            <div class="about-divider"></div>
-
-            <h3>What you will find here</h3>
-            <ul class="about-list">
-              <li>Venues that are genuinely indoors, not “mostly indoors”.</li>
-              <li>Quick filters that match real life constraints: time, comfort, mobility, vibe.</li>
-              <li>Bookmarks so you can build a rainy day shortlist you actually use.</li>
-              <li>Simple details that matter: opening hours, where it is, and what it feels like.</li>
-            </ul>
-
-            <div class="about-pill-row" aria-label="Wet London principles">
-              <span class="pill">Indoors first</span>
-              <span class="pill">Fast to decide</span>
-              <span class="pill">No long walks</span>
-              <span class="pill">Vibe-led</span>
-              <span class="pill">London accurate</span>
+    <section class="about-section" aria-label="Stats">
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="stat-number" data-count="0" data-target="365" aria-label="Venues and growing" id="venuesStat">0</div>
+                <p class="stat-label">venues (and growing)</p>
             </div>
-          </div>
-
-          <div class="about-stats" aria-label="Wet London stats">
-            <div class="stat">
-              <div class="num" data-count="166">0</div>
-              <div class="label">venues (and growing)</div>
+            <div class="about-card">
+                <div class="stat-number" data-count="0" data-target="3" aria-label="Ways to explore" id="exploreStat">0</div>
+                <p class="stat-label">ways to explore: search, filters, lucky</p>
             </div>
-            <div class="stat">
-              <div class="num" data-count="3">0</div>
-              <div class="label">ways to explore: search, filters, lucky</div>
+            <div class="about-card">
+                <div class="stat-number" data-count="0" data-target="0" aria-label="Judgement score" id="judgementStat">0</div>
+                <p class="stat-label">judgement for cancelling outdoor plans</p>
             </div>
-            <div class="stat">
-              <div class="num" data-count="0">0</div>
-              <div class="label">judgement for cancelling outdoor plans</div>
-            </div>
-          </div>
         </div>
-
-        <aside class="about-card">
-          <h3>How Wet London works</h3>
-          <p>
-            We pull together curated indoor venues and make them searchable, filterable, and bookmarkable.
-            The aim is to get you from “rainy panic” to “sorted” in under a minute.
-          </p>
-
-          <div class="about-divider"></div>
-
-          <h3>Your quickest routes</h3>
-          <ul class="about-list">
-            <li><strong>Customize:</strong> set your preferences and see matching venues.</li>
-            <li><strong>Feeling Lucky:</strong> instant inspiration, three random picks.</li>
-            <li><strong>Bookmarks:</strong> save for later, plan like a local.</li>
-          </ul>
-
-          <div class="about-divider"></div>
-
-          <h3>Small promise</h3>
-          <p>
-            If a venue is “indoors but involves a trek”, we try to call it out. Wet London is built for real weather
-            and real shoes.
-          </p>
-        </aside>
-      </div>
     </section>
 
-    <section class="about-block" id="faq">
-      <h2 class="section-title" style="margin-bottom: 1.25rem;">Questions you might be thinking</h2>
-
-      <div class="faq" role="list">
-        <div class="faq-item" role="listitem">
-          <button class="faq-q" type="button" aria-expanded="false">
-            Is Wet London only for tourists?
-            <span aria-hidden="true">+</span>
-          </button>
-          <div class="faq-a">
-            Not really. It works just as well if you live here and suddenly realise your outdoor plan was wildly optimistic.
-            Tourists welcome. Locals encouraged. Umbrellas optional.
-          </div>
+    <section class="about-section" aria-label="What this is">
+        <h2>What this is</h2>
+        <div class="about-grid">
+            <div class="about-card">
+                <h3>Curated indoor ideas</h3>
+                <p>Not everything is a museum, and not everything costs a fortune. Wet London is built to surface options that match your mood and your tolerance for drizzle.</p>
+            </div>
+            <div class="about-card">
+                <h3>Filters that actually help</h3>
+                <p>Pick activity types, London areas, and how wet you are prepared to get. The list adapts so you do less scrolling and more doing.</p>
+            </div>
+            <div class="about-card">
+                <h3>Bookmarked for later</h3>
+                <p>Save places you like, build a personal shortlist, and pretend it was the plan all along.</p>
+            </div>
         </div>
-
-        <div class="faq-item" role="listitem">
-          <button class="faq-q" type="button" aria-expanded="false">
-            Do you include free options?
-            <span aria-hidden="true">+</span>
-          </button>
-          <div class="faq-a">
-            Yes. Quite a lot of them. Museums, galleries, and places where the main cost is a coffee you were probably going to buy anyway.
-            Paid experiences are in there too, because sometimes you want to throw money at the problem.
-          </div>
-        </div>
-
-        <div class="faq-item" role="listitem">
-          <button class="faq-q" type="button" aria-expanded="false">
-            Why do some venues say “timed sessions” for opening hours?
-            <span aria-hidden="true">+</span>
-          </button>
-          <div class="faq-a">
-            Because some places refuse to commit to being open in a normal, predictable way.
-            If it runs on bookings or sessions, we would rather tell you that upfront than pretend it is open all day and disappoint you.
-          </div>
-        </div>
-
-        <div class="faq-item" role="listitem">
-          <button class="faq-q" type="button" aria-expanded="false">
-            Can I suggest a venue?
-            <span aria-hidden="true">+</span>
-          </button>
-          <div class="faq-a">
-            Please do. If it is indoors, actually good, and does not require a damp twenty minute walk from the station, we want to know about it.
-            Send us the details and we will take a look.
-          </div>
-        </div>
-      </div>
     </section>
 
-   <section class="about-block" id="cta">
-      <div class="about-cta">
-        <div>
-          <h2 style="margin:0; font-size: 1.6rem; letter-spacing:-0.02em;">
-            Know somewhere we should add?
-          </h2>
-          <p>
-            If you have a go to indoor spot for grim weather that we have missed,
-            we would genuinely like to hear about it. Bonus points if it does not involve getting soaked on the way there.
-          </p>
-          <p class="form-note">
-            No forms. No accounts. Just send us an email like a normal person.
-          </p>
+    <section class="about-section" aria-label="How it works">
+        <h2>How it works</h2>
+        <div class="about-grid how-grid">
+            <div class="about-card">
+                <div class="pill">Step 1</div>
+                <h3>Tell us what you fancy</h3>
+                <p>Use search if you know what you want, or open Customize Your Experience for quick filters without the commitment.</p>
+            </div>
+            <div class="about-card">
+                <div class="pill">Step 2</div>
+                <h3>Pick your level of wet</h3>
+                <p>From fully indoor to a bit of a dash between buildings. You set the rules, not the forecast.</p>
+            </div>
+            <div class="about-card">
+                <div class="pill">Step 3</div>
+                <h3>Save, share, go</h3>
+                <p>Bookmark your favourites, open the venue card for details, and get moving before London changes its mind again.</p>
+            </div>
+            <div class="about-card">
+                <div class="pill">Bonus</div>
+                <h3>Feeling Lucky</h3>
+                <p>Press the dice button and let Wet London throw three ideas at you. Useful for indecision and mild existential dread.</p>
+            </div>
         </div>
-
-        <div class="about-mini-form" style="justify-content:flex-end;">
-          <a
-            href="mailto:hello@wetlondon.com?subject=Venue%20recommendation%20for%20Wet%20London&body=Venue%20name:%0ALocation:%0AWhy%20it%E2%80%99s%20good%20on%20a%20rainy%20day:"
-            class="about-submit"
-            style="text-decoration:none; display:inline-flex; align-items:center; gap:8px;"
-          >
-            Send us a recommendation →
-          </a>
-        </div>
-      </div>
     </section>
 
-  </main>
+    <section class="about-section" aria-label="FAQ">
+        <h2>FAQ</h2>
+        <div class="faq">
+            <details>
+                <summary>Is Wet London only for tourists?</summary>
+                <p>No. It is for anyone who has ever looked out the window and immediately reconsidered their life choices.</p>
+            </details>
+            <details>
+                <summary>Do you include free options?</summary>
+                <p>Yes. We like a bargain, and your bank account deserves a quiet day too.</p>
+            </details>
+            <details>
+                <summary>Why do some venues say timed sessions for opening hours?</summary>
+                <p>Because some places run ticketed slots, timed entry, or sessions. We try to hint at that so you do not turn up and get politely rejected.</p>
+            </details>
+            <details>
+                <summary>Can I suggest a venue?</summary>
+                <p>Please do. If it keeps people dry and it is not secretly a two hour queue, we want to know about it.</p>
+            </details>
+        </div>
+    </section>
 
-  <!-- Footer copied to match your index.html footer structure -->
-  <footer class="site-footer">
+    <section class="about-section" aria-label="Send a recommendation">
+        <div class="about-card about-cta">
+            <div>
+                <h2 style="margin:0 0 6px;">Send us a recommendation</h2>
+                <p>Know a place that belongs on Wet London? Email it over with a link and a quick note on why it is worth the trip.</p>
+            </div>
+            <a class="load-more-btn" href="mailto:hello@wetlondon.com?subject=Wet%20London%20Recommendation&body=Venue%20name%3A%0ALink%3A%0AWhy%20it%27s%20great%3A%0A">
+                Email us
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
     <div class="footer-container">
-      <div class="footer-top">
-        <div class="footer-column">
-          <h3 class="footer-logo">🌧️ Wet London</h3>
-          <p class="footer-description">
-            Your guide to the best indoor activities in London.
-            Never let the rain stop your plans again.
-          </p>
-          <div class="footer-social">
-            <a href="https://twitter.com/wetlondon" target="_blank" rel="noopener" class="social-link" aria-label="Twitter">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-              </svg>
-            </a>
-            <a href="https://instagram.com/wetlondon" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z"/>
-                <path d="M12 5.838A6.162 6.162 0 1 0 18.162 12 6.168 6.168 0 0 0 12 5.838zm0 10.162A3.999 3.999 0 1 1 16 12a4 4 0 0 1-4 4z"/>
-                <circle cx="18.406" cy="5.594" r="1.44"/>
-              </svg>
-            </a>
-          </div>
-        </div>
+        <!-- Footer Top Section -->
+        <div class="footer-top">
+            <!-- About Section -->
+            <div class="footer-column">
+                <h3 class="footer-logo">🌧️ Wet London</h3>
+                <p class="footer-description">
+                    Your guide to the best indoor activities in London. 
+                    Never let the rain stop your plans again.
+                </p>
+                <div class="footer-social">
+                    <a href="https://twitter.com/wetlondon" target="_blank" rel="noopener" class="social-link" aria-label="Twitter">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                    </a>
+                    <a href="https://instagram.com/wetlondon" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="https://facebook.com/wetlondon" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    <a href="https://tiktok.com/@wetlondon" target="_blank" rel="noopener" class="social-link" aria-label="TikTok">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
 
-        <div class="footer-column">
-          <h4 class="footer-heading">Quick Links</h4>
-          <ul class="footer-links">
-            <li><a href="index.html#hero">Home</a></li>
-            <li><a href="index.html#activities">Featured Activities</a></li>
-            <li><a href="index.html#all-activities">All Activities</a></li>
-            <li><a href="index.html#bookmarks">My Bookmarks</a></li>
-          </ul>
-        </div>
+            <!-- Quick Links -->
+            <div class="footer-column">
+                <h4 class="footer-heading">Quick Links</h4>
+                <ul class="footer-links">
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="#activities">Featured Activities</a></li>
+                    <li><a href="#all-activities">All Activities</a></li>
+                    <li><a href="#bookmarks">My Bookmarks</a></li>
+                </ul>
+            </div>
 
-        <div class="footer-column">
-          <h4 class="footer-heading">Resources</h4>
-          <ul class="footer-links">
-            <li><a href="about.html">About Us</a></li>
-            <li><a href="contact.html">Contact</a></li>
-            <li><a href="blog.html">Blog</a></li>
-            <li><a href="partnerships.html">Partnerships</a></li>
-          </ul>
-        </div>
+            <!-- Resources -->
+            <div class="footer-column">
+                <h4 class="footer-heading">Resources</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="/contact.html">Contact</a></li>
+                    <li><a href="/blog.html">Blog</a></li>
+                    <li><a href="/partnerships.html">Partnerships</a></li>
+                </ul>
+            </div>
 
-        <div class="footer-column">
-          <h4 class="footer-heading">Legal</h4>
-          <ul class="footer-links">
-            <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="terms.html">Terms &amp; Conditions</a></li>
-            <li><a href="cookies.html">Cookie Policy</a></li>
-            <li><a href="affiliate-disclosure.html">Affiliate Disclosure</a></li>
-          </ul>
+            <!-- Legal -->
+            <div class="footer-column">
+                <h4 class="footer-heading">Legal</h4>
+                <ul class="footer-links">
+                    <li><a href="/privacy.html">Privacy Policy</a></li>
+                    <li><a href="/terms.html">Terms & Conditions</a></li>
+                    <li><a href="/cookies.html">Cookie Policy</a></li>
+                    <li><a href="/affiliate-disclosure.html">Affiliate Disclosure</a></li>
+                </ul>
+            </div>
         </div>
-      </div>
-
-      <div class="footer-bottom">
-        <div class="footer-bottom-content">
-          <p class="copyright">© 2026 Wet London. All rights reserved.</p>
-          <p class="footer-tagline">Made with ☕ in London</p>
+        
+        <!-- Footer Bottom Section -->
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p class="copyright">
+                    © 2026 Wet London. All rights reserved.
+                </p>
+                <p class="footer-tagline">
+                    Made in London
+                </p>
+            </div>
         </div>
-      </div>
     </div>
-  </footer>
+</footer>
 
-  <script>
-    (function () {
-      // FAQ accordion
-      var items = document.querySelectorAll('.faq-item');
-      items.forEach(function (item) {
-        var btn = item.querySelector('.faq-q');
-        if (!btn) return;
+<script>
+(function() {
+    // Nav toggle (matches index behaviour)
+    const navToggle = document.getElementById('navToggle');
+    const nav = document.getElementById('siteNav');
+    const scrim = document.getElementById('navScrim');
 
-        btn.addEventListener('click', function () {
-          var isOpen = item.classList.contains('active');
+    function setNav(open) {
+        if (!navToggle || !nav || !scrim) return;
+        navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        nav.classList.toggle('active', open);
+        scrim.classList.toggle('active', open);
+        document.body.classList.toggle('nav-open', open);
+    }
 
-          items.forEach(function (i) {
-            i.classList.remove('active');
-            var b = i.querySelector('.faq-q');
-            if (b) b.setAttribute('aria-expanded', 'false');
-          });
-
-          if (!isOpen) {
-            item.classList.add('active');
-            btn.setAttribute('aria-expanded', 'true');
-          }
+    if (navToggle && nav && scrim) {
+        navToggle.addEventListener('click', () => {
+            const isOpen = nav.classList.contains('active');
+            setNav(!isOpen);
         });
-      });
-
-      // Count-up stats (runs once when visible)
-      var counters = document.querySelectorAll('[data-count]');
-      var hasRun = false;
-
-      function animateCounters() {
-        if (hasRun) return;
-
-        var block = document.querySelector('.about-stats');
-        if (!block) return;
-
-        var rect = block.getBoundingClientRect();
-        var viewport = window.innerHeight || document.documentElement.clientHeight;
-
-        if (rect.top >= viewport - 80) return;
-
-        hasRun = true;
-
-        counters.forEach(function (el) {
-          var target = parseInt(el.getAttribute('data-count') || '0', 10);
-          var duration = 650;
-          var startTime = null;
-
-          function step(ts) {
-            if (!startTime) startTime = ts;
-            var p = Math.min((ts - startTime) / duration, 1);
-            var value = Math.round(target * p);
-            el.textContent = value.toString();
-            if (p < 1) requestAnimationFrame(step);
-          }
-
-          requestAnimationFrame(step);
+        scrim.addEventListener('click', () => setNav(false));
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') setNav(false);
         });
-      }
+    }
 
-      window.addEventListener('scroll', animateCounters, { passive: true });
-      window.addEventListener('load', animateCounters);
-    })();
-  </script>
+    // Count-up stats (safe fallback to fixed numbers)
+    const statEls = Array.from(document.querySelectorAll('[data-target]'));
+    if (!statEls.length) return;
 
+    function animateStat(el) {
+        const target = Number(el.getAttribute('data-target') || '0');
+        if (!Number.isFinite(target)) return;
+        const start = 0;
+        const duration = 650;
+        const t0 = performance.now();
+
+        function tick(now) {
+            const p = Math.min(1, (now - t0) / duration);
+            const value = Math.round(start + (target - start) * p);
+            el.textContent = String(value);
+            if (p < 1) requestAnimationFrame(tick);
+        }
+
+        requestAnimationFrame(tick);
+    }
+
+    // Run once when visible, then disconnect
+    const io = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateStat(entry.target);
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.25 });
+
+    statEls.forEach(el => io.observe(el));
+})();
+</script>
 </body>
 </html>

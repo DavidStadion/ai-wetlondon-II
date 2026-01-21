@@ -352,6 +352,35 @@ function selectVenue(venueName) {
     }
 }
 
+
+// Small Render Function
+function renderDavidsTopPicks() {
+    const section = document.getElementById('davidsTopPicksSection');
+    const grid = document.getElementById('davidsTopPicksGrid');
+    if (!section || !grid) return;
+
+    const venues = (window.londonVenues || []).filter(v => v.highlighted === true);
+    const picks = venues.slice(0, 3);
+
+    if (picks.length === 0) {
+        section.style.display = 'none';
+        grid.innerHTML = '';
+        return;
+    }
+
+    section.style.display = 'block';
+
+    grid.innerHTML = picks
+        .map((venue, i) => createActivityCardHTML(venue, i, { showId: false }))
+        .join('');
+
+    setTimeout(() => updateViewDetailsButtons(), 50);
+    setTimeout(() => updateBookmarkIcons(), 50);
+}
+
+
+
+
 // Expose selectVenue globally for inline onclick handlers
 window.selectVenue = selectVenue;
 
@@ -519,7 +548,7 @@ function createActivityCardHTML(venue, index, options = {}) {
                 ${sponsoredBadge}
                 ${badgeHTML}
                 ${openBadge}
-                <div class="${bookmarkClass}" onclick="toggleBookmarkFromCard(event, '${venue.name.replace(/'/g, "\\'")}')">🔖</div>
+                <div class="${bookmarkClass}" onclick="toggleBookmarkFromCard(event, '${venue.name.replace(/'/g, "\\'")}')"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg></div>
                 <div class="umbrella-chip" data-tooltip="${tooltipText}">${umbrellaEmoji}</div>
             </div>
             <div class="activity-content">
@@ -1349,9 +1378,9 @@ async function bookmarkActivity() {
 
     // Show toast notification
     if (wasAdded) {
-        showToast('✅', 'Saved to My Bookmarks!');
+        showBookmarkToast(true);
     } else {
-        showToast('🗑️', 'Removed from bookmarks');
+        showBookmarkToast(false);
     }
 }
 
@@ -1372,6 +1401,29 @@ function showToast(icon, message) {
     }, 3000);
 }
 
+
+function showBookmarkToast(wasAdded) {
+    const toast = document.getElementById('toast');
+    const toastIcon = document.getElementById('toastIcon');
+    const toastMessage = document.getElementById('toastMessage');
+
+    if (!toast || !toastIcon || !toastMessage) return;
+
+    const bookmarkSvg = `
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+        </svg>
+    `;
+
+    toastIcon.innerHTML = bookmarkSvg;
+    toastMessage.textContent = wasAdded ? 'Saved added to bookmarks' : 'Removed from bookmarks';
+
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
+}
+
 function updateBookmarkButton() {
     if (!currentActivity) return;
 
@@ -1383,11 +1435,23 @@ function updateBookmarkButton() {
     if (!btn) return;
 
     if (isSaved) {
-        btn.innerHTML = '<span id="bookmarkIcon">✅</span> Saved';
+        const checkSvg = `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M20 6L9 17l-5-5"></path>
+            </svg>
+        `;
+
+        btn.innerHTML = `<span id="bookmarkIcon" class="bookmark-btn-icon">${checkSvg}</span> Saved`;
         btn.style.background = '#10b981';
         btn.style.color = 'white';
     } else {
-        btn.innerHTML = '<span id="bookmarkIcon">🔖</span> Save';
+        const bookmarkSvg = `
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+        `;
+
+        btn.innerHTML = `<span id="bookmarkIcon" class="bookmark-btn-icon">${bookmarkSvg}</span> Save`;
         btn.style.background = '';
         btn.style.color = '';
     }
@@ -1684,8 +1748,11 @@ async function feelingLucky() {
 // Bookmark functions
 async function toggleBookmarkFromCard(event, venueName) {
     event.stopPropagation();
+    const bookmarkIcon = (event.currentTarget && event.currentTarget.classList && event.currentTarget.classList.contains('bookmark-icon'))
+        ? event.currentTarget
+        : (event.target && event.target.closest ? event.target.closest('.bookmark-icon') : null);
 
-    const bookmarkIcon = event.target;
+    if (!bookmarkIcon) return;
     const savedActivities = JSON.parse(localStorage.getItem('savedActivities') || '[]');
 
     // Find the venue in our database
@@ -1732,6 +1799,7 @@ async function toggleBookmarkFromCard(event, venueName) {
 
     // Check if already bookmarked
     const index = savedActivities.findIndex(v => v.name === venueName);
+    const wasAdded = index === -1;
 
     if (index > -1) {
         // Remove bookmark
@@ -1748,6 +1816,9 @@ async function toggleBookmarkFromCard(event, venueName) {
 
     // Update bookmarks section
     await showBookmarks();
+
+    // Toast
+    showBookmarkToast(wasAdded);
 }
 
 // Expose toggleBookmarkFromCard globally for inline onclick handlers
@@ -2975,6 +3046,36 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     });
 
+
+    // Category expand / collapse (UI only)
+      const toggleBtn = document.getElementById('categoryToggle');
+      const wrap = document.getElementById('categoryChipsWrap');
+
+      if (!toggleBtn || !wrap) {
+        // Category toggle not present on this page state
+      } else {
+
+      const labelEl = toggleBtn.querySelector('.filter-toggle-label');
+
+      function setExpanded(expanded) {
+        toggleBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        wrap.classList.toggle('is-collapsed', !expanded);
+
+        if (labelEl) labelEl.textContent = expanded ? 'Hide' : 'Show';
+      }
+
+      // Respect whatever the HTML currently says on load
+      const initialExpanded = toggleBtn.getAttribute('aria-expanded') !== 'false';
+      setExpanded(initialExpanded);
+
+      toggleBtn.addEventListener('click', () => {
+        const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+        setExpanded(!isExpanded);
+      });
+
+      }
+
+
     // Add click handlers to Popular Categories cards
     document.querySelectorAll('.category-card').forEach(card => {
         card.style.cursor = 'pointer';
@@ -3041,6 +3142,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+
+window.addEventListener('venues:loaded', () => {
+    renderDavidsTopPicks();
+});
+
+
+
+
 // ============================================
 // MONETIZATION FUNCTION - Added for sponsored venues
 // ============================================
@@ -3052,3 +3162,42 @@ document.addEventListener('DOMContentLoaded', function () {
 function isSponsored(venue) {
     return venue.sponsored === true;
 }
+
+/* Mobile navigation toggle (UI only) */
+(function () {
+    const toggle = document.getElementById('navToggle');
+    const nav = document.getElementById('siteNav');
+    const scrim = document.getElementById('navScrim');
+
+    if (!toggle || !nav) return;
+
+    function closeNav() {
+        document.body.classList.remove('nav-open');
+        toggle.setAttribute('aria-expanded', 'false');
+    }
+
+    function openNav() {
+        document.body.classList.add('nav-open');
+        toggle.setAttribute('aria-expanded', 'true');
+    }
+
+    toggle.addEventListener('click', function () {
+        if (document.body.classList.contains('nav-open')) {
+            closeNav();
+        } else {
+            openNav();
+        }
+    });
+
+    if (scrim) {
+        scrim.addEventListener('click', closeNav);
+    }
+
+    nav.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeNav);
+    });
+
+    window.addEventListener('resize', function () {
+        if (window.innerWidth > 768) closeNav();
+    });
+})();
