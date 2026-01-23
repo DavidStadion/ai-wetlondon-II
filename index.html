@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wet London - Discover Indoor Activities</title>
-    <!-- Version 1.4.1 - Error Handling & Placeholder Images - Dec 23, 2025 -->
+    <!-- AdSense loader moved to end of body to avoid blocking app init -->
+<!-- Version 1.4.1 - Error Handling & Placeholder Images - Dec 23, 2025 -->
     <link rel="stylesheet" href="css/styles.css">
     <style>
         .venues-loading {
@@ -1424,7 +1425,42 @@ Save
 
    <!-- ============================================
      WET LONDON FOOTER
-     Add this before the closing </body> tag in index.html
+     Add this before the closing 
+
+    <!-- AdSense: load after app is interactive (prevents main-thread lockups) -->
+    <script>
+      (function(){
+        try {
+          var host = location.hostname || '';
+          var allowHosts = ['wetlondon.co.uk', 'www.wetlondon.co.uk'];
+          if (allowHosts.indexOf(host) === -1) return;
+          if (location.search.indexOf('noads=1') !== -1) return;
+
+          function loadAdsense(){
+            if (document.querySelector('script[data-wetlondon-adsense]')) return;
+            var s = document.createElement('script');
+            s.async = true;
+            s.defer = true;
+            s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1382628707656079';
+            s.crossOrigin = 'anonymous';
+            s.setAttribute('data-wetlondon-adsense', '1');
+            document.head.appendChild(s);
+          }
+
+          // Defer loading until after the page is usable
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(function(){ setTimeout(loadAdsense, 500); }, { timeout: 5000 });
+          } else {
+            window.addEventListener('load', function(){ setTimeout(loadAdsense, 1500); }, { once: true });
+          }
+        } catch (e) {
+          // Never let ads break the site
+          console.warn('AdSense loader disabled:', e);
+        }
+      })();
+    </script>
+
+</body> tag in index.html
      ============================================ -->
 
 <footer class="site-footer">
@@ -1509,6 +1545,41 @@ Save
         </div>
     </div>
 </footer>
+
+
+    <!-- AdSense: load after app is interactive (prevents main-thread lockups) -->
+    <script>
+      (function(){
+        try {
+          var host = location.hostname || '';
+          var allowHosts = ['wetlondon.co.uk', 'www.wetlondon.co.uk'];
+          if (allowHosts.indexOf(host) === -1) return;
+          if (location.search.indexOf('noads=1') !== -1) return;
+
+          function loadAdsense(){
+            if (document.querySelector('script[data-wetlondon-adsense]')) return;
+            var s = document.createElement('script');
+            s.async = true;
+            s.defer = true;
+            s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1382628707656079';
+            s.crossOrigin = 'anonymous';
+            s.setAttribute('data-wetlondon-adsense', '1');
+            document.head.appendChild(s);
+          }
+
+          // Defer loading until after the page is usable
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(function(){ setTimeout(loadAdsense, 500); }, { timeout: 5000 });
+          } else {
+            window.addEventListener('load', function(){ setTimeout(loadAdsense, 1500); }, { once: true });
+          }
+        } catch (e) {
+          // Never let ads break the site
+          console.warn('AdSense loader disabled:', e);
+        }
+      })();
+    </script>
+
 </body>
 </html>
 <!-- VERSION: 2026-01-18 06:45 -->
