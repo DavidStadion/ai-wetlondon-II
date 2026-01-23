@@ -5256,3 +5256,23 @@ body{
   background: rgba(77, 163, 255, 0.26);
   border-color: rgba(77, 163, 255, 0.60);
 }
+
+/* Keep "View Details" aligned at the bottom of cards (desktop and tablet)
+   Note: On mobile you already hide .book-btn for density, so we scope this to >= 769px */
+@media (min-width: 769px) {
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .activity-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .activity-card:not(.featured):not(.spotlight):not(.spotlight-card) .book-btn {
+    margin-top: auto;
+  }
+}
