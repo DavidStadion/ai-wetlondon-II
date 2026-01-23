@@ -440,6 +440,58 @@ function renderDavidsTopPicks() {
 
 
 
+function renderGoodRightNow() {
+    const section = document.getElementById('goodRightNow');
+    const grid = document.getElementById('goodRightNowGrid');
+    if (!section || !grid) return;
+
+    const venues = (window.londonVenues || []).filter(v => v && v.name);
+
+    // Prefer open now, then driest (lowest wetnessScore), then highest rating if present
+    const ranked = venues
+        .map(v => {
+            const openNow = (typeof isVenueOpenNow === 'function') ? isVenueOpenNow(v) : null;
+            const wet = Number.isFinite(Number(v.wetnessScore)) ? Number(v.wetnessScore) : 999;
+            const rating = Number.isFinite(Number(v.rating)) ? Number(v.rating) : 0;
+            const hasBookingLink = !!(v.website || v.bookingUrl || v.url);
+            return { v, openNow, wet, rating, hasBookingLink };
+        })
+        .sort((a, b) => {
+            // open now first (true > null/false)
+            const ao = a.openNow === true ? 2 : (a.openNow === null ? 1 : 0);
+            const bo = b.openNow === true ? 2 : (b.openNow === null ? 1 : 0);
+            if (bo !== ao) return bo - ao;
+
+            // then driest
+            if (a.wet !== b.wet) return a.wet - b.wet;
+
+            // then rating
+            if (b.rating !== a.rating) return b.rating - a.rating;
+
+            // then prefer items with links
+            if (b.hasBookingLink !== a.hasBookingLink) return (b.hasBookingLink ? 1 : 0) - (a.hasBookingLink ? 1 : 0);
+
+            return (a.v.name || '').localeCompare(b.v.name || '');
+        });
+
+    const picks = ranked.slice(0, 3).map(x => x.v);
+
+    if (picks.length === 0) {
+        section.style.display = 'none';
+        grid.innerHTML = '';
+        return;
+    }
+
+    section.style.display = 'block';
+    grid.innerHTML = picks
+        .map((venue, i) => createActivityCardHTML(venue, i, { showId: false }))
+        .join('');
+
+    setTimeout(() => updateViewDetailsButtons(), 50);
+    setTimeout(() => updateBookmarkIcons(), 50);
+}
+
+
 
 // Expose selectVenue globally for inline onclick handlers
 window.selectVenue = selectVenue;
@@ -3218,6 +3270,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 window.addEventListener('venues:loaded', () => {
     renderDavidsTopPicks();
+    renderGoodRightNow();
 });
 
 

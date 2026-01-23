@@ -36,7 +36,22 @@
         @keyframes venuesSpin {
             to { transform: rotate(360deg); }
         }
-    </style>
+    
+        /* Good Right Now */
+        .good-right-now .section-header {
+            margin-bottom: 1.25rem;
+        }
+        .good-right-now .section-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .good-right-now .section-title:before {
+            content: "✨";
+            font-size: 1.1em;
+            line-height: 1;
+        }
+</style>
 </head>
 
 <body>
@@ -135,8 +150,8 @@
         </div>
 
         <div class="hero-content">
-            <h1>Wet London</h1>
-            <p>Find the perfect indoor activities tailored to your preferences</p>
+            <h1>London ideas for when the weather is awful and your motivation is worse.</h1>
+            <p>Three hand picked indoor plans, sorted for right now.</p>
 
             <!-- Search Bar -->
             <div class="search-container">
@@ -159,6 +174,21 @@
             </div>
         </div>
     </section>
+    <!-- Good Right Now (Curated) -->
+    <section class="activities-section good-right-now" id="goodRightNow" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title">Good right now</h2>
+                    <p class="section-subtitle">Three low effort options that won’t punish you for leaving the house</p>
+                </div>
+            </div>
+
+            <div class="activity-grid" id="goodRightNowGrid"></div>
+        </div>
+    </section>
+
+
 
     <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay">
