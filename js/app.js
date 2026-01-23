@@ -18,6 +18,66 @@ function formatCategoryLabel(key) {
         .replace(/[-_]+/g, ' ')
         .replace(/\b\w/g, c => c.toUpperCase());
 }
+
+
+/* === Wetness score helpers (fallbacks keep UI trustworthy) === */
+function parseMinutesFromText(text) {
+    if (!text) return null;
+    const str = String(text);
+    const m = str.match(/\b(\d{1,2})\s*(?:min|mins|minutes)\b/i);
+    if (!m) return null;
+    const n = parseInt(m[1], 10);
+    if (!Number.isFinite(n)) return null;
+    return Math.max(0, Math.min(n, 60));
+}
+
+function computeWetnessScoreFallback(venue) {
+    // Base ranges by label (calm, predictable)
+    const label = (venue?.wetness || '').toLowerCase();
+    let base = 0;
+
+    if (label === 'dry') base = 5;
+    else if (label === 'slightly') base = 22;
+    else if (label === 'wet') base = 65;
+    else base = 15;
+
+    // Nudge by any stated walk time (caps to avoid silly numbers)
+    const mins = parseMinutesFromText(venue?.description);
+    if (mins != null) {
+        const bump = Math.min(20, Math.round(mins * 1.5));
+        base = base + bump;
+    }
+
+    return Math.max(0, Math.min(100, Math.round(base)));
+}
+
+function ensureWetnessScores(venues) {
+    if (!Array.isArray(venues)) return;
+
+    venues.forEach(v => {
+        const existing = Number(v?.wetnessScore);
+        if (Number.isFinite(existing) && existing >= 0) {
+            v.wetnessScore = Math.max(0, Math.min(100, Math.round(existing)));
+            return;
+        }
+
+        // Also support "wetness_score" if it ever comes back snake_case
+        const snake = Number(v?.wetness_score);
+        if (Number.isFinite(snake) && snake >= 0) {
+            v.wetnessScore = Math.max(0, Math.min(100, Math.round(snake)));
+            return;
+        }
+
+        v.wetnessScore = computeWetnessScoreFallback(v);
+    });
+}
+
+function getWetnessScore(venue) {
+    const n = Number(venue?.wetnessScore);
+    if (Number.isFinite(n)) return Math.max(0, Math.min(100, Math.round(n)));
+    return computeWetnessScoreFallback(venue);
+}
+
 let selectedTypes = [];
 let selectedLocations = [];
 let selectedWetness = [];
@@ -2427,6 +2487,7 @@ async function fetchWeather() {
             humidity: current.relative_humidity_2m,
             description: description,
             weatherCode: weatherCode,
+            precipitation: Number(current.precipitation) || 0,
             isRaining: isRaining
         });
 
@@ -2481,6 +2542,7 @@ function displayDemoWeather() {
         humidity: 75,
         description: 'Overcast',
         weatherCode: 3, // WMO code for Overcast
+        precipitation: 0,
         isRaining: false
     });
 }
@@ -2562,14 +2624,21 @@ async function updateWeatherRecommendations(weather) {
     let titleText = '';
     let subtitleText = '';
 
-    // Determine recommendations based on weather conditions
+    
+    // Wetness thresholds (use score where possible, fallback keeps it consistent)
+    const precipitation = Number(weather?.precipitation) || 0;
+    const code = Number(weather?.weatherCode) || 0;
+    const isHeavierRain = Boolean(weather?.isRaining) && (precipitation >= 2 || (code >= 61 && code <= 65) || (code >= 80 && code <= 82));
+    const rainThreshold = isHeavierRain ? 15 : 25;
+
+// Determine recommendations based on weather conditions
     if (weather.isRaining) {
         // Heavy rain - prioritize completely dry venues
         iconEmoji = '';  // No emoji
         titleText = 'Perfect for Rainy Weather';
         subtitleText = 'Stay completely dry at these venues';
         recommendedVenues = window.londonVenues
-            .filter(v => v.wetness === 'dry')
+            .filter(v => getWetnessScore(v) <= rainThreshold)
             .sort((a, b) => b.rating - a.rating)
             .slice(0, 6);
         console.log('Rainy weather detected');
@@ -2580,7 +2649,7 @@ async function updateWeatherRecommendations(weather) {
         subtitleText = 'Warm up at these comfortable venues';
         recommendedVenues = window.londonVenues
             .filter(v =>
-                v.wetness === 'dry' &&
+                getWetnessScore(v) <= 20 &&
                 (v.type.includes('dining') || v.type.includes('cinema') || v.type.includes('wellness'))
             )
             .sort((a, b) => b.rating - a.rating)
@@ -2592,7 +2661,7 @@ async function updateWeatherRecommendations(weather) {
         if (recommendedVenues.length < 6) {
             console.log('Not enough cozy venues, using fallback');
             recommendedVenues = window.londonVenues
-                .filter(v => v.wetness === 'dry')
+                .filter(v => getWetnessScore(v) <= 25)
                 .sort((a, b) => b.rating - a.rating)
                 .slice(0, 6);
         }
@@ -2603,7 +2672,7 @@ async function updateWeatherRecommendations(weather) {
         subtitleText = 'Enjoy indoor spaces with natural light';
         recommendedVenues = window.londonVenues
             .filter(v =>
-                (v.wetness === 'dry' || v.wetness === 'slightly') &&
+                getWetnessScore(v) <= 35 &&
                 (v.type.includes('galleries') || v.type.includes('shopping') || v.type.includes('exhibitions'))
             )
             .sort((a, b) => b.rating - a.rating)
@@ -2615,7 +2684,7 @@ async function updateWeatherRecommendations(weather) {
         if (recommendedVenues.length < 6) {
             console.log('Not enough bright venues, using fallback');
             recommendedVenues = window.londonVenues
-                .filter(v => v.wetness === 'dry')
+                .filter(v => getWetnessScore(v) <= 25)
                 .sort((a, b) => b.rating - a.rating)
                 .slice(0, 6);
         }
@@ -2626,7 +2695,7 @@ async function updateWeatherRecommendations(weather) {
         subtitleText = 'Cool and comfortable venues';
         recommendedVenues = window.londonVenues
             .filter(v =>
-                v.wetness === 'dry' &&
+                getWetnessScore(v) <= 20 &&
                 (v.type.includes('cinema') || v.type.includes('museums') || v.type.includes('shopping'))
             )
             .sort((a, b) => b.rating - a.rating)
@@ -2638,7 +2707,7 @@ async function updateWeatherRecommendations(weather) {
         if (recommendedVenues.length < 6) {
             console.log('Not enough AC venues, using fallback');
             recommendedVenues = window.londonVenues
-                .filter(v => v.wetness === 'dry')
+                .filter(v => getWetnessScore(v) <= 25)
                 .sort((a, b) => b.rating - a.rating)
                 .slice(0, 6);
         }
@@ -2920,6 +2989,9 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (typeof loadVenuesFromSupabase === 'function') {
         await loadVenuesFromSupabase();
     }
+
+    // Ensure every venue has a reliable wetnessScore for UI + recommendations
+    ensureWetnessScores(window.londonVenues);
 
     // Render Featured Activities (and Spotlight) from Supabase flags
     await renderFeaturedActivitiesFromSupabase();
