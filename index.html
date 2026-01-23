@@ -6,7 +6,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wet London - Discover Indoor Activities</title>
-    <!-- AdSense loader moved to end of body to avoid blocking app init -->
+    
+    <meta name="google-adsense-account" content="ca-pub-1382628707656079">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1382628707656079" crossorigin="anonymous"></script>
+<!-- AdSense loader moved to end of body to avoid blocking app init -->
 <!-- Version 1.4.1 - Error Handling & Placeholder Images - Dec 23, 2025 -->
     <link rel="stylesheet" href="css/styles.css">
     <style>
@@ -1438,6 +1441,7 @@ Save
 
           function loadAdsense(){
             if (document.querySelector('script[data-wetlondon-adsense]')) return;
+            if (document.querySelector('script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]')) return;
             var s = document.createElement('script');
             s.async = true;
             s.defer = true;
@@ -1558,6 +1562,7 @@ Save
 
           function loadAdsense(){
             if (document.querySelector('script[data-wetlondon-adsense]')) return;
+            if (document.querySelector('script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]')) return;
             var s = document.createElement('script');
             s.async = true;
             s.defer = true;
