@@ -280,10 +280,11 @@ function getWetnessLabelWithPercent(score) {
 
 
 const TRUST_MESSAGES = [
-    "Every place here works properly in the rain",
-    "Chosen for bad weather, not good intentions",
-    "No long outdoor queues. No optimism.",
-    "If it’s here, you’ll stay mostly dry"
+    "Three picks, zero judgement. You can still browse everything.",
+    "Chosen for low effort, high comfort, minimal drizzle.",
+    "Based on today’s weather and the quickest way to stay dry.",
+    "Updated regularly. If it’s wrong, blame the rain.",
+    "Dry-ish routes, cosy venues, and no heroic walking."
 ];
 
 function initTrustLine() {
