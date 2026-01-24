@@ -246,6 +246,37 @@ function getFallbackGradient(venue) {
     return 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)';
 }
 
+function formatPriceDisplay(priceText) {
+    if (!priceText) return '';
+    const t = String(priceText).trim();
+
+    // Only append when it looks like a numeric GBP amount and doesn't already specify a unit
+    const hasPoundsNumber = /£\s*\d+/.test(t);
+    const alreadyHasUnit = /per\s*(person|pp)|\/\s*person|each|ticket|entry/i.test(t);
+
+    if (hasPoundsNumber && !alreadyHasUnit) {
+        return `${t} per person`;
+    }
+    return t;
+}
+
+function getWetnessCopy(score) {
+    const s = Number(score);
+    if (!Number.isFinite(s)) return 'Check the route';
+
+    if (s <= 10) return "You’ll stay dry";
+    if (s <= 25) return "Light drizzle risk";
+    if (s <= 45) return "You’ll get a bit damp";
+    return "Properly wet";
+}
+
+function getWetnessLabelWithPercent(score) {
+    const s = Number(score);
+    const percent = Number.isFinite(s) ? Math.round(s) : 0;
+    return `${getWetnessCopy(percent)} · ${percent}% wet`;
+}
+
+
 function getPlaceholderImage(venue) {
     // Generate a simple SVG placeholder based on venue type
     const colors = {
@@ -431,7 +462,7 @@ function renderDavidsTopPicks() {
     section.style.display = 'block';
 
     grid.innerHTML = picks
-        .map((venue, i) => createActivityCardHTML(venue, i, { showId: false }))
+        .map((venue, i) => createActivityCardHTML(venue, i, { idPrefix: 'good-now', showId: true }))
         .join('');
 
     setTimeout(() => updateViewDetailsButtons(), 50);
@@ -484,8 +515,28 @@ function renderGoodRightNow() {
 
     section.style.display = 'block';
     grid.innerHTML = picks
-        .map((venue, i) => createActivityCardHTML(venue, i, { showId: false }))
+        .map((venue, i) => createActivityCardHTML(venue, i, { idPrefix: 'good-now', showId: true }))
         .join('');
+
+    // Lazy load images for Good right now cards
+    picks.forEach(async (venue, i) => {
+        if (!getCachedImage(venue.name)) {
+            const imageUrl = await fetchUnsplashImage(venue.name);
+            if (imageUrl) {
+                const safeNameId = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
+                const card = document.getElementById(`good-now-${safeNameId}-${i}`);
+                if (card) {
+                    const imgDiv = card.querySelector('.activity-image');
+                    if (imgDiv) {
+                        imgDiv.style.backgroundImage = `url('${imageUrl}')`;
+                        imgDiv.style.backgroundSize = 'cover';
+                        imgDiv.style.backgroundPosition = 'center';
+                    }
+                }
+            }
+        }
+    });
+
 
     setTimeout(() => updateViewDetailsButtons(), 50);
     setTimeout(() => updateBookmarkIcons(), 50);
@@ -650,12 +701,14 @@ function createActivityCardHTML(venue, index, options = {}) {
     const safeNameId = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
     const idAttr = showId ? `id="${idPrefix}-${safeNameId}-${index}"` : '';
     const bookmarkClass = isSaved ? 'bookmark-icon saved' : 'bookmark-icon';
+    const venueNameAttr = (venue.name || '').replace(/'/g, '&#39;');
+
 
     // ADD SPONSORED CLASS TO CARD - MONETIZATION FEATURE
     const sponsoredClass = isSponsored(venue) ? 'sponsored-card' : '';
 
     return `
-        <div class="activity-card ${sponsoredClass} ${cardClass}" ${idAttr} ${dataAttrs}>
+        <div class="activity-card ${sponsoredClass} ${cardClass}" ${idAttr} data-venue-name='${venueNameAttr}' ${dataAttrs}>
             <div class="activity-image" style="${backgroundStyle}">
                 ${sponsoredBadge}
                 ${badgeHTML}
@@ -675,10 +728,10 @@ function createActivityCardHTML(venue, index, options = {}) {
                     <div class="wetness-bar">
                         <div class="wetness-bar-fill" style="width: ${wetnessPercent}%"></div>
                     </div>
-                    <span class="wetness-label">${wetnessPercent}% wet</span>
+                    <span class="wetness-label">${getWetnessLabelWithPercent(wetnessPercent)}</span>
                 </div>
                 <div class="price">${venue.priceDisplay}</div>
-                <button class="book-btn">View Details</button>
+                <button class="book-btn">See details</button>
             </div>
         </div>
     `;
@@ -778,8 +831,9 @@ async function renderVenues(venues, options = {}) {
 
     counter.textContent = `${venues.length} ${venues.length === 1 ? 'activity' : 'activities'} found`;
 
-    const venuesToShow = venues.slice(displayedCount, displayedCount + VENUES_PER_PAGE);
-    displayedCount += venuesToShow.length;
+    const startIndex = displayedCount;
+    const venuesToShow = venues.slice(startIndex, startIndex + VENUES_PER_PAGE);
+    displayedCount = startIndex + venuesToShow.length;
 
     // Optimistic rendering: Render text content first, then update with images
     const venueHTML = venuesToShow.map((venue, index) => {
@@ -789,7 +843,7 @@ async function renderVenues(venues, options = {}) {
             ? `background-image: url('${cachedUrl}');`
             : `background-image: url('${getPlaceholderImage(venue)}'); background-size: cover;`;
 
-        return createActivityCardHTML(venue, index);
+        return createActivityCardHTML(venue, startIndex + index);
     }).join('');
 
     if (append) {
@@ -803,8 +857,9 @@ async function renderVenues(venues, options = {}) {
         if (!getCachedImage(venue.name)) {
             const imageUrl = await fetchUnsplashImage(venue.name);
             if (imageUrl) {
-                const safeName = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
-                const card = document.getElementById(`card - ${safeName} -${index} `);
+                const safeNameId = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
+                const cardIndex = startIndex + index;
+                const card = document.getElementById(`card-${safeNameId}-${cardIndex}`);
                 if (card) {
                     const imgDiv = card.querySelector('.activity-image');
                     if (imgDiv) {
@@ -818,7 +873,7 @@ async function renderVenues(venues, options = {}) {
 
     counter.textContent = `${venues.length} ${venues.length === 1 ? 'activity' : 'activities'} found`;
 
-    // Update View Details buttons logic
+    // Update See details buttons logic
     updateViewDetailsButtons();
     updateBookmarkIcons();
 
@@ -1112,7 +1167,7 @@ function openActivityModal(venue) {
     const modalWetnessFill = document.getElementById('modalWetnessFill');
     const modalWetnessLabel = document.getElementById('modalWetnessLabel');
     if (modalWetnessFill) modalWetnessFill.style.width = `${wetnessPercent}%`;
-    if (modalWetnessLabel) modalWetnessLabel.textContent = `${wetnessPercent}% wet`;
+    if (modalWetnessLabel) modalWetnessLabel.textContent = `${getWetnessLabelWithPercent(wetnessPercent)}`;
 
     // Set stars
     const fullStars = Math.floor(venue.rating);
@@ -1650,7 +1705,7 @@ function shareViaEmail() {
     if (!currentActivity) return;
 
     const subject = `Check out ${currentActivity.name} on Wet London`;
-    const body = `I thought you might be interested in this activity:\n\n${currentActivity.name}\n${currentActivity.description}\n\nPrice: ${currentActivity.priceDisplay}\nLocation: ${currentActivity.location}\n\nView details: ${document.getElementById('shareLink').value}`;
+    const body = `I thought you might be interested in this activity:\n\n${currentActivity.name}\n${currentActivity.description}\n\nPrice: ${currentActivity.priceDisplay}\nLocation: ${currentActivity.location}\n\nSee details: ${document.getElementById('shareLink').value}`;
 
     const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoUrl;
@@ -1678,9 +1733,9 @@ function shareViaFacebook() {
     showToast('📘', 'Opening Facebook...');
 }
 
-// Update View Details buttons to open modal
+// Update See details buttons to open modal
 function updateViewDetailsButtons() {
-    // Handle "View Details" button clicks
+    // Handle "See details" button clicks
     document.querySelectorAll('.book-btn').forEach((btn, index) => {
         btn.onclick = function (e) {
             e.preventDefault();
@@ -1711,7 +1766,7 @@ function updateViewDetailsButtons() {
                     location: locationText,
                     wetness: wetnessText.toLowerCase(),
                     price: price,
-                    priceDisplay: priceText,
+                    priceDisplay: formatPriceDisplay(priceText),
                     rating: 4.5,
                     prerequisites: ['check venue for details']
                 };
@@ -1724,7 +1779,7 @@ function updateViewDetailsButtons() {
     // Handle activity card clicks (but not bookmark icon or button)
     document.querySelectorAll('.activity-card').forEach(card => {
         card.onclick = function (e) {
-            // Don't trigger if clicking bookmark icon or View Details button
+            // Don't trigger if clicking bookmark icon or See details button
             if (e.target.closest('.bookmark-icon') || e.target.closest('.book-btn')) {
                 return;
             }
@@ -1753,7 +1808,7 @@ function updateViewDetailsButtons() {
                     location: locationText,
                     wetness: wetnessText.toLowerCase(),
                     price: price,
-                    priceDisplay: priceText,
+                    priceDisplay: formatPriceDisplay(priceText),
                     rating: 4.5,
                     prerequisites: ['check venue for details']
                 };
@@ -1823,7 +1878,8 @@ async function feelingLucky() {
             if (!getCachedImage(venue.name)) {
                 const imageUrl = await fetchUnsplashImage(venue.name);
                 if (imageUrl) {
-                    const card = document.getElementById(`lucky-card-${index}`);
+                    const safeNameId = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
+                    const card = document.getElementById(`lucky-card-${safeNameId}-${index}`);
                     if (card) {
                         const imgDiv = card.querySelector('.activity-image');
                         if (imgDiv) {
@@ -1835,7 +1891,7 @@ async function feelingLucky() {
             }
         });
 
-        // Update View Details buttons and bookmark icons
+        // Update See details buttons and bookmark icons
         setTimeout(() => {
             updateViewDetailsButtons();
             updateBookmarkIcons();
@@ -1899,7 +1955,7 @@ async function toggleBookmarkFromCard(event, venueName) {
                 location: locationText,
                 wetness: wetnessText.toLowerCase().replace(' ', '-'),
                 price: price,
-                priceDisplay: priceText,
+                priceDisplay: formatPriceDisplay(priceText),
                 rating: 4.5,
                 prerequisites: ['check venue for details']
             };
@@ -1976,7 +2032,7 @@ async function showBookmarks() {
             return createActivityCardHTML(venue, index, { isSaved: true, showId: false });
         }).join('');
 
-        // Hook up the View Details buttons
+        // Hook up the See details buttons
         setTimeout(() => updateViewDetailsButtons(), 100);
     }
 }
@@ -2249,7 +2305,7 @@ async function renderAllActivities(append = false) {
 
     console.log('Grid now has', grid.children.length, 'children');
 
-    // Update View Details buttons
+    // Update See details buttons
     setTimeout(() => updateViewDetailsButtons(), 100);
 
     // Update bookmark icons
@@ -2826,7 +2882,7 @@ async function updateWeatherRecommendations(weather) {
         console.log('Grid visibility:', window.getComputedStyle(grid).visibility);
         console.log('Section display:', window.getComputedStyle(section).display);
 
-        // Update View Details buttons for these cards
+        // Update See details buttons for these cards
         setTimeout(() => {
             updateViewDetailsButtons();
             updateBookmarkIcons();
@@ -3014,7 +3070,7 @@ window.copyShareLink = copyShareLink;
 window.feelingLucky = feelingLucky;
 window.closeLuckySelection = closeLuckySelection;
 
-// Initialize View Details buttons on page load for Featured Activities
+// Initialize See details buttons on page load for Featured Activities
 document.addEventListener('DOMContentLoaded', async function () {
     updateViewDetailsButtons();
     updateCategoryCounts();
