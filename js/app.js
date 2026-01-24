@@ -280,11 +280,10 @@ function getWetnessLabelWithPercent(score) {
 
 
 const TRUST_MESSAGES = [
-    "Three picks, zero judgement. You can still browse everything.",
-    "Chosen for low effort, high comfort, minimal drizzle.",
-    "Based on today’s weather and the quickest way to stay dry.",
-    "Updated regularly. If it’s wrong, blame the rain.",
-    "Dry-ish routes, cosy venues, and no heroic walking."
+    "Every place here works properly in the rain",
+    "Chosen for bad weather, not good intentions",
+    "No long outdoor queues. No optimism.",
+    "If it’s here, you’ll stay mostly dry"
 ];
 
 function initTrustLine() {
@@ -1169,6 +1168,8 @@ let currentActivity = null;
 let savedActivities = JSON.parse(localStorage.getItem('savedActivities') || '[]');
 
 function openActivityModal(venue) {
+    try { sessionStorage.setItem('wetlondon:scrollY', String(window.scrollY || 0)); } catch {}
+    trackRecentlyViewed(venue);
     currentActivity = venue;
     const modal = document.getElementById('activityModal');
 
@@ -1523,6 +1524,13 @@ function closeActivityModal() {
     document.getElementById('activityModal').classList.remove('active');
     document.body.classList.remove('modal-open');
     currentActivity = null;
+
+    // Restore scroll position (so opening a card doesn't lose your place)
+    try {
+        const y = parseInt(sessionStorage.getItem('wetlondon:scrollY') || '0', 10);
+        sessionStorage.removeItem('wetlondon:scrollY');
+        requestAnimationFrame(() => window.scrollTo({ top: y, behavior: 'auto' }));
+    } catch {}
 }
 
 function searchVenueOnline() {
@@ -1951,6 +1959,124 @@ async function feelingLucky() {
         alert('An error occurred. Please try again.');
     }
 }
+
+
+// Recently viewed (local-only, no accounts)
+const RECENTLY_VIEWED_KEY = 'recentActivities';
+const RECENTLY_VIEWED_LIMIT = 12;
+
+function getRecentlyViewed() {
+    try {
+        const raw = localStorage.getItem(RECENTLY_VIEWED_KEY);
+        const list = raw ? JSON.parse(raw) : [];
+        return Array.isArray(list) ? list : [];
+    } catch {
+        return [];
+    }
+}
+
+function setRecentlyViewed(list) {
+    try {
+        localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(Array.isArray(list) ? list : []));
+    } catch {}
+}
+
+function trackRecentlyViewed(venue) {
+    if (!venue || !venue.name) return;
+
+    const list = getRecentlyViewed();
+
+    // Store the most useful lightweight shape, but keep anything we already have
+    const entry = {
+        name: venue.name,
+        description: venue.description,
+        type: venue.type,
+        location: venue.location,
+        wetness: venue.wetness,
+        wetnessScore: venue.wetnessScore || 0,
+        price: venue.price,
+        priceDisplay: venue.priceDisplay,
+        rating: venue.rating,
+        prerequisites: venue.prerequisites,
+        affiliateLink: venue.affiliateLink,
+        openingHours: venue.openingHours,
+        sponsored: venue.sponsored === true
+    };
+
+    const next = [entry, ...list.filter(v => v && v.name !== venue.name)].slice(0, RECENTLY_VIEWED_LIMIT);
+    setRecentlyViewed(next);
+
+    renderRecentlyViewedSection();
+}
+
+function renderSavedForLaterSection() {
+    const section = document.getElementById('savedForLaterSection');
+    const grid = document.getElementById('savedForLaterGrid');
+    const empty = document.getElementById('savedForLaterEmpty');
+    if (!section || !grid || !empty) return;
+
+    const saved = JSON.parse(localStorage.getItem('savedActivities') || '[]');
+    const list = Array.isArray(saved) ? saved : [];
+
+    if (list.length === 0) {
+        section.style.display = 'block';
+        empty.style.display = 'block';
+        grid.innerHTML = '';
+        return;
+    }
+
+    section.style.display = 'block';
+    empty.style.display = 'none';
+
+    const top = list.slice(0, 6);
+    grid.innerHTML = top.map((venue, i) => createActivityCardHTML(venue, i, { idPrefix: 'saved', isSaved: true, showId: false })).join('');
+
+    setTimeout(() => {
+        updateViewDetailsButtons();
+        updateBookmarkIcons();
+    }, 50);
+}
+
+function renderRecentlyViewedSection() {
+    const section = document.getElementById('recentlyViewedSection');
+    const grid = document.getElementById('recentlyViewedGrid');
+    const empty = document.getElementById('recentlyViewedEmpty');
+    const clearBtn = document.getElementById('clearRecentlyViewedBtn');
+
+    if (!section || !grid || !empty) return;
+
+    const list = getRecentlyViewed();
+
+    if (clearBtn && !clearBtn.__wetLondonBound) {
+        clearBtn.__wetLondonBound = true;
+        clearBtn.addEventListener('click', () => {
+            setRecentlyViewed([]);
+            renderRecentlyViewedSection();
+            showToast('🧹', 'Recently viewed cleared');
+        });
+    }
+
+    if (list.length === 0) {
+        section.style.display = 'block';
+        empty.style.display = 'block';
+        grid.innerHTML = '';
+        if (clearBtn) clearBtn.style.display = 'none';
+        return;
+    }
+
+    section.style.display = 'block';
+    empty.style.display = 'none';
+    if (clearBtn) clearBtn.style.display = 'inline-flex';
+
+    const top = list.slice(0, 6);
+    grid.innerHTML = top.map((venue, i) => createActivityCardHTML(venue, i, { idPrefix: 'recent', showId: false })).join('');
+
+    setTimeout(() => {
+        updateViewDetailsButtons();
+        updateBookmarkIcons();
+    }, 50);
+}
+
 
 // Bookmark functions
 async function toggleBookmarkFromCard(event, venueName) {
