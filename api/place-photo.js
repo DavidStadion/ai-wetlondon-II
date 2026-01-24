@@ -33,9 +33,11 @@ export default async function handler(req, res) {
       return;
     }
 
-    const apiKey = process.env.GOOGLE_MAPS_API_KEY;
+    // Prefer a server-side Places key (no HTTP referrer restriction).
+// Fallback to GOOGLE_MAPS_API_KEY for backwards compatibility.
+const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_API_KEY;
     if (!apiKey) {
-      res.status(500).json({ error: "Missing GOOGLE_MAPS_API_KEY" });
+      res.status(500).json({ error: "Missing GOOGLE_PLACES_API_KEY (or GOOGLE_MAPS_API_KEY fallback)" });
       return;
     }
 
