@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wet London - Pick your vibe</title>
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    .situations-chips { justify-content: center; }
+    .situations-ad { margin: 24px 0 36px; }
+    .situations-ad-inner{
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.05);
+      padding: 16px;
+      text-align: center;
+    }
+    .situations-ad-label{
+      display:inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.06);
+      font-size: 0.8rem;
+      opacity: 0.85;
+      margin-bottom: 10px;
+    }
+    .situations-ad-title{ font-size: 1.05rem; margin: 0 0 6px; }
+    .situations-ad-copy{ margin: 0; opacity: 0.75; font-size: 0.95rem; }
+    .back-to-top{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.35);
+      color: rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 150ms ease, transform 150ms ease, background 150ms ease;
+      z-index: 50;
+    }
+    .back-to-top:hover{ background: rgba(0,0,0,0.5); }
+    .back-to-top.show{
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    .back-to-top svg{ width: 20px; height: 20px; }
+  </style>
+</head>
+
+<body class="situations-page">
+  <header class="header">
+    <a href="index.html#hero" class="logo">Wet London</a>
+
+    <button class="nav-toggle" id="navToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="siteNav">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+    <nav class="nav" id="siteNav">
+      <a href="index.html#hero">Home</a>
+      <a href="index.html#activities">Featured</a>
+      <a href="index.html#all-activities">All Activities</a>
+      <a href="index.html#bookmarks">My Bookmarks</a>
+      <a href="situations.html" aria-current="page">For who?</a>
+      <a href="about.html">About Us</a>
+    </nav>
+  </header>
+  <div class="nav-scrim" id="navScrim" aria-hidden="true"></div>
+
+  <main class="situations-main">
+    <section class="situations-hero">
+      <div class="container">
+        <h1>Pick your vibe</h1>
+        <p class="section-subtitle">Filter activities by the kind of day you’re having. No judgement. Minimal walking. Maximum dryness.</p>
+
+        <div class="situations-controls">
+          <h2 class="situations-title">Who are you with?</h2>
+          <p class="situations-helper">Tap a chip to narrow things down. You can still browse everything.</p>
+
+          <div class="category-chips situations-chips" id="situationChips">
+            <button class="category-chip situation-chip" type="button" data-situation="solo">Solo</button>
+            <button class="category-chip situation-chip" type="button" data-situation="couple">Couple</button>
+            <button class="category-chip situation-chip" type="button" data-situation="date">Date</button>
+            <button class="category-chip situation-chip" type="button" data-situation="friends">Friends</button>
+            <button class="category-chip situation-chip" type="button" data-situation="group">Group</button>
+            <button class="category-chip situation-chip" type="button" data-situation="work">Work</button>
+            <button class="category-chip situation-chip" type="button" data-situation="kids">Kids</button>
+            <button class="category-chip situation-chip" type="button" data-situation="quiet">Quiet</button>
+            <button class="category-chip situation-chip" type="button" data-situation="chaotic">Chaotic</button>
+          </div>
+
+
+          <div class="situations-active" id="situationActive" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    
+
+    <section class="container situations-ad-section">
+      <div class="situations-ad" aria-label="Advertisement">
+                  <div class="situations-ad-inner">
+                    <div class="situations-ad-label">Advert</div>
+                    <div class="situations-ad-title">Your brand here</div>
+                    <div class="situations-ad-copy">A calm little slot for a sponsor. Keep it tasteful.</div>
+                  </div>
+                </div>
+    </section>
+
+<section class="container situations-results">
+      <div class="situations-results-header">
+        <h2 id="situationResultsTitle">Suggestions</h2>
+        <button class="back-btn situations-clear" id="clearSituation" type="button" style="display:none;">Clear</button>
+      </div>
+
+      <div class="activity-grid" id="situationGrid"></div>
+
+      <div class="load-more-container" id="situationLoadMore" style="display:none;">
+        <button class="load-more-btn" id="situationLoadMoreBtn" type="button">Load more</button>
+      </div>
+
+      <div class="empty-state" id="situationEmpty" style="display:none;">
+        <h3>Nothing matched that vibe</h3>
+        <p>Try another chip, or jump back to All Activities and browse the lot.</p>
+        <a class="back-btn" href="index.html#all-activities">Browse everything</a>
+      </div>
+    </section>
+  </main>
+
+
+  <button class="back-to-top" id="backToTopBtn" type="button" aria-label="Back to top" title="Back to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 5l-7 7 1.4 1.4L11 8.8V20h2V8.8l4.6 4.6L19 12z" fill="currentColor"/>
+    </svg>
+  </button>
+
+
+  <!-- Keep the same scripts as index so modals + bookmarking keep working -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/filter-state.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    (function () {
+      const PAGE_SIZE = 9;
+      const chipsWrap = document.getElementById('situationChips');
+      const grid = document.getElementById('situationGrid');
+      const loadMoreWrap = document.getElementById('situationLoadMore');
+      const loadMoreBtn = document.getElementById('situationLoadMoreBtn');
+      const empty = document.getElementById('situationEmpty');
+      const active = document.getElementById('situationActive');
+      const title = document.getElementById('situationResultsTitle');
+      const clearBtn = document.getElementById('clearSituation');
+
+      let currentSituation = null;
+      let currentResults = [];
+      let shown = 0;
+
+
+      function situationLabel(sit) {
+        return sit ? sit.charAt(0).toUpperCase() + sit.slice(1) : '';
+      }
+
+      function updateChipCounts(venues) {
+        const counts = {};
+        const situations = ['solo','couple','date','friends','group','work','kids','quiet','chaotic'];
+
+        situations.forEach(sit => {
+          const results = filterForSituation(sit, venues);
+          counts[sit] = results.length;
+        });
+
+        const chips = chipsWrap.querySelectorAll('.situation-chip');
+        chips.forEach(btn => {
+          const sit = btn.dataset.situation;
+          if (!sit) return;
+          const base = situationLabel(sit);
+          const n = counts[sit] ?? 0;
+          btn.textContent = `${base} (${n})`;
+        });
+      }
+
+      function initBackToTop() {
+        const btn = document.getElementById('backToTopBtn');
+        if (!btn) return;
+
+        function toggle() {
+          const y = window.scrollY || document.documentElement.scrollTop || 0;
+          btn.classList.toggle('show', y > 500);
+        }
+
+        window.addEventListener('scroll', toggle, { passive: true });
+        toggle();
+
+        btn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      function normaliseType(t) {
+        return String(t || '').toLowerCase().trim();
+      }
+
+      function venueTypes(v) {
+        const t = Array.isArray(v.type) ? v.type : (v.type ? [v.type] : []);
+        return t.map(normaliseType);
+      }
+
+      function hasAnyType(v, types) {
+        const vt = venueTypes(v);
+        return types.some(x => vt.includes(normaliseType(x)));
+      }
+
+      function scoreVenue(v, preferTypes = []) {
+        // Gentle scoring to make results feel intentional.
+        let s = 0;
+        if (typeof v.rating === 'number') s += v.rating;
+        if (typeof v.wetnessScore === 'number') s += (100 - v.wetnessScore) / 25;
+        if (preferTypes.length && hasAnyType(v, preferTypes)) s += 2;
+        if (v.price === 0 || String(v.priceDisplay || '').toUpperCase() === 'FREE') s += 0.5;
+        return s;
+      }
+
+      function getAllVenues() {
+        // Prefer the live dataset if app.js has loaded it, otherwise fall back to data.js.
+        const candidates = [
+          window.allVenues,
+          window.allActivities,
+          window.venues,
+          window.londonVenues
+        ];
+        const arr = candidates.find(a => Array.isArray(a) && a.length);
+        return Array.isArray(arr) ? arr : [];
+      }
+
+      function filterForSituation(sit, venues) {
+        const mappings = {
+          solo: { include: ['museums', 'galleries', 'historic', 'libraries', 'cafes'], exclude: ['bowling', 'club'] },
+          couple: { include: ['spa', 'theatre', 'cinema', 'food', 'bars', 'views', 'cocktails'], exclude: [] },
+          date: { include: ['spa', 'theatre', 'cinema', 'food', 'bars', 'cocktails', 'immersive'], exclude: ['kids'] },
+          friends: { include: ['games', 'bowling', 'escape', 'immersive', 'comedy', 'food', 'bars'], exclude: [] },
+          group: { include: ['games', 'bowling', 'escape', 'immersive', 'workshops', 'food'], exclude: [] },
+          work: { include: ['cafes', 'libraries', 'museums', 'galleries', 'coworking'], exclude: ['bowling', 'comedy'] },
+          kids: { include: ['kids', 'family', 'aquariums', 'science', 'museums', 'immersive'], exclude: ['cocktails', 'bars'] },
+          quiet: { include: ['museums', 'galleries', 'historic', 'libraries'], exclude: ['comedy', 'bowling', 'club'] },
+          chaotic: { include: ['comedy', 'immersive', 'games', 'bowling', 'escape', 'karaoke'], exclude: [] }
+        };
+
+        const m = mappings[sit] || { include: [], exclude: [] };
+
+        const filtered = venues.filter(v => {
+          const vt = venueTypes(v);
+          const includeOk = !m.include.length || hasAnyType(v, m.include);
+          const excludeOk = !m.exclude.length || !hasAnyType(v, m.exclude);
+          return includeOk && excludeOk;
+        });
+
+        const preferTypes = m.include || [];
+        filtered.sort((a, b) => scoreVenue(b, preferTypes) - scoreVenue(a, preferTypes));
+        return filtered;
+      }
+
+      function renderNextBatch() {
+        const next = currentResults.slice(shown, shown + PAGE_SIZE);
+        const html = next.map((v, i) => {
+          const index = shown + i;
+          if (typeof window.createActivityCardHTML === 'function') {
+            return window.createActivityCardHTML(v, index, { context: 'situations' });
+          }
+          // Fallback, should rarely be needed.
+          const name = v.name || 'Untitled';
+          return '<div class="activity-card"><div class="activity-info"><h3>' + name + '</h3></div></div>';
+        }).join('');
+
+        grid.insertAdjacentHTML('beforeend', html);
+        shown += next.length;
+
+        loadMoreWrap.style.display = shown < currentResults.length ? 'flex' : 'none';
+      }
+
+      function setActiveChip(sit) {
+        const chips = chipsWrap.querySelectorAll('.situation-chip');
+        chips.forEach(c => c.classList.toggle('active', c.dataset.situation === sit));
+      }
+
+      function applySituation(sit) {
+        const venues = getAllVenues();
+        updateChipCounts(venues);
+        currentSituation = sit;
+        currentResults = filterForSituation(sit, venues);
+
+        setActiveChip(sit);
+
+        const label = sit.charAt(0).toUpperCase() + sit.slice(1);
+        active.innerHTML = '<span class="generated-count">Filtered for: <strong>' + label + '</strong></span>';
+        clearBtn.style.display = 'inline-flex';
+        title.textContent = label + ' ideas';
+
+        grid.innerHTML = '';
+        shown = 0;
+
+        if (!currentResults.length) {
+          empty.style.display = 'block';
+          loadMoreWrap.style.display = 'none';
+          return;
+        }
+
+        empty.style.display = 'none';
+        renderNextBatch();
+
+        // Soft scroll to results
+        document.querySelector('.situations-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+
+      function clearSituation() {
+        currentSituation = null;
+        currentResults = [];
+        shown = 0;
+        grid.innerHTML = '';
+        setActiveChip(null);
+        active.textContent = '';
+        title.textContent = 'Suggestions';
+        clearBtn.style.display = 'none';
+        empty.style.display = 'none';
+        loadMoreWrap.style.display = 'none';
+      }
+
+      chipsWrap.addEventListener('click', (e) => {
+        const btn = e.target.closest('.situation-chip');
+        if (!btn) return;
+        applySituation(btn.dataset.situation);
+      });
+
+      loadMoreBtn.addEventListener('click', () => renderNextBatch());
+      clearBtn.addEventListener('click', clearSituation);
+
+      // Render a default set on load so the page doesn't look empty.
+      function initDefault() {
+        const venues = getAllVenues();
+        updateChipCounts(venues);
+        currentResults = venues.slice().sort((a, b) => scoreVenue(b) - scoreVenue(a));
+        title.textContent = 'Popular picks';
+        grid.innerHTML = '';
+        shown = 0;
+        empty.style.display = 'none';
+        renderNextBatch();
+      }
+
+      // Wait until app.js has likely hydrated the venues list.
+      window.addEventListener('venues:loaded', initDefault);
+      setTimeout(() => {
+        if (!grid.children.length) initDefault();
+      }, 800);
+    
+      initBackToTop();
+})();
+  </script>
+</body>
+</html>
