@@ -1,8 +1,14 @@
 // api/place-photo.js
 // Vercel Serverless Function (Node.js runtime)
-// Returns a Google Places photo URL for a given text query, or null.
+//
+// Usage:
+// 1) GET /api/place-photo?q=British%20Museum
+//    -> returns JSON: { imageUrl: "/api/place-photo?photo=...", placeId }
+//
+// 2) GET /api/place-photo?photo=places/.../photos/...&w=900&h=600
+//    -> streams the image bytes (API key stays server-side)
 
-const CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24h
+const CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24 hours
 const memoryCache = new Map();
 
 function cacheGet(key) {
@@ -19,101 +25,151 @@ function cacheSet(key, value) {
   memoryCache.set(key, { value, expiresAt: Date.now() + CACHE_TTL_MS });
 }
 
-function pickBestPhoto(photos) {
-  if (!Array.isArray(photos) || photos.length === 0) return null;
-  // Prefer widest photo if dimensions exist; else first.
-  const sorted = [...photos].sort((a, b) => (b.widthPx || 0) - (a.widthPx || 0));
-  return sorted[0]?.name || null; // places/{placeId}/photos/{photoRef}
+function json(res, status, payload) {
+  res.statusCode = status;
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  res.end(JSON.stringify(payload));
+}
+
+function getApiKey() {
+  // Prefer a dedicated Places key, but fall back to your existing env var name.
+  return (
+    process.env.GOOGLE_PLACES_API_KEY ||
+    process.env.GOOGLE_MAPS_API_KEY ||
+    process.env.GOOGLE_MAPS_KEY ||
+    ''
+  );
+}
+
+function safeInt(value, fallback) {
+  const n = Number.parseInt(String(value || ''), 10);
+  return Number.isFinite(n) && n > 0 ? n : fallback;
+}
+
+async function fetchJson(url, options) {
+  const resp = await fetch(url, options);
+  const text = await resp.text();
+  let data;
+  try {
+    data = JSON.parse(text);
+  } catch {
+    data = { raw: text };
+  }
+  if (!resp.ok) {
+    const err = new Error('HTTP_' + resp.status);
+    err.status = resp.status;
+    err.details = data;
+    throw err;
+  }
+  return data;
+}
+
+async function proxyPhoto(res, apiKey, photoName, maxW, maxH) {
+  // IMPORTANT: Do not encode slashes in photoName.
+  const mediaUrl = `https://places.googleapis.com/v1/${photoName}/media?maxWidthPx=${maxW}&maxHeightPx=${maxH}`;
+
+  const upstream = await fetch(mediaUrl, {
+    headers: {
+      'X-Goog-Api-Key': apiKey,
+      // Ask for the binary image, not JSON
+      'Accept': 'image/*'
+    }
+  });
+
+  if (!upstream.ok) {
+    const text = await upstream.text();
+    return json(res, upstream.status, {
+      error: 'Places photo failed',
+      details: text
+    });
+  }
+
+  // Pass through content-type, and cache at the edge
+  const contentType = upstream.headers.get('content-type') || 'image/jpeg';
+  res.statusCode = 200;
+  res.setHeader('Content-Type', contentType);
+  res.setHeader('Cache-Control', 'public, max-age=86400, s-maxage=86400, stale-while-revalidate=604800');
+
+  const arrayBuffer = await upstream.arrayBuffer();
+  res.end(Buffer.from(arrayBuffer));
 }
 
 export default async function handler(req, res) {
   try {
-    if (req.method !== "GET") {
-      res.status(405).json({ error: "Method not allowed" });
-      return;
-    }
-
-    // Prefer a server-side Places key (no HTTP referrer restriction).
-// Fallback to GOOGLE_MAPS_API_KEY for backwards compatibility.
-const apiKey = process.env.GOOGLE_PLACES_API_KEY || process.env.GOOGLE_MAPS_API_KEY;
+    const apiKey = getApiKey();
     if (!apiKey) {
-      res.status(500).json({ error: "Missing GOOGLE_PLACES_API_KEY (or GOOGLE_MAPS_API_KEY fallback)" });
-      return;
+      return json(res, 500, { error: 'Missing Places API key in env (GOOGLE_PLACES_API_KEY or GOOGLE_MAPS_API_KEY)' });
     }
 
-    const q = (req.query.q || "").toString().trim();
-    if (!q) {
-      res.status(400).json({ error: "Missing query param: q" });
-      return;
+    // Mode B: photo proxy
+    const photoName = req.query?.photo;
+    if (photoName) {
+      const maxW = safeInt(req.query?.w, 900);
+      const maxH = safeInt(req.query?.h, 600);
+      return await proxyPhoto(res, apiKey, String(photoName), maxW, maxH);
     }
 
-    const maxHeightPx = Number(req.query.h || 600);
-    const maxWidthPx = Number(req.query.w || 900);
+    // Mode A: search by query (returns JSON with proxy URL)
+    const q = req.query?.q;
+    if (!q || String(q).trim().length === 0) {
+      return json(res, 400, { error: 'Missing query param: q' });
+    }
 
-    const cacheKey = `${q}__${maxWidthPx}x${maxHeightPx}`;
+    const query = String(q).trim();
+    const cacheKey = `q:${query.toLowerCase()}`;
     const cached = cacheGet(cacheKey);
     if (cached) {
-      res.setHeader("Cache-Control", "public, max-age=86400");
-      res.status(200).json(cached);
-      return;
+      return json(res, 200, cached);
     }
 
-    // Places API (New): Text Search (POST)
-    // Requires X-Goog-Api-Key + X-Goog-FieldMask. :contentReference[oaicite:3]{index=3}
-    const searchResp = await fetch("https://places.googleapis.com/v1/places:searchText", {
-      method: "POST",
+    // Find a place
+    const findUrl = 'https://places.googleapis.com/v1/places:searchText';
+    const findData = await fetchJson(findUrl, {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        "X-Goog-Api-Key": apiKey,
-        "X-Goog-FieldMask": "places.id,places.displayName,places.photos",
+        'Content-Type': 'application/json',
+        'X-Goog-Api-Key': apiKey,
+        // Keep this minimal. We just need place id + one photo reference.
+        'X-Goog-FieldMask': 'places.id,places.photos'
       },
       body: JSON.stringify({
-        textQuery: q,
-        languageCode: "en",
-        // This is intentionally minimal for v0. We can add location bias later.
-      }),
+        textQuery: query,
+        // Bias to London to keep results consistent for your use case
+        locationBias: {
+          circle: {
+            center: { latitude: 51.5074, longitude: -0.1278 },
+            radius: 50000
+          }
+        }
+      })
     });
 
-    if (!searchResp.ok) {
-      const txt = await searchResp.text();
-      res.status(502).json({ error: "Places search failed", details: txt.slice(0, 600) });
-      return;
-    }
+    const place = findData?.places?.[0];
+    const placeId = place?.id;
+    const photo = place?.photos?.[0];
+    const photoRef = photo?.name;
 
-    const searchJson = await searchResp.json();
-    const place = (searchJson.places && searchJson.places[0]) || null;
-
-    if (!place || !place.photos || place.photos.length === 0) {
-      const payload = { imageUrl: null, placeId: place?.id || null };
+    if (!placeId || !photoRef) {
+      const payload = {
+        imageUrl: null,
+        placeId: placeId || null,
+        note: 'No photo found for this query'
+      };
       cacheSet(cacheKey, payload);
-      res.setHeader("Cache-Control", "public, max-age=3600");
-      res.status(200).json(payload);
-      return;
+      return json(res, 200, payload);
     }
 
-    const photoName = pickBestPhoto(place.photos);
-    if (!photoName) {
-      const payload = { imageUrl: null, placeId: place?.id || null };
-      cacheSet(cacheKey, payload);
-      res.setHeader("Cache-Control", "public, max-age=3600");
-      res.status(200).json(payload);
-      return;
-    }
-
-    // Photo media endpoint uses: places/{placeId}/photos/{photoRef}/media :contentReference[oaicite:4]{index=4}
-    // We do not fetch the bytes; we return a URL that will redirect to the actual image.
-    const mediaUrl =
-      `https://places.googleapis.com/v1/${encodeURIComponent(photoName)}/media` +
-      `?maxWidthPx=${encodeURIComponent(maxWidthPx)}` +
-      `&maxHeightPx=${encodeURIComponent(maxHeightPx)}` +
-      `&key=${encodeURIComponent(apiKey)}`;
-
-    const payload = { imageUrl: mediaUrl, placeId: place.id || null };
+    // Return a proxy URL so the key never ends up in the browser
+    const imageUrl = `/api/place-photo?photo=${encodeURIComponent(photoRef)}&w=900&h=600`;
+    const payload = { imageUrl, placeId };
 
     cacheSet(cacheKey, payload);
-    res.setHeader("Cache-Control", "public, max-age=86400");
-    res.status(200).json(payload);
-  } catch (err) {
-    res.status(500).json({ error: "Unexpected error", details: String(err?.message || err) });
+    return json(res, 200, payload);
+  } catch (e) {
+    const status = e?.status || 500;
+    return json(res, status, {
+      error: 'Places request failed',
+      details: typeof e?.details === 'object' ? e.details : String(e?.details || e?.message || e)
+    });
   }
 }
