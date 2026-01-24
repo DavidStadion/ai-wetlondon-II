@@ -18,66 +18,6 @@ function formatCategoryLabel(key) {
         .replace(/[-_]+/g, ' ')
         .replace(/\b\w/g, c => c.toUpperCase());
 }
-
-
-/* === Wetness score helpers (fallbacks keep UI trustworthy) === */
-function parseMinutesFromText(text) {
-    if (!text) return null;
-    const str = String(text);
-    const m = str.match(/\b(\d{1,2})\s*(?:min|mins|minutes)\b/i);
-    if (!m) return null;
-    const n = parseInt(m[1], 10);
-    if (!Number.isFinite(n)) return null;
-    return Math.max(0, Math.min(n, 60));
-}
-
-function computeWetnessScoreFallback(venue) {
-    // Base ranges by label (calm, predictable)
-    const label = (venue?.wetness || '').toLowerCase();
-    let base = 0;
-
-    if (label === 'dry') base = 5;
-    else if (label === 'slightly') base = 22;
-    else if (label === 'wet') base = 65;
-    else base = 15;
-
-    // Nudge by any stated walk time (caps to avoid silly numbers)
-    const mins = parseMinutesFromText(venue?.description);
-    if (mins != null) {
-        const bump = Math.min(20, Math.round(mins * 1.5));
-        base = base + bump;
-    }
-
-    return Math.max(0, Math.min(100, Math.round(base)));
-}
-
-function ensureWetnessScores(venues) {
-    if (!Array.isArray(venues)) return;
-
-    venues.forEach(v => {
-        const existing = Number(v?.wetnessScore);
-        if (Number.isFinite(existing) && existing >= 0) {
-            v.wetnessScore = Math.max(0, Math.min(100, Math.round(existing)));
-            return;
-        }
-
-        // Also support "wetness_score" if it ever comes back snake_case
-        const snake = Number(v?.wetness_score);
-        if (Number.isFinite(snake) && snake >= 0) {
-            v.wetnessScore = Math.max(0, Math.min(100, Math.round(snake)));
-            return;
-        }
-
-        v.wetnessScore = computeWetnessScoreFallback(v);
-    });
-}
-
-function getWetnessScore(venue) {
-    const n = Number(venue?.wetnessScore);
-    if (Number.isFinite(n)) return Math.max(0, Math.min(100, Math.round(n)));
-    return computeWetnessScoreFallback(venue);
-}
-
 let selectedTypes = [];
 let selectedLocations = [];
 let selectedWetness = [];
@@ -245,37 +185,6 @@ function getFallbackGradient(venue) {
     // Default gradient
     return 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)';
 }
-
-function formatPriceDisplay(priceText) {
-    if (!priceText) return '';
-    const t = String(priceText).trim();
-
-    // Only append when it looks like a numeric GBP amount and doesn't already specify a unit
-    const hasPoundsNumber = /£\s*\d+/.test(t);
-    const alreadyHasUnit = /per\s*(person|pp)|\/\s*person|each|ticket|entry/i.test(t);
-
-    if (hasPoundsNumber && !alreadyHasUnit) {
-        return `${t} per person`;
-    }
-    return t;
-}
-
-function getWetnessCopy(score) {
-    const s = Number(score);
-    if (!Number.isFinite(s)) return 'Check the route';
-
-    if (s <= 10) return "You’ll stay dry";
-    if (s <= 25) return "Light drizzle risk";
-    if (s <= 45) return "You’ll get a bit damp";
-    return "Properly wet";
-}
-
-function getWetnessLabelWithPercent(score) {
-    const s = Number(score);
-    const percent = Number.isFinite(s) ? Math.round(s) : 0;
-    return `${getWetnessCopy(percent)} · ${percent}% wet`;
-}
-
 
 function getPlaceholderImage(venue) {
     // Generate a simple SVG placeholder based on venue type
@@ -462,85 +371,13 @@ function renderDavidsTopPicks() {
     section.style.display = 'block';
 
     grid.innerHTML = picks
-        .map((venue, i) => createActivityCardHTML(venue, i, { idPrefix: 'good-now', showId: true }))
+        .map((venue, i) => createActivityCardHTML(venue, i, { showId: false }))
         .join('');
 
     setTimeout(() => updateViewDetailsButtons(), 50);
     setTimeout(() => updateBookmarkIcons(), 50);
 }
 
-
-
-function renderGoodRightNow() {
-    const section = document.getElementById('goodRightNow');
-    const grid = document.getElementById('goodRightNowGrid');
-    if (!section || !grid) return;
-
-    const venues = (window.londonVenues || []).filter(v => v && v.name);
-
-    // Prefer open now, then driest (lowest wetnessScore), then highest rating if present
-    const ranked = venues
-        .map(v => {
-            const openNow = (typeof isVenueOpenNow === 'function') ? isVenueOpenNow(v) : null;
-            const wet = Number.isFinite(Number(v.wetnessScore)) ? Number(v.wetnessScore) : 999;
-            const rating = Number.isFinite(Number(v.rating)) ? Number(v.rating) : 0;
-            const hasBookingLink = !!(v.website || v.bookingUrl || v.url);
-            return { v, openNow, wet, rating, hasBookingLink };
-        })
-        .sort((a, b) => {
-            // open now first (true > null/false)
-            const ao = a.openNow === true ? 2 : (a.openNow === null ? 1 : 0);
-            const bo = b.openNow === true ? 2 : (b.openNow === null ? 1 : 0);
-            if (bo !== ao) return bo - ao;
-
-            // then driest
-            if (a.wet !== b.wet) return a.wet - b.wet;
-
-            // then rating
-            if (b.rating !== a.rating) return b.rating - a.rating;
-
-            // then prefer items with links
-            if (b.hasBookingLink !== a.hasBookingLink) return (b.hasBookingLink ? 1 : 0) - (a.hasBookingLink ? 1 : 0);
-
-            return (a.v.name || '').localeCompare(b.v.name || '');
-        });
-
-    const picks = ranked.slice(0, 3).map(x => x.v);
-
-    if (picks.length === 0) {
-        section.style.display = 'none';
-        grid.innerHTML = '';
-        return;
-    }
-
-    section.style.display = 'block';
-    grid.innerHTML = picks
-        .map((venue, i) => createActivityCardHTML(venue, i, { idPrefix: 'good-now', showId: true }))
-        .join('');
-
-    // Lazy load images for Good right now cards
-    picks.forEach(async (venue, i) => {
-        if (!getCachedImage(venue.name)) {
-            const imageUrl = await fetchUnsplashImage(venue.name);
-            if (imageUrl) {
-                const safeNameId = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
-                const card = document.getElementById(`good-now-${safeNameId}-${i}`);
-                if (card) {
-                    const imgDiv = card.querySelector('.activity-image');
-                    if (imgDiv) {
-                        imgDiv.style.backgroundImage = `url('${imageUrl}')`;
-                        imgDiv.style.backgroundSize = 'cover';
-                        imgDiv.style.backgroundPosition = 'center';
-                    }
-                }
-            }
-        }
-    });
-
-
-    setTimeout(() => updateViewDetailsButtons(), 50);
-    setTimeout(() => updateBookmarkIcons(), 50);
-}
 
 
 
@@ -656,6 +493,42 @@ let currentOffset = 0;
 const PAGE_SIZE = 6;
 
 // Reusable function to generate Activity Card HTML
+
+// Trust signals (quiet confidence)
+const TRUST_MESSAGES = [
+  "Every place here works properly in the rain",
+  "Chosen for bad weather, not good intentions",
+  "No long outdoor queues. No optimism.",
+  "If it’s here, you’ll stay mostly dry"
+];
+
+function pickTrustMessage() {
+  return TRUST_MESSAGES[Math.floor(Math.random() * TRUST_MESSAGES.length)];
+}
+
+function getWetnessLabel(percent) {
+  if (percent <= 0) return "You’ll stay dry";
+  if (percent <= 20) return "Light drizzle risk";
+  if (percent <= 40) return "Short outdoor exposure";
+  if (percent <= 60) return "Umbrella recommended";
+  return "Expect to get wet";
+}
+
+function getTrustTagsForVenue(venue, wetnessPercent) {
+  const tags = [];
+
+  if (wetnessPercent <= 0) tags.push("Indoor throughout");
+  else if (wetnessPercent <= 20) tags.push("Mostly covered");
+
+  const type = (venue.type || "").toLowerCase();
+  if (["museum","gallery","library","bookshop"].includes(type)) tags.push("Calm option");
+  else if (["cinema","theatre"].includes(type)) tags.push("Sit down and warm");
+  else if (["bowling","arcade","immersive","games"].includes(type)) tags.push("Good for groups");
+
+  // Keep it minimal
+  return tags.slice(0, 2);
+}
+
 function createActivityCardHTML(venue, index, options = {}) {
     const {
         idPrefix = 'card',
@@ -701,14 +574,12 @@ function createActivityCardHTML(venue, index, options = {}) {
     const safeNameId = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
     const idAttr = showId ? `id="${idPrefix}-${safeNameId}-${index}"` : '';
     const bookmarkClass = isSaved ? 'bookmark-icon saved' : 'bookmark-icon';
-    const venueNameAttr = (venue.name || '').replace(/'/g, '&#39;');
-
 
     // ADD SPONSORED CLASS TO CARD - MONETIZATION FEATURE
     const sponsoredClass = isSponsored(venue) ? 'sponsored-card' : '';
 
     return `
-        <div class="activity-card ${sponsoredClass} ${cardClass}" ${idAttr} data-venue-name='${venueNameAttr}' ${dataAttrs}>
+        <div class="activity-card ${sponsoredClass} ${cardClass}" ${idAttr} ${dataAttrs}>
             <div class="activity-image" style="${backgroundStyle}">
                 ${sponsoredBadge}
                 ${badgeHTML}
@@ -728,7 +599,7 @@ function createActivityCardHTML(venue, index, options = {}) {
                     <div class="wetness-bar">
                         <div class="wetness-bar-fill" style="width: ${wetnessPercent}%"></div>
                     </div>
-                    <span class="wetness-label">${getWetnessLabelWithPercent(wetnessPercent)}</span>
+                    <span class="wetness-label">${getWetnessLabel(wetnessPercent)}</span>
                 </div>
                 <div class="price">${venue.priceDisplay}</div>
                 <button class="book-btn">See details</button>
@@ -831,9 +702,8 @@ async function renderVenues(venues, options = {}) {
 
     counter.textContent = `${venues.length} ${venues.length === 1 ? 'activity' : 'activities'} found`;
 
-    const startIndex = displayedCount;
-    const venuesToShow = venues.slice(startIndex, startIndex + VENUES_PER_PAGE);
-    displayedCount = startIndex + venuesToShow.length;
+    const venuesToShow = venues.slice(displayedCount, displayedCount + VENUES_PER_PAGE);
+    displayedCount += venuesToShow.length;
 
     // Optimistic rendering: Render text content first, then update with images
     const venueHTML = venuesToShow.map((venue, index) => {
@@ -843,7 +713,7 @@ async function renderVenues(venues, options = {}) {
             ? `background-image: url('${cachedUrl}');`
             : `background-image: url('${getPlaceholderImage(venue)}'); background-size: cover;`;
 
-        return createActivityCardHTML(venue, startIndex + index);
+        return createActivityCardHTML(venue, index);
     }).join('');
 
     if (append) {
@@ -857,9 +727,8 @@ async function renderVenues(venues, options = {}) {
         if (!getCachedImage(venue.name)) {
             const imageUrl = await fetchUnsplashImage(venue.name);
             if (imageUrl) {
-                const safeNameId = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
-                const cardIndex = startIndex + index;
-                const card = document.getElementById(`card-${safeNameId}-${cardIndex}`);
+                const safeName = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
+                const card = document.getElementById(`card - ${safeName} -${index} `);
                 if (card) {
                     const imgDiv = card.querySelector('.activity-image');
                     if (imgDiv) {
@@ -873,7 +742,7 @@ async function renderVenues(venues, options = {}) {
 
     counter.textContent = `${venues.length} ${venues.length === 1 ? 'activity' : 'activities'} found`;
 
-    // Update See details buttons logic
+    // Update View Details buttons logic
     updateViewDetailsButtons();
     updateBookmarkIcons();
 
@@ -1167,7 +1036,7 @@ function openActivityModal(venue) {
     const modalWetnessFill = document.getElementById('modalWetnessFill');
     const modalWetnessLabel = document.getElementById('modalWetnessLabel');
     if (modalWetnessFill) modalWetnessFill.style.width = `${wetnessPercent}%`;
-    if (modalWetnessLabel) modalWetnessLabel.textContent = `${getWetnessLabelWithPercent(wetnessPercent)}`;
+    if (modalWetnessLabel) modalWetnessLabel.textContent = `${wetnessPercent}% wet`;
 
     // Set stars
     const fullStars = Math.floor(venue.rating);
@@ -1657,6 +1526,9 @@ function closeShareModal() {
 
 // Close share modal when clicking outside
 document.addEventListener('DOMContentLoaded', function () {
+    const trustEl = document.getElementById('trustLine');
+    if (trustEl) trustEl.textContent = pickTrustMessage();
+
     document.getElementById('shareModal').addEventListener('click', function (e) {
         if (e.target === this) {
             closeShareModal();
@@ -1705,7 +1577,7 @@ function shareViaEmail() {
     if (!currentActivity) return;
 
     const subject = `Check out ${currentActivity.name} on Wet London`;
-    const body = `I thought you might be interested in this activity:\n\n${currentActivity.name}\n${currentActivity.description}\n\nPrice: ${currentActivity.priceDisplay}\nLocation: ${currentActivity.location}\n\nSee details: ${document.getElementById('shareLink').value}`;
+    const body = `I thought you might be interested in this activity:\n\n${currentActivity.name}\n${currentActivity.description}\n\nPrice: ${currentActivity.priceDisplay}\nLocation: ${currentActivity.location}\n\nView details: ${document.getElementById('shareLink').value}`;
 
     const mailtoUrl = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     window.location.href = mailtoUrl;
@@ -1733,9 +1605,9 @@ function shareViaFacebook() {
     showToast('📘', 'Opening Facebook...');
 }
 
-// Update See details buttons to open modal
+// Update View Details buttons to open modal
 function updateViewDetailsButtons() {
-    // Handle "See details" button clicks
+    // Handle "View Details" button clicks
     document.querySelectorAll('.book-btn').forEach((btn, index) => {
         btn.onclick = function (e) {
             e.preventDefault();
@@ -1766,7 +1638,7 @@ function updateViewDetailsButtons() {
                     location: locationText,
                     wetness: wetnessText.toLowerCase(),
                     price: price,
-                    priceDisplay: formatPriceDisplay(priceText),
+                    priceDisplay: priceText,
                     rating: 4.5,
                     prerequisites: ['check venue for details']
                 };
@@ -1779,7 +1651,7 @@ function updateViewDetailsButtons() {
     // Handle activity card clicks (but not bookmark icon or button)
     document.querySelectorAll('.activity-card').forEach(card => {
         card.onclick = function (e) {
-            // Don't trigger if clicking bookmark icon or See details button
+            // Don't trigger if clicking bookmark icon or View Details button
             if (e.target.closest('.bookmark-icon') || e.target.closest('.book-btn')) {
                 return;
             }
@@ -1808,7 +1680,7 @@ function updateViewDetailsButtons() {
                     location: locationText,
                     wetness: wetnessText.toLowerCase(),
                     price: price,
-                    priceDisplay: formatPriceDisplay(priceText),
+                    priceDisplay: priceText,
                     rating: 4.5,
                     prerequisites: ['check venue for details']
                 };
@@ -1878,8 +1750,7 @@ async function feelingLucky() {
             if (!getCachedImage(venue.name)) {
                 const imageUrl = await fetchUnsplashImage(venue.name);
                 if (imageUrl) {
-                    const safeNameId = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
-                    const card = document.getElementById(`lucky-card-${safeNameId}-${index}`);
+                    const card = document.getElementById(`lucky-card-${index}`);
                     if (card) {
                         const imgDiv = card.querySelector('.activity-image');
                         if (imgDiv) {
@@ -1891,7 +1762,7 @@ async function feelingLucky() {
             }
         });
 
-        // Update See details buttons and bookmark icons
+        // Update View Details buttons and bookmark icons
         setTimeout(() => {
             updateViewDetailsButtons();
             updateBookmarkIcons();
@@ -1955,7 +1826,7 @@ async function toggleBookmarkFromCard(event, venueName) {
                 location: locationText,
                 wetness: wetnessText.toLowerCase().replace(' ', '-'),
                 price: price,
-                priceDisplay: formatPriceDisplay(priceText),
+                priceDisplay: priceText,
                 rating: 4.5,
                 prerequisites: ['check venue for details']
             };
@@ -2032,7 +1903,7 @@ async function showBookmarks() {
             return createActivityCardHTML(venue, index, { isSaved: true, showId: false });
         }).join('');
 
-        // Hook up the See details buttons
+        // Hook up the View Details buttons
         setTimeout(() => updateViewDetailsButtons(), 100);
     }
 }
@@ -2305,7 +2176,7 @@ async function renderAllActivities(append = false) {
 
     console.log('Grid now has', grid.children.length, 'children');
 
-    // Update See details buttons
+    // Update View Details buttons
     setTimeout(() => updateViewDetailsButtons(), 100);
 
     // Update bookmark icons
@@ -2595,7 +2466,6 @@ async function fetchWeather() {
             humidity: current.relative_humidity_2m,
             description: description,
             weatherCode: weatherCode,
-            precipitation: Number(current.precipitation) || 0,
             isRaining: isRaining
         });
 
@@ -2650,7 +2520,6 @@ function displayDemoWeather() {
         humidity: 75,
         description: 'Overcast',
         weatherCode: 3, // WMO code for Overcast
-        precipitation: 0,
         isRaining: false
     });
 }
@@ -2732,21 +2601,14 @@ async function updateWeatherRecommendations(weather) {
     let titleText = '';
     let subtitleText = '';
 
-    
-    // Wetness thresholds (use score where possible, fallback keeps it consistent)
-    const precipitation = Number(weather?.precipitation) || 0;
-    const code = Number(weather?.weatherCode) || 0;
-    const isHeavierRain = Boolean(weather?.isRaining) && (precipitation >= 2 || (code >= 61 && code <= 65) || (code >= 80 && code <= 82));
-    const rainThreshold = isHeavierRain ? 15 : 25;
-
-// Determine recommendations based on weather conditions
+    // Determine recommendations based on weather conditions
     if (weather.isRaining) {
         // Heavy rain - prioritize completely dry venues
         iconEmoji = '';  // No emoji
         titleText = 'Perfect for Rainy Weather';
         subtitleText = 'Stay completely dry at these venues';
         recommendedVenues = window.londonVenues
-            .filter(v => getWetnessScore(v) <= rainThreshold)
+            .filter(v => v.wetness === 'dry')
             .sort((a, b) => b.rating - a.rating)
             .slice(0, 6);
         console.log('Rainy weather detected');
@@ -2757,7 +2619,7 @@ async function updateWeatherRecommendations(weather) {
         subtitleText = 'Warm up at these comfortable venues';
         recommendedVenues = window.londonVenues
             .filter(v =>
-                getWetnessScore(v) <= 20 &&
+                v.wetness === 'dry' &&
                 (v.type.includes('dining') || v.type.includes('cinema') || v.type.includes('wellness'))
             )
             .sort((a, b) => b.rating - a.rating)
@@ -2769,7 +2631,7 @@ async function updateWeatherRecommendations(weather) {
         if (recommendedVenues.length < 6) {
             console.log('Not enough cozy venues, using fallback');
             recommendedVenues = window.londonVenues
-                .filter(v => getWetnessScore(v) <= 25)
+                .filter(v => v.wetness === 'dry')
                 .sort((a, b) => b.rating - a.rating)
                 .slice(0, 6);
         }
@@ -2780,7 +2642,7 @@ async function updateWeatherRecommendations(weather) {
         subtitleText = 'Enjoy indoor spaces with natural light';
         recommendedVenues = window.londonVenues
             .filter(v =>
-                getWetnessScore(v) <= 35 &&
+                (v.wetness === 'dry' || v.wetness === 'slightly') &&
                 (v.type.includes('galleries') || v.type.includes('shopping') || v.type.includes('exhibitions'))
             )
             .sort((a, b) => b.rating - a.rating)
@@ -2792,7 +2654,7 @@ async function updateWeatherRecommendations(weather) {
         if (recommendedVenues.length < 6) {
             console.log('Not enough bright venues, using fallback');
             recommendedVenues = window.londonVenues
-                .filter(v => getWetnessScore(v) <= 25)
+                .filter(v => v.wetness === 'dry')
                 .sort((a, b) => b.rating - a.rating)
                 .slice(0, 6);
         }
@@ -2803,7 +2665,7 @@ async function updateWeatherRecommendations(weather) {
         subtitleText = 'Cool and comfortable venues';
         recommendedVenues = window.londonVenues
             .filter(v =>
-                getWetnessScore(v) <= 20 &&
+                v.wetness === 'dry' &&
                 (v.type.includes('cinema') || v.type.includes('museums') || v.type.includes('shopping'))
             )
             .sort((a, b) => b.rating - a.rating)
@@ -2815,7 +2677,7 @@ async function updateWeatherRecommendations(weather) {
         if (recommendedVenues.length < 6) {
             console.log('Not enough AC venues, using fallback');
             recommendedVenues = window.londonVenues
-                .filter(v => getWetnessScore(v) <= 25)
+                .filter(v => v.wetness === 'dry')
                 .sort((a, b) => b.rating - a.rating)
                 .slice(0, 6);
         }
@@ -2882,7 +2744,7 @@ async function updateWeatherRecommendations(weather) {
         console.log('Grid visibility:', window.getComputedStyle(grid).visibility);
         console.log('Section display:', window.getComputedStyle(section).display);
 
-        // Update See details buttons for these cards
+        // Update View Details buttons for these cards
         setTimeout(() => {
             updateViewDetailsButtons();
             updateBookmarkIcons();
@@ -3070,7 +2932,7 @@ window.copyShareLink = copyShareLink;
 window.feelingLucky = feelingLucky;
 window.closeLuckySelection = closeLuckySelection;
 
-// Initialize See details buttons on page load for Featured Activities
+// Initialize View Details buttons on page load for Featured Activities
 document.addEventListener('DOMContentLoaded', async function () {
     updateViewDetailsButtons();
     updateCategoryCounts();
@@ -3097,9 +2959,6 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (typeof loadVenuesFromSupabase === 'function') {
         await loadVenuesFromSupabase();
     }
-
-    // Ensure every venue has a reliable wetnessScore for UI + recommendations
-    ensureWetnessScores(window.londonVenues);
 
     // Render Featured Activities (and Spotlight) from Supabase flags
     await renderFeaturedActivitiesFromSupabase();
@@ -3326,7 +3185,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 window.addEventListener('venues:loaded', () => {
     renderDavidsTopPicks();
-    renderGoodRightNow();
 });
 
 

@@ -5258,101 +5258,31 @@ body{
 }
 
 
-/* === Situations page (chips + curated grid) === */
-.situations-page .situations-main{
-  padding-top: 0;
-}
-
-.situations-hero{
-  padding: 5rem 3rem 2rem;
-}
-
-.situations-hero .container{
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.situations-hero h1{
-  margin: 0 0 0.75rem 0;
-}
-
-.situations-controls{
-  margin-top: 2.25rem;
-  padding: 1.5rem;
-  border-radius: var(--wl-radius, 16px);
-  background: rgba(15,22,36,0.92);
-  border: 1px solid var(--wl-border, rgba(255,255,255,0.10));
-  box-shadow: var(--wl-shadow-soft, 0 12px 30px rgba(0,0,0,0.18));
-}
-
-.situations-title{
-  font-size: 1rem;
-  margin: 0 0 0.5rem 0;
-}
-
-.situations-helper{
-  margin: 0 0 1rem 0;
-  color: var(--wl-muted, rgba(255,255,255,0.72));
+/* Trust signals */
+.trust-line{
+  margin: 0.35rem 0 0;
   font-size: 0.95rem;
+  opacity: 0.78;
 }
 
-.situations-chips{
-  justify-content: center;
-}
-
-.situations-active{
+.trust-chips{
   display: flex;
-  justify-content: center;
-  margin-top: 1rem;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
 }
 
-.situations-results{
-  padding-bottom: 4rem;
-}
-
-.situations-results-header{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin: 0 0 1rem 0;
-}
-
-.situations-clear{
+.trust-chip{
+  font-size: 0.78rem;
+  padding: 6px 10px;
   border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  opacity: 0.92;
 }
 
-.load-more-container{
-  display: flex;
-  justify-content: center;
-  margin-top: 1.5rem;
-}
-
-.empty-state{
-  margin-top: 2rem;
-  padding: 2rem;
-  border-radius: var(--wl-radius, 16px);
-  background: rgba(15,22,36,0.92);
-  border: 1px solid var(--wl-border, rgba(255,255,255,0.10));
-}
-
-.empty-state h3{
-  margin: 0 0 0.5rem 0;
-}
-
-.empty-state p{
-  margin: 0 0 1rem 0;
-  color: var(--wl-muted, rgba(255,255,255,0.72));
-}
-
-@media (max-width: 768px){
-  .situations-hero{
-    padding: 4rem 1.5rem 1.5rem;
-  }
-  .situations-controls{
-    padding: 1rem;
-  }
-  .situations-results-header{
-    align-items: flex-start;
-  }
+.footer-promise{
+  margin-top: 12px;
+  opacity: 0.75;
+  font-size: 0.95rem;
 }
