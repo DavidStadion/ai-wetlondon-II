@@ -46,152 +46,139 @@ function labelCategory(categoryKey) {
         .replace(/\b\w/g, c => c.toUpperCase());
 }
 
-// Unsplash Image Functions
+// Image Functions (Places first, Unsplash fallback)
 function getImageCache() {
     try {
         const cache = localStorage.getItem(IMAGE_CACHE_KEY);
         return cache ? JSON.parse(cache) : {};
     } catch (error) {
-        // Silently return empty cache if localStorage fails
         return {};
     }
 }
 
-function setImageCache(venueName, imageUrl) {
+function setImageCache(venueName, imageUrl, source = 'unknown') {
     try {
         const cache = getImageCache();
         cache[venueName] = {
             url: imageUrl,
+            source,
             timestamp: Date.now()
         };
         localStorage.setItem(IMAGE_CACHE_KEY, JSON.stringify(cache));
     } catch (error) {
-        // Silently fail if localStorage quota exceeded or unavailable
-        // Images will just not be cached
+        // ignore
     }
 }
 
-function getCachedImage(venueName) {
+/**
+ * Returns cached URL if fresh.
+ * If preferredSource is "places", a cached Unsplash URL will be ignored so we can try Places.
+ */
+function getCachedImage(venueName, preferredSource = 'places') {
     const cache = getImageCache();
     const cached = cache[venueName];
 
-    if (cached && (Date.now() - cached.timestamp < CACHE_DURATION)) {
-        return cached.url;
+    if (!cached) return null;
+    if (Date.now() - cached.timestamp >= CACHE_DURATION) return null;
+
+    if (preferredSource === 'places' && cached.source && cached.source !== 'places') {
+        return null;
     }
 
-    return null;
+    return cached.url;
 }
 
+// Google Places Photo Proxy (server-side)
+async function fetchPlacesImage(venueName) {
+    const cachedPlaces = getCachedImage(venueName, 'places');
+    if (cachedPlaces) return cachedPlaces;
+
+    const q = (venueName || '').replace(/, London$/i, '').trim();
+    if (!q) return null;
+
+    try {
+        const resp = await fetch(`/api/place-photo?q=${encodeURIComponent(q + ' London')}`);
+        if (!resp.ok) return null;
+
+        const data = await resp.json();
+        if (data && typeof data.imageUrl === 'string' && data.imageUrl.length > 0) {
+            setImageCache(venueName, data.imageUrl, 'places');
+            return data.imageUrl;
+        }
+        return null;
+    } catch (e) {
+        return null;
+    }
+}
+
+// Unsplash fallback only
 async function fetchUnsplashImage(venueName) {
-    // Check cache first
-    const cachedUrl = getCachedImage(venueName);
+    // Accept any cached value here (if Places fails, we can still use it)
+    const cachedUrl = getCachedImage(venueName, 'any');
     if (cachedUrl) return cachedUrl;
 
-    // 1) Google Places first (via our server proxy)
-    try {
-        const q = encodeURIComponent(`${venueName} London`);
-        const resp = await fetch(`/api/place-photo?q=${q}`, {
-            headers: { "Accept": "application/json" },
-            cache: "no-store"
-        });
-
-        if (resp.ok) {
-            const data = await resp.json();
-            if (data && data.imageUrl) {
-                // Cache the proxy URL returned by our API
-                cacheImage(venueName, data.imageUrl);
-                return data.imageUrl;
-            }
-        }
-    } catch (error) {
-        console.warn("Google Places image fetch failed, falling back to Unsplash:", error);
-    }
-
-    // 2) Unsplash fallback
-    const UNSPLASH_ACCESS_KEY = window.UNSPLASH_ACCESS_KEY || 'YOUR_UNSPLASH_KEY_HERE';
-    if (!UNSPLASH_ACCESS_KEY || UNSPLASH_ACCESS_KEY === 'YOUR_UNSPLASH_KEY_HERE') {
-        // Return a placeholder if no Unsplash key
-        return 'data:image/svg+xml;base64,' + btoa(`
-            <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
-                <defs>
-                    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:%231a1a2e;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:%230f3460;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <rect width="400" height="300" fill="url(%23grad)"/>
-                <text x="200" y="150" text-anchor="middle" fill="%23ffffff" font-family="Arial" font-size="16">
-                    ${venueName}
-                </text>
-            </svg>
-        `);
-    }
-
-    // Use custom search term for better results
-    let searchTerm = `${venueName} London`;
-
-    // Handle common venue types
-    const customSearchTerms = {
-        'BFI': 'BFI Southbank London cinema',
-        'Science Museum': 'Science Museum London',
-        'Natural History Museum': 'Natural History Museum London',
-        'British Museum': 'British Museum London',
-        'Tate Modern': 'Tate Modern London',
-        'National Gallery': 'National Gallery London',
-        'West End': 'West End theatre London',
-        'Comedy': 'comedy club London',
-        'Spa': 'luxury spa London',
-        'Market': 'indoor market London',
-        'Arcade': 'arcade London',
-        'Bowling': 'bowling alley London'
+    const searchTerms = {
+        'British Museum': 'British Museum interior London',
+        'Tate Modern': 'Tate Modern gallery London',
+        'National Gallery': 'National Gallery Trafalgar Square',
+        'Science Museum': 'Science Museum London exhibits',
+        'Natural History Museum': 'Natural History Museum London dinosaur',
+        'Victoria and Albert Museum': 'V&A Museum London',
+        'Sky Garden': 'Sky Garden London rooftop',
+        'Covent Garden Market': 'Covent Garden London market',
+        'Borough Market': 'Borough Market London food',
+        'Southbank Centre': 'Southbank Centre London Thames',
+        'Royal Albert Hall': 'Royal Albert Hall London exterior',
+        'Churchill War Rooms': 'Churchill War Rooms London',
+        'Somerset House': 'Somerset House London courtyard',
+        'Barbican Centre': 'Barbican Centre London architecture',
+        'Design Museum': 'Design Museum London Kensington',
+        'Wellcome Collection': 'Wellcome Collection London',
+        'Leake Street Arches': 'Leake Street graffiti tunnel London',
+        "God's Own Junkyard": 'neon lights art installation',
+        'Frameless': 'Frameless immersive art London',
+        'London Aquarium': 'London Aquarium Sea Life',
+        'West End Theatre': 'West End theatre London lights',
+        'Electric Cinema': 'Electric Cinema Notting Hill',
+        'Fortnum & Mason': 'Fortnum Mason London interior',
+        'Foyles Bookshop': 'Foyles bookshop London',
+        'Little Venice': 'Little Venice London canal'
     };
 
-    // Check if venue name contains any keywords
-    Object.keys(customSearchTerms).forEach(keyword => {
-        if (venueName.includes(keyword)) {
-            searchTerm = customSearchTerms[keyword];
-        }
-    });
+    const query = searchTerms[venueName] || ((venueName || '').replace(/, London$/i, '').trim() + ' London');
 
     try {
         const response = await fetch(
-            `https://api.unsplash.com/search/photos?query=${encodeURIComponent(searchTerm)}&per_page=1&orientation=landscape`,
-            {
-                headers: {
-                    'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}`
-                }
-            }
+            `${UNSPLASH_API_URL}/search/photos?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape`,
+            { headers: { 'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}` } }
         );
 
-        if (!response.ok) {
-            throw new Error(`Unsplash API error: ${response.status}`);
-        }
+        if (!response.ok) return null;
 
         const data = await response.json();
-
         if (data.results && data.results.length > 0) {
             const imageUrl = data.results[0].urls.regular;
-            cacheImage(venueName, imageUrl);
+            setImageCache(venueName, imageUrl, 'unsplash');
             return imageUrl;
         }
-    } catch (error) {
-        console.error('Error fetching Unsplash image:', error);
-    }
 
-    // Fallback placeholder
-    return 'data:image/svg+xml;base64,' + btoa(`
-        <svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
-            <rect width="400" height="300" fill="%231a1a2e"/>
-            <text x="200" y="150" text-anchor="middle" fill="%23ffffff" font-family="Arial" font-size="16">
-                ${venueName}
-            </text>
-        </svg>
-    `);
+        return null;
+    } catch (error) {
+        return null;
+    }
+}
+
+// Main image fetcher: Places first, then Unsplash
+async function fetchVenueImage(venueName) {
+    const placesUrl = await fetchPlacesImage(venueName);
+    if (placesUrl) return placesUrl;
+
+    return await fetchUnsplashImage(venueName);
 }
 
 // Batch fetch images for multiple venues
 async function fetchImagesForVenues(venues) {
-    const promises = venues.map(venue => fetchUnsplashImage(venue.name));
+    const promises = venues.map(venue => fetchVenueImage(venue.name));
     return await Promise.all(promises);
 }
 
@@ -724,7 +711,7 @@ async function renderVenues(venues, options = {}) {
     // Lazy load images
     venuesToShow.forEach(async (venue, index) => {
         if (!getCachedImage(venue.name)) {
-            const imageUrl = await fetchUnsplashImage(venue.name);
+            const imageUrl = await fetchVenueImage(venue.name);
             if (imageUrl) {
                 const safeName = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
                 const card = document.getElementById(`card - ${safeName} -${index} `);
@@ -1501,7 +1488,7 @@ function shareActivity() {
 
     // Set activity image (use Unsplash or placeholder)
     const imageElement = document.getElementById('shareActivityImage');
-    fetchUnsplashImage(currentActivity.name).then(imageUrl => {
+    fetchVenueImage(currentActivity.name).then(imageUrl => {
         if (imageUrl) {
             imageElement.style.backgroundImage = `url('${imageUrl}')`;
         } else {
@@ -1744,7 +1731,7 @@ async function feelingLucky() {
         // Lazy load images
         randomVenues.forEach(async (venue, index) => {
             if (!getCachedImage(venue.name)) {
-                const imageUrl = await fetchUnsplashImage(venue.name);
+                const imageUrl = await fetchVenueImage(venue.name);
                 if (imageUrl) {
                     const card = document.getElementById(`lucky-card-${index}`);
                     if (card) {
@@ -1876,7 +1863,7 @@ async function showBookmarks() {
                 `;
     } else {
         // Fetch images for bookmarked venues
-        const imagePromises = savedActivities.map(venue => fetchUnsplashImage(venue.name));
+        const imagePromises = savedActivities.map(venue => fetchVenueImage(venue.name));
         const images = await Promise.all(imagePromises);
 
         grid.innerHTML = savedActivities.map((venue, index) => {
@@ -2148,7 +2135,7 @@ async function renderAllActivities(append = false) {
     console.log('New displayed count:', allActivitiesDisplayedCount);
 
     // Fetch images for these venues
-    const imagePromises = venuesToShow.map(venue => fetchUnsplashImage(venue.name));
+    const imagePromises = venuesToShow.map(venue => fetchVenueImage(venue.name));
     const images = await Promise.all(imagePromises);
 
     const venueHTML = venuesToShow.map((venue, index) => {
@@ -2751,7 +2738,7 @@ async function updateWeatherRecommendations(weather) {
         setTimeout(async () => {
             try {
                 console.log('Fetching Unsplash images...');
-                const imagePromises = recommendedVenues.map(venue => fetchUnsplashImage(venue.name));
+                const imagePromises = recommendedVenues.map(venue => fetchVenueImage(venue.name));
                 const images = await Promise.all(imagePromises);
 
                 // Update images if we got better ones
@@ -2871,7 +2858,7 @@ async function loadFeaturedActivityImages() {
         const venue = window.londonVenues.find(v => v.name === venueName);
 
         // Fetch image
-        const imageUrl = await fetchUnsplashImage(venueName);
+        const imageUrl = await fetchVenueImage(venueName);
 
         if (imageUrl) {
             imageDiv.style.backgroundImage = `url('${imageUrl}')`;
