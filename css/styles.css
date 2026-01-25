@@ -1750,20 +1750,22 @@
         }
 
 /* Force View Details button to align at bottom of cards */
-.activity-card:not(.featured) {
+.activity-card {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
-.activity-card:not(.featured) .activity-content {
+.activity-card .activity-content {
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-.activity-card:not(.featured) .book-btn {
+.activity-card .book-btn {
   margin-top: auto;
 }
+
 
 
         /* Ensure grid displays properly in weather recommendations */
