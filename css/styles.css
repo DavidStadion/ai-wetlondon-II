@@ -5468,3 +5468,20 @@ body{
 }
 
 .empty-state-cta:hover { opacity: 0.92; }
+/* Force consistent card layout and pin CTA to bottom */
+.activity-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.activity-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* Push the button to the bottom of the card */
+.activity-content .book-btn {
+  margin-top: auto;
+}
