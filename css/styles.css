@@ -1749,6 +1749,23 @@
             display: none;
         }
 
+/* Force View Details button to align at bottom of cards */
+.activity-card:not(.featured) {
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-card:not(.featured) .activity-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.activity-card:not(.featured) .book-btn {
+  margin-top: auto;
+}
+
+
         /* Ensure grid displays properly in weather recommendations */
         .weather-recommendations-section .activity-grid {
             display: grid !important;
