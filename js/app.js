@@ -988,6 +988,22 @@ function openActivityModal(venue) {
     currentActivity = venue;
     const modal = document.getElementById('activityModal');
 
+    const hero = document.getElementById('modalHeroImage');
+    if (hero) {
+        const heroUrl =
+            venue.cardImage ||
+            (typeof getCachedImage === 'function' ? getCachedImage(venue.name) : null) ||
+            (typeof getPlaceholderImage === 'function' ? getPlaceholderImage(venue) : null);
+
+        if (heroUrl) {
+            hero.style.backgroundImage = `url('${heroUrl}')`;
+            hero.style.display = '';
+        } else {
+            hero.style.backgroundImage = '';
+            hero.style.display = 'none';
+        }
+    }
+
     // Lock body scroll
     document.body.classList.add('modal-open');
 
@@ -1588,6 +1604,19 @@ function shareViaFacebook() {
     showToast('📘', 'Opening Facebook...');
 }
 
+// Helper: pull the card image URL so the modal can use it
+function getCardImageUrl(card) {
+    try {
+        const imgDiv = card ? card.querySelector('.activity-image') : null;
+        if (!imgDiv) return null;
+        const bg = window.getComputedStyle(imgDiv).backgroundImage || '';
+        const match = /url\(["']?(.*?)["']?\)/.exec(bg);
+        return match && match[1] ? match[1] : null;
+    } catch (e) {
+        return null;
+    }
+}
+
 // Update View Details buttons to open modal
 function updateViewDetailsButtons() {
     // Handle "View Details" button clicks
@@ -1596,6 +1625,7 @@ function updateViewDetailsButtons() {
             e.preventDefault();
             e.stopPropagation(); // Prevent card click from also firing
             const card = this.closest('.activity-card');
+            const cardImageUrl = getCardImageUrl(card);
             const venueName = card.querySelector('h3').textContent;
             let venue = window.londonVenues.find(v => v.name === venueName);
 
@@ -1627,6 +1657,9 @@ function updateViewDetailsButtons() {
                 };
             }
 
+            // Pass the card image into the modal hero
+            if (cardImageUrl) venue.cardImage = cardImageUrl;
+
             openActivityModal(venue);
         };
     });
@@ -1634,6 +1667,7 @@ function updateViewDetailsButtons() {
     // Handle activity card clicks (but not bookmark icon or button)
     document.querySelectorAll('.activity-card').forEach(card => {
         card.onclick = function (e) {
+            const cardImageUrl = getCardImageUrl(this);
             // Don't trigger if clicking bookmark icon or View Details button
             if (e.target.closest('.bookmark-icon') || e.target.closest('.book-btn')) {
                 return;
@@ -1668,6 +1702,9 @@ function updateViewDetailsButtons() {
                     prerequisites: ['check venue for details']
                 };
             }
+
+            // Pass the card image into the modal hero
+            if (cardImageUrl) venue.cardImage = cardImageUrl;
 
             openActivityModal(venue);
         };
