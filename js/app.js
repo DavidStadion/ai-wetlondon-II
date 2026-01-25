@@ -46,77 +46,50 @@ function labelCategory(categoryKey) {
         .replace(/\b\w/g, c => c.toUpperCase());
 }
 
-// Image Functions (Places first, Unsplash fallback)
+// Unsplash Image Functions
 function getImageCache() {
     try {
         const cache = localStorage.getItem(IMAGE_CACHE_KEY);
         return cache ? JSON.parse(cache) : {};
     } catch (error) {
+        // Silently return empty cache if localStorage fails
         return {};
     }
 }
 
-function setImageCache(venueName, imageUrl, source = 'unknown') {
+function setImageCache(venueName, imageUrl) {
     try {
         const cache = getImageCache();
         cache[venueName] = {
             url: imageUrl,
-            source,
             timestamp: Date.now()
         };
         localStorage.setItem(IMAGE_CACHE_KEY, JSON.stringify(cache));
     } catch (error) {
-        // ignore
+        // Silently fail if localStorage quota exceeded or unavailable
+        // Images will just not be cached
     }
 }
 
-/**
- * Returns cached URL if fresh.
- * If preferredSource is "places", a cached Unsplash URL will be ignored so we can try Places.
- */
-function getCachedImage(venueName, preferredSource = 'places') {
+function getCachedImage(venueName) {
     const cache = getImageCache();
     const cached = cache[venueName];
 
-    if (!cached) return null;
-    if (Date.now() - cached.timestamp >= CACHE_DURATION) return null;
-
-    if (preferredSource === 'places' && cached.source && cached.source !== 'places') {
-        return null;
+    if (cached && (Date.now() - cached.timestamp < CACHE_DURATION)) {
+        return cached.url;
     }
 
-    return cached.url;
+    return null;
 }
 
-// Google Places Photo Proxy (server-side)
-async function fetchPlacesImage(venueName) {
-    const cachedPlaces = getCachedImage(venueName, 'places');
-    if (cachedPlaces) return cachedPlaces;
-
-    const q = (venueName || '').replace(/, London$/i, '').trim();
-    if (!q) return null;
-
-    try {
-        const resp = await fetch(`/api/place-photo?q=${encodeURIComponent(q + ' London')}`);
-        if (!resp.ok) return null;
-
-        const data = await resp.json();
-        if (data && typeof data.imageUrl === 'string' && data.imageUrl.length > 0) {
-            setImageCache(venueName, data.imageUrl, 'places');
-            return data.imageUrl;
-        }
-        return null;
-    } catch (e) {
-        return null;
-    }
-}
-
-// Unsplash fallback only
 async function fetchUnsplashImage(venueName) {
-    // Accept any cached value here (if Places fails, we can still use it)
-    const cachedUrl = getCachedImage(venueName, 'any');
-    if (cachedUrl) return cachedUrl;
+    // Check cache first
+    const cachedUrl = getCachedImage(venueName);
+    if (cachedUrl) {
+        return cachedUrl;
+    }
 
+    // Better search terms for specific venues
     const searchTerms = {
         'British Museum': 'British Museum interior London',
         'Tate Modern': 'Tate Modern gallery London',
@@ -135,7 +108,7 @@ async function fetchUnsplashImage(venueName) {
         'Design Museum': 'Design Museum London Kensington',
         'Wellcome Collection': 'Wellcome Collection London',
         'Leake Street Arches': 'Leake Street graffiti tunnel London',
-        "God's Own Junkyard": 'neon lights art installation',
+        'God\'s Own Junkyard': 'neon lights art installation',
         'Frameless': 'Frameless immersive art London',
         'London Aquarium': 'London Aquarium Sea Life',
         'West End Theatre': 'West End theatre London lights',
@@ -145,40 +118,45 @@ async function fetchUnsplashImage(venueName) {
         'Little Venice': 'Little Venice London canal'
     };
 
-    const query = searchTerms[venueName] || ((venueName || '').replace(/, London$/i, '').trim() + ' London');
+    // Use custom search term if available, otherwise use venue name
+    let searchQuery = searchTerms[venueName] || venueName.replace(/, London$/, '') + ' London';
 
     try {
         const response = await fetch(
-            `${UNSPLASH_API_URL}/search/photos?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape`,
-            { headers: { 'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}` } }
+            `${UNSPLASH_API_URL}/search/photos?query=${encodeURIComponent(searchQuery)}&per_page=1&orientation=landscape`,
+            {
+                headers: {
+                    'Authorization': `Client-ID ${UNSPLASH_ACCESS_KEY}`
+                }
+            }
         );
 
-        if (!response.ok) return null;
+        if (!response.ok) {
+            // Silently fail - will use gradient fallback
+            return null;
+        }
 
         const data = await response.json();
+
         if (data.results && data.results.length > 0) {
             const imageUrl = data.results[0].urls.regular;
-            setImageCache(venueName, imageUrl, 'unsplash');
+            setImageCache(venueName, imageUrl);
             return imageUrl;
         }
 
+        // No results found - will use gradient fallback
         return null;
     } catch (error) {
+        // Network error or API failure - silently use gradient fallback
+        // Only log in development if needed
+        // console.warn(`Image unavailable for ${venueName}, using fallback gradient`);
         return null;
     }
 }
 
-// Main image fetcher: Places first, then Unsplash
-async function fetchVenueImage(venueName) {
-    const placesUrl = await fetchPlacesImage(venueName);
-    if (placesUrl) return placesUrl;
-
-    return await fetchUnsplashImage(venueName);
-}
-
 // Batch fetch images for multiple venues
 async function fetchImagesForVenues(venues) {
-    const promises = venues.map(venue => fetchVenueImage(venue.name));
+    const promises = venues.map(venue => fetchUnsplashImage(venue.name));
     return await Promise.all(promises);
 }
 
@@ -711,7 +689,7 @@ async function renderVenues(venues, options = {}) {
     // Lazy load images
     venuesToShow.forEach(async (venue, index) => {
         if (!getCachedImage(venue.name)) {
-            const imageUrl = await fetchVenueImage(venue.name);
+            const imageUrl = await fetchUnsplashImage(venue.name);
             if (imageUrl) {
                 const safeName = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
                 const card = document.getElementById(`card - ${safeName} -${index} `);
@@ -1357,13 +1335,112 @@ function switchTab(tabName) {
     document.querySelectorAll('.activity-tab').forEach(tab => {
         tab.classList.remove('active');
     });
-    event.target.classList.add('active');
+    const clickedTab = (typeof event !== 'undefined' && event && event.target)
+        ? event.target
+        : (document.querySelector(`.activity-tab[data-tab="${tabName}"]`) ||
+           document.querySelector(`.activity-tab[onclick*="switchTab('${tabName}')"]`));
+
+    if (clickedTab) clickedTab.classList.add('active');
 
     // Update tab content
     document.querySelectorAll('.activity-tab-content').forEach(content => {
         content.classList.remove('active');
     });
     document.getElementById(tabName + '-tab').classList.add('active');
+
+    // Lazy-load gallery images when the Gallery tab is opened
+    if (tabName === 'gallery') {
+        loadPlacesGalleryForCurrentActivity();
+    }
+}
+
+// -------------------------
+// Places photos: modal gallery (4 images max)
+// -------------------------
+
+const __placesGalleryCache = new Map();
+
+function findFirstElementContainingText(root, textIncludes) {
+    if (!root) return null;
+    const nodes = root.querySelectorAll('*');
+    const target = textIncludes.toLowerCase();
+    for (const node of nodes) {
+        const txt = (node.textContent || '').trim().toLowerCase();
+        if (txt && txt.includes(target)) return node;
+    }
+    return null;
+}
+
+function setGalleryBoxToImage(el, url) {
+    if (!el) return;
+    el.innerHTML = '';
+    el.style.backgroundImage = url ? `url("${url}")` : '';
+    el.style.backgroundSize = 'cover';
+    el.style.backgroundPosition = 'center';
+    el.style.backgroundRepeat = 'no-repeat';
+}
+
+function setGalleryBoxToEmpty(el, label) {
+    if (!el) return;
+    el.style.backgroundImage = '';
+    el.innerHTML = label || '';
+}
+
+async function loadPlacesGalleryForCurrentActivity() {
+    try {
+        if (!currentActivity || !currentActivity.name) return;
+
+        const galleryRoot = document.getElementById('gallery-tab');
+        if (!galleryRoot) return;
+
+        // Your modal has 4 fixed slots, so we always request up to 4
+        const cacheKey = currentActivity.name;
+        let images = __placesGalleryCache.get(cacheKey);
+
+        if (!images) {
+            const q = encodeURIComponent(currentActivity.name + ' London');
+            const resp = await fetch(`/api/place-photo?q=${q}&n=4&w=1200&h=800`);
+            if (!resp.ok) throw new Error(`Gallery fetch failed (${resp.status})`);
+            const data = await resp.json();
+            images = Array.isArray(data.images) ? data.images : [];
+            __placesGalleryCache.set(cacheKey, images);
+        }
+
+        const mainBox = findFirstElementContainingText(galleryRoot, 'Main Image Gallery');
+        const t1 = findFirstElementContainingText(galleryRoot, 'Thumb 1');
+        const t2 = findFirstElementContainingText(galleryRoot, 'Thumb 2');
+        const t3 = findFirstElementContainingText(galleryRoot, 'Thumb 3');
+
+        if (!images || images.length === 0) {
+            setGalleryBoxToEmpty(mainBox, 'No images yet.');
+            setGalleryBoxToEmpty(t1, '');
+            setGalleryBoxToEmpty(t2, '');
+            setGalleryBoxToEmpty(t3, '');
+            return;
+        }
+
+        // Fill the 4 slots max: main + 3 thumbs
+        const mainUrl = images[0] || '';
+        const thumbs = [images[1] || '', images[2] || '', images[3] || ''];
+
+        setGalleryBoxToImage(mainBox, mainUrl);
+        setGalleryBoxToImage(t1, thumbs[0]);
+        setGalleryBoxToImage(t2, thumbs[1]);
+        setGalleryBoxToImage(t3, thumbs[2]);
+
+        // Click thumbs to swap the main image
+        const thumbEls = [t1, t2, t3];
+        thumbEls.forEach((el, idx) => {
+            if (!el) return;
+            const url = thumbs[idx];
+            if (!url) return;
+            el.style.cursor = 'pointer';
+            el.onclick = () => setGalleryBoxToImage(mainBox, url);
+        });
+    } catch (err) {
+        // Fail quietly so nothing breaks. The Gallery tab will just stay empty.
+        console.warn('Gallery images unavailable:', err);
+    }
 }
 
 async function bookmarkActivity() {
@@ -1488,7 +1565,7 @@ function shareActivity() {
 
     // Set activity image (use Unsplash or placeholder)
     const imageElement = document.getElementById('shareActivityImage');
-    fetchVenueImage(currentActivity.name).then(imageUrl => {
+    fetchUnsplashImage(currentActivity.name).then(imageUrl => {
         if (imageUrl) {
             imageElement.style.backgroundImage = `url('${imageUrl}')`;
         } else {
@@ -1731,7 +1808,7 @@ async function feelingLucky() {
         // Lazy load images
         randomVenues.forEach(async (venue, index) => {
             if (!getCachedImage(venue.name)) {
-                const imageUrl = await fetchVenueImage(venue.name);
+                const imageUrl = await fetchUnsplashImage(venue.name);
                 if (imageUrl) {
                     const card = document.getElementById(`lucky-card-${index}`);
                     if (card) {
@@ -1863,7 +1940,7 @@ async function showBookmarks() {
                 `;
     } else {
         // Fetch images for bookmarked venues
-        const imagePromises = savedActivities.map(venue => fetchVenueImage(venue.name));
+        const imagePromises = savedActivities.map(venue => fetchUnsplashImage(venue.name));
         const images = await Promise.all(imagePromises);
 
         grid.innerHTML = savedActivities.map((venue, index) => {
@@ -2135,7 +2212,7 @@ async function renderAllActivities(append = false) {
     console.log('New displayed count:', allActivitiesDisplayedCount);
 
     // Fetch images for these venues
-    const imagePromises = venuesToShow.map(venue => fetchVenueImage(venue.name));
+    const imagePromises = venuesToShow.map(venue => fetchUnsplashImage(venue.name));
     const images = await Promise.all(imagePromises);
 
     const venueHTML = venuesToShow.map((venue, index) => {
@@ -2738,7 +2815,7 @@ async function updateWeatherRecommendations(weather) {
         setTimeout(async () => {
             try {
                 console.log('Fetching Unsplash images...');
-                const imagePromises = recommendedVenues.map(venue => fetchVenueImage(venue.name));
+                const imagePromises = recommendedVenues.map(venue => fetchUnsplashImage(venue.name));
                 const images = await Promise.all(imagePromises);
 
                 // Update images if we got better ones
@@ -2858,7 +2935,7 @@ async function loadFeaturedActivityImages() {
         const venue = window.londonVenues.find(v => v.name === venueName);
 
         // Fetch image
-        const imageUrl = await fetchVenueImage(venueName);
+        const imageUrl = await fetchUnsplashImage(venueName);
 
         if (imageUrl) {
             imageDiv.style.backgroundImage = `url('${imageUrl}')`;
