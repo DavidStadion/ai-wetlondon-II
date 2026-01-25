@@ -1607,12 +1607,35 @@ function shareViaFacebook() {
 // Helper: pull the card image URL so the modal can use it
 function getCardImageUrl(card) {
     try {
-        const imgDiv = card ? card.querySelector('.activity-image') : null;
+        if (!card) return null;
+
+        // 1) If we already stored it
+        const stored = card.getAttribute('data-image-url') || (card.dataset ? card.dataset.imageUrl : null);
+        if (stored) return stored;
+
+        // 2) If the card uses an <img> tag
+        const imgEl = card.querySelector('.activity-image img');
+        if (imgEl && imgEl.src) return imgEl.src;
+
+        // 3) If the card uses a background-image on .activity-image
+        const imgDiv = card.querySelector('.activity-image');
         if (!imgDiv) return null;
-        const bg = window.getComputedStyle(imgDiv).backgroundImage || '';
-        const match = /url\(["']?(.*?)["']?\)/.exec(bg);
-        return match && match[1] ? match[1] : null;
+
+        const bg = (imgDiv.style && imgDiv.style.backgroundImage ? imgDiv.style.backgroundImage : '') ||
+                   (window.getComputedStyle(imgDiv).backgroundImage || '');
+
+        if (!bg || bg === 'none') return null;
+
+        // background-image can contain multiple layers, grab the first url(...)
+        const matches = Array.from(bg.matchAll(/url\(["']?(.*?)["']?\)/g)).map(m => m[1]).filter(Boolean);
+        return matches.length ? matches[0] : null;
     } catch (e) {
+        return null;
+    }
+}
+
+
+catch (e) {
         return null;
     }
 }
