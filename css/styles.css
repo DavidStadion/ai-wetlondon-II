@@ -5316,7 +5316,7 @@ body{
 }
 
 .situations-hero{
-  padding: 5rem 3rem 2rem;
+  padding: 5rem 3rem 1rem;
 }
 
 .situations-hero .container{
@@ -5329,7 +5329,7 @@ body{
 }
 
 .situations-controls{
-  margin-top: 2.25rem;
+  margin-top: 1.5rem;
   padding: 1.5rem;
   border-radius: var(--wl-radius, 16px);
   background: rgba(15,22,36,0.92);
