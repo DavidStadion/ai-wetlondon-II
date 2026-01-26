@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>What's On Now - Indoor Events in London | Wet London</title>
+    <meta name="description" content="Discover limited-time indoor events, exhibitions, and experiences happening in London right now. Perfect for rainy days!" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        /* Events page specific styles */
+        .events-hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.25rem;
+            text-align: center;
+        }
+
+        .events-hero h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: -0.02em;
+            margin: 0 0 0.75rem;
+            color: var(--wl-text, #e6eefc);
+        }
+
+        .events-hero .tagline {
+            color: rgba(230, 238, 252, 0.7);
+            font-size: 1.1rem;
+            max-width: 60ch;
+            margin: 0 auto 1.5rem;
+        }
+
+        .events-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .filter-chip {
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-chip:hover,
+        .filter-chip.active {
+            background: rgba(220, 218, 245, 0.15);
+            border-color: rgba(220, 218, 245, 0.4);
+            color: #fff;
+        }
+
+        .filter-chip.active {
+            background: rgba(220, 218, 245, 0.25);
+        }
+
+        .events-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.25rem 3rem;
+        }
+
+        .events-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .events-section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .events-section-header h2 {
+            font-size: 1.25rem;
+            margin: 0;
+            color: #fff;
+        }
+
+        .events-section-header .badge {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .events-section-header .badge.ending-soon {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .events-section-header .badge.new {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1rem;
+        }
+
+        .event-card {
+            background: rgba(15, 22, 36, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .event-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(220, 218, 245, 0.3);
+        }
+
+        .event-card-image {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #1a1f2e 0%, #0f1523 100%);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .event-card-badge {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .event-card-badge.live {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .event-card-badge.ends-soon {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .event-card-content {
+            padding: 1rem;
+        }
+
+        .event-card-category {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #DCDAF5;
+            margin-bottom: 0.35rem;
+        }
+
+        .event-card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem;
+            color: #fff;
+            line-height: 1.3;
+        }
+
+        .event-card-venue {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.75rem;
+        }
+
+        .event-card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .event-card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .event-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .event-price {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .event-price.free {
+            color: #4ade80;
+        }
+
+        .event-btn {
+            background: linear-gradient(135deg, #DCDAF5 0%, #c4c1e8 100%);
+            color: #0a0e17;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .event-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .no-events {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .no-events p {
+            margin: 0.5rem 0;
+        }
+
+        .submit-event-cta {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(220, 218, 245, 0.1), rgba(220, 218, 245, 0.05));
+            border: 1px solid rgba(220, 218, 245, 0.2);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .submit-event-cta h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.25rem;
+            color: #fff;
+        }
+
+        .submit-event-cta p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0 0 1rem;
+        }
+
+        .submit-event-btn {
+            background: transparent;
+            border: 2px solid #DCDAF5;
+            color: #DCDAF5;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-event-btn:hover {
+            background: #DCDAF5;
+            color: #0a0e17;
+        }
+
+        .loading-events {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        @media (max-width: 640px) {
+            .events-hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .events-filter-bar {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                flex-wrap: nowrap;
+            }
+
+            .filter-chip {
+                flex-shrink: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">Wet London</a>
+
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="siteNav">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+
+        <nav class="nav" id="siteNav">
+            <a href="index.html">Home</a>
+            <a href="index.html#activities">Featured</a>
+            <a href="index.html#all-activities">All Activities</a>
+            <a href="events.html" class="active">What's On</a>
+            <a href="about.html">About Us</a>
+        </nav>
+
+        <div class="nav-scrim" id="navScrim"></div>
+    </header>
+
+    <main>
+        <section class="events-hero">
+            <h1>What's On Now</h1>
+            <p class="tagline">Limited-time indoor events, exhibitions, and experiences happening in London. Perfect for rainy days!</p>
+
+            <div class="events-filter-bar">
+                <button class="filter-chip active" data-filter="all">All Events</button>
+                <button class="filter-chip" data-filter="exhibition">Exhibitions</button>
+                <button class="filter-chip" data-filter="theatre">Theatre</button>
+                <button class="filter-chip" data-filter="immersive">Immersive</button>
+                <button class="filter-chip" data-filter="music">Music</button>
+                <button class="filter-chip" data-filter="festival">Festivals</button>
+            </div>
+        </section>
+
+        <section class="events-container">
+            <!-- Ending Soon Section -->
+            <div class="events-section" id="endingSoonSection">
+                <div class="events-section-header">
+                    <h2>Ending Soon</h2>
+                    <span class="badge ending-soon">Last Chance</span>
+                </div>
+                <div class="events-grid" id="endingSoonGrid">
+                    <!-- Events loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Current Events Section -->
+            <div class="events-section" id="currentSection">
+                <div class="events-section-header">
+                    <h2>On Now</h2>
+                    <span class="badge">Live</span>
+                </div>
+                <div class="events-grid" id="currentGrid">
+                    <div class="loading-events">
+                        <div class="weather-spinner" style="margin: 0 auto 1rem;"></div>
+                        <p style="color: rgba(255,255,255,0.6);">Loading events...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coming Soon Section -->
+            <div class="events-section" id="comingSoonSection">
+                <div class="events-section-header">
+                    <h2>Coming Soon</h2>
+                    <span class="badge new">New</span>
+                </div>
+                <div class="events-grid" id="comingSoonGrid">
+                    <!-- Events loaded dynamically -->
+                </div>
+            </div>
+
+            <!-- Submit Event CTA -->
+            <div class="submit-event-cta">
+                <h3>Know an event we should feature?</h3>
+                <p>Help fellow Londoners discover amazing indoor experiences during rainy days.</p>
+                <a href="mailto:hello@wetlondon.co.uk?subject=Event Suggestion" class="submit-event-btn">
+                    Suggest an Event
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Wet London. Made with love in London.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase client for events
+        const SUPABASE_URL = 'https://iguspxisuudvvlcbtaxk.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_7NmZ0J9oVtEaU6xxOAn9NQ_U80zq9cV';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Sample events data (will be replaced with Supabase data)
+        const sampleEvents = [
+            {
+                id: 1,
+                title: "Van Gogh: Poets and Lovers",
+                venue: "National Gallery",
+                category: "exhibition",
+                startDate: "2024-09-14",
+                endDate: "2025-01-19",
+                price: 24,
+                priceDisplay: "From £24",
+                description: "A major exhibition exploring Van Gogh's final years in the South of France.",
+                image: null,
+                link: "https://www.nationalgallery.org.uk"
+            },
+            {
+                id: 2,
+                title: "Hamilton",
+                venue: "Victoria Palace Theatre",
+                category: "theatre",
+                startDate: "2017-12-21",
+                endDate: "2025-12-31",
+                price: 30,
+                priceDisplay: "From £30",
+                description: "The award-winning musical about Alexander Hamilton continues its run.",
+                image: null,
+                link: "https://hamiltonmusical.com/london"
+            },
+            {
+                id: 3,
+                title: "Secret Cinema: Back to the Future",
+                venue: "Secret Location",
+                category: "immersive",
+                startDate: "2025-01-15",
+                endDate: "2025-03-30",
+                price: 75,
+                priceDisplay: "From £75",
+                description: "Step into Hill Valley with this fully immersive cinema experience.",
+                image: null,
+                link: "https://www.secretcinema.org"
+            },
+            {
+                id: 4,
+                title: "British Museum Late",
+                venue: "British Museum",
+                category: "exhibition",
+                startDate: "2025-02-07",
+                endDate: "2025-02-07",
+                price: 0,
+                priceDisplay: "FREE",
+                description: "Special evening opening with talks, tours, and performances.",
+                image: null,
+                link: "https://www.britishmuseum.org"
+            },
+            {
+                id: 5,
+                title: "The Lion King",
+                venue: "Lyceum Theatre",
+                category: "theatre",
+                startDate: "1999-10-19",
+                endDate: "2025-12-31",
+                price: 35,
+                priceDisplay: "From £35",
+                description: "Disney's award-winning musical spectacular continues to delight audiences.",
+                image: null,
+                link: "https://www.thelionking.co.uk"
+            },
+            {
+                id: 6,
+                title: "Frameless Immersive Art",
+                venue: "Marble Arch",
+                category: "immersive",
+                startDate: "2022-10-07",
+                endDate: "2025-12-31",
+                price: 25,
+                priceDisplay: "From £25",
+                description: "London's largest immersive art experience featuring masterpieces from 4 galleries.",
+                image: null,
+                link: "https://frameless.com"
+            }
+        ];
+
+        let allEvents = [];
+        let currentFilter = 'all';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadEvents();
+            setupFilterChips();
+            setupNavToggle();
+        });
+
+        async function loadEvents() {
+            try {
+                // Try loading from Supabase first
+                const { data, error } = await supabaseClient
+                    .from('events')
+                    .select('*')
+                    .order('end_date', { ascending: true });
+
+                if (data && data.length > 0) {
+                    allEvents = data.map(e => ({
+                        id: e.id,
+                        title: e.title,
+                        venue: e.venue,
+                        category: e.category,
+                        startDate: e.start_date,
+                        endDate: e.end_date,
+                        price: e.price,
+                        priceDisplay: e.price_display,
+                        description: e.description,
+                        image: e.image_url,
+                        link: e.link
+                    }));
+                } else {
+                    // Use sample data if no Supabase data
+                    allEvents = sampleEvents;
+                }
+            } catch (err) {
+                console.log('Using sample events data');
+                allEvents = sampleEvents;
+            }
+
+            renderEvents();
+        }
+
+        function renderEvents() {
+            const now = new Date();
+            const twoWeeksFromNow = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
+
+            // Filter by category
+            let filtered = allEvents;
+            if (currentFilter !== 'all') {
+                filtered = allEvents.filter(e => e.category === currentFilter);
+            }
+
+            // Categorize events
+            const endingSoon = filtered.filter(e => {
+                const endDate = new Date(e.endDate);
+                return endDate >= now && endDate <= twoWeeksFromNow;
+            });
+
+            const current = filtered.filter(e => {
+                const startDate = new Date(e.startDate);
+                const endDate = new Date(e.endDate);
+                return startDate <= now && endDate > twoWeeksFromNow;
+            });
+
+            const comingSoon = filtered.filter(e => {
+                const startDate = new Date(e.startDate);
+                return startDate > now;
+            });
+
+            // Render grids
+            renderEventGrid('endingSoonGrid', endingSoon, 'ends-soon');
+            renderEventGrid('currentGrid', current, 'live');
+            renderEventGrid('comingSoonGrid', comingSoon, 'new');
+
+            // Show/hide sections
+            document.getElementById('endingSoonSection').style.display = endingSoon.length ? 'block' : 'none';
+            document.getElementById('currentSection').style.display = current.length ? 'block' : 'none';
+            document.getElementById('comingSoonSection').style.display = comingSoon.length ? 'block' : 'none';
+        }
+
+        function renderEventGrid(gridId, events, badgeType) {
+            const grid = document.getElementById(gridId);
+            if (!grid) return;
+
+            if (events.length === 0) {
+                grid.innerHTML = '<div class="no-events"><p>No events in this category.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = events.map(event => {
+                const endDate = new Date(event.endDate);
+                const daysLeft = Math.ceil((endDate - new Date()) / (1000 * 60 * 60 * 24));
+
+                let badgeText = '';
+                if (badgeType === 'ends-soon' && daysLeft <= 14) {
+                    badgeText = daysLeft <= 7 ? `${daysLeft} days left` : 'Ending soon';
+                } else if (badgeType === 'new') {
+                    badgeText = 'Coming soon';
+                }
+
+                return `
+                    <div class="event-card" data-category="${event.category}">
+                        <div class="event-card-image" style="${event.image ? `background-image: url('${event.image}')` : ''}">
+                            ${badgeText ? `<span class="event-card-badge ${badgeType}">${badgeText}</span>` : ''}
+                        </div>
+                        <div class="event-card-content">
+                            <div class="event-card-category">${formatCategory(event.category)}</div>
+                            <h3 class="event-card-title">${escapeHtml(event.title)}</h3>
+                            <div class="event-card-venue">${escapeHtml(event.venue)}</div>
+                            <div class="event-card-meta">
+                                <span>📅 Until ${formatDate(event.endDate)}</span>
+                            </div>
+                        </div>
+                        <div class="event-card-footer">
+                            <span class="event-price ${event.price === 0 ? 'free' : ''}">${event.priceDisplay}</span>
+                            <a href="${event.link}" target="_blank" rel="noopener" class="event-btn">Book Now</a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function setupFilterChips() {
+            const chips = document.querySelectorAll('.filter-chip');
+            chips.forEach(chip => {
+                chip.addEventListener('click', function() {
+                    chips.forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    renderEvents();
+                });
+            });
+        }
+
+        function formatCategory(cat) {
+            const labels = {
+                exhibition: 'Exhibition',
+                theatre: 'Theatre',
+                immersive: 'Immersive Experience',
+                music: 'Music & Concert',
+                festival: 'Festival'
+            };
+            return labels[cat] || cat;
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Mobile nav toggle
+        function setupNavToggle() {
+            const toggle = document.getElementById('navToggle');
+            const nav = document.getElementById('siteNav');
+            const scrim = document.getElementById('navScrim');
+
+            if (!toggle || !nav) return;
+
+            function closeNav() {
+                document.body.classList.remove('nav-open');
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+
+            toggle.addEventListener('click', function() {
+                if (document.body.classList.contains('nav-open')) {
+                    closeNav();
+                } else {
+                    document.body.classList.add('nav-open');
+                    toggle.setAttribute('aria-expanded', 'true');
+                }
+            });
+
+            if (scrim) scrim.addEventListener('click', closeNav);
+            nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
+        }
+    </script>
+</body>
+</html>

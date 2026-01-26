@@ -1021,16 +1021,21 @@ function openActivityModal(venue) {
     // Set affiliate link on main button
     const bookBtn = document.getElementById('bookActivityBtn');
     if (venue.affiliateLink) {
-        bookBtn.textContent = 'Book Tickets 🎟️';
+        // Direct affiliate link from database
+        bookBtn.innerHTML = '<span class="btn-icon">🎟️</span> Book Tickets';
         bookBtn.onclick = () => window.open(venue.affiliateLink, '_blank');
         bookBtn.classList.remove('action-btn-secondary');
         bookBtn.classList.add('action-btn-primary');
     } else {
-        // Fallback for venues without affiliate link - search Google/Maps
-        bookBtn.textContent = 'Search on Google';
-        bookBtn.onclick = () => window.open(`https://www.google.com/search?q=${encodeURIComponent(venue.name + ' London tickets')}`, '_blank');
-        bookBtn.classList.remove('action-btn-primary');
-        bookBtn.classList.add('action-btn-secondary');
+        // Generate affiliate search links to booking platforms
+        const searchQuery = encodeURIComponent(venue.name + ' London');
+        const viatorUrl = `https://www.viator.com/searchResults/all?text=${searchQuery}`;
+        const gyguUrl = `https://www.getyourguide.com/s/?q=${searchQuery}`;
+
+        bookBtn.innerHTML = '<span class="btn-icon">🔍</span> Find Tickets';
+        bookBtn.onclick = () => openBookingOptions(venue.name, viatorUrl, gyguUrl);
+        bookBtn.classList.remove('action-btn-secondary');
+        bookBtn.classList.add('action-btn-primary');
     }
     document.getElementById('activityTitle').textContent = venue.name;
     document.getElementById('activityRating').textContent = venue.rating;
@@ -1421,6 +1426,11 @@ function switchTab(tabName) {
     if (tabName === 'gallery' && currentActivity) {
         loadGalleryImages(currentActivity.name);
     }
+
+    // Load reviews when reviews tab is selected
+    if (tabName === 'reviews' && currentActivity) {
+        loadReviews(currentActivity.name);
+    }
 }
 
 // Gallery state to avoid re-fetching
@@ -1670,6 +1680,29 @@ function shareActivity() {
 function closeShareModal() {
     document.getElementById('shareModal').classList.remove('active');
 }
+
+// Booking options popup
+function openBookingOptions(venueName, viatorUrl, gyguUrl) {
+    const bookingModal = document.getElementById('bookingModal');
+    if (bookingModal) {
+        document.getElementById('bookingVenueName').textContent = venueName;
+        document.getElementById('viatorLink').href = viatorUrl;
+        document.getElementById('gyguLink').href = gyguUrl;
+        document.getElementById('googleSearchLink').href = `https://www.google.com/search?q=${encodeURIComponent(venueName + ' London tickets book')}`;
+        bookingModal.classList.add('active');
+    } else {
+        // Fallback: open Viator directly
+        window.open(viatorUrl, '_blank');
+    }
+}
+
+function closeBookingModal() {
+    const bookingModal = document.getElementById('bookingModal');
+    if (bookingModal) bookingModal.classList.remove('active');
+}
+
+window.openBookingOptions = openBookingOptions;
+window.closeBookingModal = closeBookingModal;
 
 // Close share modal when clicking outside
 document.addEventListener('DOMContentLoaded', function () {
@@ -3482,3 +3515,223 @@ function isSponsored(venue) {
         if (window.innerWidth > 768) closeNav();
     });
 })();
+
+// ============================================
+// REVIEWS FUNCTIONALITY
+// ============================================
+
+let reviewsLoadedFor = null;
+let selectedReviewRating = 5;
+
+// Load reviews when Reviews tab is selected
+async function loadReviews(venueName) {
+    if (reviewsLoadedFor === venueName) return;
+
+    const loadingEl = document.getElementById('googleReviewsLoading');
+    const googleContainer = document.getElementById('googleReviewsContainer');
+    const userContainer = document.getElementById('userReviewsContainer');
+
+    // Show loading
+    if (loadingEl) loadingEl.style.display = 'block';
+    if (googleContainer) googleContainer.innerHTML = '';
+
+    try {
+        // Fetch Google Reviews from Places API
+        const resp = await fetch(`/api/place-details?q=${encodeURIComponent(venueName + ' London')}`);
+        const data = await resp.json();
+
+        if (loadingEl) loadingEl.style.display = 'none';
+
+        // Update summary
+        if (data.rating) {
+            document.getElementById('reviewsAvgRating').textContent = data.rating.toFixed(1);
+            document.getElementById('reviewsStarsLarge').textContent = getStarDisplay(data.rating);
+            document.getElementById('reviewsCount').textContent = `Based on ${data.userRatingCount || 0} Google reviews`;
+        }
+
+        // Render Google reviews
+        if (data.reviews && data.reviews.length > 0) {
+            googleContainer.innerHTML = data.reviews.map(review => `
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            ${review.authorPhoto ? `<img src="${review.authorPhoto}" alt="" class="reviewer-photo">` : ''}
+                            <div>
+                                <div class="reviewer-name">${escapeHtml(review.authorName)}</div>
+                                <div class="review-rating">${getStarDisplay(review.rating)} ${review.rating.toFixed(1)}</div>
+                            </div>
+                        </div>
+                        <div class="review-date">${review.relativeTime || ''}</div>
+                    </div>
+                    <p class="review-text">"${escapeHtml(review.text)}"</p>
+                </div>
+            `).join('');
+        } else {
+            googleContainer.innerHTML = '<p style="color: #999; text-align: center; padding: 1rem;">No Google reviews available yet.</p>';
+        }
+
+        // Fetch user reviews from Supabase
+        await loadUserReviews(venueName);
+
+        reviewsLoadedFor = venueName;
+
+    } catch (error) {
+        console.error('Error loading reviews:', error);
+        if (loadingEl) loadingEl.style.display = 'none';
+        if (googleContainer) {
+            googleContainer.innerHTML = '<p style="color: #999; text-align: center; padding: 1rem;">Unable to load Google reviews.</p>';
+        }
+    }
+}
+
+async function loadUserReviews(venueName) {
+    const container = document.getElementById('userReviewsContainer');
+    if (!container) return;
+
+    try {
+        const resp = await fetch(`/api/reviews?venue=${encodeURIComponent(venueName)}`);
+        const data = await resp.json();
+
+        if (data.reviews && data.reviews.length > 0) {
+            container.innerHTML = data.reviews.map(review => `
+                <div class="review-card user-review">
+                    <div class="review-header">
+                        <div>
+                            <div class="reviewer-name">${escapeHtml(review.authorName)}</div>
+                            <div class="review-rating">${getStarDisplay(review.rating)} ${review.rating.toFixed(1)}</div>
+                        </div>
+                        <div class="review-date">${review.relativeTime}</div>
+                    </div>
+                    <p class="review-text">"${escapeHtml(review.text)}"</p>
+                </div>
+            `).join('');
+        } else {
+            container.innerHTML = '<p style="color: #999; text-align: center; padding: 1rem;">No community reviews yet. Be the first!</p>';
+        }
+    } catch (error) {
+        console.error('Error loading user reviews:', error);
+    }
+}
+
+async function submitReview(event) {
+    event.preventDefault();
+
+    if (!currentActivity) return;
+
+    const nameInput = document.getElementById('reviewName');
+    const textInput = document.getElementById('reviewText');
+    const submitBtn = document.getElementById('submitReviewBtn');
+    const successMsg = document.getElementById('reviewSuccess');
+    const errorMsg = document.getElementById('reviewError');
+
+    const name = nameInput.value.trim();
+    const text = textInput.value.trim();
+    const rating = selectedReviewRating;
+
+    // Reset messages
+    successMsg.style.display = 'none';
+    errorMsg.style.display = 'none';
+
+    // Validate
+    if (!name || !text || text.length < 10) {
+        errorMsg.textContent = 'Please fill in all fields. Review must be at least 10 characters.';
+        errorMsg.style.display = 'block';
+        return;
+    }
+
+    // Disable button
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    try {
+        const resp = await fetch('/api/reviews', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                venue: currentActivity.name,
+                name,
+                rating,
+                text
+            })
+        });
+
+        const data = await resp.json();
+
+        if (resp.ok && data.success) {
+            successMsg.style.display = 'block';
+            nameInput.value = '';
+            textInput.value = '';
+            document.getElementById('reviewCharCount').textContent = '0';
+
+            // Reset rating stars
+            selectedReviewRating = 5;
+            updateStarRatingDisplay(5);
+
+            // Reload user reviews
+            reviewsLoadedFor = null;
+            await loadUserReviews(currentActivity.name);
+        } else {
+            throw new Error(data.error || 'Failed to submit review');
+        }
+    } catch (error) {
+        console.error('Review submission error:', error);
+        errorMsg.textContent = error.message || 'Failed to submit review. Please try again.';
+        errorMsg.style.display = 'block';
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Review';
+    }
+}
+
+function getStarDisplay(rating) {
+    const fullStars = Math.floor(rating);
+    const hasHalf = rating % 1 >= 0.5;
+    let stars = '★'.repeat(fullStars);
+    if (hasHalf) stars += '☆';
+    stars += '☆'.repeat(5 - fullStars - (hasHalf ? 1 : 0));
+    return stars;
+}
+
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function updateStarRatingDisplay(rating) {
+    const stars = document.querySelectorAll('#starRatingInput .star-input');
+    stars.forEach((star, index) => {
+        star.classList.toggle('active', index < rating);
+    });
+}
+
+// Initialize star rating input
+document.addEventListener('DOMContentLoaded', function() {
+    const starContainer = document.getElementById('starRatingInput');
+    if (starContainer) {
+        starContainer.addEventListener('click', function(e) {
+            if (e.target.classList.contains('star-input')) {
+                selectedReviewRating = parseInt(e.target.dataset.rating);
+                document.getElementById('reviewRating').value = selectedReviewRating;
+                updateStarRatingDisplay(selectedReviewRating);
+            }
+        });
+
+        // Initialize with 5 stars selected
+        updateStarRatingDisplay(5);
+    }
+
+    // Character counter for review text
+    const reviewText = document.getElementById('reviewText');
+    const charCount = document.getElementById('reviewCharCount');
+    if (reviewText && charCount) {
+        reviewText.addEventListener('input', function() {
+            charCount.textContent = this.value.length;
+        });
+    }
+});
+
+// Make functions available globally
+window.submitReview = submitReview;
+window.loadReviews = loadReviews;
