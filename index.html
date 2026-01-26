@@ -5,8 +5,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wet London - Discover Indoor Activities</title>
-    
+    <title>Wet London - Best Indoor Activities in London When It Rains</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Discover 100+ indoor activities in London for rainy days. Museums, galleries, cinemas, restaurants and more - all rated by how dry you'll stay. Free to use.">
+    <meta name="keywords" content="London indoor activities, rainy day London, things to do in London when raining, London museums, London galleries, wet weather activities London">
+    <meta name="author" content="Wet London">
+    <link rel="canonical" href="https://wetlondon.co.uk/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://wetlondon.co.uk/">
+    <meta property="og:title" content="Wet London - Best Indoor Activities for Rainy Days">
+    <meta property="og:description" content="Never let rain ruin your plans! Discover 100+ indoor activities in London, rated by how dry you'll stay.">
+    <meta property="og:image" content="https://wetlondon.co.uk/assets/og-image.jpg">
+    <meta property="og:site_name" content="Wet London">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://wetlondon.co.uk/">
+    <meta name="twitter:title" content="Wet London - Best Indoor Activities for Rainy Days">
+    <meta name="twitter:description" content="Never let rain ruin your plans! Discover 100+ indoor activities in London.">
+    <meta name="twitter:image" content="https://wetlondon.co.uk/assets/og-image.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌧️</text></svg>">
+
     <meta name="google-adsense-account" content="ca-pub-1382628707656079">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1382628707656079" crossorigin="anonymous"></script>
 <!-- AdSense loader moved to end of body to avoid blocking app init -->
@@ -306,21 +330,19 @@
         </div>
     </section>
 
-
-
-<!-- Advert -->
-<section class="ad-slot">
+<!-- AdSense Banner 1 - After Categories -->
+<section class="ad-slot" id="ad-slot-1">
   <div class="ad-slot-inner">
     <div class="ad-badge">Advertisement</div>
-    <div class="ad-placeholder">
-      <span>Your ad here</span>
-      <small>970 × 250 / 728 × 90 / responsive</small>
-    </div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1382628707656079"
+         data-ad-slot="auto"
+         data-ad-format="horizontal"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 </section>
-
-
-
 
     <section class="activities-section" id="activities">
         <div class="container">
@@ -671,14 +693,17 @@
 
 
 
-            <!-- Advert -->
-<section class="ad-slot">
+            <!-- AdSense Banner 2 - After All Activities -->
+<section class="ad-slot" id="ad-slot-2">
   <div class="ad-slot-inner">
     <div class="ad-badge">Advertisement</div>
-    <div class="ad-placeholder">
-      <span>Your ad here</span>
-      <small>970 × 250 / 728 × 90 / responsive</small>
-    </div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1382628707656079"
+         data-ad-slot="auto"
+         data-ad-format="horizontal"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 </section>
 
@@ -700,6 +725,20 @@
                 <button class="clear-results-btn" onclick="clearBookmarks()">Clear All Bookmarks</button>
             </div>
             <div class="activity-grid" id="bookmarksGrid"></div>
+        </div>
+    </section>
+
+    <!-- Recently Viewed Section -->
+    <section class="generated-section" id="recentlyViewed" style="display: none;">
+        <div class="container">
+            <div class="generated-header">
+                <div>
+                    <h2 class="generated-title">Recently Viewed</h2>
+                    <span class="generated-count" id="recentlyViewedCount">0 recently viewed</span>
+                </div>
+                <button class="clear-results-btn" onclick="clearRecentlyViewed()">Clear History</button>
+            </div>
+            <div class="activity-grid" id="recentlyViewedGrid"></div>
         </div>
     </section>
 
@@ -1088,19 +1127,22 @@ Save
 
                 <!-- Gallery Tab -->
                 <div class="activity-tab-content" id="gallery-tab">
-                    <div class="activity-gallery">
-                        <div class="gallery-main">📷 Main Image Gallery</div>
-                        <div class="gallery-thumb">Thumb 1</div>
-                        <div class="gallery-thumb">Thumb 2</div>
-                        <div class="gallery-thumb">Thumb 3</div>
+                    <div class="gallery-loading" id="galleryLoading" style="text-align: center; padding: 3rem;">
+                        <div class="weather-spinner" style="margin: 0 auto 1rem;"></div>
+                        <p style="color: #666;">Loading gallery images...</p>
                     </div>
-                    <p style="text-align: center; color: #666; font-size: 0.9rem;">Click thumbnails to view full images
-                    </p>
-                </div> 
-
-                    <h3>Watch & Learn</h3>
-                    <p>Get a virtual preview of your experience. See what to expect, explore the venue, and discover
-                        insider tips from previous visitors.</p>
+                    <div class="activity-gallery" id="activityGallery" style="display: none;">
+                        <div class="gallery-main" id="galleryMain" style="cursor: pointer; background-size: cover; background-position: center;"></div>
+                        <div class="gallery-thumbs" id="galleryThumbs" style="display: contents;">
+                            <!-- Thumbnails will be dynamically added here -->
+                        </div>
+                    </div>
+                    <div class="gallery-empty" id="galleryEmpty" style="display: none; text-align: center; padding: 3rem; color: #666;">
+                        <p style="font-size: 1.5rem; margin-bottom: 1rem;">📷</p>
+                        <p>No gallery images available for this venue.</p>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Try searching for images online.</p>
+                    </div>
+                    <p id="galleryHint" style="text-align: center; color: #666; font-size: 0.9rem; margin-top: 1rem; display: none;">Click thumbnails to view full images</p>
                 </div>
 
                 <!-- Reviews Tab -->
@@ -1401,17 +1443,19 @@ Save
 
 
 
-<!-- Advert -->
-<section class="ad-slot">
+<!-- AdSense Banner 3 - Before Top Picks -->
+<section class="ad-slot" id="ad-slot-3">
   <div class="ad-slot-inner">
     <div class="ad-badge">Advertisement</div>
-    <div class="ad-placeholder">
-      <span>Your ad here</span>
-      <small>970 × 250 / 728 × 90 / responsive</small>
-    </div>
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1382628707656079"
+         data-ad-slot="auto"
+         data-ad-format="horizontal"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
   </div>
 </section>
-
 
 <!-- DAVID'S TOP PICKS (Admin Highlighted) -->
 <section class="activities-section" id="davidsTopPicksSection" style="display: none;">
@@ -1496,46 +1540,6 @@ Save
   </div>
 </section>
 
-   <!-- ============================================
-     WET LONDON FOOTER
-     Add this before the closing 
-
-    <!-- AdSense: load after app is interactive (prevents main-thread lockups) -->
-    <script>
-      (function(){
-        try {
-          var host = location.hostname || '';
-          var allowHosts = ['wetlondon.co.uk', 'www.wetlondon.co.uk'];
-          if (allowHosts.indexOf(host) === -1) return;
-          if (location.search.indexOf('noads=1') !== -1) return;
-
-          function loadAdsense(){
-            if (document.querySelector('script[data-wetlondon-adsense]')) return;
-            if (document.querySelector('script[src*="pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"]')) return;
-            var s = document.createElement('script');
-            s.async = true;
-            s.defer = true;
-            s.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1382628707656079';
-            s.crossOrigin = 'anonymous';
-            s.setAttribute('data-wetlondon-adsense', '1');
-            document.head.appendChild(s);
-          }
-
-          // Defer loading until after the page is usable
-          if ('requestIdleCallback' in window) {
-            requestIdleCallback(function(){ setTimeout(loadAdsense, 500); }, { timeout: 5000 });
-          } else {
-            window.addEventListener('load', function(){ setTimeout(loadAdsense, 1500); }, { once: true });
-          }
-        } catch (e) {
-          // Never let ads break the site
-          console.warn('AdSense loader disabled:', e);
-        }
-      })();
-    </script>
-
-</body>
-
 <footer class="site-footer">
     <div class="footer-container">
         <!-- Footer Top Section -->
@@ -1580,6 +1584,21 @@ Save
                     <li><a href="#all-activities">All Activities</a></li>
                     <li><a href="#bookmarks">My Bookmarks</a></li>
                 </ul>
+            </div>
+
+            <!-- Newsletter Signup -->
+            <div class="footer-column">
+                <h4 class="footer-heading">Rainy Day Alerts</h4>
+                <p class="footer-description" style="font-size: 0.9rem; margin-bottom: 1rem;">
+                    Get notified when rain is forecast + curated activity picks.
+                </p>
+                <form id="newsletterForm" class="newsletter-form" onsubmit="handleNewsletterSubmit(event)">
+                    <input type="email" id="newsletterEmail" placeholder="your@email.com" required class="newsletter-input">
+                    <button type="submit" class="newsletter-btn">Subscribe</button>
+                </form>
+                <p id="newsletterSuccess" style="display: none; color: #4ade80; font-size: 0.85rem; margin-top: 0.5rem;">
+                    Thanks! You'll hear from us on rainy days.
+                </p>
             </div>
 
             <!-- Resources -->
