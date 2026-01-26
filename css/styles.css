@@ -6224,3 +6224,21 @@ body{
     padding: 1rem 1.5rem;
     font-size: 1rem;
 }
+
+/* Consistent page titles across all pages */
+.page-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+    color: var(--wl-text, #e6eefc);
+    text-align: center;
+}
+
+/* Tighter situations page layout */
+.situations-ad-section {
+    padding: 0 1.25rem;
+}
+
+.situations-results {
+    padding-top: 0;
+}
