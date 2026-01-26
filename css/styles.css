@@ -5675,12 +5675,536 @@ body{
     .partners-inner {
         padding: 1.25rem 1rem;
     }
-    
+
     .partner {
         padding: 1rem;
     }
-    
+
     .partner img {
         height: 35px;
     }
+}
+
+/* ========================================
+   Enhanced Reviews Tab Styles
+   ======================================== */
+.reviews-summary {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, rgba(220, 218, 245, 0.1), rgba(220, 218, 245, 0.05));
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(220, 218, 245, 0.15);
+}
+
+.reviews-rating-large {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.reviews-rating-large .rating-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #DCDAF5;
+    line-height: 1;
+}
+
+.reviews-rating-large .rating-stars-large {
+    font-size: 1.5rem;
+    color: #fbbf24;
+    letter-spacing: 2px;
+}
+
+.reviews-rating-large .rating-count {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-top: 0.25rem;
+}
+
+.reviews-section {
+    margin-bottom: 1.5rem;
+}
+
+.reviews-section-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.review-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.review-card.user-review {
+    border-color: rgba(220, 218, 245, 0.2);
+    background: rgba(220, 218, 245, 0.05);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.reviewer-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.reviewer-photo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.reviewer-name {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+}
+
+.review-rating {
+    font-size: 0.8rem;
+    color: #fbbf24;
+}
+
+.review-date {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.review-text {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+    margin: 0;
+    font-style: italic;
+}
+
+/* Write Review Form */
+.write-review-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.form-group input,
+.form-group textarea {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    color: #fff;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #DCDAF5;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.char-count {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: right;
+}
+
+/* Star Rating Input */
+.star-rating-input {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.star-input {
+    font-size: 1.75rem;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: color 0.15s, transform 0.15s;
+}
+
+.star-input:hover,
+.star-input.active {
+    color: #fbbf24;
+}
+
+.star-input:hover {
+    transform: scale(1.1);
+}
+
+.submit-review-btn {
+    background: linear-gradient(135deg, #DCDAF5 0%, #c4c1e8 100%);
+    color: #0a0e17;
+    border: none;
+    border-radius: 10px;
+    padding: 0.875rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.submit-review-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(220, 218, 245, 0.3);
+}
+
+.submit-review-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ========================================
+   Booking Modal Styles
+   ======================================== */
+.booking-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    padding: 1rem;
+}
+
+.booking-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.booking-modal-content {
+    background: linear-gradient(180deg, #1a1f2e 0%, #0f1523 100%);
+    border-radius: 20px;
+    padding: 1.75rem;
+    max-width: 420px;
+    width: 100%;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.booking-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.booking-modal-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.booking-modal-content h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+    color: #fff;
+    padding-right: 2rem;
+}
+
+.booking-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.875rem;
+    margin: 0 0 1.25rem;
+}
+
+.booking-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.booking-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.2s;
+}
+
+.booking-option:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(220, 218, 245, 0.3);
+    transform: translateX(4px);
+}
+
+.booking-option-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 120px;
+}
+
+.booking-option-logo img {
+    width: 20px;
+    height: 20px;
+}
+
+.booking-option-logo span {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.booking-option-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.booking-tag {
+    font-size: 0.65rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.15);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.booking-desc {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.booking-arrow {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.4);
+    transition: transform 0.2s;
+}
+
+.booking-option:hover .booking-arrow {
+    transform: translateX(4px);
+    color: #DCDAF5;
+}
+
+.booking-note {
+    margin: 1.25rem 0 0;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+}
+
+/* ========================================
+   Activity Modal - Mobile Improvements
+   ======================================== */
+@media (max-width: 640px) {
+    .activity-modal-content {
+        max-height: 95vh;
+        max-height: 95dvh;
+        border-radius: 16px 16px 0 0;
+        margin-top: auto;
+    }
+
+    .activity-modal-header {
+        padding: 1rem 1rem 0.75rem;
+    }
+
+    .activity-modal-title {
+        font-size: 1.25rem;
+        line-height: 1.3;
+    }
+
+    .activity-modal-meta {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .activity-modal-actions {
+        padding: 0.75rem 1rem;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+
+    .action-btn {
+        padding: 0.625rem 0.875rem;
+        font-size: 0.85rem;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .action-btn-primary {
+        flex: 1 1 100%;
+        order: -1;
+    }
+
+    .activity-modal-tabs {
+        padding: 0 1rem;
+        gap: 0;
+    }
+
+    .activity-tab {
+        padding: 0.75rem 0.5rem;
+        font-size: 0.85rem;
+        flex: 1;
+        text-align: center;
+    }
+
+    .activity-modal-body {
+        padding: 1rem;
+    }
+
+    #modalHeroImage {
+        border-radius: 10px !important;
+        aspect-ratio: 16 / 10 !important;
+    }
+
+    .info-grid {
+        gap: 0.75rem;
+    }
+
+    .info-item {
+        padding: 0.75rem;
+    }
+
+    .about-section h3 {
+        font-size: 1rem;
+        margin-top: 1.25rem;
+    }
+
+    /* Reviews tab mobile */
+    .reviews-summary {
+        padding: 1rem;
+    }
+
+    .reviews-rating-large .rating-number {
+        font-size: 2.5rem;
+    }
+
+    .reviews-rating-large .rating-stars-large {
+        font-size: 1.25rem;
+    }
+
+    .review-card {
+        padding: 0.875rem;
+    }
+
+    .star-rating-input {
+        justify-content: center;
+    }
+
+    .star-input {
+        font-size: 2rem;
+    }
+
+    /* Gallery tab mobile */
+    .activity-gallery {
+        display: grid !important;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .gallery-main {
+        aspect-ratio: 16 / 10;
+        border-radius: 10px;
+    }
+
+    .gallery-thumbs {
+        display: grid !important;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+    }
+
+    .gallery-thumb {
+        aspect-ratio: 1;
+        border-radius: 6px;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 380px) {
+    .activity-modal-title {
+        font-size: 1.1rem;
+    }
+
+    .action-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8rem;
+    }
+
+    .booking-option {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .booking-option-logo {
+        min-width: auto;
+    }
+
+    .booking-arrow {
+        display: none;
+    }
+}
+
+/* Button icon styling */
+.btn-icon {
+    margin-right: 0.25rem;
 }

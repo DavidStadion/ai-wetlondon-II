@@ -93,6 +93,7 @@
             <a href="#activities">Featured</a>
             <a href="#all-activities">All Activities</a>
             <a href="#bookmarks">My Bookmarks</a>
+            <a href="events.html">What's On</a>
             <a href="situations.html">For who?</a>
             <a href="about.html">About Us</a>
         </nav>
@@ -1146,43 +1147,74 @@ Save
 
                 <!-- Reviews Tab -->
                 <div class="activity-tab-content" id="reviews-tab">
-                    <h3>What People Are Saying</h3>
-
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div>
-                                <div class="reviewer-name">Sarah M.</div>
-                                <div class="review-rating">★★★★★ 5.0</div>
-                            </div>
-                            <div class="review-date">2 weeks ago</div>
+                    <!-- Reviews Summary -->
+                    <div class="reviews-summary" id="reviewsSummary">
+                        <div class="reviews-rating-large">
+                            <span class="rating-number" id="reviewsAvgRating">4.5</span>
+                            <div class="rating-stars-large" id="reviewsStarsLarge">★★★★★</div>
+                            <span class="rating-count" id="reviewsCount">Based on 0 reviews</span>
                         </div>
-                        <p class="review-text">"Absolutely incredible experience! The exhibits were fascinating and the
-                            staff were so knowledgeable. Definitely worth multiple visits. The cafe was a nice touch
-                            too."</p>
                     </div>
 
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div>
-                                <div class="reviewer-name">James T.</div>
-                                <div class="review-rating">★★★★☆ 4.0</div>
-                            </div>
-                            <div class="review-date">1 month ago</div>
+                    <!-- Google Reviews Section -->
+                    <div class="reviews-section">
+                        <h3 class="reviews-section-title">
+                            <img src="https://www.google.com/favicon.ico" alt="Google" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px;">
+                            Google Reviews
+                        </h3>
+                        <div class="reviews-loading" id="googleReviewsLoading" style="text-align: center; padding: 2rem;">
+                            <div class="weather-spinner" style="margin: 0 auto 1rem;"></div>
+                            <p style="color: #999;">Loading reviews...</p>
                         </div>
-                        <p class="review-text">"Great venue with lots to see. Can get busy at weekends but still
-                            manageable. Would recommend booking ahead if possible. Easy to get to from the tube."</p>
+                        <div id="googleReviewsContainer"></div>
                     </div>
 
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div>
-                                <div class="reviewer-name">Emma L.</div>
-                                <div class="review-rating">★★★★★ 5.0</div>
-                            </div>
-                            <div class="review-date">3 months ago</div>
+                    <!-- User Reviews Section -->
+                    <div class="reviews-section" style="margin-top: 2rem;">
+                        <h3 class="reviews-section-title">
+                            <span style="margin-right: 6px;">👥</span>
+                            Wet London Community Reviews
+                        </h3>
+                        <div id="userReviewsContainer">
+                            <p style="color: #999; text-align: center; padding: 1rem;">No community reviews yet. Be the first!</p>
                         </div>
-                        <p class="review-text">"Perfect for a rainy day! Spent 3 hours here and barely scratched the
-                            surface. The interactive elements were particularly engaging. Will definitely be back."</p>
+                    </div>
+
+                    <!-- Write a Review Form -->
+                    <div class="write-review-section">
+                        <h3 class="reviews-section-title">
+                            <span style="margin-right: 6px;">✍️</span>
+                            Share Your Experience
+                        </h3>
+                        <form id="reviewForm" class="review-form" onsubmit="submitReview(event)">
+                            <div class="form-group">
+                                <label for="reviewName">Your Name</label>
+                                <input type="text" id="reviewName" placeholder="e.g. Sarah M." required maxlength="50">
+                            </div>
+                            <div class="form-group">
+                                <label>Your Rating</label>
+                                <div class="star-rating-input" id="starRatingInput">
+                                    <span class="star-input" data-rating="1">★</span>
+                                    <span class="star-input" data-rating="2">★</span>
+                                    <span class="star-input" data-rating="3">★</span>
+                                    <span class="star-input" data-rating="4">★</span>
+                                    <span class="star-input" data-rating="5">★</span>
+                                </div>
+                                <input type="hidden" id="reviewRating" value="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="reviewText">Your Review</label>
+                                <textarea id="reviewText" placeholder="What did you love about this place? Any tips for other visitors?" required minlength="10" maxlength="1000" rows="4"></textarea>
+                                <span class="char-count"><span id="reviewCharCount">0</span>/1000</span>
+                            </div>
+                            <button type="submit" class="submit-review-btn" id="submitReviewBtn">
+                                Submit Review
+                            </button>
+                            <p id="reviewSuccess" style="display: none; color: #4ade80; text-align: center; margin-top: 1rem;">
+                                Thanks for your review! It's now live.
+                            </p>
+                            <p id="reviewError" style="display: none; color: #f87171; text-align: center; margin-top: 1rem;"></p>
+                        </form>
                     </div>
                 </div>
 
@@ -1244,6 +1276,55 @@ Save
             </div>
         </div>
     </div>
+
+    <!-- Booking Options Modal -->
+    <div class="booking-modal" id="bookingModal">
+        <div class="booking-modal-content">
+            <button class="booking-modal-close" onclick="closeBookingModal()">&times;</button>
+            <h3>Book <span id="bookingVenueName">This Experience</span></h3>
+            <p class="booking-subtitle">Find the best deals on these trusted booking platforms:</p>
+
+            <div class="booking-options">
+                <a href="#" id="viatorLink" target="_blank" rel="noopener" class="booking-option viator">
+                    <div class="booking-option-logo">
+                        <img src="https://www.viator.com/favicon.ico" alt="Viator" onerror="this.style.display='none'">
+                        <span>Viator</span>
+                    </div>
+                    <div class="booking-option-info">
+                        <span class="booking-tag">Top Pick</span>
+                        <span class="booking-desc">World's largest tour marketplace</span>
+                    </div>
+                    <span class="booking-arrow">→</span>
+                </a>
+
+                <a href="#" id="gyguLink" target="_blank" rel="noopener" class="booking-option gygu">
+                    <div class="booking-option-logo">
+                        <img src="https://www.getyourguide.com/favicon.ico" alt="GetYourGuide" onerror="this.style.display='none'">
+                        <span>GetYourGuide</span>
+                    </div>
+                    <div class="booking-option-info">
+                        <span class="booking-tag">Trusted</span>
+                        <span class="booking-desc">Skip-the-line tickets available</span>
+                    </div>
+                    <span class="booking-arrow">→</span>
+                </a>
+
+                <a href="#" id="googleSearchLink" target="_blank" rel="noopener" class="booking-option google">
+                    <div class="booking-option-logo">
+                        <img src="https://www.google.com/favicon.ico" alt="Google">
+                        <span>Google Search</span>
+                    </div>
+                    <div class="booking-option-info">
+                        <span class="booking-desc">Find official website & more</span>
+                    </div>
+                    <span class="booking-arrow">→</span>
+                </a>
+            </div>
+
+            <p class="booking-note">💡 Compare prices across platforms to find the best deal!</p>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-client.js"></script>
     <script src="js/data.js"></script>
