@@ -1018,24 +1018,38 @@ function openActivityModal(venue) {
     // Track as recently viewed
     addToRecentlyViewed(venue);
 
-    // Set affiliate link on main button
+    // Set affiliate link on main button and overview button
     const bookBtn = document.getElementById('bookActivityBtn');
+    const overviewBookBtn = document.getElementById('overviewBookBtn');
+
     if (venue.affiliateLink) {
         // Direct affiliate link from database
+        const bookAction = () => window.open(venue.affiliateLink, '_blank');
         bookBtn.innerHTML = '<span class="btn-icon">🎟️</span> Book Tickets';
-        bookBtn.onclick = () => window.open(venue.affiliateLink, '_blank');
+        bookBtn.onclick = bookAction;
         bookBtn.classList.remove('action-btn-secondary');
         bookBtn.classList.add('action-btn-primary');
+
+        if (overviewBookBtn) {
+            overviewBookBtn.innerHTML = '<span class="btn-icon">🎟️</span> Book Tickets';
+            overviewBookBtn.onclick = bookAction;
+        }
     } else {
         // Generate affiliate search links to booking platforms
         const searchQuery = encodeURIComponent(venue.name + ' London');
         const viatorUrl = `https://www.viator.com/searchResults/all?text=${searchQuery}`;
         const gyguUrl = `https://www.getyourguide.com/s/?q=${searchQuery}`;
+        const bookAction = () => openBookingOptions(venue.name, viatorUrl, gyguUrl);
 
         bookBtn.innerHTML = '<span class="btn-icon">🔍</span> Find Tickets';
-        bookBtn.onclick = () => openBookingOptions(venue.name, viatorUrl, gyguUrl);
+        bookBtn.onclick = bookAction;
         bookBtn.classList.remove('action-btn-secondary');
         bookBtn.classList.add('action-btn-primary');
+
+        if (overviewBookBtn) {
+            overviewBookBtn.innerHTML = '<span class="btn-icon">🔍</span> Find Tickets';
+            overviewBookBtn.onclick = bookAction;
+        }
     }
     document.getElementById('activityTitle').textContent = venue.name;
     document.getElementById('activityRating').textContent = venue.rating;
