@@ -116,7 +116,8 @@ export default async function handler(req, res) {
     }
 
     const query = String(q).trim();
-    const cacheKey = `q:${query.toLowerCase()}`;
+    const wantGallery = req.query?.gallery === 'true';
+    const cacheKey = wantGallery ? `gallery:${query.toLowerCase()}` : `q:${query.toLowerCase()}`;
     const cached = cacheGet(cacheKey);
     if (cached) {
       return json(res, 200, cached);
@@ -129,7 +130,7 @@ export default async function handler(req, res) {
       headers: {
         'Content-Type': 'application/json',
         'X-Goog-Api-Key': apiKey,
-        // Keep this minimal. We just need place id + one photo reference.
+        // Request multiple photos for gallery mode
         'X-Goog-FieldMask': 'places.id,places.photos'
       },
       body: JSON.stringify({
@@ -146,8 +147,8 @@ export default async function handler(req, res) {
 
     const place = findData?.places?.[0];
     const placeId = place?.id;
-    const photo = place?.photos?.[0];
-    const photoRef = photo?.name;
+    const photos = place?.photos || [];
+    const photoRef = photos[0]?.name;
 
     if (!placeId || !photoRef) {
       const payload = {
@@ -161,8 +162,18 @@ export default async function handler(req, res) {
 
     // Return a proxy URL so the key never ends up in the browser
     const imageUrl = `/api/place-photo?photo=${encodeURIComponent(photoRef)}&w=900&h=600`;
-    const payload = { imageUrl, placeId };
 
+    // For gallery mode, return multiple photo URLs (up to 10)
+    if (wantGallery && photos.length > 0) {
+      const galleryUrls = photos.slice(0, 10).map(p =>
+        `/api/place-photo?photo=${encodeURIComponent(p.name)}&w=900&h=600`
+      );
+      const payload = { imageUrl, placeId, galleryUrls };
+      cacheSet(cacheKey, payload);
+      return json(res, 200, payload);
+    }
+
+    const payload = { imageUrl, placeId };
     cacheSet(cacheKey, payload);
     return json(res, 200, payload);
   } catch (e) {

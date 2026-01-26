@@ -98,15 +98,23 @@ async function fetchPlacesImage(venueName) {
 
     try {
         const resp = await fetch(`/api/place-photo?q=${encodeURIComponent(q + ' London')}`);
-        if (!resp.ok) return null;
+        if (!resp.ok) {
+            console.warn(`Places API failed for "${venueName}":`, resp.status);
+            return null;
+        }
 
         const data = await resp.json();
         if (data && typeof data.imageUrl === 'string' && data.imageUrl.length > 0) {
             setImageCache(venueName, data.imageUrl, 'places');
             return data.imageUrl;
         }
+        // Log when no image found
+        if (data && data.note) {
+            console.log(`Places: ${venueName} - ${data.note}`);
+        }
         return null;
     } catch (e) {
+        console.warn(`Places API error for "${venueName}":`, e.message);
         return null;
     }
 }
@@ -714,7 +722,7 @@ async function renderVenues(venues, options = {}) {
             const imageUrl = await fetchVenueImage(venue.name);
             if (imageUrl) {
                 const safeName = venue.name.replace(/[^a-zA-Z0-9]/g, '-');
-                const card = document.getElementById(`card - ${safeName} -${index} `);
+                const card = document.getElementById(`card-${safeName}-${index}`);
                 if (card) {
                     const imgDiv = card.querySelector('.activity-image');
                     if (imgDiv) {
@@ -1006,6 +1014,9 @@ function openActivityModal(venue) {
 
     // Lock body scroll
     document.body.classList.add('modal-open');
+
+    // Track as recently viewed
+    addToRecentlyViewed(venue);
 
     // Set affiliate link on main button
     const bookBtn = document.getElementById('bookActivityBtn');
@@ -1344,11 +1355,15 @@ function openActivityModal(venue) {
     // Update bookmark button
     updateBookmarkButton();
 
+    // Reset gallery state for new venue
+    galleryLoadedFor = null;
+    galleryImages = [];
+
     // Show modal
     modal.classList.add('active');
 
-    // Reset to overview tab
-    switchTab('overview');
+    // Reset to overview tab (programmatic call)
+    resetToOverviewTab();
 }
 
 function closeActivityModal() {
@@ -1368,19 +1383,149 @@ function searchVenueOnline() {
     window.open(searchUrl, '_blank');
 }
 
+// Helper to reset to overview tab (programmatic, no event)
+function resetToOverviewTab() {
+    document.querySelectorAll('.activity-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    const overviewTabBtn = document.querySelector('.activity-tab');
+    if (overviewTabBtn) overviewTabBtn.classList.add('active');
+
+    document.querySelectorAll('.activity-tab-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    const overviewTab = document.getElementById('overview-tab');
+    if (overviewTab) overviewTab.classList.add('active');
+}
+
 function switchTab(tabName) {
     // Update tab buttons
     document.querySelectorAll('.activity-tab').forEach(tab => {
         tab.classList.remove('active');
     });
-    event.target.classList.add('active');
+    // Use event.target if available (click), otherwise find the tab button
+    if (typeof event !== 'undefined' && event && event.target) {
+        event.target.classList.add('active');
+    } else {
+        const tabBtn = document.querySelector(`.activity-tab[onclick*="${tabName}"]`);
+        if (tabBtn) tabBtn.classList.add('active');
+    }
 
     // Update tab content
     document.querySelectorAll('.activity-tab-content').forEach(content => {
         content.classList.remove('active');
     });
     document.getElementById(tabName + '-tab').classList.add('active');
+
+    // Load gallery images when gallery tab is selected
+    if (tabName === 'gallery' && currentActivity) {
+        loadGalleryImages(currentActivity.name);
+    }
 }
+
+// Gallery state to avoid re-fetching
+let galleryLoadedFor = null;
+let galleryImages = [];
+
+async function loadGalleryImages(venueName) {
+    // Don't reload if already loaded for this venue
+    if (galleryLoadedFor === venueName && galleryImages.length > 0) {
+        return;
+    }
+
+    const loadingEl = document.getElementById('galleryLoading');
+    const galleryEl = document.getElementById('activityGallery');
+    const emptyEl = document.getElementById('galleryEmpty');
+    const hintEl = document.getElementById('galleryHint');
+    const mainEl = document.getElementById('galleryMain');
+    const thumbsEl = document.getElementById('galleryThumbs');
+
+    // Show loading state
+    if (loadingEl) loadingEl.style.display = 'block';
+    if (galleryEl) galleryEl.style.display = 'none';
+    if (emptyEl) emptyEl.style.display = 'none';
+    if (hintEl) hintEl.style.display = 'none';
+
+    try {
+        // Fetch multiple photos from Places API
+        const photos = await fetchPlacesGalleryImages(venueName);
+
+        if (photos && photos.length > 0) {
+            galleryImages = photos;
+            galleryLoadedFor = venueName;
+
+            // Set main image
+            if (mainEl) {
+                mainEl.style.backgroundImage = `url('${photos[0]}')`;
+                mainEl.onclick = () => window.open(photos[0], '_blank');
+            }
+
+            // Create thumbnails
+            if (thumbsEl) {
+                thumbsEl.innerHTML = photos.slice(0, 6).map((url, index) => `
+                    <div class="gallery-thumb"
+                         style="background-image: url('${url}'); background-size: cover; background-position: center;"
+                         onclick="setGalleryMainImage('${url}')"
+                         data-index="${index}">
+                    </div>
+                `).join('');
+            }
+
+            // Show gallery
+            if (loadingEl) loadingEl.style.display = 'none';
+            if (galleryEl) galleryEl.style.display = 'grid';
+            if (hintEl && photos.length > 1) hintEl.style.display = 'block';
+        } else {
+            // No images found
+            if (loadingEl) loadingEl.style.display = 'none';
+            if (emptyEl) emptyEl.style.display = 'block';
+        }
+    } catch (error) {
+        console.warn('Failed to load gallery images:', error);
+        if (loadingEl) loadingEl.style.display = 'none';
+        if (emptyEl) emptyEl.style.display = 'block';
+    }
+}
+
+function setGalleryMainImage(url) {
+    const mainEl = document.getElementById('galleryMain');
+    if (mainEl) {
+        mainEl.style.backgroundImage = `url('${url}')`;
+        mainEl.onclick = () => window.open(url, '_blank');
+    }
+}
+
+// Fetch multiple photos from Google Places API
+async function fetchPlacesGalleryImages(venueName) {
+    const q = (venueName || '').replace(/, London$/i, '').trim();
+    if (!q) return [];
+
+    try {
+        // First, get the place details with multiple photos
+        const resp = await fetch(`/api/place-photo?q=${encodeURIComponent(q + ' London')}&gallery=true`);
+        if (!resp.ok) return [];
+
+        const data = await resp.json();
+
+        // If API returned gallery URLs, use them
+        if (data && data.galleryUrls && Array.isArray(data.galleryUrls)) {
+            return data.galleryUrls;
+        }
+
+        // Otherwise, if we have a single imageUrl, return it as array
+        if (data && data.imageUrl) {
+            return [data.imageUrl];
+        }
+
+        return [];
+    } catch (e) {
+        console.warn('Gallery fetch error:', e);
+        return [];
+    }
+}
+
+// Make function available globally
+window.setGalleryMainImage = setGalleryMainImage;
 
 async function bookmarkActivity() {
     if (!currentActivity) return;
@@ -1938,6 +2083,145 @@ function clearBookmarks() {
             icon.classList.remove('saved');
         });
     }
+}
+
+// ============================================
+// RECENTLY VIEWED ACTIVITIES
+// ============================================
+const RECENTLY_VIEWED_KEY = 'wet_london_recently_viewed';
+const MAX_RECENTLY_VIEWED = 6;
+
+function addToRecentlyViewed(venue) {
+    if (!venue || !venue.name) return;
+
+    let recentlyViewed = JSON.parse(localStorage.getItem(RECENTLY_VIEWED_KEY) || '[]');
+
+    // Remove if already exists (we'll add to front)
+    recentlyViewed = recentlyViewed.filter(v => v.name !== venue.name);
+
+    // Add to front of array
+    recentlyViewed.unshift({
+        name: venue.name,
+        type: venue.type,
+        location: venue.location,
+        wetness: venue.wetness,
+        wetnessScore: venue.wetnessScore,
+        price: venue.price,
+        priceDisplay: venue.priceDisplay,
+        description: venue.description,
+        rating: venue.rating,
+        viewedAt: Date.now()
+    });
+
+    // Keep only most recent
+    recentlyViewed = recentlyViewed.slice(0, MAX_RECENTLY_VIEWED);
+
+    localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(recentlyViewed));
+
+    // Update the section
+    showRecentlyViewed();
+}
+
+async function showRecentlyViewed() {
+    const recentlyViewed = JSON.parse(localStorage.getItem(RECENTLY_VIEWED_KEY) || '[]');
+    const section = document.getElementById('recentlyViewed');
+    const grid = document.getElementById('recentlyViewedGrid');
+    const counter = document.getElementById('recentlyViewedCount');
+
+    if (!section || !grid || !counter) return;
+
+    counter.textContent = `${recentlyViewed.length} recently viewed`;
+
+    if (recentlyViewed.length === 0) {
+        section.style.display = 'none';
+        return;
+    }
+
+    section.style.display = 'block';
+
+    // Render cards
+    grid.innerHTML = recentlyViewed.map((venue, index) => {
+        return createActivityCardHTML(venue, index, {
+            showId: false,
+            dataAttrs: `data-venue-name="${venue.name}"`
+        });
+    }).join('');
+
+    // Update View Details buttons
+    setTimeout(() => {
+        updateViewDetailsButtons();
+        updateBookmarkIcons();
+    }, 100);
+
+    // Fetch images in background
+    setTimeout(async () => {
+        const imagePromises = recentlyViewed.map(venue => fetchVenueImage(venue.name));
+        const images = await Promise.all(imagePromises);
+
+        images.forEach((imageUrl, index) => {
+            if (imageUrl) {
+                const card = grid.children[index];
+                if (card) {
+                    const imgDiv = card.querySelector('.activity-image');
+                    if (imgDiv) {
+                        imgDiv.style.backgroundImage = `url('${imageUrl}')`;
+                    }
+                }
+            }
+        });
+    }, 200);
+}
+
+function clearRecentlyViewed() {
+    if (confirm('Clear your viewing history?')) {
+        localStorage.setItem(RECENTLY_VIEWED_KEY, '[]');
+        showRecentlyViewed();
+    }
+}
+
+// Expose globally
+window.clearRecentlyViewed = clearRecentlyViewed;
+
+// ============================================
+// NEWSLETTER SIGNUP
+// ============================================
+const NEWSLETTER_STORAGE_KEY = 'wet_london_newsletter_subscribed';
+
+function handleNewsletterSubmit(event) {
+    event.preventDefault();
+
+    const emailInput = document.getElementById('newsletterEmail');
+    const form = document.getElementById('newsletterForm');
+    const successMsg = document.getElementById('newsletterSuccess');
+    const submitBtn = form.querySelector('.newsletter-btn');
+
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+    // Disable button during "submission"
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Subscribing...';
+
+    // In production, you'd send this to your email service (Mailchimp, ConvertKit, etc.)
+    // For now, we'll store locally and show success
+    // You can later add: fetch('/api/newsletter', { method: 'POST', body: JSON.stringify({ email }) })
+
+    setTimeout(() => {
+        // Store that user subscribed (to not show again or personalize)
+        localStorage.setItem(NEWSLETTER_STORAGE_KEY, JSON.stringify({
+            email: email,
+            subscribedAt: Date.now()
+        }));
+
+        // Show success
+        form.style.display = 'none';
+        successMsg.style.display = 'block';
+
+        // Also show a toast
+        showToast('📧', 'You\'re subscribed to Rainy Day Alerts!');
+
+        console.log('Newsletter signup:', email);
+    }, 800);
 }
 
 // Update bookmark icons on page load
@@ -2591,30 +2875,19 @@ function getWeatherMessage(isRaining, temp) {
 
 // Weather-Based Recommendations
 async function updateWeatherRecommendations(weather) {
-    console.log('=== Weather Recommendations Debug ===');
-    console.log('Weather data:', JSON.stringify(weather, null, 2));
-
     const section = document.getElementById('weatherRecommendations');
     const grid = document.getElementById('weatherRecGrid');
     const icon = document.getElementById('weatherRecIcon');
     const title = document.getElementById('weatherRecTitle');
     const subtitle = document.getElementById('weatherRecSubtitle');
 
-    console.log('Section element:', section);
-    console.log('Grid element:', grid);
-    console.log('Grid ID check:', document.getElementById('weatherRecGrid') === grid);
-
     if (!section || !grid) {
-        console.error('ERROR: Weather recommendations elements not found!');
-        console.error('section:', section);
-        console.error('grid:', grid);
+        console.warn('Weather recommendations elements not found');
         return;
     }
 
-    // Add test content to verify grid is accessible
-    grid.innerHTML = '<div style="padding: 2rem; background: red; color: white; font-size: 2rem;">TEST CONTENT - If you see this, grid is working!</div>';
-    console.log('Added test content to grid');
-    console.log('Grid innerHTML after test:', grid.innerHTML.substring(0, 100));
+    // Clear any previous content
+    grid.innerHTML = '';
 
     let recommendedVenues = [];
     let iconEmoji = '';
@@ -2624,17 +2897,14 @@ async function updateWeatherRecommendations(weather) {
     // Determine recommendations based on weather conditions
     if (weather.isRaining) {
         // Heavy rain - prioritize completely dry venues
-        iconEmoji = '';  // No emoji
         titleText = 'Perfect for Rainy Weather';
         subtitleText = 'Stay completely dry at these venues';
         recommendedVenues = window.londonVenues
             .filter(v => v.wetness === 'dry')
             .sort((a, b) => b.rating - a.rating)
             .slice(0, 6);
-        console.log('Rainy weather detected');
     } else if (weather.temp < 10) {
         // Cold - prioritize cozy indoor venues
-        iconEmoji = '';  // No emoji
         titleText = 'Cozy Indoor Escapes';
         subtitleText = 'Warm up at these comfortable venues';
         recommendedVenues = window.londonVenues
@@ -2645,11 +2915,8 @@ async function updateWeatherRecommendations(weather) {
             .sort((a, b) => b.rating - a.rating)
             .slice(0, 6);
 
-        console.log('Cold weather detected, found', recommendedVenues.length, 'cozy venues');
-
         // Fallback if not enough cozy venues
-        if (recommendedVenues.length < 6) {
-            console.log('Not enough cozy venues, using fallback');
+        if (recommendedVenues.length < 3) {
             recommendedVenues = window.londonVenues
                 .filter(v => v.wetness === 'dry')
                 .sort((a, b) => b.rating - a.rating)
@@ -2657,7 +2924,6 @@ async function updateWeatherRecommendations(weather) {
         }
     } else if (weather.temp > 20) {
         // Warm/sunny - show light activities with some airiness
-        iconEmoji = '';  // No emoji
         titleText = 'Light & Bright Activities';
         subtitleText = 'Enjoy indoor spaces with natural light';
         recommendedVenues = window.londonVenues
@@ -2668,11 +2934,8 @@ async function updateWeatherRecommendations(weather) {
             .sort((a, b) => b.rating - a.rating)
             .slice(0, 6);
 
-        console.log('Warm weather detected, found', recommendedVenues.length, 'bright venues');
-
         // Fallback if not enough
-        if (recommendedVenues.length < 6) {
-            console.log('Not enough bright venues, using fallback');
+        if (recommendedVenues.length < 3) {
             recommendedVenues = window.londonVenues
                 .filter(v => v.wetness === 'dry')
                 .sort((a, b) => b.rating - a.rating)
@@ -2680,7 +2943,6 @@ async function updateWeatherRecommendations(weather) {
         }
     } else if (weather.humidity > 80) {
         // High humidity - prioritize air-conditioned venues
-        iconEmoji = '';  // No emoji
         titleText = 'Climate Controlled Comfort';
         subtitleText = 'Cool and comfortable venues';
         recommendedVenues = window.londonVenues
@@ -2691,11 +2953,8 @@ async function updateWeatherRecommendations(weather) {
             .sort((a, b) => b.rating - a.rating)
             .slice(0, 6);
 
-        console.log('High humidity detected, found', recommendedVenues.length, 'AC venues');
-
         // Fallback if not enough
-        if (recommendedVenues.length < 6) {
-            console.log('Not enough AC venues, using fallback');
+        if (recommendedVenues.length < 3) {
             recommendedVenues = window.londonVenues
                 .filter(v => v.wetness === 'dry')
                 .sort((a, b) => b.rating - a.rating)
@@ -2703,104 +2962,63 @@ async function updateWeatherRecommendations(weather) {
         }
     } else {
         // Pleasant weather - show popular venues
-        iconEmoji = '';  // No emoji
         titleText = 'Top Indoor Attractions';
         subtitleText = 'Popular activities for today';
         recommendedVenues = window.londonVenues
             .filter(v => v.rating >= 4.5)
             .sort((a, b) => b.rating - a.rating)
             .slice(0, 6);
-        console.log('Pleasant weather detected');
     }
 
-    console.log('Final recommended venues count:', recommendedVenues.length);
-    console.log('Venue names:', recommendedVenues.map(v => v.name));
-
-    // Update header (hide icon if no emoji)
+    // Update header (hide icon since we removed emoji usage)
     if (icon) {
-        if (iconEmoji) {
-            icon.textContent = iconEmoji;
-            icon.style.display = 'block';
-        } else {
-            icon.style.display = 'none';  // Hide icon element
-        }
+        icon.style.display = 'none';
     }
     if (title) title.textContent = titleText;
     if (subtitle) subtitle.textContent = subtitleText;
 
     // Show section if we have recommendations
     if (recommendedVenues.length > 0) {
-        console.log('Setting section display to block');
         section.style.display = 'block';
-
-        console.log('Starting to build HTML...');
-
-        // CLEAR the test content before adding real content
-        grid.innerHTML = '';
 
         // Build cards HTML
         const cardsHTML = recommendedVenues.map((venue, index) => {
-            // Use placeholder immediately
-            const placeholderImage = getPlaceholderImage(venue);
-            const backgroundStyle = `background-image: url('${placeholderImage}'); background-size: cover; background-position: center;`;
-
-            const cardHTML = createActivityCardHTML(venue, index, {
+            return createActivityCardHTML(venue, index, {
                 showId: false,
                 dataAttrs: `data-venue-index="${index}" data-venue-name="${venue.name}"`
             });
-
-            return cardHTML;
         }).join('');
 
-        console.log('HTML length:', cardsHTML.length, 'characters');
-        console.log('First 500 chars:', cardsHTML.substring(0, 500));
-
-        // Insert the HTML
         grid.innerHTML = cardsHTML;
-
-        console.log('Grid innerHTML set');
-        console.log('Grid children count:', grid.children.length);
-        console.log('Grid display:', window.getComputedStyle(grid).display);
-        console.log('Grid visibility:', window.getComputedStyle(grid).visibility);
-        console.log('Section display:', window.getComputedStyle(section).display);
 
         // Update View Details buttons for these cards
         setTimeout(() => {
             updateViewDetailsButtons();
             updateBookmarkIcons();
-            console.log('Updated buttons and icons');
         }, 100);
 
-        // NOW fetch real images in background and update if available
+        // Fetch real images in background and update if available
         setTimeout(async () => {
             try {
-                console.log('Fetching Unsplash images...');
                 const imagePromises = recommendedVenues.map(venue => fetchVenueImage(venue.name));
                 const images = await Promise.all(imagePromises);
 
-                // Update images if we got better ones
                 images.forEach((imageUrl, index) => {
                     if (imageUrl) {
                         const card = grid.querySelector(`[data-venue-index="${index}"] .activity-image`);
                         if (card) {
                             card.style.backgroundImage = `url('${imageUrl}')`;
-                            console.log('Updated image for venue', index);
                         }
                     }
                 });
-                console.log('Finished updating Unsplash images');
             } catch (error) {
-                console.error('Could not fetch Unsplash images:', error);
+                console.warn('Could not fetch images for weather recommendations:', error);
             }
         }, 500);
 
     } else {
-        // Hide section if no recommendations
-        console.log('No recommendations found, hiding section');
         section.style.display = 'none';
     }
-
-    console.log('=== End Weather Recommendations Debug ===');
 }
 
 function refreshWeather() {
@@ -2924,6 +3142,7 @@ window.clearCategoryFilters = clearCategoryFilters;
 window.loadMoreAllActivities = loadMoreAllActivities;
 window.scrollToTop = scrollToTop;
 window.clearBookmarks = clearBookmarks;
+window.handleNewsletterSubmit = handleNewsletterSubmit;
 window.openModal = openModal;
 window.closeModal = closeModal;
 window.openPrerequisites = openPrerequisites;
@@ -2993,6 +3212,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Initialize Bookmarks section
     await showBookmarks();
+
+    // Initialize Recently Viewed section
+    showRecentlyViewed();
 
     // === FILTER CHIP EVENT LISTENERS ===
 
