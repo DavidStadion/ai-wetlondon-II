@@ -3013,6 +3013,63 @@
 }
 
 /* ============================================
+   SMALL & MIGHTY PARTNER STYLES
+   ============================================ */
+
+.small-mighty-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    z-index: 3;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.activity-card.partner-card {
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.activity-card.partner-card:hover {
+    border-color: #10b981;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.2);
+    transform: translateY(-4px);
+}
+
+.activity-card.partner-card .partner-link {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+    border: none;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.activity-card.partner-card .partner-link:hover {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    color: #ffffff;
+}
+
+/* Small & Mighty section header link */
+#smallMightySection .section-link {
+    color: #10b981;
+}
+
+#smallMightySection .section-link:hover {
+    color: #059669;
+}
+
+/* ============================================
    WET LONDON FOOTER STYLES
    Add this to the bottom of your css/styles.css file
    ============================================ */
