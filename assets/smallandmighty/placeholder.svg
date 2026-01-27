@@ -1,0 +1,8 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#1a1f2e"/>
+  <rect x="320" y="220" width="160" height="160" rx="16" fill="#10b981" fill-opacity="0.15"/>
+  <path d="M380 280L400 260L420 280" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M400 260V340" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+  <rect x="370" y="320" width="60" height="40" rx="4" stroke="#10b981" stroke-width="3" fill="none"/>
+  <text x="400" y="420" text-anchor="middle" fill="#10b981" font-family="system-ui, sans-serif" font-size="14" font-weight="500">Small &amp; Mighty Partner</text>
+</svg>

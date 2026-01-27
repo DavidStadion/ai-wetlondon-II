@@ -1,4 +1,72 @@
-console.log("WetLondon version:", "2026-01-18 06:45");
+console.log("WetLondon version:", "2026-01-26 lazy-load");
+
+// ==========================================
+// LAZY LOADING FOR IMAGES (PERFORMANCE)
+// ==========================================
+const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const card = entry.target;
+            const venueName = card.dataset.venueName;
+            if (venueName && !card.dataset.imageLoaded) {
+                card.dataset.imageLoaded = 'loading';
+                loadImageForCard(card, venueName);
+            }
+            observer.unobserve(card);
+        }
+    });
+}, {
+    rootMargin: '200px 0px', // Start loading 200px before entering viewport
+    threshold: 0.01
+});
+
+async function loadImageForCard(card, venueName) {
+    const imageDiv = card.querySelector('.activity-image');
+    if (!imageDiv) return;
+
+    try {
+        const imageUrl = await fetchVenueImage(venueName);
+        if (imageUrl) {
+            imageDiv.style.backgroundImage = `url('${imageUrl}')`;
+            imageDiv.style.backgroundSize = 'cover';
+            imageDiv.style.backgroundPosition = 'center';
+            card.dataset.imageLoaded = 'true';
+        } else {
+            card.dataset.imageLoaded = 'fallback';
+        }
+    } catch (e) {
+        console.warn(`Lazy load failed for ${venueName}:`, e.message);
+        card.dataset.imageLoaded = 'error';
+    }
+}
+
+// Observe all activity cards for lazy loading
+function observeCardsForLazyLoading(container) {
+    if (!container) return;
+    const cards = container.querySelectorAll('.activity-card[data-venue-name]:not([data-image-loaded])');
+    cards.forEach(card => lazyImageObserver.observe(card));
+}
+
+// MutationObserver to catch dynamically added cards
+const cardMutationObserver = new MutationObserver((mutations) => {
+    mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => {
+            if (node.nodeType === 1) { // Element node
+                if (node.classList?.contains('activity-card') && node.dataset.venueName) {
+                    lazyImageObserver.observe(node);
+                }
+                // Also check child cards
+                const childCards = node.querySelectorAll?.('.activity-card[data-venue-name]:not([data-image-loaded])');
+                childCards?.forEach(card => lazyImageObserver.observe(card));
+            }
+        });
+    });
+});
+
+// Start observing the document body for dynamically added cards
+document.addEventListener('DOMContentLoaded', () => {
+    cardMutationObserver.observe(document.body, { childList: true, subtree: true });
+});
 
 function setVenuesLoading(isLoading) {
     const el = document.getElementById('venuesLoading');
@@ -530,13 +598,18 @@ function createActivityCardHTML(venue, index, options = {}) {
         dataAttrs = '',
         showId = true,
         cardClass = '',
-        badgeHTML = ''
+        badgeHTML = '',
+        eagerLoad = false  // Set true for above-fold cards
     } = options;
 
     const cachedImage = getCachedImage(venue.name);
+    // Use placeholder initially for lazy loading; actual image loaded by IntersectionObserver
     const backgroundStyle = cachedImage
         ? `background-image: url('${cachedImage}'); background-size: cover; background-position: center;`
         : `background-image: url('${getPlaceholderImage(venue)}'); background-size: cover; background-position: center;`;
+
+    // Track if image is already loaded (for lazy loading)
+    const imageLoadedAttr = cachedImage ? 'data-image-loaded="true"' : '';
 
     // Create badges
     let openBadge = '';
@@ -555,8 +628,8 @@ function createActivityCardHTML(venue, index, options = {}) {
     }
 
     // ADD SPONSORED BADGE - MONETIZATION FEATURE
-    const sponsoredBadge = isSponsored(venue) 
-        ? '<div class="sponsored-badge">✨ Featured Partner</div>' 
+    const sponsoredBadge = isSponsored(venue)
+        ? '<div class="sponsored-badge">✨ Featured Partner</div>'
         : '';
 
     const umbrellaEmoji = venue.wetness === 'slightly' ? '☂️' : (venue.wetness === 'wet' ? '☔️' : '🌂');
@@ -572,8 +645,11 @@ function createActivityCardHTML(venue, index, options = {}) {
     // ADD SPONSORED CLASS TO CARD - MONETIZATION FEATURE
     const sponsoredClass = isSponsored(venue) ? 'sponsored-card' : '';
 
+    // Escape venue name for data attribute
+    const safeVenueName = venue.name.replace(/"/g, '&quot;');
+
     return `
-        <div class="activity-card ${sponsoredClass} ${cardClass}" ${idAttr} ${dataAttrs}>
+        <div class="activity-card ${sponsoredClass} ${cardClass}" ${idAttr} ${dataAttrs} data-venue-name="${safeVenueName}" ${imageLoadedAttr}>
             <div class="activity-image" style="${backgroundStyle}">
                 ${sponsoredBadge}
                 ${badgeHTML}
@@ -831,7 +907,7 @@ function closePrerequisites() {
     document.getElementById('prerequisitesModal').classList.remove('active');
 }
 
-// Activity type selection
+// Activity type selection - UPDATED to use unified filter state
 document.querySelectorAll('.tag-option[data-type]').forEach(tag => {
     tag.addEventListener('click', function () {
         this.classList.toggle('selected');
@@ -840,14 +916,17 @@ document.querySelectorAll('.tag-option[data-type]').forEach(tag => {
 
         if (index > -1) {
             selectedTypes.splice(index, 1);
+            filters.types.delete(type); // Remove from unified filter state
         } else {
             selectedTypes.push(type);
+            filters.types.add(type); // Add to unified filter state
         }
         updateCounter();
+        updateDoneButtonLabels();
     });
 });
 
-// Location selection (multiple)
+// Location selection (multiple) - UPDATED to use unified filter state
 document.querySelectorAll('.location-option').forEach(option => {
     option.addEventListener('click', function () {
         const location = this.dataset.location;
@@ -859,6 +938,7 @@ document.querySelectorAll('.location-option').forEach(option => {
             });
             this.classList.add('selected');
             selectedLocations = [];
+            filters.areas.clear(); // Clear unified filter state
         } else {
             // Deselect "All London" when selecting specific areas
             document.querySelector('.location-option[data-location="all"]').classList.remove('selected');
@@ -869,8 +949,10 @@ document.querySelectorAll('.location-option').forEach(option => {
 
             if (index > -1) {
                 selectedLocations.splice(index, 1);
+                filters.areas.delete(location); // Remove from unified filter state
             } else {
                 selectedLocations.push(location);
+                filters.areas.add(location); // Add to unified filter state
             }
 
             // If nothing is selected, reselect "All London"
@@ -879,10 +961,11 @@ document.querySelectorAll('.location-option').forEach(option => {
             }
         }
         updateCounter();
+        updateDoneButtonLabels();
     });
 });
 
-// Wetness selection (multiple)
+// Wetness selection - UPDATED to use unified filter state
 document.querySelectorAll('.wetness-option').forEach(option => {
     option.addEventListener('click', function () {
         const wetness = this.dataset.wetness;
@@ -894,51 +977,60 @@ document.querySelectorAll('.wetness-option').forEach(option => {
             });
             this.classList.add('selected');
             selectedWetness = [];
+            filters.wetness = null; // Clear unified filter state
         } else {
             // Deselect "I don't mind" when selecting specific wetness
             document.querySelector('.wetness-option[data-wetness="any"]').classList.remove('selected');
 
-            // Toggle this wetness level
-            this.classList.toggle('selected');
-            const index = selectedWetness.indexOf(wetness);
+            // Deselect all other options first (single selection)
+            document.querySelectorAll('.wetness-option:not([data-wetness="any"])').forEach(opt => {
+                opt.classList.remove('selected');
+            });
 
-            if (index > -1) {
-                selectedWetness.splice(index, 1);
-            } else {
-                selectedWetness.push(wetness);
-            }
-
-            // If nothing is selected, reselect "I don't mind"
-            if (selectedWetness.length === 0) {
-                document.querySelector('.wetness-option[data-wetness="any"]').classList.add('selected');
-            }
+            // Select this wetness level
+            this.classList.add('selected');
+            selectedWetness = [wetness];
+            filters.wetness = wetness; // Set unified filter state
         }
         updateCounter();
+        updateDoneButtonLabels();
     });
 });
 
-// Prerequisites selection
+// Prerequisites selection - UPDATED to use unified filter state
 document.querySelectorAll('.prereq-tag').forEach(tag => {
     tag.addEventListener('click', function () {
         this.classList.toggle('selected');
-        const text = this.textContent;
+        const text = this.textContent.trim();
         const index = selectedPrerequisites.indexOf(text);
 
         if (index > -1) {
             selectedPrerequisites.splice(index, 1);
+            filters.constraints.delete(text); // Remove from unified filter state
         } else {
             selectedPrerequisites.push(text);
+            filters.constraints.add(text); // Add to unified filter state
         }
         updatePrereqCounter();
         updateCounter();
+        updateDoneButtonLabels();
     });
 });
 
 function clearFilters() {
+    // Clear old arrays
     selectedTypes = [];
     selectedLocations = [];
     selectedWetness = [];
     filterOpenNow = false;
+
+    // Clear unified filter state
+    filters.types.clear();
+    filters.areas.clear();
+    filters.wetness = null;
+    filters.maxWetnessScore = 100;
+    filters.openNow = false;
+    filters.keywords = '';
 
     document.querySelectorAll('.tag-option[data-type]').forEach(tag => {
         tag.classList.remove('selected');
@@ -954,23 +1046,36 @@ function clearFilters() {
     });
     document.querySelector('.wetness-option[data-wetness="any"]').classList.add('selected');
 
+    // Reset wetness slider
+    const wetnessSlider = document.getElementById('wetnessSlider');
+    const wetnessValue = document.getElementById('wetnessValue');
+    if (wetnessSlider) {
+        wetnessSlider.value = 100;
+        if (wetnessValue) wetnessValue.textContent = '100%';
+    }
+
     document.getElementById('preferences').value = '';
     document.getElementById('openNowFilter').checked = false;
     updateCounter();
+    updateDoneButtonLabels();
 }
 
 function toggleOpenNow() {
     filterOpenNow = document.getElementById('openNowFilter').checked;
+    filters.openNow = filterOpenNow; // Sync with unified filter state
     updateCounter();
+    updateDoneButtonLabels();
 }
 
 function clearPrerequisites() {
     selectedPrerequisites = [];
+    filters.constraints.clear(); // Clear unified filter state
     document.querySelectorAll('.prereq-tag').forEach(tag => {
         tag.classList.remove('selected');
     });
     updatePrereqCounter();
     updateCounter();
+    updateDoneButtonLabels();
 }
 
 function applyPrerequisites() {
@@ -3145,19 +3250,23 @@ async function loadFeaturedActivityImages() {
 
     const cards = featuredSection.querySelectorAll('.activity-card:not(.featured)');
 
-    for (const card of cards) {
+    // Load above-fold images in parallel for faster initial render
+    const loadPromises = Array.from(cards).map(async (card) => {
         const h3 = card.querySelector('h3');
-        if (!h3) continue;
+        if (!h3) return;
 
         const venueName = h3.textContent.trim();
         const imageDiv = card.querySelector('.activity-image');
-        if (!imageDiv) continue;
+        if (!imageDiv) return;
 
-        // Check if already has background image
-        if (imageDiv.style.backgroundImage) continue;
+        // Mark card with venue name for lazy loading system
+        card.dataset.venueName = venueName;
+
+        // Check if already has non-placeholder background image
+        if (card.dataset.imageLoaded === 'true') return;
 
         // Find venue in database for fallback gradient
-        const venue = window.londonVenues.find(v => v.name === venueName);
+        const venue = window.londonVenues?.find(v => v.name === venueName);
 
         // Fetch image
         const imageUrl = await fetchVenueImage(venueName);
@@ -3165,11 +3274,17 @@ async function loadFeaturedActivityImages() {
         if (imageUrl) {
             imageDiv.style.backgroundImage = `url('${imageUrl}')`;
             imageDiv.style.backgroundSize = 'cover';
+            imageDiv.style.backgroundPosition = 'center';
+            card.dataset.imageLoaded = 'true';
         } else if (venue) {
             imageDiv.style.backgroundImage = `url('${getPlaceholderImage(venue)}')`;
             imageDiv.style.backgroundSize = 'cover';
+            card.dataset.imageLoaded = 'fallback';
         }
-    }
+    });
+
+    // Execute all in parallel
+    await Promise.all(loadPromises);
 }
 
 function closeLuckySelection() {
@@ -3235,8 +3350,13 @@ document.addEventListener('DOMContentLoaded', async function () {
     // Update Open Now badges every minute
     setInterval(updateOpenNowBadges, 60000);
 
-    // Load images for static Featured Activities
+    // Load images for static Featured Activities (above fold - eager load)
     loadFeaturedActivityImages();
+
+    // Initialize lazy loading for all activity grids
+    document.querySelectorAll('.activity-grid').forEach(grid => {
+        observeCardsForLazyLoading(grid);
+    });
 
     // Show loading state while Supabase fetches
     setVenuesLoading(true);
@@ -3264,8 +3384,10 @@ document.addEventListener('DOMContentLoaded', async function () {
     showRecentlyViewed();
 
     // === FILTER CHIP EVENT LISTENERS ===
+    // NOTE: Most filter chip handlers are defined earlier in the file (outside DOMContentLoaded)
+    // to avoid duplicate event listeners. Only handlers for elements not covered there are here.
 
-    // Type chips
+    // Type chips (for .type-option class if used elsewhere - the modal uses .tag-option[data-type])
     document.querySelectorAll('.type-option').forEach(option => {
         option.addEventListener('click', function () {
             const type = this.dataset.type;
@@ -3283,96 +3405,17 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
     });
 
-    // Location/Area chips
-    document.querySelectorAll('.location-option').forEach(option => {
-        option.addEventListener('click', function () {
-            const location = this.dataset.location;
-            console.log('location clicked:', location);
-
-            if (filters.areas.has(location)) {
-                filters.areas.delete(location);
-                this.classList.remove('selected');
-            } else {
-                filters.areas.add(location);
-                this.classList.add('selected');
-            }
-
-            updateDoneButtonLabels();
-        });
-    });
-
-    // Wetness chips
-    document.querySelectorAll('.wetness-option').forEach(option => {
-        option.addEventListener('click', function () {
-            const wetness = this.dataset.wetness;
-            console.log('wetness clicked:', wetness);
-
-            if (wetness === 'any') {
-                // Clear all wetness selections
-                document.querySelectorAll('.wetness-option').forEach(opt => {
-                    opt.classList.remove('selected');
-                });
-                this.classList.add('selected');
-                filters.wetness = null;
-            } else {
-                // Deselect "any" option
-                document.querySelector('.wetness-option[data-wetness="any"]')?.classList.remove('selected');
-
-                // Toggle this wetness level
-                if (filters.wetness === wetness) {
-                    filters.wetness = null;
-                    this.classList.remove('selected');
-                } else {
-                    // Deselect other wetness options
-                    document.querySelectorAll('.wetness-option').forEach(opt => {
-                        opt.classList.remove('selected');
-                    });
-                    filters.wetness = wetness;
-                    this.classList.add('selected');
-                }
-            }
-
-            updateDoneButtonLabels();
-        });
-    });
-
-    // Open Now checkbox
-    const openNowCheckbox = document.getElementById('openNowFilter');
-    if (openNowCheckbox) {
-        openNowCheckbox.addEventListener('change', function () {
-            filters.openNow = this.checked;
-            console.log('open now:', filters.openNow);
-            updateDoneButtonLabels();
-        });
-    }
-
-    // Keywords input
+    // Keywords/preferences input - sync with unified filter state
     const keywordsInput = document.getElementById('preferences');
     if (keywordsInput) {
         keywordsInput.addEventListener('input', function () {
             filters.keywords = this.value;
-            console.log('keywords:', filters.keywords);
             updateDoneButtonLabels();
         });
     }
 
-    // Prerequisites chips
-    document.querySelectorAll('.prereq-option').forEach(option => {
-        option.addEventListener('click', function () {
-            const prereq = this.dataset.prereq;
-            console.log('prereq clicked:', prereq);
-
-            if (filters.constraints.has(prereq)) {
-                filters.constraints.delete(prereq);
-                this.classList.remove('selected');
-            } else {
-                filters.constraints.add(prereq);
-                this.classList.add('selected');
-            }
-
-            updateDoneButtonLabels();
-        });
-    });
+    // NOTE: Location, Wetness, OpenNow, and Prereq handlers are defined earlier in the file
+    // to avoid duplicate event listeners that cause toggle issues.
 
 
     // Category expand / collapse (UI only)
@@ -3749,3 +3792,104 @@ document.addEventListener('DOMContentLoaded', function() {
 // Make functions available globally
 window.submitReview = submitReview;
 window.loadReviews = loadReviews;
+
+// ============================================
+// SMALL & MIGHTY PARTNERS (HOMEPAGE)
+// ============================================
+
+function createPartnerCardHTML(partner, index) {
+    const imageUrl = partner.image_filename
+        ? `assets/smallandmighty/${partner.image_filename}`
+        : 'assets/smallandmighty/placeholder.svg';
+
+    const typeLabel = partner.type
+        ? partner.type.charAt(0).toUpperCase() + partner.type.slice(1)
+        : 'Partner';
+
+    const locationLabel = partner.location
+        ? partner.location.charAt(0).toUpperCase() + partner.location.slice(1) + ' London'
+        : 'London';
+
+    return `
+        <article class="activity-card partner-card" data-partner-id="${partner.id}">
+            <div class="activity-image" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center;">
+                <div class="small-mighty-badge">Small & Mighty</div>
+            </div>
+            <div class="activity-content">
+                <div class="activity-meta">
+                    <span class="activity-type">${typeLabel}</span>
+                    <span class="activity-location">${locationLabel}</span>
+                </div>
+                <h3>${partner.name}</h3>
+                <p class="activity-description">${partner.description || ''}</p>
+                <div class="activity-footer">
+                    <span class="activity-price">${partner.price_display || 'View pricing'}</span>
+                    <a href="${partner.affiliate_link || partner.website_url || '#'}"
+                       target="_blank"
+                       rel="noopener noreferrer"
+                       class="view-details-btn partner-link">
+                        Visit Website
+                    </a>
+                </div>
+            </div>
+        </article>
+    `;
+}
+
+async function renderSmallMightyPartners() {
+    const section = document.getElementById('smallMightySection');
+    const grid = document.getElementById('smallMightyGrid');
+
+    if (!section || !grid) return;
+
+    // Check if Supabase is available
+    if (typeof supabase === 'undefined' || !supabase) {
+        console.warn('Supabase not available for Small & Mighty partners');
+        section.style.display = 'none';
+        return;
+    }
+
+    try {
+        // Fetch featured partners (max 3)
+        const { data: partners, error } = await supabase
+            .from('small_mighty_partners')
+            .select('*')
+            .eq('featured', true)
+            .eq('active', true)
+            .limit(3);
+
+        if (error) {
+            console.error('Error loading Small & Mighty partners:', error);
+            section.style.display = 'none';
+            return;
+        }
+
+        if (!partners || partners.length === 0) {
+            section.style.display = 'none';
+            return;
+        }
+
+        // Render partner cards
+        grid.innerHTML = partners.map((partner, index) =>
+            createPartnerCardHTML(partner, index)
+        ).join('');
+
+        // Show the section
+        section.style.display = 'block';
+
+    } catch (err) {
+        console.error('Error rendering Small & Mighty partners:', err);
+        section.style.display = 'none';
+    }
+}
+
+// Initialize Small & Mighty section on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Only run on homepage (index.html)
+    if (document.getElementById('smallMightySection')) {
+        renderSmallMightyPartners();
+    }
+});
+
+// Expose globally
+window.renderSmallMightyPartners = renderSmallMightyPartners;

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Small & Mighty - Support Local London Businesses | Wet London</title>
+    <meta name="description" content="Discover workshops, classes and creative experiences from London's best local businesses. Perfect for rainy days!" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        /* Small & Mighty page specific styles */
+        .partners-hero {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.25rem;
+            text-align: center;
+        }
+
+        .partners-hero h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: -0.02em;
+            margin: 0 0 0.75rem;
+            color: var(--wl-text, #e6eefc);
+        }
+
+        .partners-hero .tagline {
+            color: rgba(230, 238, 252, 0.7);
+            font-size: 1.1rem;
+            max-width: 60ch;
+            margin: 0 auto 1.5rem;
+        }
+
+        .partners-filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .filter-chip {
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-chip:hover,
+        .filter-chip.active {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.4);
+            color: #fff;
+        }
+
+        .filter-chip.active {
+            background: rgba(16, 185, 129, 0.25);
+        }
+
+        .partners-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.25rem 3rem;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .partner-card-full {
+            background: rgba(15, 22, 36, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .partner-card-full:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .partner-card-image {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: linear-gradient(135deg, #1a1f2e 0%, #0f1523 100%);
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .partner-card-badge {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.35rem 0.6rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .partner-card-content {
+            padding: 1.25rem;
+        }
+
+        .partner-card-type {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #10b981;
+            margin-bottom: 0.35rem;
+        }
+
+        .partner-card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0 0 0.5rem;
+            color: #fff;
+            line-height: 1.3;
+        }
+
+        .partner-card-location {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 0.75rem;
+        }
+
+        .partner-card-description {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .partner-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .partner-price {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .partner-price.free {
+            color: #4ade80;
+        }
+
+        .partner-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .partner-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .no-partners {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: rgba(255, 255, 255, 0.6);
+            grid-column: 1 / -1;
+        }
+
+        .become-partner-cta {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .become-partner-cta h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.25rem;
+            color: #fff;
+        }
+
+        .become-partner-cta p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0 0 1rem;
+        }
+
+        .become-partner-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border: none;
+            color: #fff;
+            padding: 0.875rem 1.75rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .become-partner-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .loading-partners {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+        }
+
+        @media (max-width: 640px) {
+            .partners-hero h1 {
+                font-size: 1.75rem;
+            }
+
+            .partners-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .partners-filter-bar {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+                flex-wrap: nowrap;
+            }
+
+            .filter-chip {
+                flex-shrink: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">Wet London</a>
+
+        <button class="nav-toggle" id="navToggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="siteNav">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+
+        <nav class="nav" id="siteNav">
+            <a href="index.html">Home</a>
+            <a href="index.html#activities">Featured</a>
+            <a href="index.html#all-activities">All Activities</a>
+            <a href="index.html#bookmarks">My Bookmarks</a>
+            <a href="events.html">What's On</a>
+            <a href="smallandmighty.html" class="active">Small & Mighty</a>
+            <a href="situations.html">For who?</a>
+            <a href="about.html">About Us</a>
+        </nav>
+
+        <div class="nav-scrim" id="navScrim"></div>
+    </header>
+
+    <main style="padding-top: 80px;">
+        <section class="partners-hero">
+            <h1 class="page-title">Small & Mighty</h1>
+            <p class="tagline">Support London's independent businesses. Discover workshops, classes, and creative experiences perfect for rainy days.</p>
+
+            <!-- Location Filter -->
+            <div class="partners-filter-bar">
+                <button class="filter-chip active" data-filter="all">All London</button>
+                <button class="filter-chip" data-filter="central">Central</button>
+                <button class="filter-chip" data-filter="north">North</button>
+                <button class="filter-chip" data-filter="south">South</button>
+                <button class="filter-chip" data-filter="east">East</button>
+                <button class="filter-chip" data-filter="west">West</button>
+            </div>
+
+            <!-- Type Filter -->
+            <div class="partners-filter-bar" style="margin-top: 0.5rem;">
+                <button class="filter-chip type-filter active" data-type="all">All Types</button>
+                <button class="filter-chip type-filter" data-type="workshops">Workshops</button>
+                <button class="filter-chip type-filter" data-type="cooking">Cooking</button>
+                <button class="filter-chip type-filter" data-type="pottery">Pottery</button>
+                <button class="filter-chip type-filter" data-type="crafts">Crafts</button>
+                <button class="filter-chip type-filter" data-type="art">Art</button>
+                <button class="filter-chip type-filter" data-type="wellbeing">Wellbeing</button>
+            </div>
+        </section>
+
+        <section class="partners-container">
+            <div class="partners-grid" id="partnersGrid">
+                <div class="loading-partners">
+                    <div class="weather-spinner" style="margin: 0 auto 1rem;"></div>
+                    <p style="color: rgba(255,255,255,0.6);">Loading partners...</p>
+                </div>
+            </div>
+
+            <!-- Become a Partner CTA -->
+            <div class="become-partner-cta">
+                <h3>Are you a local London business?</h3>
+                <p>Join our Small & Mighty directory and reach thousands of Londoners looking for indoor activities.</p>
+                <a href="mailto:partners@wetlondon.co.uk?subject=Small%20%26%20Mighty%20Partnership" class="become-partner-btn">
+                    Become a Partner
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-top">
+                <div class="footer-column">
+                    <h3 class="footer-logo">Wet London</h3>
+                    <p class="footer-description">
+                        Your guide to the best indoor activities in London.
+                        Never let the rain stop your plans again.
+                    </p>
+                    <div class="footer-social">
+                        <a href="https://twitter.com/wetlondon" target="_blank" rel="noopener" class="social-link" aria-label="Twitter">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                            </svg>
+                        </a>
+                        <a href="https://instagram.com/wetlondon" target="_blank" rel="noopener" class="social-link" aria-label="Instagram">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="https://facebook.com/wetlondon" target="_blank" rel="noopener" class="social-link" aria-label="Facebook">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                            </svg>
+                        </a>
+                        <a href="https://tiktok.com/@wetlondon" target="_blank" rel="noopener" class="social-link" aria-label="TikTok">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#activities">Featured Activities</a></li>
+                        <li><a href="events.html">What's On</a></li>
+                        <li><a href="smallandmighty.html">Small & Mighty</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="/privacy.html">Privacy Policy</a></li>
+                        <li><a href="/terms.html">Terms & Conditions</a></li>
+                        <li><a href="/cookies.html">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p class="copyright">© 2026 Wet London. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // Supabase client
+        const SUPABASE_URL = 'https://iguspxisuudvvlcbtaxk.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_7NmZ0J9oVtEaU6xxOAn9NQ_U80zq9cV';
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let allPartners = [];
+        let currentLocationFilter = 'all';
+        let currentTypeFilter = 'all';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadAllPartners();
+            setupFilterChips();
+            setupNavToggle();
+        });
+
+        async function loadAllPartners() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('small_mighty_partners')
+                    .select('*')
+                    .eq('active', true)
+                    .order('featured', { ascending: false })
+                    .order('name');
+
+                if (error) throw error;
+
+                allPartners = data || [];
+                renderPartners();
+            } catch (err) {
+                console.error('Error loading partners:', err);
+                document.getElementById('partnersGrid').innerHTML = `
+                    <div class="no-partners">
+                        <h3 style="margin-bottom: 0.5rem; color: #fff;">Coming Soon</h3>
+                        <p>We're building our network of local London businesses. Check back soon!</p>
+                        <p style="margin-top: 1rem;"><a href="mailto:partners@wetlondon.co.uk" style="color: #10b981;">Interested in being featured?</a></p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderPartners() {
+            const grid = document.getElementById('partnersGrid');
+
+            // Apply filters
+            let filtered = allPartners;
+
+            if (currentLocationFilter !== 'all') {
+                filtered = filtered.filter(p => p.location === currentLocationFilter);
+            }
+
+            if (currentTypeFilter !== 'all') {
+                filtered = filtered.filter(p => p.type === currentTypeFilter);
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-partners">
+                        <p>No partners found matching your filters.</p>
+                        <p style="margin-top: 0.5rem;">
+                            <button onclick="resetFilters()" style="color: #10b981; background: none; border: none; cursor: pointer; text-decoration: underline; font-size: inherit;">
+                                View all partners
+                            </button>
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(partner => renderPartnerCard(partner)).join('');
+        }
+
+        function renderPartnerCard(partner) {
+            const imageUrl = partner.image_filename
+                ? `assets/smallandmighty/${partner.image_filename}`
+                : 'assets/smallandmighty/placeholder.svg';
+
+            const priceDisplay = partner.price_display || (partner.price === 0 ? 'FREE' : `From £${partner.price}`);
+            const linkUrl = partner.affiliate_link || partner.website_url || '#';
+            const isFree = partner.price === 0;
+
+            return `
+                <div class="partner-card-full" data-location="${partner.location}" data-type="${partner.type}">
+                    <div class="partner-card-image" style="background-image: url('${imageUrl}');">
+                        <span class="partner-card-badge">Small & Mighty</span>
+                    </div>
+                    <div class="partner-card-content">
+                        <div class="partner-card-type">${formatType(partner.type)}</div>
+                        <h3 class="partner-card-title">${escapeHtml(partner.name)}</h3>
+                        <div class="partner-card-location">📍 ${formatLocation(partner.location)} London</div>
+                        <p class="partner-card-description">${escapeHtml(partner.description || '')}</p>
+                    </div>
+                    <div class="partner-card-footer">
+                        <span class="partner-price ${isFree ? 'free' : ''}">${priceDisplay}</span>
+                        <a href="${linkUrl}" target="_blank" rel="noopener" class="partner-btn">Visit Website</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        function setupFilterChips() {
+            // Location filters
+            document.querySelectorAll('.filter-chip:not(.type-filter)').forEach(chip => {
+                chip.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-chip:not(.type-filter)').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    currentLocationFilter = this.dataset.filter;
+                    renderPartners();
+                });
+            });
+
+            // Type filters
+            document.querySelectorAll('.filter-chip.type-filter').forEach(chip => {
+                chip.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-chip.type-filter').forEach(c => c.classList.remove('active'));
+                    this.classList.add('active');
+                    currentTypeFilter = this.dataset.type;
+                    renderPartners();
+                });
+            });
+        }
+
+        function resetFilters() {
+            currentLocationFilter = 'all';
+            currentTypeFilter = 'all';
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            document.querySelector('.filter-chip[data-filter="all"]').classList.add('active');
+            document.querySelector('.filter-chip[data-type="all"]').classList.add('active');
+            renderPartners();
+        }
+
+        function formatType(type) {
+            const labels = {
+                workshops: 'Workshops',
+                cooking: 'Cooking Classes',
+                pottery: 'Pottery',
+                crafts: 'Crafts',
+                art: 'Art Classes',
+                wellbeing: 'Wellbeing',
+                other: 'Experience'
+            };
+            return labels[type] || type;
+        }
+
+        function formatLocation(loc) {
+            return loc ? loc.charAt(0).toUpperCase() + loc.slice(1) : '';
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Mobile nav toggle
+        function setupNavToggle() {
+            const toggle = document.getElementById('navToggle');
+            const nav = document.getElementById('siteNav');
+            const scrim = document.getElementById('navScrim');
+
+            if (!toggle || !nav) return;
+
+            function closeNav() {
+                document.body.classList.remove('nav-open');
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+
+            toggle.addEventListener('click', function() {
+                if (document.body.classList.contains('nav-open')) {
+                    closeNav();
+                } else {
+                    document.body.classList.add('nav-open');
+                    toggle.setAttribute('aria-expanded', 'true');
+                }
+            });
+
+            if (scrim) scrim.addEventListener('click', closeNav);
+            nav.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNav));
+        }
+    </script>
+</body>
+</html>
