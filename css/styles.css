@@ -1636,6 +1636,15 @@
             background: #f5f5f5;
             border-radius: 6px;
             margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-icon svg {
+            width: 24px;
+            height: 24px;
+            color: #333;
         }
 
         .category-card h3 {
@@ -1977,8 +1986,8 @@
   top: 0.75rem;
   right: 4.5rem;
   background: white;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: 1px solid #e5e5e5;
   display: flex;
@@ -1991,6 +2000,8 @@
 
 /* Default state – outline bookmark */
 .bookmark-icon svg {
+  width: 16px;
+  height: 16px;
   fill: none;
   stroke: #000000;
   stroke-width: 2;
@@ -4438,6 +4449,14 @@ body{
   box-shadow: var(--wl-shadow);
 }
 
+.category-icon {
+  background: rgba(77,163,255,0.12);
+}
+
+.category-icon svg {
+  color: rgba(77,163,255,0.9);
+}
+
 .activity-content p{
   color: var(--wl-muted);
 }
@@ -4454,8 +4473,8 @@ body{
 
 /* Bookmark icon */
 .bookmark-icon{
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border-radius: 999px;
   background: rgba(15,22,36,0.72);
   border: 1px solid var(--wl-border);
@@ -4470,8 +4489,8 @@ body{
   top: 0.75rem;
   right: 4.5rem;
   background: white;
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: 1px solid #e5e5e5;
   display: flex;
@@ -4484,6 +4503,8 @@ body{
 
 /* Default state – outline bookmark */
 .bookmark-icon svg {
+  width: 16px;
+  height: 16px;
   fill: none;
   stroke: #000000;
   stroke-width: 2;
