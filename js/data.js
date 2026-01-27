@@ -2192,6 +2192,1151 @@ const londonVenues = [
             sat: "00:00-23:59",
             sun: "00:00-23:59"
         }
+    },
+    // MORE MUSEUMS
+    {
+        name: "Sir John Soane's Museum",
+        type: ["museums", "historic"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Architect's eccentric townhouse filled with antiquities. Holborn 3 mins.",
+        rating: 4.7,
+        prerequisites: ["free entry", "toilets available", "unique experience", "quiet spaces", "educational"],
+        openingHours: {
+            mon: "Closed",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Horniman Museum",
+        type: ["museums"],
+        location: "south",
+        wetness: "dry",
+        wetnessScore: 10,
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Quirky museum with natural history and musical instruments. Forest Hill 5 mins.",
+        rating: 4.6,
+        prerequisites: ["wheelchair accessible", "child-friendly", "free entry", "toilets available", "cafe on-site", "educational", "interactive"],
+        openingHours: {
+            mon: "10:00-17:30",
+            tue: "10:00-17:30",
+            wed: "10:00-17:30",
+            thu: "10:00-17:30",
+            fri: "10:00-17:30",
+            sat: "10:00-17:30",
+            sun: "10:00-17:30"
+        }
+    },
+    {
+        name: "Geffrye Museum",
+        type: ["museums", "historic"],
+        location: "east",
+        wetness: "dry",
+        wetnessScore: 15,
+        price: 0,
+        priceDisplay: "FREE",
+        description: "History of the English home through 400 years. Hoxton 5 mins.",
+        rating: 4.5,
+        prerequisites: ["wheelchair accessible", "free entry", "toilets available", "cafe on-site", "educational"],
+        openingHours: {
+            mon: "Closed",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Postal Museum",
+        type: ["museums"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 19,
+        priceDisplay: "£19",
+        description: "Ride the Mail Rail underground and explore postal history. Farringdon 5 mins.",
+        rating: 4.6,
+        prerequisites: ["child-friendly", "family tickets", "under £20", "toilets available", "cafe on-site", "interactive", "unique experience"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "10:00-17:00"
+        }
+    },
+    {
+        name: "Bank of England Museum",
+        type: ["museums", "historic"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Gold bars and the history of British banking. Bank direct.",
+        rating: 4.4,
+        prerequisites: ["wheelchair accessible", "free entry", "toilets available", "educational"],
+        openingHours: {
+            mon: "10:00-17:00",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "Closed",
+            sun: "Closed"
+        }
+    },
+    {
+        name: "Fashion and Textile Museum",
+        type: ["museums", "galleries"],
+        location: "south",
+        wetness: "dry",
+        wetnessScore: 10,
+        price: 12,
+        priceDisplay: "£12",
+        description: "Contemporary fashion and textile exhibitions. London Bridge 7 mins.",
+        rating: 4.4,
+        prerequisites: ["under £20", "toilets available", "educational", "photography allowed"],
+        openingHours: {
+            mon: "Closed",
+            tue: "11:00-18:00",
+            wed: "11:00-18:00",
+            thu: "11:00-20:00",
+            fri: "11:00-18:00",
+            sat: "11:00-18:00",
+            sun: "11:00-17:00"
+        }
+    },
+    {
+        name: "Cartoon Museum",
+        type: ["museums", "galleries"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 9,
+        priceDisplay: "£9",
+        description: "British cartoon and comic art. Goodge Street 2 mins.",
+        rating: 4.5,
+        prerequisites: ["under £20", "toilets available", "educational", "unique experience"],
+        openingHours: {
+            mon: "10:30-17:30",
+            tue: "10:30-17:30",
+            wed: "10:30-17:30",
+            thu: "10:30-17:30",
+            fri: "10:30-17:30",
+            sat: "10:30-17:30",
+            sun: "10:30-17:30"
+        }
+    },
+    {
+        name: "Freud Museum",
+        type: ["museums", "historic"],
+        location: "north",
+        wetness: "dry",
+        wetnessScore: 10,
+        price: 14,
+        priceDisplay: "£14",
+        description: "Sigmund Freud's final home with his famous couch. Finchley Road 10 mins.",
+        rating: 4.6,
+        prerequisites: ["under £20", "toilets available", "educational", "quiet spaces"],
+        openingHours: {
+            mon: "Closed",
+            tue: "Closed",
+            wed: "10:30-17:00",
+            thu: "10:30-17:00",
+            fri: "10:30-17:00",
+            sat: "10:30-17:00",
+            sun: "10:30-17:00"
+        }
+    },
+    // MORE GALLERIES
+    {
+        name: "Whitechapel Gallery",
+        type: ["galleries"],
+        location: "east",
+        wetness: "dry",
+        wetnessScore: 5,
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Pioneering contemporary art since 1901. Aldgate East direct.",
+        rating: 4.5,
+        prerequisites: ["wheelchair accessible", "free entry", "toilets available", "cafe on-site", "educational"],
+        openingHours: {
+            mon: "Closed",
+            tue: "11:00-18:00",
+            wed: "11:00-18:00",
+            thu: "11:00-21:00",
+            fri: "11:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Serpentine Galleries",
+        type: ["galleries"],
+        location: "west",
+        wetness: "slightly",
+        wetnessScore: 35,
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Contemporary art in Kensington Gardens. Lancaster Gate 10 mins.",
+        rating: 4.5,
+        prerequisites: ["wheelchair accessible", "free entry", "toilets available", "cafe on-site", "educational"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Saatchi Gallery",
+        type: ["galleries"],
+        location: "west",
+        wetness: "dry",
+        wetnessScore: 10,
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Contemporary art exhibitions. Sloane Square 5 mins.",
+        rating: 4.4,
+        prerequisites: ["wheelchair accessible", "free entry", "toilets available", "cafe on-site", "photography allowed"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "National Portrait Gallery",
+        type: ["galleries", "museums"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Portraits spanning 500 years of British history. Leicester Square 3 mins.",
+        rating: 4.7,
+        prerequisites: ["wheelchair accessible", "step-free", "free entry", "toilets available", "cafe on-site", "educational"],
+        openingHours: {
+            mon: "10:30-18:00",
+            tue: "10:30-18:00",
+            wed: "10:30-18:00",
+            thu: "10:30-18:00",
+            fri: "10:30-21:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Photographers' Gallery",
+        type: ["galleries"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 5,
+        price: 5,
+        priceDisplay: "£5",
+        description: "UK's largest public gallery dedicated to photography. Oxford Circus 3 mins.",
+        rating: 4.5,
+        prerequisites: ["wheelchair accessible", "under £20", "toilets available", "cafe on-site", "educational"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-20:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "11:00-18:00"
+        }
+    },
+    {
+        name: "Hayward Gallery",
+        type: ["galleries"],
+        location: "south",
+        wetness: "dry",
+        wetnessScore: 15,
+        price: 18,
+        priceDisplay: "£18",
+        description: "Major contemporary art exhibitions. Waterloo 5 mins.",
+        rating: 4.5,
+        prerequisites: ["wheelchair accessible", "under £20", "toilets available", "cafe on-site", "educational"],
+        openingHours: {
+            mon: "11:00-19:00",
+            tue: "11:00-19:00",
+            wed: "11:00-19:00",
+            thu: "11:00-21:00",
+            fri: "11:00-19:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    // ESCAPE ROOMS
+    {
+        name: "Escape Hunt London",
+        type: ["gaming", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 32,
+        priceDisplay: "£32",
+        description: "Themed escape rooms near Oxford Street. Bond Street 3 mins.",
+        rating: 4.7,
+        prerequisites: ["under £50", "toilets available", "booking required", "group activity", "social", "interactive"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "clueQuest",
+        type: ["gaming", "entertainment"],
+        location: "north",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 30,
+        priceDisplay: "£30",
+        description: "Mission-based escape games. King's Cross 5 mins.",
+        rating: 4.8,
+        prerequisites: ["under £50", "toilets available", "booking required", "group activity", "social", "interactive"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "Escape Rooms London",
+        type: ["gaming", "entertainment"],
+        location: "south",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 28,
+        priceDisplay: "£28",
+        description: "Award-winning puzzle rooms. London Bridge 5 mins.",
+        rating: 4.6,
+        prerequisites: ["under £50", "toilets available", "booking required", "group activity", "social", "interactive"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "AIM Escape",
+        type: ["gaming", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 25,
+        priceDisplay: "£25",
+        description: "Immersive theatrical escape experiences. Aldgate 3 mins.",
+        rating: 4.7,
+        prerequisites: ["under £50", "toilets available", "booking required", "group activity", "social", "interactive", "unique experience"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "The Escape Game London",
+        type: ["gaming", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 35,
+        priceDisplay: "£35",
+        description: "Premium escape rooms with Hollywood-quality sets. Covent Garden 2 mins.",
+        rating: 4.8,
+        prerequisites: ["under £50", "toilets available", "booking required", "group activity", "social", "interactive", "unique experience"],
+        openingHours: {
+            mon: "09:00-23:00",
+            tue: "09:00-23:00",
+            wed: "09:00-23:00",
+            thu: "09:00-23:00",
+            fri: "09:00-00:00",
+            sat: "09:00-00:00",
+            sun: "09:00-22:00"
+        }
+    },
+    // COOKING CLASSES
+    {
+        name: "Bread Ahead Bakery School",
+        type: ["workshops", "dining"],
+        location: "south",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 45,
+        priceDisplay: "£45",
+        description: "Learn to bake bread and pastries. Borough Market.",
+        rating: 4.8,
+        prerequisites: ["under £50", "toilets available", "booking required", "social", "interactive", "educational"],
+        openingHours: {
+            mon: "09:00-17:00",
+            tue: "09:00-17:00",
+            wed: "09:00-17:00",
+            thu: "09:00-17:00",
+            fri: "09:00-17:00",
+            sat: "09:00-17:00",
+            sun: "09:00-17:00"
+        }
+    },
+    {
+        name: "Cookery School at Little Portland Street",
+        type: ["workshops", "dining"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 95,
+        priceDisplay: "£95",
+        description: "Professional cooking classes for all levels. Oxford Circus 5 mins.",
+        rating: 4.7,
+        prerequisites: ["premium", "toilets available", "booking required", "social", "interactive", "educational"],
+        openingHours: {
+            mon: "09:00-21:00",
+            tue: "09:00-21:00",
+            wed: "09:00-21:00",
+            thu: "09:00-21:00",
+            fri: "09:00-21:00",
+            sat: "09:00-18:00",
+            sun: "09:00-18:00"
+        }
+    },
+    {
+        name: "La Cucina Caldesi",
+        type: ["workshops", "dining"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 85,
+        priceDisplay: "£85",
+        description: "Italian cooking school with hands-on classes. Marylebone 5 mins.",
+        rating: 4.8,
+        prerequisites: ["premium", "toilets available", "booking required", "social", "interactive", "educational"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-22:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Leiths School of Food and Wine",
+        type: ["workshops", "dining"],
+        location: "west",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 120,
+        priceDisplay: "£120",
+        description: "Prestigious culinary school offering day classes. Shepherd's Bush 5 mins.",
+        rating: 4.9,
+        prerequisites: ["premium", "toilets available", "booking required", "educational"],
+        openingHours: {
+            mon: "09:00-17:00",
+            tue: "09:00-17:00",
+            wed: "09:00-17:00",
+            thu: "09:00-17:00",
+            fri: "09:00-17:00",
+            sat: "09:00-17:00",
+            sun: "Closed"
+        }
+    },
+    {
+        name: "Social Pantry Cooking Classes",
+        type: ["workshops", "dining"],
+        location: "south",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 75,
+        priceDisplay: "£75",
+        description: "Fun social cooking classes in Battersea. Clapham Junction 10 mins.",
+        rating: 4.6,
+        prerequisites: ["premium", "toilets available", "booking required", "social", "interactive"],
+        openingHours: {
+            mon: "10:00-21:00",
+            tue: "10:00-21:00",
+            wed: "10:00-21:00",
+            thu: "10:00-21:00",
+            fri: "10:00-21:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Hot Mess Kitchen",
+        type: ["workshops", "dining"],
+        location: "east",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 55,
+        priceDisplay: "£55",
+        description: "Relaxed cooking classes with wine. Hackney Central 5 mins.",
+        rating: 4.5,
+        prerequisites: ["under £50", "premium", "toilets available", "booking required", "social", "interactive"],
+        openingHours: {
+            mon: "Closed",
+            tue: "18:00-22:00",
+            wed: "18:00-22:00",
+            thu: "18:00-22:00",
+            fri: "18:00-22:00",
+            sat: "11:00-22:00",
+            sun: "11:00-17:00"
+        }
+    },
+    // MORE IMMERSIVE EXPERIENCES
+    {
+        name: "The Vaults",
+        type: ["entertainment", "theatre"],
+        location: "south",
+        wetness: "dry",
+        wetnessScore: 5,
+        price: 25,
+        priceDisplay: "FROM £25",
+        description: "Underground theatre and immersive experiences. Waterloo 3 mins.",
+        rating: 4.6,
+        prerequisites: ["under £50", "toilets available", "booking required", "unique experience"],
+        openingHours: {
+            mon: "18:00-23:00",
+            tue: "18:00-23:00",
+            wed: "18:00-23:00",
+            thu: "18:00-23:00",
+            fri: "18:00-00:00",
+            sat: "14:00-00:00",
+            sun: "14:00-22:00"
+        }
+    },
+    {
+        name: "Secret Cinema",
+        type: ["entertainment", "cinema"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 10,
+        price: 65,
+        priceDisplay: "FROM £65",
+        description: "Immersive film experiences at secret locations. Various locations.",
+        rating: 4.7,
+        prerequisites: ["premium", "toilets available", "booking required", "unique experience", "interactive"],
+        openingHours: {
+            mon: "18:00-23:00",
+            tue: "18:00-23:00",
+            wed: "18:00-23:00",
+            thu: "18:00-23:00",
+            fri: "18:00-00:00",
+            sat: "14:00-00:00",
+            sun: "14:00-22:00"
+        }
+    },
+    {
+        name: "Jeff Wayne's War of the Worlds",
+        type: ["entertainment", "exhibitions"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 55,
+        priceDisplay: "£55",
+        description: "VR and 4D experience. Leadenhall 2 mins.",
+        rating: 4.5,
+        prerequisites: ["premium", "toilets available", "booking required", "unique experience", "interactive"],
+        openingHours: {
+            mon: "10:00-20:00",
+            tue: "10:00-20:00",
+            wed: "10:00-20:00",
+            thu: "10:00-20:00",
+            fri: "10:00-22:00",
+            sat: "10:00-22:00",
+            sun: "10:00-20:00"
+        }
+    },
+    {
+        name: "Sherlock Holmes Escape Room",
+        type: ["gaming", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 35,
+        priceDisplay: "£35",
+        description: "Solve mysteries in Victorian London. Baker Street 2 mins.",
+        rating: 4.6,
+        prerequisites: ["under £50", "toilets available", "booking required", "group activity", "interactive", "unique experience"],
+        openingHours: {
+            mon: "10:00-22:00",
+            tue: "10:00-22:00",
+            wed: "10:00-22:00",
+            thu: "10:00-22:00",
+            fri: "10:00-23:00",
+            sat: "10:00-23:00",
+            sun: "10:00-21:00"
+        }
+    },
+    {
+        name: "Otherworld",
+        type: ["entertainment", "gaming"],
+        location: "east",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 30,
+        priceDisplay: "£30",
+        description: "Immersive VR arcade with cocktails. Haggerston 5 mins.",
+        rating: 4.6,
+        prerequisites: ["under £50", "toilets available", "booking required", "interactive", "unique experience", "social"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "11:00-00:00",
+            sun: "11:00-22:00"
+        }
+    },
+    // MORE INDOOR ACTIVITIES
+    {
+        name: "Puttshack",
+        type: ["gaming", "entertainment", "dining"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 15,
+        priceDisplay: "FROM £15",
+        description: "Tech-infused crazy golf with food and drinks. Bank 3 mins.",
+        rating: 4.5,
+        prerequisites: ["under £20", "child-friendly", "toilets available", "vegan options", "vegetarian", "walk-ins welcome", "social", "group activity"],
+        openingHours: {
+            mon: "11:00-23:00",
+            tue: "11:00-23:00",
+            wed: "11:00-23:00",
+            thu: "11:00-00:00",
+            fri: "11:00-01:00",
+            sat: "10:00-01:00",
+            sun: "10:00-23:00"
+        }
+    },
+    {
+        name: "Lane7",
+        type: ["gaming", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 10,
+        priceDisplay: "FROM £10",
+        description: "Bowling, karaoke, and arcade games. Various locations.",
+        rating: 4.4,
+        prerequisites: ["under £20", "child-friendly", "toilets available", "social", "group activity", "walk-ins welcome"],
+        openingHours: {
+            mon: "12:00-00:00",
+            tue: "12:00-00:00",
+            wed: "12:00-00:00",
+            thu: "12:00-01:00",
+            fri: "12:00-02:00",
+            sat: "10:00-02:00",
+            sun: "10:00-00:00"
+        }
+    },
+    {
+        name: "Junkyard Golf Club",
+        type: ["gaming", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 13,
+        priceDisplay: "FROM £13",
+        description: "Quirky crazy golf with cocktails. Shoreditch 3 mins.",
+        rating: 4.5,
+        prerequisites: ["under £20", "toilets available", "walk-ins welcome", "social", "group activity"],
+        openingHours: {
+            mon: "12:00-00:00",
+            tue: "12:00-00:00",
+            wed: "12:00-00:00",
+            thu: "12:00-01:00",
+            fri: "12:00-02:00",
+            sat: "11:00-02:00",
+            sun: "11:00-00:00"
+        }
+    },
+    {
+        name: "Ballie Ballerson",
+        type: ["entertainment", "nightlife"],
+        location: "east",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 12,
+        priceDisplay: "£12",
+        description: "Adult ball pit bar with cocktails. Shoreditch High Street 3 mins.",
+        rating: 4.3,
+        prerequisites: ["under £20", "toilets available", "booking required", "social", "unique experience"],
+        openingHours: {
+            mon: "17:00-00:00",
+            tue: "17:00-00:00",
+            wed: "17:00-00:00",
+            thu: "17:00-01:00",
+            fri: "17:00-02:00",
+            sat: "14:00-02:00",
+            sun: "14:00-00:00"
+        }
+    },
+    {
+        name: "Draughts Board Game Cafe",
+        type: ["gaming", "dining"],
+        location: "east",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 8,
+        priceDisplay: "£8",
+        description: "Over 1000 board games with cafe. Haggerston 3 mins.",
+        rating: 4.6,
+        prerequisites: ["under £20", "toilets available", "vegan options", "vegetarian", "walk-ins welcome", "social", "group activity"],
+        openingHours: {
+            mon: "17:00-23:00",
+            tue: "17:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "10:00-00:00",
+            sun: "10:00-23:00"
+        }
+    },
+    {
+        name: "Loading Bar",
+        type: ["gaming", "nightlife"],
+        location: "east",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Retro video game bar. Dalston 5 mins.",
+        rating: 4.4,
+        prerequisites: ["free entry", "toilets available", "walk-ins welcome", "social"],
+        openingHours: {
+            mon: "17:00-00:00",
+            tue: "17:00-00:00",
+            wed: "17:00-00:00",
+            thu: "17:00-01:00",
+            fri: "17:00-02:00",
+            sat: "14:00-02:00",
+            sun: "14:00-00:00"
+        }
+    },
+    // POTTERY & CREATIVE
+    {
+        name: "Turning Earth",
+        type: ["workshops"],
+        location: "east",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 45,
+        priceDisplay: "£45",
+        description: "Drop-in pottery classes. Hoxton 5 mins.",
+        rating: 4.7,
+        prerequisites: ["under £50", "toilets available", "booking required", "social", "interactive", "educational"],
+        openingHours: {
+            mon: "10:00-21:00",
+            tue: "10:00-21:00",
+            wed: "10:00-21:00",
+            thu: "10:00-21:00",
+            fri: "10:00-21:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Kiln Rooms",
+        type: ["workshops"],
+        location: "south",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 50,
+        priceDisplay: "£50",
+        description: "Ceramic workshops for beginners. Peckham Rye 5 mins.",
+        rating: 4.6,
+        prerequisites: ["under £50", "toilets available", "booking required", "social", "interactive", "educational"],
+        openingHours: {
+            mon: "10:00-21:00",
+            tue: "10:00-21:00",
+            wed: "10:00-21:00",
+            thu: "10:00-21:00",
+            fri: "10:00-21:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "Life Drawing Classes London",
+        type: ["workshops", "galleries"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 20,
+        priceDisplay: "£20",
+        description: "Drop-in life drawing sessions. Various central locations.",
+        rating: 4.5,
+        prerequisites: ["under £50", "booking required", "social", "educational"],
+        openingHours: {
+            mon: "19:00-21:00",
+            tue: "19:00-21:00",
+            wed: "19:00-21:00",
+            thu: "19:00-21:00",
+            fri: "19:00-21:00",
+            sat: "14:00-16:00",
+            sun: "14:00-16:00"
+        }
+    },
+    {
+        name: "Token Studio",
+        type: ["workshops"],
+        location: "north",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 65,
+        priceDisplay: "£65",
+        description: "Jewellery making workshops. Angel 5 mins.",
+        rating: 4.7,
+        prerequisites: ["premium", "toilets available", "booking required", "social", "interactive", "educational"],
+        openingHours: {
+            mon: "10:00-20:00",
+            tue: "10:00-20:00",
+            wed: "10:00-20:00",
+            thu: "10:00-20:00",
+            fri: "10:00-20:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    // WINE & SPIRITS EXPERIENCES
+    {
+        name: "Vagabond Wines",
+        type: ["dining", "workshops"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 20,
+        priceDisplay: "FROM £20",
+        description: "Self-pour wine bar with tastings. Multiple locations.",
+        rating: 4.5,
+        prerequisites: ["under £50", "toilets available", "walk-ins welcome", "social", "romantic"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "11:00-00:00",
+            sun: "11:00-22:00"
+        }
+    },
+    {
+        name: "Beefeater Gin Distillery",
+        type: ["workshops", "entertainment"],
+        location: "south",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 16,
+        priceDisplay: "£16",
+        description: "Gin distillery tour and tastings. Kennington 5 mins.",
+        rating: 4.6,
+        prerequisites: ["under £20", "toilets available", "booking required", "educational", "unique experience"],
+        openingHours: {
+            mon: "10:00-18:00",
+            tue: "10:00-18:00",
+            wed: "10:00-18:00",
+            thu: "10:00-18:00",
+            fri: "10:00-18:00",
+            sat: "10:00-18:00",
+            sun: "10:00-18:00"
+        }
+    },
+    {
+        name: "City of London Distillery",
+        type: ["workshops", "dining"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 25,
+        priceDisplay: "£25",
+        description: "Gin school and cocktail bar. Temple 3 mins.",
+        rating: 4.6,
+        prerequisites: ["under £50", "toilets available", "booking required", "social", "educational", "unique experience"],
+        openingHours: {
+            mon: "17:00-23:00",
+            tue: "17:00-23:00",
+            wed: "17:00-23:00",
+            thu: "17:00-00:00",
+            fri: "17:00-01:00",
+            sat: "14:00-01:00",
+            sun: "14:00-22:00"
+        }
+    },
+    // MORE UNIQUE EXPERIENCES
+    {
+        name: "House of MinaLima",
+        type: ["galleries", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Harry Potter graphic design museum. Leicester Square 3 mins.",
+        rating: 4.7,
+        prerequisites: ["wheelchair accessible", "free entry", "toilets available", "photography allowed", "unique experience"],
+        openingHours: {
+            mon: "11:00-19:00",
+            tue: "11:00-19:00",
+            wed: "11:00-19:00",
+            thu: "11:00-19:00",
+            fri: "11:00-19:00",
+            sat: "11:00-19:00",
+            sun: "12:00-18:00"
+        }
+    },
+    {
+        name: "221B Baker Street",
+        type: ["museums", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 18,
+        priceDisplay: "£18",
+        description: "Sherlock Holmes Museum. Baker Street direct.",
+        rating: 4.3,
+        prerequisites: ["under £20", "toilets available", "photography allowed", "unique experience"],
+        openingHours: {
+            mon: "09:30-18:00",
+            tue: "09:30-18:00",
+            wed: "09:30-18:00",
+            thu: "09:30-18:00",
+            fri: "09:30-18:00",
+            sat: "09:30-18:00",
+            sun: "09:30-18:00"
+        }
+    },
+    {
+        name: "Platform 9¾ Shop",
+        type: ["shopping", "entertainment"],
+        location: "north",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Harry Potter photo opportunity and shop. King's Cross direct.",
+        rating: 4.4,
+        prerequisites: ["wheelchair accessible", "free entry", "photography allowed", "child-friendly"],
+        openingHours: {
+            mon: "08:00-22:00",
+            tue: "08:00-22:00",
+            wed: "08:00-22:00",
+            thu: "08:00-22:00",
+            fri: "08:00-22:00",
+            sat: "08:00-22:00",
+            sun: "09:00-21:00"
+        }
+    },
+    {
+        name: "Dennis Severs' House",
+        type: ["museums", "historic"],
+        location: "east",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 15,
+        priceDisplay: "£15",
+        description: "Atmospheric Georgian townhouse experience. Liverpool Street 5 mins.",
+        rating: 4.7,
+        prerequisites: ["under £20", "booking required", "unique experience", "quiet spaces"],
+        openingHours: {
+            mon: "12:00-14:00",
+            tue: "Closed",
+            wed: "12:00-14:00",
+            thu: "Closed",
+            fri: "12:00-14:00",
+            sat: "Closed",
+            sun: "12:00-16:00"
+        }
+    },
+    {
+        name: "Hunterian Museum",
+        type: ["museums"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 0,
+        priceDisplay: "FREE",
+        description: "Medical curiosities at Royal College of Surgeons. Holborn 3 mins.",
+        rating: 4.5,
+        prerequisites: ["wheelchair accessible", "free entry", "toilets available", "educational", "unique experience"],
+        openingHours: {
+            mon: "Closed",
+            tue: "10:00-17:00",
+            wed: "10:00-17:00",
+            thu: "10:00-17:00",
+            fri: "10:00-17:00",
+            sat: "10:00-17:00",
+            sun: "Closed"
+        }
+    },
+    // AFTERNOON TEA
+    {
+        name: "The Ritz Afternoon Tea",
+        type: ["dining"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 75,
+        priceDisplay: "£75",
+        description: "Quintessential London afternoon tea experience. Green Park direct.",
+        rating: 4.8,
+        prerequisites: ["premium", "toilets available", "booking required", "romantic", "unique experience"],
+        openingHours: {
+            mon: "11:30-19:30",
+            tue: "11:30-19:30",
+            wed: "11:30-19:30",
+            thu: "11:30-19:30",
+            fri: "11:30-19:30",
+            sat: "11:30-19:30",
+            sun: "11:30-19:30"
+        }
+    },
+    {
+        name: "Claridge's Afternoon Tea",
+        type: ["dining"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 85,
+        priceDisplay: "£85",
+        description: "Art Deco elegance with champagne tea. Bond Street 3 mins.",
+        rating: 4.9,
+        prerequisites: ["premium", "toilets available", "booking required", "romantic", "unique experience"],
+        openingHours: {
+            mon: "14:00-17:30",
+            tue: "14:00-17:30",
+            wed: "14:00-17:30",
+            thu: "14:00-17:30",
+            fri: "14:00-17:30",
+            sat: "12:00-17:30",
+            sun: "12:00-17:30"
+        }
+    },
+    {
+        name: "The Lanesborough Tea",
+        type: ["dining"],
+        location: "west",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 70,
+        priceDisplay: "£70",
+        description: "Regency-style tea service. Hyde Park Corner direct.",
+        rating: 4.7,
+        prerequisites: ["premium", "toilets available", "booking required", "romantic", "unique experience"],
+        openingHours: {
+            mon: "13:00-18:00",
+            tue: "13:00-18:00",
+            wed: "13:00-18:00",
+            thu: "13:00-18:00",
+            fri: "13:00-18:00",
+            sat: "12:00-18:00",
+            sun: "12:00-18:00"
+        }
+    },
+    // MORE DINING EXPERIENCES
+    {
+        name: "Dans Le Noir",
+        type: ["dining", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 65,
+        priceDisplay: "£65",
+        description: "Dining in complete darkness. Farringdon 5 mins.",
+        rating: 4.4,
+        prerequisites: ["premium", "toilets available", "booking required", "unique experience"],
+        openingHours: {
+            mon: "18:00-22:30",
+            tue: "18:00-22:30",
+            wed: "18:00-22:30",
+            thu: "18:00-22:30",
+            fri: "18:00-23:00",
+            sat: "18:00-23:00",
+            sun: "18:00-22:00"
+        }
+    },
+    {
+        name: "Inamo",
+        type: ["dining", "entertainment"],
+        location: "central",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 45,
+        priceDisplay: "£45",
+        description: "Interactive projection table ordering. Covent Garden 2 mins.",
+        rating: 4.3,
+        prerequisites: ["under £50", "vegan options", "vegetarian", "toilets available", "booking required", "interactive", "unique experience"],
+        openingHours: {
+            mon: "12:00-23:00",
+            tue: "12:00-23:00",
+            wed: "12:00-23:00",
+            thu: "12:00-23:00",
+            fri: "12:00-00:00",
+            sat: "12:00-00:00",
+            sun: "12:00-22:30"
+        }
+    },
+    {
+        name: "Bunga Bunga",
+        type: ["dining", "entertainment"],
+        location: "south",
+        wetness: "dry",
+        wetnessScore: 0,
+        price: 35,
+        priceDisplay: "£35",
+        description: "Italian karaoke pizzeria. Battersea 5 mins.",
+        rating: 4.4,
+        prerequisites: ["under £50", "toilets available", "booking required", "social", "group activity", "unique experience"],
+        openingHours: {
+            mon: "17:00-00:00",
+            tue: "17:00-00:00",
+            wed: "17:00-00:00",
+            thu: "17:00-01:00",
+            fri: "17:00-02:00",
+            sat: "12:00-02:00",
+            sun: "12:00-00:00"
+        }
     }
 ];
 
