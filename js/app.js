@@ -2166,6 +2166,9 @@ async function toggleBookmarkFromCard(event, venueName) {
         // Add bookmark
         savedActivities.push(venue);
         bookmarkIcon.classList.add('saved');
+
+        // Trigger celebration animation
+        triggerBookmarkCelebration(bookmarkIcon);
     }
 
     // Save to localStorage
@@ -2180,6 +2183,70 @@ async function toggleBookmarkFromCard(event, venueName) {
 
 // Expose toggleBookmarkFromCard globally for inline onclick handlers
 window.toggleBookmarkFromCard = toggleBookmarkFromCard;
+
+// ============================================
+// BOOKMARK CELEBRATION ANIMATION
+// ============================================
+
+function triggerBookmarkCelebration(bookmarkIcon) {
+    // Add pulse animation to bookmark icon
+    bookmarkIcon.classList.add('just-saved');
+    setTimeout(() => bookmarkIcon.classList.remove('just-saved'), 300);
+
+    // Create confetti container
+    const celebration = document.createElement('div');
+    celebration.className = 'bookmark-celebration';
+
+    // Add confetti particles
+    for (let i = 0; i < 8; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'confetti-particle';
+        celebration.appendChild(particle);
+    }
+
+    // Position relative to the bookmark icon
+    const card = bookmarkIcon.closest('.activity-card');
+    if (card) {
+        card.style.position = 'relative';
+        card.appendChild(celebration);
+
+        // Remove after animation completes
+        setTimeout(() => {
+            celebration.remove();
+        }, 700);
+    }
+}
+
+// ============================================
+// SKELETON LOADING CARDS
+// ============================================
+
+function createSkeletonCard() {
+    return `
+        <article class="skeleton-card">
+            <div class="skeleton-image"></div>
+            <div class="skeleton-content">
+                <div class="skeleton-text short"></div>
+                <div class="skeleton-text long"></div>
+                <div class="skeleton-text medium"></div>
+                <div class="skeleton-tags">
+                    <div class="skeleton-tag"></div>
+                    <div class="skeleton-tag"></div>
+                    <div class="skeleton-tag"></div>
+                </div>
+            </div>
+        </article>
+    `;
+}
+
+function showSkeletonLoading(gridElement, count = 6) {
+    if (!gridElement) return;
+    gridElement.innerHTML = Array(count).fill(createSkeletonCard()).join('');
+}
+
+// Expose skeleton functions globally
+window.showSkeletonLoading = showSkeletonLoading;
+window.createSkeletonCard = createSkeletonCard;
 
 async function showBookmarks() {
     const savedActivities = JSON.parse(localStorage.getItem('savedActivities') || '[]');
@@ -3613,7 +3680,7 @@ async function loadReviews(venueName) {
                 <div class="review-card">
                     <div class="review-header">
                         <div class="reviewer-info">
-                            ${review.authorPhoto ? `<img src="${review.authorPhoto}" alt="" class="reviewer-photo">` : ''}
+                            ${review.authorPhoto ? `<img src="${review.authorPhoto}" alt="" class="reviewer-photo" loading="lazy">` : ''}
                             <div>
                                 <div class="reviewer-name">${escapeHtml(review.authorName)}</div>
                                 <div class="review-rating">${getStarDisplay(review.rating)} ${review.rating.toFixed(1)}</div>
