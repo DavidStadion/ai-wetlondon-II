@@ -663,6 +663,7 @@ function createActivityCardHTML(venue, index, options = {}) {
                     <span class="tag">${labelCategory(venue.type[0])}</span>
                     <span class="tag">${labelCategory(venue.location)}</span>
                     <span class="tag">${labelCategory(venue.wetness)}</span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venue.name + ' London')}" target="_blank" rel="noopener" class="map-link" title="View on Google Maps"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></a>
                 </div>
                 <p>${venue.description}</p>
                 <div class="wetness-indicator">
@@ -3813,7 +3814,7 @@ function createPartnerCardHTML(partner, index) {
     return `
         <article class="activity-card partner-card" data-partner-id="${partner.id}">
             <div class="activity-image" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center;">
-                <div class="small-mighty-badge">Small & Mighty</div>
+                <div class="small-mighty-badge">Pop-up</div>
             </div>
             <div class="activity-content">
                 <div class="activity-meta">
@@ -3844,7 +3845,7 @@ async function renderSmallMightyPartners() {
 
     // Check if Supabase is available
     if (typeof supabase === 'undefined' || !supabase) {
-        console.warn('Supabase not available for Small & Mighty partners');
+        console.warn('Supabase not available for Pop-up partners');
         section.style.display = 'none';
         return;
     }
@@ -3859,7 +3860,7 @@ async function renderSmallMightyPartners() {
             .limit(3);
 
         if (error) {
-            console.error('Error loading Small & Mighty partners:', error);
+            console.error('Error loading Pop-up partners:', error);
             section.style.display = 'none';
             return;
         }
@@ -3878,12 +3879,12 @@ async function renderSmallMightyPartners() {
         section.style.display = 'block';
 
     } catch (err) {
-        console.error('Error rendering Small & Mighty partners:', err);
+        console.error('Error rendering Pop-up partners:', err);
         section.style.display = 'none';
     }
 }
 
-// Initialize Small & Mighty section on page load
+// Initialize Pop-ups section on page load
 document.addEventListener('DOMContentLoaded', function() {
     // Only run on homepage (index.html)
     if (document.getElementById('smallMightySection')) {
