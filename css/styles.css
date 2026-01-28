@@ -3097,13 +3097,52 @@
     color: #ffffff;
 }
 
-/* Pop-ups section header link */
+/* Pop-ups section styling */
+#smallMightySection {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(5, 150, 105, 0.04) 100%);
+    border-top: 1px solid rgba(16, 185, 129, 0.15);
+    border-bottom: 1px solid rgba(16, 185, 129, 0.15);
+    padding: 3rem 0;
+    margin: 2rem 0;
+}
+
+#smallMightySection .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    gap: 2rem;
+}
+
+#smallMightySection .section-header > div {
+    flex: 1;
+}
+
 #smallMightySection .section-link {
     color: #10b981;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 0.25rem;
 }
 
 #smallMightySection .section-link:hover {
     color: #059669;
+}
+
+/* Partner card footer - price left, button right */
+.activity-card.partner-card .activity-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 1rem;
+    gap: 1rem;
+}
+
+.activity-card.partner-card .activity-price {
+    color: #10b981;
+    font-weight: 600;
+    font-size: 0.95rem;
 }
 
 /* ============================================
