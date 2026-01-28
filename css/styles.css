@@ -4398,10 +4398,30 @@ body{
 
 .nav a{
   color: var(--wl-muted);
+  position: relative;
 }
 
 .nav a:hover{
   color: var(--wl-text);
+}
+
+/* Active navigation state */
+.nav a[aria-current="page"],
+.nav a.active {
+  color: var(--wl-text);
+  font-weight: 600;
+}
+
+.nav a[aria-current="page"]::after,
+.nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2px;
 }
 
 /* Sections */
@@ -4855,6 +4875,19 @@ body{
     body.nav-open .nav a:hover {
         background: rgba(108, 99, 255, 0.12);
         color: var(--wl-text, #ffffff);
+    }
+
+    /* Mobile nav active state */
+    body.nav-open .nav a[aria-current="page"],
+    body.nav-open .nav a.active {
+        background: rgba(108, 99, 255, 0.18);
+        color: var(--wl-text, #ffffff);
+        font-weight: 600;
+    }
+
+    body.nav-open .nav a[aria-current="page"]::after,
+    body.nav-open .nav a.active::after {
+        display: none;
     }
 
     body.nav-open .nav-scrim {
