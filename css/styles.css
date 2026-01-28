@@ -1783,6 +1783,30 @@
   margin-top: auto;
 }
 
+/* Google Maps link on cards */
+.map-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.2s ease;
+  margin-left: auto;
+}
+
+.map-link:hover {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  transform: scale(1.1);
+}
+
+.map-link svg {
+  flex-shrink: 0;
+}
+
 
 
         /* Ensure grid displays properly in weather recommendations */
@@ -1892,15 +1916,16 @@
             position: absolute;
             top: 1rem;
             left: 1rem;
-            background: #DCDAF5;
+            background: linear-gradient(135deg, #DCDAF5 0%, #c4c1e8 100%);
             color: #1a1a1a;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
+            padding: 0.4rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             z-index: 10;
+            box-shadow: 0 2px 8px rgba(220, 218, 245, 0.4);
         }
 
         .activity-image {
@@ -2024,23 +2049,28 @@
             position: absolute;
             bottom: 0.75rem;
             left: 0.75rem;
-            background: #10B981;
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
             color: white;
-            padding: 0.4rem 0.75rem;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 600;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
             z-index: 10;
             display: flex;
             align-items: center;
             gap: 0.35rem;
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
 
         .open-now-badge::before {
-            content: '●';
-            font-size: 0.6rem;
-            animation: pulse 2s ease-in-out infinite;
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
         }
 
         @keyframes pulse {
@@ -2072,17 +2102,22 @@
         }
 
         .closing-soon-badge {
-            background: #F59E0B;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+            background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+            box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+        }
+
+        .closing-soon-badge::before {
+            background: white;
+            animation: pulse 1s ease-in-out infinite;
         }
 
         .closed-badge {
-            background: #EF4444;
-            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+            background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+            box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4);
         }
 
         .closed-badge::before {
-            animation: none;
+            display: none;
         }
 
         .activity-content {
@@ -2975,13 +3010,14 @@
     position: absolute;
     top: 12px;
     left: 12px;
-    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+    background: linear-gradient(135deg, #FFD700 0%, #F59E0B 100%);
     color: #1a1a1a;
-    padding: 6px 12px;
+    padding: 0.35rem 0.75rem;
     border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
     z-index: 3;
     box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
 }
@@ -3013,10 +3049,11 @@
 }
 
 /* ============================================
-   SMALL & MIGHTY PARTNER STYLES
+   POP-UPS PARTNER STYLES
    ============================================ */
 
-.small-mighty-badge {
+.small-mighty-badge,
+.popup-badge {
     position: absolute;
     top: 12px;
     left: 12px;
@@ -3060,7 +3097,7 @@
     color: #ffffff;
 }
 
-/* Small & Mighty section header link */
+/* Pop-ups section header link */
 #smallMightySection .section-link {
     color: #10b981;
 }
