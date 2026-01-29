@@ -1157,6 +1157,22 @@ function openActivityModal(venue) {
             overviewBookBtn.onclick = bookAction;
         }
     }
+
+    // Set up map link
+    const mapSection = document.getElementById('overviewMapSection');
+    const mapBtn = document.getElementById('overviewMapBtn');
+    if (mapSection && mapBtn) {
+        if (venue.googleMapsUrl) {
+            mapBtn.href = venue.googleMapsUrl;
+            mapSection.style.display = 'block';
+        } else {
+            // Generate Google Maps search URL as fallback
+            const mapsQuery = encodeURIComponent(venue.name + ' London');
+            mapBtn.href = `https://www.google.com/maps/search/?api=1&query=${mapsQuery}`;
+            mapSection.style.display = 'block';
+        }
+    }
+
     document.getElementById('activityTitle').textContent = venue.name;
     document.getElementById('activityRating').textContent = venue.rating;
     document.getElementById('activityPrice').textContent = venue.priceDisplay;
