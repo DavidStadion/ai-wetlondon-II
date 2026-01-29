@@ -6761,19 +6761,61 @@ body{
 }
 
 
-/* Overview Book CTA at bottom */
+/* Overview Book CTA - Primary action */
 .overview-book-cta {
     margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
     text-align: center;
 }
 
 .overview-book-btn {
-    width: 100%;
-    max-width: 320px;
     padding: 1rem 1.5rem;
     font-size: 1rem;
+}
+
+/* Full-width buttons in modal */
+.overview-book-btn.full-width,
+.map-link-btn.full-width {
+    width: 100%;
+    max-width: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+/* Map link button styling */
+.overview-map-cta {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.map-link-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    background: #e8e8e8;
+    border: 1px solid #d0d0d0;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.map-link-btn:hover {
+    background: #d8d8d8;
+    border-color: #c0c0c0;
+}
+
+/* Modal divider */
+.modal-divider {
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+    margin: 1.5rem 0;
 }
 
 /* Consistent page titles across all pages */
