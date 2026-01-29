@@ -6770,6 +6770,19 @@ body{
 .overview-book-btn {
     padding: 1rem 1.5rem;
     font-size: 1rem;
+    font-weight: 600;
+    background: linear-gradient(135deg, rgba(77,163,255,1), rgba(124,195,255,1));
+    color: #07101b;
+    border: none;
+    border-radius: 999px;
+    box-shadow: 0 12px 28px rgba(77,163,255,0.25);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.overview-book-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 36px rgba(77,163,255,0.32);
 }
 
 /* Full-width buttons in modal */
