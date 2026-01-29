@@ -35,6 +35,27 @@
     }
 
     .situations-chips { justify-content: center; }
+
+    /* Reduce hero bottom padding */
+    .situations-hero {
+      padding-bottom: 1rem !important;
+    }
+
+    /* Ad banner spacing - 32px desktop, 20px mobile */
+    .situations-ad-banner {
+      padding: 32px 1.25rem !important;
+    }
+
+    .situations-results {
+      padding-top: 0 !important;
+    }
+
+    @media (max-width: 768px) {
+      .situations-ad-banner {
+        padding: 20px 1.25rem !important;
+      }
+    }
+
     .situations-ad { margin: 16px 0 20px; }
     .situations-ad-inner{
       border-radius: 16px;
@@ -137,7 +158,7 @@
     </section>
 
     <!-- AdSense Banner -->
-    <section class="ad-slot container" style="margin: 0.5rem auto 1rem;">
+    <section class="ad-slot container situations-ad-banner">
       <div class="ad-slot-inner">
         <div class="ad-badge">Advertisement</div>
         <ins class="adsbygoogle"
@@ -150,7 +171,7 @@
       </div>
     </section>
 
-<section class="container situations-results">
+    <section class="container situations-results">
       <div class="situations-results-header">
         <h2 id="situationResultsTitle">Suggestions</h2>
         <button class="back-btn situations-clear" id="clearSituation" type="button" style="display:none;">Clear</button>
