@@ -3287,7 +3287,7 @@ async function renderFeaturedActivitiesFromSupabase() {
         html += createActivityCardHTML(spotlight, 0, {
             idPrefix: 'featured',
             cardClass: 'spotlight spotlight-card',
-            badgeHTML: '<div class="featured-badge">Spotlight</div>'
+            badgeHTML: '<div class="spotlight-badge">Spotlight</div>'
         });
     }
 
@@ -3295,6 +3295,7 @@ async function renderFeaturedActivitiesFromSupabase() {
         const cardIndex = spotlight ? i + 1 : i;
         html += createActivityCardHTML(venue, cardIndex, {
             idPrefix: 'featured',
+            cardClass: 'featured',
             badgeHTML: '<div class="featured-badge">Featured</div>'
         });
     });

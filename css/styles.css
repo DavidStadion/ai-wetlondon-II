@@ -1916,16 +1916,19 @@
             position: absolute;
             top: 1rem;
             left: 1rem;
-            background: linear-gradient(135deg, #DCDAF5 0%, #c4c1e8 100%);
+            background: linear-gradient(135deg, #DCDAF5 0%, #b8b4e8 100%);
             color: #1a1a1a;
-            padding: 0.4rem 0.85rem;
+            padding: 0.45rem 0.9rem;
             border-radius: 20px;
             font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             z-index: 10;
-            box-shadow: 0 2px 8px rgba(220, 218, 245, 0.4);
+            box-shadow:
+                0 2px 12px rgba(220, 218, 245, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .activity-image {
@@ -4292,19 +4295,22 @@
   border: none;
 }
 
-/* Spotlight badge */
+/* Spotlight badge - golden sponsored style */
 .activity-card.spotlight .spotlight-badge {
   position: absolute;
   top: 1rem;
   left: 1rem;
-  background: rgba(255, 255, 255, 0.92);
-  color: #0f172a;
-  padding: 0.45rem 0.85rem;
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  color: #1a1a1a;
+  padding: 0.45rem 0.9rem;
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   z-index: 12;
+  box-shadow: 0 2px 12px rgba(245, 158, 11, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* If a sponsored badge also exists, nudge Featured badge down a touch */
@@ -4379,12 +4385,74 @@
 }
 
 /* === Spotlight final overrides (force dark + full width) === */
+/* === Enhanced Spotlight Card (Sponsored) === */
 .activity-grid .activity-card.spotlight,
 .activity-grid .activity-card.spotlight-card {
   grid-column: 1 / -1 !important;
+  position: relative;
+  border: 2px solid #f59e0b !important;
   background: #0F1523 !important;
-  border: 1px solid rgba(255, 255, 255, 0.10) !important;
+  box-shadow:
+    0 0 24px rgba(245, 158, 11, 0.25),
+    0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  overflow: hidden;
 }
+
+@keyframes spotlightGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.2), 0 8px 32px rgba(0, 0, 0, 0.3); }
+  50% { box-shadow: 0 0 32px rgba(245, 158, 11, 0.35), 0 8px 32px rgba(0, 0, 0, 0.3); }
+}
+
+.activity-grid .activity-card.spotlight,
+.activity-grid .activity-card.spotlight-card {
+  animation: spotlightGlow 3s ease-in-out infinite;
+}
+
+/* Spotlight badge - golden/sponsored style */
+.spotlight-badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  color: #1a1a1a;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  z-index: 12;
+  box-shadow: 0 2px 12px rgba(245, 158, 11, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* === Enhanced Featured Cards === */
+.activity-card.featured {
+  position: relative;
+  border: 2px solid rgba(220, 218, 245, 0.4) !important;
+  box-shadow:
+    0 0 16px rgba(220, 218, 245, 0.12),
+    0 6px 24px rgba(0, 0, 0, 0.08) !important;
+  transition: all 0.3s ease;
+}
+
+.activity-card.featured:hover {
+  border-color: rgba(220, 218, 245, 0.6) !important;
+  box-shadow:
+    0 0 24px rgba(220, 218, 245, 0.2),
+    0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  transform: translateY(-4px);
+}
+
+/* Enhanced featured badge */
+.featured-badge {
+  background: linear-gradient(135deg, #DCDAF5 0%, #b8b4e8 100%) !important;
+  box-shadow:
+    0 2px 12px rgba(220, 218, 245, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
 .partners {
   padding: 32px 0;
 }
@@ -5177,11 +5245,48 @@ body{
   background: #0F1523;
 }
 
-/* 2. Spotlight / Featured card matches other cards */
-.activity-card.featured {
-  background: #ffffff;
-  border: 1px solid #e6e6e6;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+/* 2. Enhanced Spotlight & Featured cards - FINAL OVERRIDES */
+.activities-section .activity-grid .activity-card.featured,
+.activity-grid .activity-card.featured {
+  background: #ffffff !important;
+  border: 2px solid rgba(220, 218, 245, 0.5) !important;
+  box-shadow: 0 0 16px rgba(220, 218, 245, 0.15), 0 6px 18px rgba(0,0,0,0.06) !important;
+  transition: all 0.3s ease !important;
+}
+
+.activities-section .activity-grid .activity-card.featured:hover,
+.activity-grid .activity-card.featured:hover {
+  border-color: rgba(220, 218, 245, 0.7) !important;
+  box-shadow: 0 0 24px rgba(220, 218, 245, 0.25), 0 8px 24px rgba(0,0,0,0.1) !important;
+  transform: translateY(-3px) !important;
+}
+
+.activities-section .activity-grid .activity-card.spotlight,
+.activities-section .activity-grid .activity-card.spotlight-card,
+.activity-grid .activity-card.spotlight,
+.activity-grid .activity-card.spotlight-card {
+  border: 2px solid #f59e0b !important;
+  box-shadow: 0 0 24px rgba(245, 158, 11, 0.25), 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+  animation: spotlightPulse 3s ease-in-out infinite !important;
+}
+
+@keyframes spotlightPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.2), 0 8px 32px rgba(0, 0, 0, 0.3); }
+  50% { box-shadow: 0 0 32px rgba(245, 158, 11, 0.4), 0 8px 32px rgba(0, 0, 0, 0.3); }
+}
+
+.activity-card.spotlight .spotlight-badge,
+.activity-card.spotlight-card .spotlight-badge,
+.spotlight-badge {
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%) !important;
+  color: #1a1a1a !important;
+  box-shadow: 0 2px 12px rgba(245, 158, 11, 0.5) !important;
+}
+
+.activity-card.featured .featured-badge,
+.featured-badge {
+  background: linear-gradient(135deg, #DCDAF5 0%, #b8b4e8 100%) !important;
+  box-shadow: 0 2px 12px rgba(220, 218, 245, 0.5) !important;
 }
 
 /* 3. Bookmark icon top-right of card image */
