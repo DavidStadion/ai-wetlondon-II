@@ -3739,6 +3739,106 @@
     height: 110px;
   }
 }
+
+/* ============================================
+   AMBIENT RAIN SOUND TOGGLE
+   ============================================ */
+
+.rain-sound-toggle {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(15, 22, 36, 0.92);
+  border: 1px solid var(--wl-border, rgba(255, 255, 255, 0.1));
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--wl-muted, rgba(255, 255, 255, 0.6));
+  font-size: 0.85rem;
+  font-weight: 500;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.rain-sound-toggle:hover {
+  background: rgba(15, 22, 36, 0.98);
+  border-color: rgba(77, 163, 255, 0.3);
+  color: var(--wl-text, #e6eefc);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+}
+
+.rain-sound-toggle.active {
+  background: rgba(77, 163, 255, 0.15);
+  border-color: rgba(77, 163, 255, 0.4);
+  color: var(--wl-text, #e6eefc);
+}
+
+.rain-sound-toggle svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.rain-sound-toggle .sound-label {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .rain-sound-toggle .sound-label {
+    display: inline;
+  }
+}
+
+/* Sound wave animation when playing */
+.rain-sound-toggle.active .sound-waves {
+  display: flex;
+}
+
+.sound-waves {
+  display: none;
+  gap: 2px;
+  align-items: center;
+  margin-left: 4px;
+}
+
+.sound-wave {
+  width: 3px;
+  background: currentColor;
+  border-radius: 2px;
+  animation: soundWave 0.8s ease-in-out infinite;
+}
+
+.sound-wave:nth-child(1) {
+  height: 8px;
+  animation-delay: 0s;
+}
+
+.sound-wave:nth-child(2) {
+  height: 14px;
+  animation-delay: 0.15s;
+}
+
+.sound-wave:nth-child(3) {
+  height: 10px;
+  animation-delay: 0.3s;
+}
+
+@keyframes soundWave {
+  0%, 100% {
+    transform: scaleY(0.5);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
 /* ============================================
    DISPLAY AD SLOTS
    ============================================ */

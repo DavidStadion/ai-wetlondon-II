@@ -1706,6 +1706,104 @@ Save
 </footer>
 
 
+<!-- Ambient Rain Sound Toggle -->
+<button class="rain-sound-toggle" id="rainSoundToggle" type="button" aria-label="Toggle rain sounds" aria-pressed="false">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+  </svg>
+  <span class="sound-label">Rain sounds</span>
+  <div class="sound-waves">
+    <div class="sound-wave"></div>
+    <div class="sound-wave"></div>
+    <div class="sound-wave"></div>
+  </div>
+</button>
+
+<!-- Rain Sound Audio (using a royalty-free rain loop) -->
+<audio id="rainAudio" loop preload="none">
+  <source src="https://cdn.freesound.org/previews/531/531947_6269108-lq.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Ambient Rain Sound Controller
+(function() {
+  const toggle = document.getElementById('rainSoundToggle');
+  const audio = document.getElementById('rainAudio');
+
+  if (!toggle || !audio) return;
+
+  const STORAGE_KEY = 'wetlondon_rain_sound';
+  const FADE_DURATION = 1000; // 1 second fade
+  let fadeInterval = null;
+
+  // Check saved preference
+  const savedPref = localStorage.getItem(STORAGE_KEY);
+
+  function fadeIn() {
+    audio.volume = 0;
+    audio.play().catch(() => {});
+
+    clearInterval(fadeInterval);
+    fadeInterval = setInterval(() => {
+      if (audio.volume < 0.4) {
+        audio.volume = Math.min(0.4, audio.volume + 0.02);
+      } else {
+        clearInterval(fadeInterval);
+      }
+    }, FADE_DURATION / 20);
+  }
+
+  function fadeOut() {
+    clearInterval(fadeInterval);
+    fadeInterval = setInterval(() => {
+      if (audio.volume > 0.02) {
+        audio.volume = Math.max(0, audio.volume - 0.02);
+      } else {
+        audio.pause();
+        audio.volume = 0;
+        clearInterval(fadeInterval);
+      }
+    }, FADE_DURATION / 20);
+  }
+
+  function enableSound() {
+    toggle.classList.add('active');
+    toggle.setAttribute('aria-pressed', 'true');
+    localStorage.setItem(STORAGE_KEY, 'on');
+    fadeIn();
+  }
+
+  function disableSound() {
+    toggle.classList.remove('active');
+    toggle.setAttribute('aria-pressed', 'false');
+    localStorage.setItem(STORAGE_KEY, 'off');
+    fadeOut();
+  }
+
+  toggle.addEventListener('click', () => {
+    if (toggle.classList.contains('active')) {
+      disableSound();
+    } else {
+      enableSound();
+    }
+  });
+
+  // If user previously enabled it, show active state but require click to start
+  // (browsers block autoplay without user interaction)
+  if (savedPref === 'on') {
+    toggle.classList.add('active');
+    toggle.setAttribute('aria-pressed', 'true');
+    // Try to auto-start (may fail due to browser policy)
+    document.addEventListener('click', function startAudio() {
+      if (localStorage.getItem(STORAGE_KEY) === 'on' && audio.paused) {
+        fadeIn();
+      }
+      document.removeEventListener('click', startAudio);
+    }, { once: true });
+  }
+})();
+</script>
+
     <!-- AdSense: load after app is interactive (prevents main-thread lockups) -->
     <script>
       (function(){
