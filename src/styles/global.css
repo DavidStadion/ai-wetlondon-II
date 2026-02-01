@@ -16,6 +16,11 @@
   --color-accent-hover: #c9c6e8;
   --color-accent-text: #1a1a1a;
 
+  /* Page accent colors */
+  --color-partner-accent: #10b981;
+  --color-event-accent: #667eea;
+  --color-admin-accent: #667eea;
+
   --color-button-primary: #1a1a1a;
   --color-button-primary-hover: #333333;
   --color-button-primary-text: #ffffff;

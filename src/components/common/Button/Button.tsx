@@ -1,25 +1,39 @@
-import type { ComponentChildren } from 'preact';
+import type { ComponentChildren, JSX } from 'preact';
 import styles from './Button.module.css';
 
-export interface ButtonProps {
+interface ButtonBaseProps {
   children: ComponentChildren;
-  onClick?: () => void;
   variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
-  disabled?: boolean;
-  type?: 'button' | 'submit';
   className?: string;
 }
 
-export function Button({
-  children,
-  onClick,
-  variant = 'primary',
-  size = 'md',
-  disabled = false,
-  type = 'button',
-  className,
-}: ButtonProps) {
+interface ButtonAsButtonProps extends ButtonBaseProps {
+  as?: 'button';
+  onClick?: () => void;
+  disabled?: boolean;
+  type?: 'button' | 'submit';
+  href?: never;
+}
+
+interface ButtonAsAnchorProps extends ButtonBaseProps {
+  as: 'a';
+  href: string;
+  onClick?: never;
+  disabled?: never;
+  type?: never;
+}
+
+export type ButtonProps = ButtonAsButtonProps | ButtonAsAnchorProps;
+
+export function Button(props: ButtonProps) {
+  const {
+    children,
+    variant = 'primary',
+    size = 'md',
+    className,
+  } = props;
+
   const classNames = [
     styles.button,
     styles[`button--${variant}`],
@@ -27,12 +41,23 @@ export function Button({
     className,
   ].filter(Boolean).join(' ');
 
+  if (props.as === 'a') {
+    return (
+      <a
+        href={props.href}
+        className={classNames}
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
     <button
-      type={type}
+      type={props.type || 'button'}
       className={classNames}
-      onClick={onClick}
-      disabled={disabled}
+      onClick={props.onClick}
+      disabled={props.disabled}
     >
       {children}
     </button>

@@ -14,7 +14,7 @@ import {
 } from '@/signals/uiSignals';
 import { venueCount } from '@/signals/venueSignals';
 import { fetchVenues } from '@/utils/supabase';
-import type { Venue, CardVariant } from '@/types';
+import type { Venue, CardVariant, RouteProps } from '@/types';
 
 import { SearchBar } from '@/components/SearchBar';
 import { FilterChips } from '@/components/FilterChips';
@@ -24,7 +24,6 @@ import { RecentlyViewedSection } from '@/components/RecentlyViewedSection';
 import { WeatherWidget } from '@/components/WeatherWidget';
 import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { Button } from '@/components/common/Button';
-import { ToastContainer } from '@/components/common/Toast/ToastContainer';
 
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { CustomizeModal } from '@/components/modals/CustomizeModal';
@@ -32,7 +31,7 @@ import { PrerequisitesModal } from '@/components/modals/PrerequisitesModal';
 import { ShareModal } from '@/components/modals/ShareModal';
 import { BookingModal } from '@/components/modals/BookingModal';
 
-import styles from './App.module.css';
+import styles from './HomePage.module.css';
 
 function getCardVariant(venue: Venue): CardVariant {
   if (venue.featured) return 'featured';
@@ -54,7 +53,7 @@ function openCustomizeModal() {
   isCustomizeModalOpen.value = true;
 }
 
-export function App() {
+export function HomePage(_props: RouteProps) {
   useEffect(() => {
     loadBookmarks();
     loadRecentlyViewed();
@@ -81,7 +80,7 @@ export function App() {
   const totalCount = venueCount.value;
 
   return (
-    <div className={styles.app}>
+    <div className={styles.page}>
       {/* Header */}
       <header className={styles.header}>
         <div className={styles.headerTop}>
@@ -103,7 +102,7 @@ export function App() {
       <FilterChips />
 
       {/* Main Content */}
-      <main className={styles.main}>
+      <section className={styles.content}>
         {/* Bookmarks Section */}
         <BookmarksSection />
 
@@ -163,10 +162,7 @@ export function App() {
             ))}
           </div>
         )}
-      </main>
-
-      {/* Toast Notifications */}
-      <ToastContainer />
+      </section>
 
       {/* Modals */}
       <ActivityModal

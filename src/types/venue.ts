@@ -3,13 +3,19 @@ export type VenueType =
   | 'entertainment' | 'shopping' | 'nightlife'
   | 'wellness' | 'cinema' | 'historic' | 'sports'
   | 'workshops' | 'gaming' | 'music' | 'comedy' | 'markets'
-  | 'exhibitions' | 'libraries';
+  | 'exhibitions' | 'libraries'
+  // Extended types for situations filtering
+  | 'cafes' | 'bowling' | 'club' | 'spa' | 'food' | 'bars'
+  | 'views' | 'cocktails' | 'immersive' | 'kids' | 'games'
+  | 'escape' | 'coworking' | 'family' | 'aquariums' | 'science'
+  | 'karaoke';
 
 export type AreaType = 'central' | 'west' | 'east' | 'north' | 'south';
 export type WetnessLevel = 'dry' | 'slightly' | 'wet';
 export type CardVariant = 'default' | 'featured' | 'sponsored' | 'partner' | 'lucky' | 'spotlight';
 
 export interface Venue {
+  id?: number;
   name: string;
   type: VenueType[];
   location: AreaType;

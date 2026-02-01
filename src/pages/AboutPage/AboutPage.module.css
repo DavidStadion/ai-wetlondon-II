@@ -1,0 +1,209 @@
+.page {
+  padding: 2rem 0 5rem;
+}
+
+/* Hero */
+.hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 1rem;
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(2rem, 3vw, 3rem);
+  letter-spacing: -0.02em;
+  margin: 0.625rem 0 0.75rem;
+  color: var(--color-text);
+}
+
+.intro {
+  max-width: 78ch;
+  margin: 0 auto 1rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Sections */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.625rem 1.25rem;
+}
+
+.sectionTitle {
+  margin: 0 0 0.875rem;
+  font-size: 1.35rem;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+/* Grid layouts */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.gridWide {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+/* Cards */
+.card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 1rem;
+  box-shadow: var(--shadow-md);
+}
+
+.cardTitle {
+  margin: 0 0 0.375rem;
+  font-size: 1rem;
+  color: var(--color-text);
+}
+
+.cardText {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  font-size: 0.95rem;
+}
+
+/* Stat cards */
+.statCard {
+  composes: card;
+}
+
+.statNumber {
+  font-size: 2rem;
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.125rem;
+  color: var(--color-text);
+}
+
+.statLabel {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.92rem;
+}
+
+/* Pills */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  background: var(--color-primary);
+  color: #fff;
+  margin-bottom: 0.625rem;
+}
+
+/* FAQ */
+.faqGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.875rem;
+}
+
+.faqItem {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 0.875rem 1rem;
+}
+
+.faqQuestion {
+  cursor: pointer;
+  color: var(--color-text);
+  font-weight: 650;
+  list-style: none;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.faqQuestion::-webkit-details-marker {
+  display: none;
+}
+
+.faqQuestion::after {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.faqItem[open] .faqQuestion::after {
+  transform: rotate(180deg);
+}
+
+.faqAnswer {
+  margin: 0.625rem 0 0;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* CTA */
+.ctaCard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 1rem;
+  box-shadow: var(--shadow-md);
+}
+
+.ctaContent {
+  flex: 1;
+  min-width: 200px;
+}
+
+.ctaTitle {
+  margin: 0 0 0.375rem;
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+.ctaText {
+  margin: 0;
+  color: var(--color-text-secondary);
+  max-width: 70ch;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gridWide {
+    grid-template-columns: 1fr;
+  }
+
+  .faqGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

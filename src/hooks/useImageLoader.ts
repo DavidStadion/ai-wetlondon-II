@@ -141,7 +141,7 @@ async function fetchPlacesImage(venueName: string): Promise<string | null> {
 }
 
 function getPlaceholderImage(venueName: string, types: VenueType[]): string {
-  const colors: Record<VenueType, string> = {
+  const colors: Partial<Record<VenueType, string>> = {
     museums: '#8B5CF6',
     galleries: '#EC4899',
     dining: '#F59E0B',
@@ -160,9 +160,19 @@ function getPlaceholderImage(venueName: string, types: VenueType[]): string {
     historic: '#D97706',
     workshops: '#059669',
     exhibitions: '#7C3AED',
+    cafes: '#D97706',
+    bowling: '#6366F1',
+    spa: '#A855F7',
+    food: '#F59E0B',
+    bars: '#F43F5E',
+    immersive: '#7C3AED',
+    games: '#8B5CF6',
+    escape: '#3B82F6',
+    kids: '#10B981',
+    family: '#10B981',
   };
 
-  const color = colors[types[0]] || '#6B7280';
+  const color = (types[0] && colors[types[0]]) || '#6B7280';
   const initial = venueName.charAt(0).toUpperCase();
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="400" height="300" fill="${color}"/><text x="50%" y="50%" font-family="Arial, sans-serif" font-size="120" fill="white" text-anchor="middle" dominant-baseline="middle">${initial}</text></svg>`;

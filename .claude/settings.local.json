@@ -26,7 +26,12 @@
       "Bash(npm run build:*)",
       "Bash(npx tsc:*)",
       "Bash(npx eslint:*)",
-      "Bash(npx vite build)"
+      "Bash(npx vite build)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(head:*)",
+      "Bash(ls:*)",
+      "Bash(npm show:*)"
     ]
   }
 }
