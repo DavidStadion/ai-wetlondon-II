@@ -112,12 +112,18 @@ export function Layout({ children }: LayoutProps) {
 
       <footer className={styles.footer}>
         <div className={styles.footerContainer}>
+          {/* Main Footer Grid - 4 columns */}
           <div className={styles.footerTop}>
+            {/* Column 1: Brand */}
             <div className={styles.footerColumn}>
-              <h3 className={styles.footerLogo}>Wet London</h3>
+              <h3 className={styles.footerLogo}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style={{ marginRight: '8px', verticalAlign: 'middle' }}>
+                  <path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z"/>
+                </svg>
+                Wet London
+              </h3>
               <p className={styles.footerDescription}>
-                Your guide to the best indoor activities in London.
-                Never let the rain stop your plans again.
+                Your guide to the best indoor activities in London. Never let the rain stop your plans again.
               </p>
               <div className={styles.footerSocial}>
                 <a href="https://twitter.com/wetlondon" target="_blank" rel="noopener" aria-label="Twitter">
@@ -143,31 +149,77 @@ export function Layout({ children }: LayoutProps) {
               </div>
             </div>
 
+            {/* Column 2: Quick Links */}
             <div className={styles.footerColumn}>
               <h4 className={styles.footerHeading}>Quick Links</h4>
               <ul className={styles.footerLinks}>
                 <li><Link href="/">Home</Link></li>
                 <li><a href="/#activities">Featured Activities</a></li>
-                <li><Link href="/events">What's On</Link></li>
+                <li><a href="/#all-activities">All Activities</a></li>
                 <li><Link href="/popups">Pop-ups</Link></li>
-                <li><Link href="/about">About Us</Link></li>
+                <li><a href="/#bookmarks">My Bookmarks</a></li>
               </ul>
             </div>
 
+            {/* Column 3: Rainy Day Alerts */}
             <div className={styles.footerColumn}>
-              <h4 className={styles.footerHeading}>Legal</h4>
+              <h4 className={styles.footerHeading}>Rainy Day Alerts</h4>
+              <p className={styles.footerDescription}>
+                Get notified when rain is forecast + curated activity picks.
+              </p>
+              <form className={styles.footerNewsletter} onSubmit={(e) => e.preventDefault()}>
+                <input
+                  type="email"
+                  className={styles.footerInput}
+                  placeholder="your@email.com"
+                  aria-label="Email address"
+                />
+                <button type="submit" className={styles.footerButton}>
+                  Subscribe
+                </button>
+              </form>
+            </div>
+
+            {/* Column 4: Resources */}
+            <div className={styles.footerColumn}>
+              <h4 className={styles.footerHeading}>Resources</h4>
               <ul className={styles.footerLinks}>
-                <li><Link href="/privacy">Privacy Policy</Link></li>
-                <li><Link href="/terms">Terms & Conditions</Link></li>
-                <li><Link href="/cookies">Cookie Policy</Link></li>
+                <li><Link href="/situations">For who? About Us</Link></li>
+                <li><Link href="/contact">Contact</Link></li>
+                <li><Link href="/blog">Blog</Link></li>
+                <li><Link href="/partnerships">Partnerships</Link></li>
               </ul>
             </div>
           </div>
 
+          {/* Legal Section */}
+          <div className={styles.footerLegal}>
+            <div className={styles.footerLegalContent}>
+              <div className={styles.footerLegalColumn}>
+                <h4 className={styles.footerHeading}>Legal</h4>
+                <ul className={styles.footerLinks}>
+                  <li><Link href="/privacy">Privacy Policy</Link></li>
+                  <li><Link href="/terms">Terms & Conditions</Link></li>
+                  <li><Link href="/cookies">Cookie Policy</Link></li>
+                  <li><Link href="/affiliate">Affiliate Disclosure</Link></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer Bottom */}
           <div className={styles.footerBottom}>
-            <p className={styles.copyright}>
-              2026 Wet London. All rights reserved.
-            </p>
+            <div className={styles.footerBottomContent}>
+              <p className={styles.copyright}>
+                © 2026 Wet London. All rights reserved.
+              </p>
+              <p className={styles.footerTagline}>
+                Wet London only lists places that still work when the weather doesn't.
+              </p>
+              <p className={styles.footerMadeWith}>
+                Made with ☁️ in London
+              </p>
+            </div>
           </div>
         </div>
       </footer>
