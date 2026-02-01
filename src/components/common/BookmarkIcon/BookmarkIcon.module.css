@@ -1,0 +1,53 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.button:hover {
+  transform: scale(1.1);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.icon {
+  transition: fill 0.2s, stroke 0.2s;
+}
+
+.icon--outline {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.icon--filled {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+/* With label variant */
+.button--withLabel {
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.button--withLabel:hover {
+  transform: none;
+  background: var(--color-bg);
+  border-color: var(--color-text-secondary);
+}

@@ -1,0 +1,49 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.venueInfo {
+  padding: 1rem;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.venueName {
+  margin: 0 0 0.5rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.details {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.location {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.notice {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}

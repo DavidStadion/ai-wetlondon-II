@@ -1,0 +1,81 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.preview {
+  padding: 1rem;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.venueName {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.shareText {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.socialButtons {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.socialBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.socialBtn:hover {
+  transform: scale(1.05);
+}
+
+.socialBtn:active {
+  transform: scale(0.95);
+}
+
+.socialBtn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.socialBtn--twitter {
+  background: #000000;
+  color: #ffffff;
+}
+
+.socialBtn--facebook {
+  background: #1877f2;
+  color: #ffffff;
+}
+
+.socialBtn--whatsapp {
+  background: #25d366;
+  color: #ffffff;
+}

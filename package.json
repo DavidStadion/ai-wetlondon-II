@@ -1,0 +1,43 @@
+{
+  "name": "ai-wetlondon-ii",
+  "version": "1.0.0",
+  "description": "Project initialized. Waiting for base HTML.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidStadion/ai-wetlondon-II.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/DavidStadion/ai-wetlondon-II/issues"
+  },
+  "homepage": "https://github.com/DavidStadion/ai-wetlondon-II#readme",
+  "dependencies": {
+    "@preact/signals": "^2.6.2",
+    "@supabase/supabase-js": "^2.93.3",
+    "preact": "^10.28.3"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.10.3",
+    "@types/node": "^25.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "eslint": "^9.39.2",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  }
+}

@@ -1,0 +1,119 @@
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--color-border);
+  margin: 0 -1.25rem;
+  padding: 0 1.25rem;
+}
+
+.tab {
+  padding: 0.875rem 1rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.tab:hover {
+  color: var(--color-text);
+}
+
+.tab--active {
+  color: var(--color-text);
+  border-bottom-color: var(--color-primary);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+/* Tab content */
+.tabContent {
+  padding-top: 1.25rem;
+}
+
+/* Header meta info */
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.metaTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  color: var(--color-text);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.ratingStars {
+  color: #f59e0b;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.actions > :first-child {
+  width: 100%;
+}
+
+.actionsRow {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.actionsRow > * {
+  flex: 1;
+}
+
+@media (min-width: 640px) {
+  .actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .actions > :first-child {
+    width: auto;
+  }
+
+  .actionsRow {
+    flex: 0 0 auto;
+  }
+
+  .actionsRow > * {
+    flex: 0 0 auto;
+  }
+}
+
+/* Bookmark button in header area */
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}

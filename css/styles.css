@@ -89,6 +89,8 @@
             background: linear-gradient(to bottom, transparent, rgba(108, 99, 255, 0.56));
             animation: fall linear infinite;
             border-radius: 50px;
+            will-change: transform;
+            contain: strict;
         }
 
         @keyframes fall {
@@ -1716,6 +1718,7 @@
         .weather-rec-icon {
             font-size: 4rem;
             animation: weatherPulse 2s ease-in-out infinite;
+            will-change: transform;
         }
 
         .weather-rec-icon:empty,
@@ -3814,6 +3817,7 @@
   background: currentColor;
   border-radius: 2px;
   animation: soundWave 0.8s ease-in-out infinite;
+  will-change: transform;
 }
 
 .sound-wave:nth-child(1) {
@@ -4398,14 +4402,10 @@
   overflow: hidden;
 }
 
-@keyframes spotlightGlow {
-  0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.2), 0 8px 32px rgba(0, 0, 0, 0.3); }
-  50% { box-shadow: 0 0 32px rgba(245, 158, 11, 0.35), 0 8px 32px rgba(0, 0, 0, 0.3); }
-}
-
+/* Spotlight glow animation disabled for performance - box-shadow animations cause repaints */
 .activity-grid .activity-card.spotlight,
 .activity-grid .activity-card.spotlight-card {
-  animation: spotlightGlow 3s ease-in-out infinite;
+  box-shadow: 0 0 24px rgba(245, 158, 11, 0.25), 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 /* Spotlight badge - golden/sponsored style */
@@ -5252,12 +5252,7 @@ body{
 .activity-grid .activity-card.spotlight-card {
   border: 2px solid #f59e0b !important;
   box-shadow: 0 0 24px rgba(245, 158, 11, 0.25), 0 8px 32px rgba(0, 0, 0, 0.3) !important;
-  animation: spotlightPulse 3s ease-in-out infinite !important;
-}
-
-@keyframes spotlightPulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.2), 0 8px 32px rgba(0, 0, 0, 0.3); }
-  50% { box-shadow: 0 0 32px rgba(245, 158, 11, 0.4), 0 8px 32px rgba(0, 0, 0, 0.3); }
+  /* Animation disabled for performance */
 }
 
 .activity-card.spotlight .spotlight-badge,
@@ -6847,4 +6842,26 @@ body{
 
 .situations-results {
     padding-top: 0;
+}
+
+/* ============================================
+   REDUCED MOTION PREFERENCE
+   Disable animations for users who prefer reduced motion
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .rain-drop {
+    display: none;
+  }
+  
+  .weather-rec-icon {
+    animation: none;
+  }
 }

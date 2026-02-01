@@ -1,0 +1,54 @@
+.container {
+  min-height: 200px;
+}
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1.5rem;
+}
+
+.rating {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.ratingValue {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.ratingStars {
+  font-size: 1.25rem;
+  color: #f59e0b;
+}
+
+.ratingLabel {
+  margin: 0.5rem 0 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--color-border);
+}
+
+.placeholderText {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 1rem;
+}

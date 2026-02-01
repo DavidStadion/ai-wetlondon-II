@@ -1,5 +1,21 @@
 # Wet London: Preact + TypeScript Migration Plan
 
+## Progress Summary
+
+| Phase | Status |
+|-------|--------|
+| 1. Build Tooling & TypeScript Setup | ✅ Complete |
+| 2. Type Definitions | ✅ Complete |
+| 3. State Management (Preact Signals) | ✅ Complete |
+| 4. Component Extraction | ⏳ Not Started |
+| 5. CSS Cleanup & Modules | ⏳ Not Started |
+| 6. Critical Files to Modify | 🔄 In Progress |
+| 7. Documentation | ⏳ Not Started |
+
+**Last Updated:** 2026-02-01
+
+---
+
 ## Overview
 
 Migrate vanilla HTML/CSS/JS app to Preact with TypeScript, Vite build tooling, Preact Signals for state management, CSS Modules, and ESLint.
@@ -12,7 +28,7 @@ Migrate vanilla HTML/CSS/JS app to Preact with TypeScript, Vite build tooling, P
 
 ---
 
-## Phase 1: Build Tooling & TypeScript Setup
+## Phase 1: Build Tooling & TypeScript Setup ✅ COMPLETE
 
 ### 1.1 Install Dependencies
 
@@ -137,13 +153,13 @@ src/
 ```
 
 ### 1.4 Verification
-- [ ] `npm run dev` starts server
-- [ ] `npm run typecheck` passes
-- [ ] `npm run lint` runs without config errors
+- [x] `npm run dev` starts server
+- [x] `npm run typecheck` passes
+- [x] `npm run lint` runs without config errors
 
 ---
 
-## Phase 2: Type Definitions
+## Phase 2: Type Definitions ✅ COMPLETE
 
 ### 2.1 Core Types (`src/types/venue.ts`)
 
@@ -193,7 +209,7 @@ export interface FilterState {
 
 ---
 
-## Phase 3: State Management (Preact Signals)
+## Phase 3: State Management (Preact Signals) ✅ COMPLETE
 
 ### 3.1 Filter Signals (`src/signals/filterSignals.ts`)
 
@@ -292,7 +308,7 @@ Move CSS custom properties to top, use for both light and dark modes.
 | `js/filter-state.js` | Replace with `src/signals/filterSignals.ts` |
 | `js/supabase-client.js` | Wrap in `src/utils/supabase.ts` with types |
 | `css/styles.css` | Extract into CSS modules, delete duplicates |
-| `index.html` | Add Vite entry point, keep structure during migration |
+| `index.html` | ✅ Added Vite entry point, keeping structure during migration |
 
 ---
 
@@ -310,10 +326,10 @@ Create `docs/COMPONENT_GUIDE.md` covering:
 ## Verification Checklist
 
 ### Build & Tooling
-- [ ] `npm run dev` works
-- [ ] `npm run build` produces dist/
-- [ ] `npm run lint` passes
-- [ ] `npm run typecheck` passes
+- [x] `npm run dev` works
+- [x] `npm run build` produces dist/
+- [x] `npm run lint` passes
+- [x] `npm run typecheck` passes
 
 ### Functionality
 - [ ] Filter modal works (types, areas, wetness, open now)
@@ -338,14 +354,14 @@ For each extracted component:
 
 ## Timeline
 
-| Phase | Duration |
-|-------|----------|
-| 1. Build setup + TypeScript + ESLint | 1-2 days |
-| 2. Type definitions | 1 day |
-| 3. State management (Signals) | 2 days |
-| 4. Component extraction (5 waves) | 10-12 days |
-| 5. CSS cleanup & modules | 2-3 days |
-| 6. Integration testing | 2-3 days |
-| 7. Documentation | 1 day |
+| Phase | Duration | Status |
+|-------|----------|--------|
+| 1. Build setup + TypeScript + ESLint | 1-2 days | ✅ Done |
+| 2. Type definitions | 1 day | ✅ Done |
+| 3. State management (Signals) | 2 days | ✅ Done |
+| 4. Component extraction (5 waves) | 10-12 days | ⏳ Next |
+| 5. CSS cleanup & modules | 2-3 days | |
+| 6. Integration testing | 2-3 days | |
+| 7. Documentation | 1 day | |
 
 **Total: ~3-4 weeks**

@@ -1,0 +1,131 @@
+/* Hero image */
+.hero {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--color-bg-secondary);
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius-lg);
+  margin-bottom: 1.25rem;
+}
+
+/* About section */
+.section {
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.description {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* Info grid */
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .infoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.infoItem {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.infoIcon {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+}
+
+.infoContent h4 {
+  margin: 0 0 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.infoContent p {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  white-space: pre-line;
+}
+
+/* Prerequisites tags */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Wetness display */
+.wetnessRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+}
+
+.wetnessRow > :first-child {
+  flex: 1;
+  max-width: 200px;
+}
+
+/* CTA section */
+.ctaSection {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.ctaButton {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.mapLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.mapLink:hover {
+  background: var(--color-bg);
+  border-color: var(--color-text-secondary);
+}

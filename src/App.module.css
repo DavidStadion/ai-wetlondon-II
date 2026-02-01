@@ -1,0 +1,152 @@
+.app {
+  min-height: 100vh;
+  background: var(--color-bg-secondary);
+}
+
+/* Header */
+.header {
+  background: var(--color-bg);
+  padding: 1rem 1.5rem;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.headerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.brand {
+  flex: 1;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.tagline {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin: 0.25rem 0 0;
+}
+
+.headerActions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+/* Main Content */
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+/* Results Header */
+.resultsHeader {
+  margin-bottom: 1rem;
+}
+
+.resultsTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+}
+
+/* Activity Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.skeletonCard {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  border: 1px dashed var(--color-border);
+}
+
+.emptyMessage {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  margin: 0 0 1.5rem;
+  max-width: 400px;
+  margin-inline: auto;
+}
+
+/* Error State */
+.errorState {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background: var(--color-bg);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-error);
+}
+
+.errorMessage {
+  font-size: 1rem;
+  color: var(--color-error);
+  margin: 0 0 1.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+
+  .headerTop {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .headerActions {
+    flex-direction: column;
+  }
+
+  .main {
+    padding: 1rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1400px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1401px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}

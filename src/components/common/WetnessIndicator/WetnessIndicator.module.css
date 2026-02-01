@@ -1,0 +1,49 @@
+.indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.bar {
+  flex: 1;
+  height: 4px;
+  background: var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bar--sm {
+  height: 3px;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.fill--dry {
+  background: var(--color-success);
+}
+
+.fill--slightly {
+  background: var(--color-warning);
+}
+
+.fill--wet {
+  background: var(--color-error);
+}
+
+.label {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  min-width: 48px;
+  text-align: right;
+  letter-spacing: -0.01em;
+}
+
+.label--sm {
+  font-size: 0.75rem;
+  min-width: 40px;
+}
