@@ -46,8 +46,8 @@ export function BookmarksSection() {
       {!isCollapsed && (
         <div className={styles.scrollContainer}>
           <div className={styles.cards}>
-            {venuesList.map((venue) => (
-              <div key={venue.name} className={styles.cardWrapper}>
+            {venuesList.map((venue, index) => (
+              <div key={`${venue.name}-${index}`} className={styles.cardWrapper}>
                 <ActivityCard venue={venue} onClick={() => handleCardClick(venue)} />
               </div>
             ))}

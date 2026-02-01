@@ -64,6 +64,17 @@ For multi-step tasks, state a brief plan:
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
 
+### Implementing Plans
+
+**When given a markdown plan file to implement, use the `/program-manager` skill.**
+
+The program-manager skill orchestrates implementation using a Doer/Verifier agent loop that:
+- Spawns a developer agent to implement the plan
+- Spawns a verification agent to review the implementation
+- Iterates until approved or max cycles reached
+
+This ensures quality through automated review cycles rather than manual back-and-forth.
+
 ## Development
 
 This is a static frontend with Vercel serverless functions. No build step required.

@@ -1,44 +1,6 @@
 .page {
   min-height: 100vh;
-}
-
-/* Header */
-.header {
   background: var(--color-bg);
-  padding: 1rem 1.5rem;
-  box-shadow: var(--shadow-sm);
-}
-
-.headerTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.brand {
-  flex: 1;
-}
-
-.logo {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  margin: 0;
-  line-height: 1.2;
-}
-
-.tagline {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  margin: 0.25rem 0 0;
-}
-
-.headerActions {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
 }
 
 /* Main Content */
@@ -106,19 +68,6 @@
 
 /* Responsive */
 @media (max-width: 768px) {
-  .header {
-    padding: 1rem;
-  }
-
-  .headerTop {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .headerActions {
-    flex-direction: column;
-  }
-
   .content {
     padding: 1rem;
   }

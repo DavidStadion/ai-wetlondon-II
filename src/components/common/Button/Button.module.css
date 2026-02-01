@@ -77,6 +77,17 @@
   border-color: var(--color-error-hover);
 }
 
+.button--accent {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  border-color: var(--color-accent);
+}
+
+.button--accent:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+}
+
 .button:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;

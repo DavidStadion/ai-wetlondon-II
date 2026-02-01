@@ -16,12 +16,12 @@ import { venueCount } from '@/signals/venueSignals';
 import { fetchVenues } from '@/utils/supabase';
 import type { Venue, CardVariant, RouteProps } from '@/types';
 
-import { SearchBar } from '@/components/SearchBar';
+import { Hero } from '@/components/Hero';
+import { PopularCategories } from '@/components/PopularCategories';
 import { FilterChips } from '@/components/FilterChips';
 import { ActivityCard } from '@/components/ActivityCard';
 import { BookmarksSection } from '@/components/BookmarksSection';
 import { RecentlyViewedSection } from '@/components/RecentlyViewedSection';
-import { WeatherWidget } from '@/components/WeatherWidget';
 import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { Button } from '@/components/common/Button';
 
@@ -53,6 +53,14 @@ function openCustomizeModal() {
   isCustomizeModalOpen.value = true;
 }
 
+function handleFeelingLucky() {
+  const venueList = venues.value;
+  if (venueList.length > 0) {
+    const randomIndex = Math.floor(Math.random() * venueList.length);
+    openActivityModal(venueList[randomIndex]);
+  }
+}
+
 export function HomePage(_props: RouteProps) {
   useEffect(() => {
     loadBookmarks();
@@ -81,22 +89,11 @@ export function HomePage(_props: RouteProps) {
 
   return (
     <div className={styles.page}>
-      {/* Header */}
-      <header className={styles.header}>
-        <div className={styles.headerTop}>
-          <div className={styles.brand}>
-            <h1 className={styles.logo}>Wet London</h1>
-            <p className={styles.tagline}>Indoor activities for rainy days</p>
-          </div>
-          <WeatherWidget />
-        </div>
-        <div className={styles.headerActions}>
-          <SearchBar />
-          <Button onClick={openCustomizeModal} variant="secondary">
-            Customize
-          </Button>
-        </div>
-      </header>
+      {/* Hero Section */}
+      <Hero onCustomize={openCustomizeModal} onFeelingLucky={handleFeelingLucky} />
+
+      {/* Popular Categories */}
+      <PopularCategories />
 
       {/* Filter Chips */}
       <FilterChips />
@@ -152,9 +149,9 @@ export function HomePage(_props: RouteProps) {
         {/* Activity Grid */}
         {!loading && !errorMsg && venueList.length > 0 && (
           <div className={styles.grid}>
-            {venueList.map((venue) => (
+            {venueList.map((venue, index) => (
               <ActivityCard
-                key={venue.name}
+                key={`${venue.name}-${index}`}
                 venue={venue}
                 variant={getCardVariant(venue)}
                 onClick={() => openActivityModal(venue)}

@@ -68,3 +68,7 @@ export function toggleConstraint(constraint: string): void {
   }
   constraints.value = current;
 }
+
+export function setTypeFilter(type: VenueType): void {
+  selectedTypes.value = new Set([type]);
+}

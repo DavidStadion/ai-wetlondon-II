@@ -1,0 +1,3529 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - link "Wet London" [ref=e5] [cursor=pointer]:
+      - /url: /
+    - navigation [ref=e6]:
+      - link "Home" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - link "Featured" [ref=e8] [cursor=pointer]:
+        - /url: /#activities
+      - link "All Activities" [ref=e9] [cursor=pointer]:
+        - /url: /#all-activities
+      - link "My Bookmarks" [ref=e10] [cursor=pointer]:
+        - /url: /#bookmarks
+      - link "What's On" [ref=e11] [cursor=pointer]:
+        - /url: /events
+      - link "Pop-ups" [ref=e12] [cursor=pointer]:
+        - /url: /popups
+      - link "For who?" [ref=e13] [cursor=pointer]:
+        - /url: /situations
+      - link "About Us" [ref=e14] [cursor=pointer]:
+        - /url: /about
+  - main [ref=e15]:
+    - generic [ref=e16]:
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - generic [ref=e20]:
+            - heading "Wet London." [level=1] [ref=e21]
+            - paragraph [ref=e22]: London ideas for when the weather is awful...
+          - 'generic "Current weather in London: 8 degrees, Rain" [ref=e182]':
+            - generic [ref=e183]: 🌧️
+            - generic [ref=e24]:
+              - generic [ref=e184]: 8°C
+              - generic [ref=e185]: Rain
+              - generic [ref=e186]: Feels like 5°C
+        - generic [ref=e33]:
+          - generic:
+            - img
+          - textbox "Search activities" [ref=e34]:
+            - /placeholder: Search activities, venues, or categories...
+        - generic [ref=e35]:
+          - button "Customize Your Experience" [ref=e36] [cursor=pointer]
+          - button "I'm Feeling Lucky" [ref=e37] [cursor=pointer]
+      - generic [ref=e39]:
+        - heading "Popular Categories" [level=2] [ref=e40]
+        - generic [ref=e41]:
+          - button "Museums (55) World-class collections and exhibitions" [ref=e187] [cursor=pointer]:
+            - img [ref=e44]
+            - generic [ref=e46]:
+              - generic [ref=e47]:
+                - heading "Museums" [level=3] [ref=e48]
+                - generic [ref=e49]: (55)
+              - paragraph [ref=e50]: World-class collections and exhibitions
+          - button "Galleries (29) Contemporary art spaces" [ref=e188] [cursor=pointer]:
+            - img [ref=e53]
+            - generic [ref=e57]:
+              - generic [ref=e58]:
+                - heading "Galleries" [level=3] [ref=e59]
+                - generic [ref=e60]: (29)
+              - paragraph [ref=e61]: Contemporary art spaces
+          - button "Theatre (8) West End shows and performances" [ref=e189] [cursor=pointer]:
+            - img [ref=e64]
+            - generic [ref=e69]:
+              - generic [ref=e70]:
+                - heading "Theatre" [level=3] [ref=e71]
+                - generic [ref=e72]: (8)
+              - paragraph [ref=e73]: West End shows and performances
+          - button "Dining (19) Culinary experiences" [ref=e190] [cursor=pointer]:
+            - img [ref=e76]
+            - generic [ref=e78]:
+              - generic [ref=e79]:
+                - heading "Dining" [level=3] [ref=e80]
+                - generic [ref=e81]: (19)
+              - paragraph [ref=e82]: Culinary experiences
+      - generic [ref=e83]:
+        - generic [ref=e85]: Activity Types
+        - generic [ref=e86]:
+          - button "Museums" [ref=e87] [cursor=pointer]
+          - button "Galleries" [ref=e88] [cursor=pointer]
+          - button "Theatre" [ref=e89] [cursor=pointer]
+          - button "Dining" [ref=e90] [cursor=pointer]
+          - button "Entertainment" [ref=e91] [cursor=pointer]
+          - button "Shopping" [ref=e92] [cursor=pointer]
+          - button "Wellness & Spa" [ref=e93] [cursor=pointer]
+          - button "Nightlife" [ref=e94] [cursor=pointer]
+          - button "Music Venues" [ref=e95] [cursor=pointer]
+          - button "Comedy Clubs" [ref=e96] [cursor=pointer]
+          - button "Cinemas" [ref=e97] [cursor=pointer]
+          - button "Gaming" [ref=e98] [cursor=pointer]
+          - button "Classes & Workshops" [ref=e99] [cursor=pointer]
+          - button "Historic Sites" [ref=e100] [cursor=pointer]
+          - button "Markets" [ref=e101] [cursor=pointer]
+          - button "Sports & Fitness" [ref=e102] [cursor=pointer]
+          - button "Exhibitions" [ref=e103] [cursor=pointer]
+          - button "Libraries" [ref=e104] [cursor=pointer]
+      - generic [ref=e105]:
+        - generic [ref=e106]:
+          - heading "Your Bookmarks" [level=2] [ref=e107]
+          - paragraph [ref=e108]: No bookmarks yet. Save activities to find them here.
+        - generic [ref=e109]:
+          - heading "Recently Viewed" [level=2] [ref=e110]
+          - paragraph [ref=e111]: No recently viewed activities. Browse around to see them here.
+        - heading "228 activities" [level=2] [ref=e191]
+        - generic [ref=e192]:
+          - article [ref=e193]:
+            - generic [ref=e194]:
+              - generic [ref=e196]: FEATURED
+              - button "Add bookmark" [ref=e197] [cursor=pointer]:
+                - img [ref=e198]
+            - generic [ref=e200]:
+              - heading "ABBA Voyage" [level=3] [ref=e201]
+              - generic [ref=e202]:
+                - generic [ref=e203]: East
+                - generic [ref=e204]: Music
+                - generic [ref=e205]: Entertainment
+              - paragraph [ref=e206]: A high-energy concert experience with cutting-edge visuals and a proper night-out feel. Mostly indoors and best booked ahead.
+              - generic [ref=e207]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e208]':
+                  - generic [ref=e209]: Stay Dry
+                - generic [ref=e210]: FROM £55
+              - button "View Details" [ref=e211] [cursor=pointer]
+          - article [ref=e212]:
+            - generic [ref=e213]:
+              - generic [ref=e215]: FEATURED
+              - button "Add bookmark" [ref=e216] [cursor=pointer]:
+                - img [ref=e217]
+            - generic [ref=e219]:
+              - heading "All Star Lanes" [level=3] [ref=e220]
+              - generic [ref=e221]:
+                - generic [ref=e222]: Central
+                - generic [ref=e223]: Gaming
+                - generic [ref=e224]: Entertainment
+              - paragraph [ref=e225]: Retro bowling with diner food. Holborn 3 mins.
+              - generic [ref=e226]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e227]':
+                  - generic [ref=e228]: Stay Dry
+                - generic [ref=e229]: £28
+              - button "View Details" [ref=e230] [cursor=pointer]
+          - article [ref=e231]:
+            - generic [ref=e232]:
+              - generic [ref=e234]: FEATURED
+              - button "Add bookmark" [ref=e235] [cursor=pointer]:
+                - img [ref=e236]
+            - generic [ref=e238]:
+              - heading "All Star Lanes Stratford" [level=3] [ref=e239]
+              - generic [ref=e240]:
+                - generic [ref=e241]: East
+                - generic [ref=e242]: Gaming
+              - paragraph [ref=e243]: Bowling diner and cocktails inside Westfield.
+              - generic [ref=e244]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e245]':
+                  - generic [ref=e246]: Stay Dry
+                - generic [ref=e247]: £15
+              - button "View Details" [ref=e248] [cursor=pointer]
+          - article [ref=e249]:
+            - generic [ref=e250]:
+              - generic [ref=e252]: SPONSORED
+              - button "Add bookmark" [ref=e253] [cursor=pointer]:
+                - img [ref=e254]
+            - generic [ref=e256]:
+              - heading "Angel Comedy" [level=3] [ref=e257]
+              - generic [ref=e258]:
+                - generic [ref=e259]: North
+                - generic [ref=e260]: Comedy
+              - paragraph [ref=e261]: Free comedy above a pub. Angel station 2 mins.
+              - generic [ref=e262]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e263]':
+                  - generic [ref=e264]: Stay Dry
+                - generic [ref=e265]: FREE
+              - button "View Details" [ref=e266] [cursor=pointer]
+          - article [ref=e267]:
+            - button "Add bookmark" [ref=e270] [cursor=pointer]:
+              - img [ref=e271]
+            - generic [ref=e273]:
+              - heading "Apsley House" [level=3] [ref=e274]
+              - generic [ref=e275]:
+                - generic [ref=e276]: Central
+                - generic [ref=e277]: Museums
+                - generic [ref=e278]: History
+              - paragraph [ref=e279]: Historic townhouse with art and armour near Hyde Park Corner.
+              - generic [ref=e280]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e281]':
+                  - generic [ref=e282]: Stay Dry
+                - generic [ref=e283]: £12
+              - button "View Details" [ref=e284] [cursor=pointer]
+          - article [ref=e285]:
+            - button "Add bookmark" [ref=e288] [cursor=pointer]:
+              - img [ref=e289]
+            - generic [ref=e291]:
+              - heading "Bank of England Museum" [level=3] [ref=e292]
+              - generic [ref=e293]:
+                - generic [ref=e294]: Central
+                - generic [ref=e295]: Museums
+                - generic [ref=e296]: Education
+              - paragraph [ref=e297]: Free museum exploring money, gold and the Bank’s role in the UK. Small, interesting and perfect for a quick indoor stop.
+              - generic [ref=e298]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e299]':
+                  - generic [ref=e300]: Stay Dry
+                - generic [ref=e301]: FREE
+              - button "View Details" [ref=e302] [cursor=pointer]
+          - article [ref=e303]:
+            - button "Add bookmark" [ref=e306] [cursor=pointer]:
+              - img [ref=e307]
+            - generic [ref=e309]:
+              - heading "Barbican Centre" [level=3] [ref=e310]
+              - generic [ref=e311]:
+                - generic [ref=e312]: Central
+                - generic [ref=e313]: Arts
+                - generic [ref=e314]: Architecture
+              - paragraph [ref=e315]: Architecture, exhibitions, cinema and endless indoor corridors.
+              - generic [ref=e316]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e317]':
+                  - generic [ref=e318]: Stay Dry
+                - generic [ref=e319]: FREE
+              - button "View Details" [ref=e320] [cursor=pointer]
+          - article [ref=e321]:
+            - generic [ref=e322]:
+              - generic [ref=e324]: SPOTLIGHT
+              - button "Add bookmark" [ref=e325] [cursor=pointer]:
+                - img [ref=e326]
+            - generic [ref=e328]:
+              - heading "Barbican Centre" [level=3] [ref=e329]
+              - generic [ref=e330]:
+                - generic [ref=e331]: Central
+                - generic [ref=e332]: Theatre
+                - generic [ref=e333]: Cinema
+              - paragraph [ref=e334]: Multi-arts venue with cinema, galleries, and performances. Barbican direct.
+              - generic [ref=e335]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e336]':
+                  - generic [ref=e337]: Stay Dry
+                - generic [ref=e338]: FROM £20
+              - button "View Details" [ref=e339] [cursor=pointer]
+          - article [ref=e340]:
+            - button "Add bookmark" [ref=e343] [cursor=pointer]:
+              - img [ref=e344]
+            - generic [ref=e346]:
+              - heading "Barbican Centre (cinema + wander)" [level=3] [ref=e347]
+              - generic [ref=e348]:
+                - generic [ref=e349]: Central
+                - generic [ref=e350]: Arts
+                - generic [ref=e351]: Cinema
+              - paragraph [ref=e352]: Catch a film then roam the brutalist corridors like it’s a maze.
+              - generic [ref=e353]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e354]':
+                  - generic [ref=e355]: Stay Dry
+                - generic [ref=e356]: £12
+              - button "View Details" [ref=e357] [cursor=pointer]
+          - article [ref=e358]:
+            - generic [ref=e359]:
+              - generic [ref=e361]: SPOTLIGHT
+              - button "Add bookmark" [ref=e362] [cursor=pointer]:
+                - img [ref=e363]
+            - generic [ref=e365]:
+              - heading "Barbican Library" [level=3] [ref=e366]
+              - generic [ref=e367]:
+                - generic [ref=e368]: Central
+                - generic [ref=e369]: Libraries
+              - paragraph [ref=e370]: Modern library in the Barbican complex. Barbican direct.
+              - generic [ref=e371]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e372]':
+                  - generic [ref=e373]: Stay Dry
+                - generic [ref=e374]: FREE
+              - button "View Details" [ref=e375] [cursor=pointer]
+          - article [ref=e376]:
+            - generic [ref=e377]:
+              - generic [ref=e379]: SPOTLIGHT
+              - button "Add bookmark" [ref=e380] [cursor=pointer]:
+                - img [ref=e381]
+            - generic [ref=e383]:
+              - heading "BFI IMAX" [level=3] [ref=e384]
+              - generic [ref=e385]:
+                - generic [ref=e386]: South
+                - generic [ref=e387]: Cinema
+              - paragraph [ref=e388]: Britain's biggest cinema screen. Waterloo 3 mins.
+              - generic [ref=e389]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e390]':
+                  - generic [ref=e391]: Stay Dry
+                - generic [ref=e392]: £22
+              - button "View Details" [ref=e393] [cursor=pointer]
+          - article [ref=e394]:
+            - button "Add bookmark" [ref=e397] [cursor=pointer]:
+              - img [ref=e398]
+            - generic [ref=e400]:
+              - heading "BFI IMAX" [level=3] [ref=e401]
+              - generic [ref=e402]:
+                - generic [ref=e403]: South
+                - generic [ref=e404]: Cinema
+                - generic [ref=e405]: Imax
+              - paragraph [ref=e406]: Big screen energy for when you want to disappear into a film and forget the weather.
+              - generic [ref=e407]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e408]':
+                  - generic [ref=e409]: Stay Dry
+                - generic [ref=e410]: £18
+              - button "View Details" [ref=e411] [cursor=pointer]
+          - article [ref=e412]:
+            - button "Add bookmark" [ref=e415] [cursor=pointer]:
+              - img [ref=e416]
+            - generic [ref=e418]:
+              - heading "BFI Southbank" [level=3] [ref=e419]
+              - generic [ref=e420]:
+                - generic [ref=e421]: South
+                - generic [ref=e422]: Cinema
+              - paragraph [ref=e423]: World-class cinema showing classics and new releases.
+              - generic [ref=e424]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e425]':
+                  - generic [ref=e426]: Stay Dry
+                - generic [ref=e427]: £12
+              - button "View Details" [ref=e428] [cursor=pointer]
+          - article [ref=e429]:
+            - button "Add bookmark" [ref=e432] [cursor=pointer]:
+              - img [ref=e433]
+            - generic [ref=e435]:
+              - heading "BFI Southbank Mediatheque" [level=3] [ref=e436]
+              - generic [ref=e437]:
+                - generic [ref=e438]: South
+                - generic [ref=e439]: Cinema
+                - generic [ref=e440]: Free
+              - paragraph [ref=e441]: Archive TV and film you can dip into at your own pace.
+              - generic [ref=e442]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e443]':
+                  - generic [ref=e444]: Stay Dry
+                - generic [ref=e445]: FREE
+              - button "View Details" [ref=e446] [cursor=pointer]
+          - article [ref=e447]:
+            - button "Add bookmark" [ref=e450] [cursor=pointer]:
+              - img [ref=e451]
+            - generic [ref=e453]:
+              - heading "Black Cultural Archives" [level=3] [ref=e454]
+              - generic [ref=e455]:
+                - generic [ref=e456]: South
+                - generic [ref=e457]: Museums
+                - generic [ref=e458]: Exhibitions
+              - paragraph [ref=e459]: Museum and archive celebrating Black history in Britain with rotating exhibitions. Fully indoors and a meaningful rainy-day visit.
+              - generic [ref=e460]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e461]':
+                  - generic [ref=e462]: Stay Dry
+                - generic [ref=e463]: FREE
+              - button "View Details" [ref=e464] [cursor=pointer]
+          - article [ref=e465]:
+            - button "Add bookmark" [ref=e468] [cursor=pointer]:
+              - img [ref=e469]
+            - generic [ref=e471]:
+              - heading "Boom Battle Bar Aldgate" [level=3] [ref=e472]
+              - generic [ref=e473]:
+                - generic [ref=e474]: East
+                - generic [ref=e475]: Games
+                - generic [ref=e476]: Entertainment
+              - paragraph [ref=e477]: Indoor games bar with loads of competitive options, plus food and drinks. A reliable rainy-day evening option.
+              - generic [ref=e478]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e479]':
+                  - generic [ref=e480]: Stay Dry
+                - generic [ref=e481]: FROM £10
+              - button "View Details" [ref=e482] [cursor=pointer]
+          - article [ref=e483]:
+            - button "Add bookmark" [ref=e486] [cursor=pointer]:
+              - img [ref=e487]
+            - generic [ref=e489]:
+              - heading "Boom Battle Bar Oxford Street" [level=3] [ref=e490]
+              - generic [ref=e491]:
+                - generic [ref=e492]: Central
+                - generic [ref=e493]: Games
+                - generic [ref=e494]: Entertainment
+              - paragraph [ref=e495]: Indoor games bar with activities like darts, shuffleboard and more, plus food and drinks. Solid wet-weather plan for groups.
+              - generic [ref=e496]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e497]':
+                  - generic [ref=e498]: Stay Dry
+                - generic [ref=e499]: FROM £10
+              - button "View Details" [ref=e500] [cursor=pointer]
+          - article [ref=e501]:
+            - button "Add bookmark" [ref=e504] [cursor=pointer]:
+              - img [ref=e505]
+            - generic [ref=e507]:
+              - heading "Borough Market" [level=3] [ref=e508]
+              - generic [ref=e509]:
+                - generic [ref=e510]: South
+                - generic [ref=e511]: Markets
+                - generic [ref=e512]: Dining
+              - paragraph [ref=e513]: Historic food market under Victorian railway arches. London Bridge station 2 mins.
+              - generic [ref=e514]:
+                - 'img "Wetness score: 20%, Slightly Wet" [ref=e515]':
+                  - generic [ref=e516]: Slightly Wet
+                - generic [ref=e517]: FREE
+              - button "View Details" [ref=e518] [cursor=pointer]
+          - article [ref=e519]:
+            - button "Add bookmark" [ref=e522] [cursor=pointer]:
+              - img [ref=e523]
+            - generic [ref=e525]:
+              - heading "Bounce Ping Pong" [level=3] [ref=e526]
+              - generic [ref=e527]:
+                - generic [ref=e528]: Central
+                - generic [ref=e529]: Games
+                - generic [ref=e530]: Ping pong
+              - paragraph [ref=e531]: Ping pong, pizza and drinks. Energetic and perfect indoors.
+              - generic [ref=e532]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e533]':
+                  - generic [ref=e534]: Stay Dry
+                - generic [ref=e535]: £15
+              - button "View Details" [ref=e536] [cursor=pointer]
+          - article [ref=e537]:
+            - button "Add bookmark" [ref=e540] [cursor=pointer]:
+              - img [ref=e541]
+            - generic [ref=e543]:
+              - heading "Bounce Ping Pong" [level=3] [ref=e544]
+              - generic [ref=e545]:
+                - generic [ref=e546]: Central
+                - generic [ref=e547]: Sports
+                - generic [ref=e548]: Entertainment
+              - paragraph [ref=e549]: Ping pong bar with street food and cocktails. Farringdon station 2 min walk.
+              - generic [ref=e550]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e551]':
+                  - generic [ref=e552]: Stay Dry
+                - generic [ref=e553]: £15
+              - button "View Details" [ref=e554] [cursor=pointer]
+          - article [ref=e555]:
+            - button "Add bookmark" [ref=e558] [cursor=pointer]:
+              - img [ref=e559]
+            - generic [ref=e561]:
+              - heading "British Library" [level=3] [ref=e562]
+              - generic [ref=e563]:
+                - generic [ref=e564]: Central
+                - generic [ref=e565]: Libraries
+                - generic [ref=e566]: Free
+              - paragraph [ref=e567]: An indoor sanctuary with exhibitions, quiet corners and a great shop.
+              - generic [ref=e568]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e569]':
+                  - generic [ref=e570]: Stay Dry
+                - generic [ref=e571]: FREE
+              - button "View Details" [ref=e572] [cursor=pointer]
+          - article [ref=e573]:
+            - button "Add bookmark" [ref=e576] [cursor=pointer]:
+              - img [ref=e577]
+            - generic [ref=e579]:
+              - heading "British Library" [level=3] [ref=e580]
+              - generic [ref=e581]:
+                - generic [ref=e582]: North
+                - generic [ref=e583]: Libraries
+                - generic [ref=e584]: Museums
+              - paragraph [ref=e585]: View original manuscripts from history's greatest writers. King's Cross 2 mins.
+              - generic [ref=e586]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e587]':
+                  - generic [ref=e588]: Stay Dry
+                - generic [ref=e589]: FREE
+              - button "View Details" [ref=e590] [cursor=pointer]
+          - article [ref=e591]:
+            - button "Add bookmark" [ref=e594] [cursor=pointer]:
+              - img [ref=e595]
+            - generic [ref=e597]:
+              - heading "British Museum" [level=3] [ref=e598]
+              - generic [ref=e599]:
+                - generic [ref=e600]: Central
+                - generic [ref=e601]: Museums
+                - generic [ref=e602]: Historic
+              - paragraph [ref=e603]: World-famous collection spanning 2 million years of human history. Direct Russell Square tube access.
+              - generic [ref=e604]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e605]':
+                  - generic [ref=e606]: Stay Dry
+                - generic [ref=e607]: FREE
+              - button "View Details" [ref=e608] [cursor=pointer]
+          - article [ref=e609]:
+            - button "Add bookmark" [ref=e612] [cursor=pointer]:
+              - img [ref=e613]
+            - generic [ref=e615]:
+              - heading "Brunel Museum" [level=3] [ref=e616]
+              - generic [ref=e617]:
+                - generic [ref=e618]: South
+                - generic [ref=e619]: Museums
+                - generic [ref=e620]: Historic
+              - paragraph [ref=e621]: Historic Brunel museum with a fascinating underground chamber. Mostly indoors and a great rainy-day history stop.
+              - generic [ref=e622]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e623]':
+                  - generic [ref=e624]: Stay Dry
+                - generic [ref=e625]: FROM £7
+              - button "View Details" [ref=e626] [cursor=pointer]
+          - article [ref=e627]:
+            - button "Add bookmark" [ref=e630] [cursor=pointer]:
+              - img [ref=e631]
+            - generic [ref=e633]:
+              - heading "Bubble Planet Experience London" [level=3] [ref=e634]
+              - generic [ref=e635]:
+                - generic [ref=e636]: Central
+                - generic [ref=e637]: Immersive
+                - generic [ref=e638]: Entertainment
+              - paragraph [ref=e639]: A playful immersive experience built around bubbles, light and interactive rooms. Entirely indoors and easy fun on a wet day.
+              - generic [ref=e640]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e641]':
+                  - generic [ref=e642]: Stay Dry
+                - generic [ref=e643]: FROM £18
+              - button "View Details" [ref=e644] [cursor=pointer]
+          - article [ref=e645]:
+            - button "Add bookmark" [ref=e648] [cursor=pointer]:
+              - img [ref=e649]
+            - generic [ref=e651]:
+              - heading "Camden Market" [level=3] [ref=e652]
+              - generic [ref=e653]:
+                - generic [ref=e654]: North
+                - generic [ref=e655]: Markets
+                - generic [ref=e656]: Shopping
+              - paragraph [ref=e657]: Alternative market with food and fashion. Camden Town 2 mins.
+              - generic [ref=e658]:
+                - 'img "Wetness score: 40%, Slightly Wet" [ref=e659]':
+                  - generic [ref=e660]: Slightly Wet
+                - generic [ref=e661]: FREE
+              - button "View Details" [ref=e662] [cursor=pointer]
+          - article [ref=e663]:
+            - button "Add bookmark" [ref=e666] [cursor=pointer]:
+              - img [ref=e667]
+            - generic [ref=e669]:
+              - heading "Cartoon Museum" [level=3] [ref=e670]
+              - generic [ref=e671]:
+                - generic [ref=e672]: Central
+                - generic [ref=e673]: Museums
+                - generic [ref=e674]: Art
+              - paragraph [ref=e675]: British cartoons, comics and satire with regular exhibitions.
+              - generic [ref=e676]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e677]':
+                  - generic [ref=e678]: Stay Dry
+                - generic [ref=e679]: £9
+              - button "View Details" [ref=e680] [cursor=pointer]
+          - article [ref=e681]:
+            - button "Add bookmark" [ref=e684] [cursor=pointer]:
+              - img [ref=e685]
+            - generic [ref=e687]:
+              - heading "Cartoon Museum" [level=3] [ref=e688]
+              - generic [ref=e689]:
+                - generic [ref=e690]: Central
+                - generic [ref=e691]: Museums
+              - paragraph [ref=e692]: Dedicated to British cartoon and comic art.
+              - generic [ref=e693]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e694]':
+                  - generic [ref=e695]: Stay Dry
+                - generic [ref=e696]: £9
+              - button "View Details" [ref=e697] [cursor=pointer]
+          - article [ref=e698]:
+            - button "Add bookmark" [ref=e701] [cursor=pointer]:
+              - img [ref=e702]
+            - generic [ref=e704]:
+              - heading "Churchill War Rooms" [level=3] [ref=e705]
+              - generic [ref=e706]:
+                - generic [ref=e707]: Central
+                - generic [ref=e708]: Museums
+                - generic [ref=e709]: Historic
+              - paragraph [ref=e710]: Underground WWII bunker and museum. Westminster direct access.
+              - generic [ref=e711]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e712]':
+                  - generic [ref=e713]: Stay Dry
+                - generic [ref=e714]: £26
+              - button "View Details" [ref=e715] [cursor=pointer]
+          - article [ref=e716]:
+            - button "Add bookmark" [ref=e719] [cursor=pointer]:
+              - img [ref=e720]
+            - generic [ref=e722]:
+              - heading "Clays" [level=3] [ref=e723]
+              - generic [ref=e724]:
+                - generic [ref=e725]: Central
+                - generic [ref=e726]: Games
+                - generic [ref=e727]: Shooting
+              - paragraph [ref=e728]: Virtual clay shooting in a stylish bar setting. Competitive and loud.
+              - generic [ref=e729]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e730]':
+                  - generic [ref=e731]: Stay Dry
+                - generic [ref=e732]: £35
+              - button "View Details" [ref=e733] [cursor=pointer]
+          - article [ref=e734]:
+            - button "Add bookmark" [ref=e737] [cursor=pointer]:
+              - img [ref=e738]
+            - generic [ref=e740]:
+              - heading "Clays Canary Wharf" [level=3] [ref=e741]
+              - generic [ref=e742]:
+                - generic [ref=e743]: East
+                - generic [ref=e744]: Gaming
+              - paragraph [ref=e745]: Virtual clay pigeon shooting and cocktails. Indoor mall access.
+              - generic [ref=e746]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e747]':
+                  - generic [ref=e748]: Stay Dry
+                - generic [ref=e749]: £20
+              - button "View Details" [ref=e750] [cursor=pointer]
+          - article [ref=e751]:
+            - button "Add bookmark" [ref=e754] [cursor=pointer]:
+              - img [ref=e755]
+            - generic [ref=e757]:
+              - heading "Covent Garden Market" [level=3] [ref=e758]
+              - generic [ref=e759]:
+                - generic [ref=e760]: Central
+                - generic [ref=e761]: Markets
+                - generic [ref=e762]: Shopping
+              - paragraph [ref=e763]: Historic covered market with boutiques. Covent Garden direct.
+              - generic [ref=e764]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e765]':
+                  - generic [ref=e766]: Stay Dry
+                - generic [ref=e767]: FREE
+              - button "View Details" [ref=e768] [cursor=pointer]
+          - article [ref=e769]:
+            - button "Add bookmark" [ref=e772] [cursor=pointer]:
+              - img [ref=e773]
+            - generic [ref=e775]:
+              - heading "Crystal Maze LIVE" [level=3] [ref=e776]
+              - generic [ref=e777]:
+                - generic [ref=e778]: Central
+                - generic [ref=e779]: Games
+                - generic [ref=e780]: Team
+              - paragraph [ref=e781]: Team challenges and ridiculous pressure. Excellent for groups.
+              - generic [ref=e782]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e783]':
+                  - generic [ref=e784]: Stay Dry
+                - generic [ref=e785]: £55
+              - button "View Details" [ref=e786] [cursor=pointer]
+          - article [ref=e787]:
+            - button "Add bookmark" [ref=e790] [cursor=pointer]:
+              - img [ref=e791]
+            - generic [ref=e793]:
+              - heading "Curzon Soho" [level=3] [ref=e794]
+              - generic [ref=e795]:
+                - generic [ref=e796]: Central
+                - generic [ref=e797]: Cinema
+                - generic [ref=e798]: Indie
+              - paragraph [ref=e799]: Indie films and a grown-up vibe in the middle of Soho.
+              - generic [ref=e800]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e801]':
+                  - generic [ref=e802]: Stay Dry
+                - generic [ref=e803]: £16
+              - button "View Details" [ref=e804] [cursor=pointer]
+          - article [ref=e805]:
+            - button "Add bookmark" [ref=e808] [cursor=pointer]:
+              - img [ref=e809]
+            - generic [ref=e811]:
+              - heading "Curzon Soho" [level=3] [ref=e812]
+              - generic [ref=e813]:
+                - generic [ref=e814]: Central
+                - generic [ref=e815]: Cinema
+                - generic [ref=e816]: Entertainment
+              - paragraph [ref=e817]: Independent cinema in Soho showing new releases and arthouse picks. Indoors, cosy and a classic wet-weather option.
+              - generic [ref=e818]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e819]':
+                  - generic [ref=e820]: Stay Dry
+                - generic [ref=e821]: FROM £14
+              - button "View Details" [ref=e822] [cursor=pointer]
+          - article [ref=e823]:
+            - button "Add bookmark" [ref=e826] [cursor=pointer]:
+              - img [ref=e827]
+            - generic [ref=e829]:
+              - heading "Curzon Soho Cinema" [level=3] [ref=e830]
+              - generic [ref=e831]:
+                - generic [ref=e832]: Central
+                - generic [ref=e833]: Cinema
+                - generic [ref=e834]: Entertainment
+              - paragraph [ref=e835]: Independent cinema showing arthouse and mainstream films. Leicester Square 3 mins.
+              - generic [ref=e836]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e837]':
+                  - generic [ref=e838]: Stay Dry
+                - generic [ref=e839]: £18
+              - button "View Details" [ref=e840] [cursor=pointer]
+          - article [ref=e841]:
+            - button "Add bookmark" [ref=e844] [cursor=pointer]:
+              - img [ref=e845]
+            - generic [ref=e847]:
+              - heading "Dabbers Social Bingo" [level=3] [ref=e848]
+              - generic [ref=e849]:
+                - generic [ref=e850]: Central
+                - generic [ref=e851]: Gaming
+                - generic [ref=e852]: Nightlife
+              - paragraph [ref=e853]: Bingo with a party atmosphere. King's Cross 5 mins.
+              - generic [ref=e854]:
+                - 'img "Wetness score: 20%, Stay Dry" [ref=e855]':
+                  - generic [ref=e856]: Stay Dry
+                - generic [ref=e857]: £15
+              - button "View Details" [ref=e858] [cursor=pointer]
+          - article [ref=e859]:
+            - button "Add bookmark" [ref=e862] [cursor=pointer]:
+              - img [ref=e863]
+            - generic [ref=e865]:
+              - heading "Daunt Books" [level=3] [ref=e866]
+              - generic [ref=e867]:
+                - generic [ref=e868]: Central
+                - generic [ref=e869]: Shopping
+                - generic [ref=e870]: Books
+              - paragraph [ref=e871]: Iconic Marylebone bookshop with travel shelves that trigger escapism.
+              - generic [ref=e872]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e873]':
+                  - generic [ref=e874]: Stay Dry
+                - generic [ref=e875]: FREE
+              - button "View Details" [ref=e876] [cursor=pointer]
+          - article [ref=e877]:
+            - button "Add bookmark" [ref=e880] [cursor=pointer]:
+              - img [ref=e881]
+            - generic [ref=e883]:
+              - heading "Design Museum" [level=3] [ref=e884]
+              - generic [ref=e885]:
+                - generic [ref=e886]: West
+                - generic [ref=e887]: Museums
+                - generic [ref=e888]: Galleries
+              - paragraph [ref=e889]: Contemporary design and architecture. High Street Kensington 5 min walk.
+              - generic [ref=e890]:
+                - 'img "Wetness score: 30%, Slightly Wet" [ref=e891]':
+                  - generic [ref=e892]: Slightly Wet
+                - generic [ref=e893]: £18
+              - button "View Details" [ref=e894] [cursor=pointer]
+          - article [ref=e895]:
+            - button "Add bookmark" [ref=e898] [cursor=pointer]:
+              - img [ref=e899]
+            - generic [ref=e901]:
+              - heading "Design Museum" [level=3] [ref=e902]
+              - generic [ref=e903]:
+                - generic [ref=e904]: West
+                - generic [ref=e905]: Museums
+                - generic [ref=e906]: Design
+              - paragraph [ref=e907]: Big ideas in product, fashion and graphic design with rotating shows.
+              - generic [ref=e908]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e909]':
+                  - generic [ref=e910]: Stay Dry
+                - generic [ref=e911]: £16
+              - button "View Details" [ref=e912] [cursor=pointer]
+          - article [ref=e913]:
+            - button "Add bookmark" [ref=e916] [cursor=pointer]:
+              - img [ref=e917]
+            - generic [ref=e919]:
+              - heading "Dishoom Covent Garden" [level=3] [ref=e920]
+              - generic [ref=e921]:
+                - generic [ref=e922]: Central
+                - generic [ref=e923]: Dining
+              - paragraph [ref=e924]: Bombay-style café serving Indian cuisine. Covent Garden station adjacent.
+              - generic [ref=e925]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e926]':
+                  - generic [ref=e927]: Stay Dry
+                - generic [ref=e928]: £35
+              - button "View Details" [ref=e929] [cursor=pointer]
+          - article [ref=e930]:
+            - button "Add bookmark" [ref=e933] [cursor=pointer]:
+              - img [ref=e934]
+            - generic [ref=e936]:
+              - heading "Dishoom King's Cross" [level=3] [ref=e937]
+              - generic [ref=e938]:
+                - generic [ref=e939]: North
+                - generic [ref=e940]: Dining
+              - paragraph [ref=e941]: Bombay café in a historic building. King's Cross 3 mins.
+              - generic [ref=e942]:
+                - 'img "Wetness score: 20%, Stay Dry" [ref=e943]':
+                  - generic [ref=e944]: Stay Dry
+                - generic [ref=e945]: £30
+              - button "View Details" [ref=e946] [cursor=pointer]
+          - article [ref=e947]:
+            - button "Add bookmark" [ref=e950] [cursor=pointer]:
+              - img [ref=e951]
+            - generic [ref=e953]:
+              - heading "DNA VR" [level=3] [ref=e954]
+              - generic [ref=e955]:
+                - generic [ref=e956]: North
+                - generic [ref=e957]: Gaming
+                - generic [ref=e958]: Entertainment
+              - paragraph [ref=e959]: Immersive VR experiences. Hammersmith 5 mins.
+              - generic [ref=e960]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e961]':
+                  - generic [ref=e962]: Stay Dry
+                - generic [ref=e963]: £38
+              - button "View Details" [ref=e964] [cursor=pointer]
+          - article [ref=e965]:
+            - button "Add bookmark" [ref=e968] [cursor=pointer]:
+              - img [ref=e969]
+            - generic [ref=e971]:
+              - heading "Draughts Waterloo" [level=3] [ref=e972]
+              - generic [ref=e973]:
+                - generic [ref=e974]: South
+                - generic [ref=e975]: Gaming
+              - paragraph [ref=e976]: Board game cafe inside the Leake Street arches.
+              - generic [ref=e977]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e978]':
+                  - generic [ref=e979]: Stay Dry
+                - generic [ref=e980]: £7
+              - button "View Details" [ref=e981] [cursor=pointer]
+          - article [ref=e982]:
+            - button "Add bookmark" [ref=e985] [cursor=pointer]:
+              - img [ref=e986]
+            - generic [ref=e988]:
+              - heading "Drink Shop & Do" [level=3] [ref=e989]
+              - generic [ref=e990]:
+                - generic [ref=e991]: North
+                - generic [ref=e992]: Workshops
+                - generic [ref=e993]: Gaming
+              - paragraph [ref=e994]: Craft workshops and board games. King's Cross 3 mins.
+              - generic [ref=e995]:
+                - 'img "Wetness score: 20%, Stay Dry" [ref=e996]':
+                  - generic [ref=e997]: Stay Dry
+                - generic [ref=e998]: £25
+              - button "View Details" [ref=e999] [cursor=pointer]
+          - article [ref=e1000]:
+            - button "Add bookmark" [ref=e1003] [cursor=pointer]:
+              - img [ref=e1004]
+            - generic [ref=e1006]:
+              - heading "Duck & Waffle" [level=3] [ref=e1007]
+              - generic [ref=e1008]:
+                - generic [ref=e1009]: Central
+                - generic [ref=e1010]: Dining
+              - paragraph [ref=e1011]: 24-hour dining on the 40th floor. Liverpool Street 5 mins.
+              - generic [ref=e1012]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e1013]':
+                  - generic [ref=e1014]: Stay Dry
+                - generic [ref=e1015]: £50
+              - button "View Details" [ref=e1016] [cursor=pointer]
+          - article [ref=e1017]:
+            - button "Add bookmark" [ref=e1020] [cursor=pointer]:
+              - img [ref=e1021]
+            - generic [ref=e1023]:
+              - heading "Dulwich Picture Gallery" [level=3] [ref=e1024]
+              - generic [ref=e1025]:
+                - generic [ref=e1026]: South
+                - generic [ref=e1027]: Galleries
+                - generic [ref=e1028]: Art
+              - paragraph [ref=e1029]: Beautiful gallery with classic works, calm rooms and a great café.
+              - generic [ref=e1030]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1031]':
+                  - generic [ref=e1032]: Stay Dry
+                - generic [ref=e1033]: £16
+              - button "View Details" [ref=e1034] [cursor=pointer]
+          - article [ref=e1035]:
+            - button "Add bookmark" [ref=e1038] [cursor=pointer]:
+              - img [ref=e1039]
+            - generic [ref=e1041]:
+              - heading "Dulwich Picture Gallery" [level=3] [ref=e1042]
+              - generic [ref=e1043]:
+                - generic [ref=e1044]: South
+                - generic [ref=e1045]: Galleries
+                - generic [ref=e1046]: Art
+              - paragraph [ref=e1047]: England’s oldest public art gallery with a brilliant permanent collection and seasonal exhibitions. Quiet, cosy and ideal on wet days.
+              - generic [ref=e1048]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1049]':
+                  - generic [ref=e1050]: Stay Dry
+                - generic [ref=e1051]: FROM £18
+              - button "View Details" [ref=e1052] [cursor=pointer]
+          - article [ref=e1053]:
+            - button "Add bookmark" [ref=e1056] [cursor=pointer]:
+              - img [ref=e1057]
+            - generic [ref=e1059]:
+              - heading "Egg London" [level=3] [ref=e1060]
+              - generic [ref=e1061]:
+                - generic [ref=e1062]: North
+                - generic [ref=e1063]: Nightlife
+              - paragraph [ref=e1064]: Multi-room club venue. King's Cross 10 mins.
+              - generic [ref=e1065]:
+                - 'img "Wetness score: 60%, Get Wet" [ref=e1066]':
+                  - generic [ref=e1067]: Get Wet
+                - generic [ref=e1068]: £20
+              - button "View Details" [ref=e1069] [cursor=pointer]
+          - article [ref=e1070]:
+            - button "Add bookmark" [ref=e1073] [cursor=pointer]:
+              - img [ref=e1074]
+            - generic [ref=e1076]:
+              - heading "Electric Cinema" [level=3] [ref=e1077]
+              - generic [ref=e1078]:
+                - generic [ref=e1079]: West
+                - generic [ref=e1080]: Cinema
+                - generic [ref=e1081]: Luxury
+              - paragraph [ref=e1082]: Sofas and a proper treat-yourself film night in Notting Hill.
+              - generic [ref=e1083]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1084]':
+                  - generic [ref=e1085]: Stay Dry
+                - generic [ref=e1086]: £20
+              - button "View Details" [ref=e1087] [cursor=pointer]
+          - article [ref=e1088]:
+            - button "Add bookmark" [ref=e1091] [cursor=pointer]:
+              - img [ref=e1092]
+            - generic [ref=e1094]:
+              - heading "Electric Cinema" [level=3] [ref=e1095]
+              - generic [ref=e1096]:
+                - generic [ref=e1097]: West
+                - generic [ref=e1098]: Cinema
+              - paragraph [ref=e1099]: Luxury cinema with leather armchairs. Notting Hill Gate 2 mins.
+              - generic [ref=e1100]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e1101]':
+                  - generic [ref=e1102]: Stay Dry
+                - generic [ref=e1103]: £22
+              - button "View Details" [ref=e1104] [cursor=pointer]
+          - article [ref=e1105]:
+            - button "Add bookmark" [ref=e1108] [cursor=pointer]:
+              - img [ref=e1109]
+            - generic [ref=e1111]:
+              - heading "Electric Cinema Notting Hill" [level=3] [ref=e1112]
+              - generic [ref=e1113]:
+                - generic [ref=e1114]: West
+                - generic [ref=e1115]: Cinema
+              - paragraph [ref=e1116]: Luxury cinema with sofas and footstools. Notting Hill Gate 5 mins.
+              - generic [ref=e1117]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e1118]':
+                  - generic [ref=e1119]: Stay Dry
+                - generic [ref=e1120]: £25
+              - button "View Details" [ref=e1121] [cursor=pointer]
+          - article [ref=e1122]:
+            - button "Add bookmark" [ref=e1125] [cursor=pointer]:
+              - img [ref=e1126]
+            - generic [ref=e1128]:
+              - heading "Electric Gamebox" [level=3] [ref=e1129]
+              - generic [ref=e1130]:
+                - generic [ref=e1131]: South
+                - generic [ref=e1132]: Gaming
+              - paragraph [ref=e1133]: Hyper-immersive 60-minute gaming adventures in Southbank.
+              - generic [ref=e1134]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e1135]':
+                  - generic [ref=e1136]: Stay Dry
+                - generic [ref=e1137]: £25
+              - button "View Details" [ref=e1138] [cursor=pointer]
+          - article [ref=e1139]:
+            - button "Add bookmark" [ref=e1142] [cursor=pointer]:
+              - img [ref=e1143]
+            - generic [ref=e1145]:
+              - heading "Escape Hunt" [level=3] [ref=e1146]
+              - generic [ref=e1147]:
+                - generic [ref=e1149]: Escape rooms
+                - generic [ref=e1150]: Team
+              - paragraph [ref=e1151]: Classic escape rooms across London.
+              - generic [ref=e1152]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1153]':
+                  - generic [ref=e1154]: Stay Dry
+                - generic [ref=e1155]: £30
+              - button "View Details" [ref=e1156] [cursor=pointer]
+          - article [ref=e1157]:
+            - button "Add bookmark" [ref=e1160] [cursor=pointer]:
+              - img [ref=e1161]
+            - generic [ref=e1163]:
+              - heading "Escape Reality London" [level=3] [ref=e1164]
+              - generic [ref=e1165]:
+                - generic [ref=e1166]: Central
+                - generic [ref=e1167]: Gaming
+                - generic [ref=e1168]: Entertainment
+              - paragraph [ref=e1169]: Immersive escape room challenges near Leicester Square. 2 min tube walk.
+              - generic [ref=e1170]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1171]':
+                  - generic [ref=e1172]: Stay Dry
+                - generic [ref=e1173]: £28
+              - button "View Details" [ref=e1174] [cursor=pointer]
+          - article [ref=e1175]:
+            - button "Add bookmark" [ref=e1178] [cursor=pointer]:
+              - img [ref=e1179]
+            - generic [ref=e1181]:
+              - heading "ESPA Life at Corinthia" [level=3] [ref=e1182]
+              - generic [ref=e1183]:
+                - generic [ref=e1184]: Central
+                - generic [ref=e1185]: Wellness
+              - paragraph [ref=e1186]: Luxury spa with pool and treatments. Embankment 3 mins.
+              - generic [ref=e1187]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e1188]':
+                  - generic [ref=e1189]: Stay Dry
+                - generic [ref=e1190]: £150
+              - button "View Details" [ref=e1191] [cursor=pointer]
+          - article [ref=e1192]:
+            - button "Add bookmark" [ref=e1195] [cursor=pointer]:
+              - img [ref=e1196]
+            - generic [ref=e1198]:
+              - heading "Estorick Collection" [level=3] [ref=e1199]
+              - generic [ref=e1200]:
+                - generic [ref=e1201]: North
+                - generic [ref=e1202]: Galleries
+                - generic [ref=e1203]: Art
+              - paragraph [ref=e1204]: Italian modern art in a townhouse setting. Quiet and focused.
+              - generic [ref=e1205]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1206]':
+                  - generic [ref=e1207]: Stay Dry
+                - generic [ref=e1208]: £10
+              - button "View Details" [ref=e1209] [cursor=pointer]
+          - article [ref=e1210]:
+            - button "Add bookmark" [ref=e1213] [cursor=pointer]:
+              - img [ref=e1214]
+            - generic [ref=e1216]:
+              - heading "Everyman Cinema" [level=3] [ref=e1217]
+              - generic [ref=e1218]:
+                - generic [ref=e1220]: Cinema
+                - generic [ref=e1221]: Food
+              - paragraph [ref=e1222]: Comfy seats and food-to-your-seat service, ideal for rainy nights.
+              - generic [ref=e1223]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1224]':
+                  - generic [ref=e1225]: Stay Dry
+                - generic [ref=e1226]: £15
+              - button "View Details" [ref=e1227] [cursor=pointer]
+          - article [ref=e1228]:
+            - button "Add bookmark" [ref=e1231] [cursor=pointer]:
+              - img [ref=e1232]
+            - generic [ref=e1234]:
+              - heading "Everyman Cinema King's Cross" [level=3] [ref=e1235]
+              - generic [ref=e1236]:
+                - generic [ref=e1237]: Central
+                - generic [ref=e1238]: Cinema
+                - generic [ref=e1239]: Entertainment
+              - paragraph [ref=e1240]: Sofa-style cinema experience with food and drinks at your seat. Great for a treat-yourself rainy evening.
+              - generic [ref=e1241]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1242]':
+                  - generic [ref=e1243]: Stay Dry
+                - generic [ref=e1244]: FROM £16
+              - button "View Details" [ref=e1245] [cursor=pointer]
+          - article [ref=e1246]:
+            - button "Add bookmark" [ref=e1249] [cursor=pointer]:
+              - img [ref=e1250]
+            - generic [ref=e1252]:
+              - heading "F1 Arcade London" [level=3] [ref=e1253]
+              - generic [ref=e1254]:
+                - generic [ref=e1255]: Central
+                - generic [ref=e1256]: Games
+                - generic [ref=e1257]: Entertainment
+              - paragraph [ref=e1258]: Racing simulators with food and drinks in a slick indoor setting. Great for groups and perfect when the weather is awful.
+              - generic [ref=e1259]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1260]':
+                  - generic [ref=e1261]: Stay Dry
+                - generic [ref=e1262]: FROM £15
+              - button "View Details" [ref=e1263] [cursor=pointer]
+          - article [ref=e1264]:
+            - button "Add bookmark" [ref=e1267] [cursor=pointer]:
+              - img [ref=e1268]
+            - generic [ref=e1270]:
+              - heading "Fabric" [level=3] [ref=e1271]
+              - generic [ref=e1272]:
+                - generic [ref=e1273]: Central
+                - generic [ref=e1274]: Nightlife
+              - paragraph [ref=e1275]: Legendary nightclub. Farringdon 3 mins.
+              - generic [ref=e1276]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e1277]':
+                  - generic [ref=e1278]: Stay Dry
+                - generic [ref=e1279]: £25
+              - button "View Details" [ref=e1280] [cursor=pointer]
+          - article [ref=e1281]:
+            - button "Add bookmark" [ref=e1284] [cursor=pointer]:
+              - img [ref=e1285]
+            - generic [ref=e1287]:
+              - heading "Fairgame" [level=3] [ref=e1288]
+              - generic [ref=e1289]:
+                - generic [ref=e1290]: East
+                - generic [ref=e1291]: Games
+                - generic [ref=e1292]: Arcade
+              - paragraph [ref=e1293]: Grown-up fairground games in a slick indoor space.
+              - generic [ref=e1294]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1295]':
+                  - generic [ref=e1296]: Stay Dry
+                - generic [ref=e1297]: £15
+              - button "View Details" [ref=e1298] [cursor=pointer]
+          - article [ref=e1299]:
+            - button "Add bookmark" [ref=e1302] [cursor=pointer]:
+              - img [ref=e1303]
+            - generic [ref=e1305]:
+              - heading "Fairgame Canary Wharf" [level=3] [ref=e1306]
+              - generic [ref=e1307]:
+                - generic [ref=e1308]: East
+                - generic [ref=e1309]: Games
+                - generic [ref=e1310]: Entertainment
+              - paragraph [ref=e1311]: Indoor adult playground with carnival games, street food and cocktails. Very rain-proof and great for group nights out.
+              - generic [ref=e1312]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1313]':
+                  - generic [ref=e1314]: Stay Dry
+                - generic [ref=e1315]: FROM £15
+              - button "View Details" [ref=e1316] [cursor=pointer]
+          - article [ref=e1317]:
+            - button "Add bookmark" [ref=e1320] [cursor=pointer]:
+              - img [ref=e1321]
+            - generic [ref=e1323]:
+              - heading "Flat Iron Square" [level=3] [ref=e1324]
+              - generic [ref=e1325]:
+                - generic [ref=e1326]: South
+                - generic [ref=e1327]: Dining
+                - generic [ref=e1328]: Markets
+              - paragraph [ref=e1329]: Street food and bars under railway arches. London Bridge 3 mins.
+              - generic [ref=e1330]:
+                - 'img "Wetness score: 40%, Slightly Wet" [ref=e1331]':
+                  - generic [ref=e1332]: Slightly Wet
+                - generic [ref=e1333]: £25
+              - button "View Details" [ref=e1334] [cursor=pointer]
+          - article [ref=e1335]:
+            - button "Add bookmark" [ref=e1338] [cursor=pointer]:
+              - img [ref=e1339]
+            - generic [ref=e1341]:
+              - heading "Flight Club" [level=3] [ref=e1342]
+              - generic [ref=e1343]:
+                - generic [ref=e1344]: East
+                - generic [ref=e1345]: Games
+                - generic [ref=e1346]: Darts
+              - paragraph [ref=e1347]: Social darts with slick scoring and a party vibe. Book ahead.
+              - generic [ref=e1348]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1349]':
+                  - generic [ref=e1350]: Stay Dry
+                - generic [ref=e1351]: £15
+              - button "View Details" [ref=e1352] [cursor=pointer]
+          - article [ref=e1353]:
+            - button "Add bookmark" [ref=e1356] [cursor=pointer]:
+              - img [ref=e1357]
+            - generic [ref=e1359]:
+              - heading "Flight Club" [level=3] [ref=e1360]
+              - generic [ref=e1361]:
+                - generic [ref=e1362]: Central
+                - generic [ref=e1363]: Gaming
+                - generic [ref=e1364]: Entertainment
+              - paragraph [ref=e1365]: Social darts venue. Multiple locations.
+              - generic [ref=e1366]:
+                - 'img "Wetness score: 20%, Stay Dry" [ref=e1367]':
+                  - generic [ref=e1368]: Stay Dry
+                - generic [ref=e1369]: £20
+              - button "View Details" [ref=e1370] [cursor=pointer]
+          - article [ref=e1371]:
+            - button "Add bookmark" [ref=e1374] [cursor=pointer]:
+              - img [ref=e1375]
+            - generic [ref=e1377]:
+              - heading "Flight Club Bloomsbury" [level=3] [ref=e1378]
+              - generic [ref=e1379]:
+                - generic [ref=e1380]: Central
+                - generic [ref=e1381]: Games
+                - generic [ref=e1382]: Food
+              - paragraph [ref=e1383]: Social darts with a fun atmosphere, food and drinks. Fully indoors and easy to book for a rainy evening.
+              - generic [ref=e1384]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1385]':
+                  - generic [ref=e1386]: Stay Dry
+                - generic [ref=e1387]: FROM £12
+              - button "View Details" [ref=e1388] [cursor=pointer]
+          - article [ref=e1389]:
+            - button "Add bookmark" [ref=e1392] [cursor=pointer]:
+              - img [ref=e1393]
+            - generic [ref=e1395]:
+              - heading "Flight Club Shoreditch" [level=3] [ref=e1396]
+              - generic [ref=e1397]:
+                - generic [ref=e1398]: East
+                - generic [ref=e1399]: Games
+                - generic [ref=e1400]: Food
+              - paragraph [ref=e1401]: Social darts with food and drinks in a lively indoor venue. A strong rainy-day pick for groups.
+              - generic [ref=e1402]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1403]':
+                  - generic [ref=e1404]: Stay Dry
+                - generic [ref=e1405]: FROM £12
+              - button "View Details" [ref=e1406] [cursor=pointer]
+          - article [ref=e1407]:
+            - button "Add bookmark" [ref=e1410] [cursor=pointer]:
+              - img [ref=e1411]
+            - generic [ref=e1413]:
+              - heading "Fortnum & Mason" [level=3] [ref=e1414]
+              - generic [ref=e1415]:
+                - generic [ref=e1416]: Central
+                - generic [ref=e1417]: Shopping
+                - generic [ref=e1418]: Dining
+              - paragraph [ref=e1419]: Historic food hall and tea rooms. Piccadilly Circus 2 mins.
+              - generic [ref=e1420]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e1421]':
+                  - generic [ref=e1422]: Stay Dry
+                - generic [ref=e1423]: FREE
+              - button "View Details" [ref=e1424] [cursor=pointer]
+          - article [ref=e1425]:
+            - button "Add bookmark" [ref=e1428] [cursor=pointer]:
+              - img [ref=e1429]
+            - generic [ref=e1431]:
+              - heading "Four Quarters Arcade Elephant Park" [level=3] [ref=e1432]
+              - generic [ref=e1433]:
+                - generic [ref=e1434]: South
+                - generic [ref=e1435]: Games
+                - generic [ref=e1436]: Entertainment
+              - paragraph [ref=e1437]: Arcade bar with loads of games and a relaxed vibe. Fully indoors and ideal for rainy days with mates.
+              - generic [ref=e1438]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1439]':
+                  - generic [ref=e1440]: Stay Dry
+                - generic [ref=e1441]: FREE ENTRY
+              - button "View Details" [ref=e1442] [cursor=pointer]
+          - article [ref=e1443]:
+            - button "Add bookmark" [ref=e1446] [cursor=pointer]:
+              - img [ref=e1447]
+            - generic [ref=e1449]:
+              - heading "Four Quarters Arcade Peckham" [level=3] [ref=e1450]
+              - generic [ref=e1451]:
+                - generic [ref=e1452]: South
+                - generic [ref=e1453]: Games
+                - generic [ref=e1454]: Entertainment
+              - paragraph [ref=e1455]: Retro arcade bar with classic machines and proper comfort food. Indoors, casual and great for a low-pressure rainy hang.
+              - generic [ref=e1456]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1457]':
+                  - generic [ref=e1458]: Stay Dry
+                - generic [ref=e1459]: FREE ENTRY
+              - button "View Details" [ref=e1460] [cursor=pointer]
+          - article [ref=e1461]:
+            - button "Add bookmark" [ref=e1464] [cursor=pointer]:
+              - img [ref=e1465]
+            - generic [ref=e1467]:
+              - heading "Foyles Bookshop" [level=3] [ref=e1468]
+              - generic [ref=e1469]:
+                - generic [ref=e1470]: Central
+                - generic [ref=e1471]: Shopping
+              - paragraph [ref=e1472]: Iconic bookshop with cafe. Tottenham Court Road direct.
+              - generic [ref=e1473]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e1474]':
+                  - generic [ref=e1475]: Stay Dry
+                - generic [ref=e1476]: Free Entry
+              - button "View Details" [ref=e1477] [cursor=pointer]
+          - article [ref=e1478]:
+            - button "Add bookmark" [ref=e1481] [cursor=pointer]:
+              - img [ref=e1482]
+            - generic [ref=e1484]:
+              - heading "Frame Fitness" [level=3] [ref=e1485]
+              - generic [ref=e1486]:
+                - generic [ref=e1487]: Central
+                - generic [ref=e1488]: Wellness
+                - generic [ref=e1489]: Sports
+              - paragraph [ref=e1490]: Fun fitness classes. Multiple locations.
+              - generic [ref=e1491]:
+                - 'img "Wetness score: 20%, Stay Dry" [ref=e1492]':
+                  - generic [ref=e1493]: Stay Dry
+                - generic [ref=e1494]: £22
+              - button "View Details" [ref=e1495] [cursor=pointer]
+          - article [ref=e1496]:
+            - button "Add bookmark" [ref=e1499] [cursor=pointer]:
+              - img [ref=e1500]
+            - generic [ref=e1502]:
+              - heading "Frameless" [level=3] [ref=e1503]
+              - generic [ref=e1504]:
+                - generic [ref=e1505]: Central
+                - generic [ref=e1506]: Exhibitions
+                - generic [ref=e1507]: Entertainment
+              - paragraph [ref=e1508]: Immersive art experience. Marble Arch 2 mins.
+              - generic [ref=e1509]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e1510]':
+                  - generic [ref=e1511]: Stay Dry
+                - generic [ref=e1512]: £28
+              - button "View Details" [ref=e1513] [cursor=pointer]
+          - article [ref=e1514]:
+            - button "Add bookmark" [ref=e1517] [cursor=pointer]:
+              - img [ref=e1518]
+            - generic [ref=e1520]:
+              - heading "Frameless Immersive Art" [level=3] [ref=e1521]
+              - generic [ref=e1522]:
+                - generic [ref=e1523]: Central
+                - generic [ref=e1524]: Attractions
+                - generic [ref=e1525]: Immersive
+              - paragraph [ref=e1526]: Huge immersive projections that feel like walking through paintings.
+              - generic [ref=e1527]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1528]':
+                  - generic [ref=e1529]: Stay Dry
+                - generic [ref=e1530]: £28
+              - button "View Details" [ref=e1531] [cursor=pointer]
+          - article [ref=e1532]:
+            - button "Add bookmark" [ref=e1535] [cursor=pointer]:
+              - img [ref=e1536]
+            - generic [ref=e1538]:
+              - heading "God's Own Junkyard" [level=3] [ref=e1539]
+              - generic [ref=e1540]:
+                - generic [ref=e1541]: East
+                - generic [ref=e1542]: Galleries
+              - paragraph [ref=e1543]: Neon art installation warehouse. Walthamstow Central 10 mins.
+              - generic [ref=e1544]:
+                - 'img "Wetness score: 35%, Slightly Wet" [ref=e1545]':
+                  - generic [ref=e1546]: Slightly Wet
+                - generic [ref=e1547]: Free Entry
+              - button "View Details" [ref=e1548] [cursor=pointer]
+          - article [ref=e1549]:
+            - button "Add bookmark" [ref=e1552] [cursor=pointer]:
+              - img [ref=e1553]
+            - generic [ref=e1555]:
+              - heading "Gordon's Wine Bar" [level=3] [ref=e1556]
+              - generic [ref=e1557]:
+                - generic [ref=e1558]: Central
+                - generic [ref=e1559]: Dining
+                - generic [ref=e1560]: Nightlife
+              - paragraph [ref=e1561]: Historic candlelit wine cellar. Embankment station 2 min walk.
+              - generic [ref=e1562]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1563]':
+                  - generic [ref=e1564]: Stay Dry
+                - generic [ref=e1565]: £40
+              - button "View Details" [ref=e1566] [cursor=pointer]
+          - article [ref=e1567]:
+            - button "Add bookmark" [ref=e1570] [cursor=pointer]:
+              - img [ref=e1571]
+            - generic [ref=e1573]:
+              - heading "Grant Museum of Zoology" [level=3] [ref=e1574]
+              - generic [ref=e1575]:
+                - generic [ref=e1576]: Central
+                - generic [ref=e1577]: Museums
+                - generic [ref=e1578]: Science
+              - paragraph [ref=e1579]: Tiny, fascinating, slightly spooky zoology museum with specimens that surprise.
+              - generic [ref=e1580]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1581]':
+                  - generic [ref=e1582]: Stay Dry
+                - generic [ref=e1583]: FREE
+              - button "View Details" [ref=e1584] [cursor=pointer]
+          - article [ref=e1585]:
+            - button "Add bookmark" [ref=e1588] [cursor=pointer]:
+              - img [ref=e1589]
+            - generic [ref=e1591]:
+              - heading "Grant Museum of Zoology (quick visit)" [level=3] [ref=e1592]
+              - generic [ref=e1593]:
+                - generic [ref=e1594]: Central
+                - generic [ref=e1595]: Museums
+                - generic [ref=e1596]: Science
+              - paragraph [ref=e1597]: Small but memorable. Expect ‘what am I looking at’ moments.
+              - generic [ref=e1598]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1599]':
+                  - generic [ref=e1600]: Stay Dry
+                - generic [ref=e1601]: FREE
+              - button "View Details" [ref=e1602] [cursor=pointer]
+          - article [ref=e1603]:
+            - button "Add bookmark" [ref=e1606] [cursor=pointer]:
+              - img [ref=e1607]
+            - generic [ref=e1609]:
+              - heading "Greenwich Market (covered)" [level=3] [ref=e1610]
+              - generic [ref=e1611]:
+                - generic [ref=e1612]: East
+                - generic [ref=e1613]: Markets
+                - generic [ref=e1614]: Crafts
+              - paragraph [ref=e1615]: Covered stalls with crafts, gifts and street food.
+              - generic [ref=e1616]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1617]':
+                  - generic [ref=e1618]: Stay Dry
+                - generic [ref=e1619]: FREE
+              - button "View Details" [ref=e1620] [cursor=pointer]
+          - article [ref=e1621]:
+            - button "Add bookmark" [ref=e1624] [cursor=pointer]:
+              - img [ref=e1625]
+            - generic [ref=e1627]:
+              - heading "Guildhall Art Gallery" [level=3] [ref=e1628]
+              - generic [ref=e1629]:
+                - generic [ref=e1630]: Central
+                - generic [ref=e1631]: Galleries
+                - generic [ref=e1632]: Art
+              - paragraph [ref=e1633]: A quiet City gallery with a Roman amphitheatre beneath it.
+              - generic [ref=e1634]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1635]':
+                  - generic [ref=e1636]: Stay Dry
+                - generic [ref=e1637]: FREE
+              - button "View Details" [ref=e1638] [cursor=pointer]
+          - article [ref=e1639]:
+            - button "Add bookmark" [ref=e1642] [cursor=pointer]:
+              - img [ref=e1643]
+            - generic [ref=e1645]:
+              - heading "Guildhall Art Gallery" [level=3] [ref=e1646]
+              - generic [ref=e1647]:
+                - generic [ref=e1648]: Central
+                - generic [ref=e1649]: Galleries
+              - paragraph [ref=e1650]: City of London's art collection and Roman Amphitheatre.
+              - generic [ref=e1651]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e1652]':
+                  - generic [ref=e1653]: Stay Dry
+                - generic [ref=e1654]: FREE
+              - button "View Details" [ref=e1655] [cursor=pointer]
+          - article [ref=e1656]:
+            - button "Add bookmark" [ref=e1659] [cursor=pointer]:
+              - img [ref=e1660]
+            - generic [ref=e1662]:
+              - heading "Hamilton - West End" [level=3] [ref=e1663]
+              - generic [ref=e1664]:
+                - generic [ref=e1665]: Central
+                - generic [ref=e1666]: Theatre
+                - generic [ref=e1667]: Music
+              - paragraph [ref=e1668]: Award-winning musical at Victoria Palace Theatre. Leicester Square tube 5 mins.
+              - generic [ref=e1669]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e1670]':
+                  - generic [ref=e1671]: Stay Dry
+                - generic [ref=e1672]: FROM £75
+              - button "View Details" [ref=e1673] [cursor=pointer]
+          - article [ref=e1674]:
+            - button "Add bookmark" [ref=e1677] [cursor=pointer]:
+              - img [ref=e1678]
+            - generic [ref=e1680]:
+              - heading "Hamleys" [level=3] [ref=e1681]
+              - generic [ref=e1682]:
+                - generic [ref=e1683]: Central
+                - generic [ref=e1684]: Shopping
+                - generic [ref=e1685]: Family
+              - paragraph [ref=e1686]: Toy chaos over multiple floors. Kids love it, adults endure it.
+              - generic [ref=e1687]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1688]':
+                  - generic [ref=e1689]: Stay Dry
+                - generic [ref=e1690]: FREE
+              - button "View Details" [ref=e1691] [cursor=pointer]
+          - article [ref=e1692]:
+            - button "Add bookmark" [ref=e1695] [cursor=pointer]:
+              - img [ref=e1696]
+            - generic [ref=e1698]:
+              - heading "Hampton Court Palace" [level=3] [ref=e1699]
+              - generic [ref=e1700]:
+                - generic [ref=e1701]: West
+                - generic [ref=e1702]: Historic
+              - paragraph [ref=e1703]: Tudor palace with gardens. Hampton Court 5 mins.
+              - generic [ref=e1704]:
+                - 'img "Wetness score: 35%, Slightly Wet" [ref=e1705]':
+                  - generic [ref=e1706]: Slightly Wet
+                - generic [ref=e1707]: £28
+              - button "View Details" [ref=e1708] [cursor=pointer]
+          - article [ref=e1709]:
+            - button "Add bookmark" [ref=e1712] [cursor=pointer]:
+              - img [ref=e1713]
+            - generic [ref=e1715]:
+              - heading "Harrods" [level=3] [ref=e1716]
+              - generic [ref=e1717]:
+                - generic [ref=e1718]: West
+                - generic [ref=e1719]: Shopping
+              - paragraph [ref=e1720]: Iconic luxury department store. Knightsbridge direct.
+              - generic [ref=e1721]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e1722]':
+                  - generic [ref=e1723]: Stay Dry
+                - generic [ref=e1724]: FREE
+              - button "View Details" [ref=e1725] [cursor=pointer]
+          - article [ref=e1726]:
+            - button "Add bookmark" [ref=e1729] [cursor=pointer]:
+              - img [ref=e1730]
+            - generic [ref=e1732]:
+              - heading "Hawksmoor Seven Dials" [level=3] [ref=e1733]
+              - generic [ref=e1734]:
+                - generic [ref=e1735]: Central
+                - generic [ref=e1736]: Dining
+              - paragraph [ref=e1737]: British steakhouse. Covent Garden 3 mins.
+              - generic [ref=e1738]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e1739]':
+                  - generic [ref=e1740]: Stay Dry
+                - generic [ref=e1741]: £65
+              - button "View Details" [ref=e1742] [cursor=pointer]
+          - article [ref=e1743]:
+            - button "Add bookmark" [ref=e1746] [cursor=pointer]:
+              - img [ref=e1747]
+            - generic [ref=e1749]:
+              - heading "HintHunt" [level=3] [ref=e1750]
+              - generic [ref=e1751]:
+                - generic [ref=e1752]: Central
+                - generic [ref=e1753]: Escape rooms
+                - generic [ref=e1754]: Team
+              - paragraph [ref=e1755]: Well-designed escape rooms that are more clever than gimmicky.
+              - generic [ref=e1756]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1757]':
+                  - generic [ref=e1758]: Stay Dry
+                - generic [ref=e1759]: £30
+              - button "View Details" [ref=e1760] [cursor=pointer]
+          - article [ref=e1761]:
+            - button "Add bookmark" [ref=e1764] [cursor=pointer]:
+              - img [ref=e1765]
+            - generic [ref=e1767]:
+              - heading "Hunterian Museum" [level=3] [ref=e1768]
+              - generic [ref=e1769]:
+                - generic [ref=e1770]: Central
+                - generic [ref=e1771]: Museums
+                - generic [ref=e1772]: Medicine
+              - paragraph [ref=e1773]: Medical history and surgical curiosities in a compact, unforgettable collection.
+              - generic [ref=e1774]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1775]':
+                  - generic [ref=e1776]: Stay Dry
+                - generic [ref=e1777]: FREE
+              - button "View Details" [ref=e1778] [cursor=pointer]
+          - article [ref=e1779]:
+            - button "Add bookmark" [ref=e1782] [cursor=pointer]:
+              - img [ref=e1783]
+            - generic [ref=e1785]:
+              - heading "Immersive Gamebox" [level=3] [ref=e1786]
+              - generic [ref=e1787]:
+                - generic [ref=e1788]: Central
+                - generic [ref=e1789]: Games
+                - generic [ref=e1790]: Immersive
+              - paragraph [ref=e1791]: Interactive digital game rooms with motion tracking.
+              - generic [ref=e1792]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1793]':
+                  - generic [ref=e1794]: Stay Dry
+                - generic [ref=e1795]: £30
+              - button "View Details" [ref=e1796] [cursor=pointer]
+          - article [ref=e1797]:
+            - button "Add bookmark" [ref=e1800] [cursor=pointer]:
+              - img [ref=e1801]
+            - generic [ref=e1803]:
+              - heading "Immersive Gamebox Southbank" [level=3] [ref=e1804]
+              - generic [ref=e1805]:
+                - generic [ref=e1806]: Central
+                - generic [ref=e1807]: Games
+                - generic [ref=e1808]: Entertainment
+              - paragraph [ref=e1809]: Projection-mapped group gaming rooms with motion tracking. Fully indoors and ideal for mates, birthdays or a rainy weekend.
+              - generic [ref=e1810]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1811]':
+                  - generic [ref=e1812]: Stay Dry
+                - generic [ref=e1813]: FROM £25
+              - button "View Details" [ref=e1814] [cursor=pointer]
+          - article [ref=e1815]:
+            - button "Add bookmark" [ref=e1818] [cursor=pointer]:
+              - img [ref=e1819]
+            - generic [ref=e1821]:
+              - heading "Imperial War Museum" [level=3] [ref=e1822]
+              - generic [ref=e1823]:
+                - generic [ref=e1824]: South
+                - generic [ref=e1825]: Museums
+                - generic [ref=e1826]: Historic
+              - paragraph [ref=e1827]: Military history from WWI to present day conflicts. Lambeth North 3 min walk.
+              - generic [ref=e1828]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e1829]':
+                  - generic [ref=e1830]: Stay Dry
+                - generic [ref=e1831]: FREE
+              - button "View Details" [ref=e1832] [cursor=pointer]
+          - article [ref=e1833]:
+            - button "Add bookmark" [ref=e1836] [cursor=pointer]:
+              - img [ref=e1837]
+            - generic [ref=e1839]:
+              - heading "Imperial War Museum" [level=3] [ref=e1840]
+              - generic [ref=e1841]:
+                - generic [ref=e1842]: South
+                - generic [ref=e1843]: Museums
+                - generic [ref=e1844]: History
+              - paragraph [ref=e1845]: Powerful galleries covering modern conflict, with objects that stop you in your tracks.
+              - generic [ref=e1846]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1847]':
+                  - generic [ref=e1848]: Stay Dry
+                - generic [ref=e1849]: FREE
+              - button "View Details" [ref=e1850] [cursor=pointer]
+          - article [ref=e1851]:
+            - button "Add bookmark" [ref=e1854] [cursor=pointer]:
+              - img [ref=e1855]
+            - generic [ref=e1857]:
+              - heading "Japan House" [level=3] [ref=e1858]
+              - generic [ref=e1859]:
+                - generic [ref=e1860]: West
+                - generic [ref=e1861]: Culture
+                - generic [ref=e1862]: Free
+              - paragraph [ref=e1863]: Japanese design, food and exhibitions. Calm, beautiful, and rainy-day friendly.
+              - generic [ref=e1864]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1865]':
+                  - generic [ref=e1866]: Stay Dry
+                - generic [ref=e1867]: FREE
+              - button "View Details" [ref=e1868] [cursor=pointer]
+          - article [ref=e1869]:
+            - button "Add bookmark" [ref=e1872] [cursor=pointer]:
+              - img [ref=e1873]
+            - generic [ref=e1875]:
+              - heading "Japan House (food + design)" [level=3] [ref=e1876]
+              - generic [ref=e1877]:
+                - generic [ref=e1878]: West
+                - generic [ref=e1879]: Culture
+                - generic [ref=e1880]: Free
+              - paragraph [ref=e1881]: Browse exhibitions then grab something comforting to eat.
+              - generic [ref=e1882]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1883]':
+                  - generic [ref=e1884]: Stay Dry
+                - generic [ref=e1885]: FREE
+              - button "View Details" [ref=e1886] [cursor=pointer]
+          - article [ref=e1887]:
+            - button "Add bookmark" [ref=e1890] [cursor=pointer]:
+              - img [ref=e1891]
+            - generic [ref=e1893]:
+              - heading "Jazz Cafe" [level=3] [ref=e1894]
+              - generic [ref=e1895]:
+                - generic [ref=e1896]: North
+                - generic [ref=e1897]: Music
+                - generic [ref=e1898]: Nightlife
+              - paragraph [ref=e1899]: Intimate jazz and soul venue. Camden Town 3 mins.
+              - generic [ref=e1900]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e1901]':
+                  - generic [ref=e1902]: Stay Dry
+                - generic [ref=e1903]: £25
+              - button "View Details" [ref=e1904] [cursor=pointer]
+          - article [ref=e1905]:
+            - button "Add bookmark" [ref=e1908] [cursor=pointer]:
+              - img [ref=e1909]
+            - generic [ref=e1911]:
+              - heading "KOKO" [level=3] [ref=e1912]
+              - generic [ref=e1913]:
+                - generic [ref=e1914]: North
+                - generic [ref=e1915]: Music
+                - generic [ref=e1916]: Nightlife
+              - paragraph [ref=e1917]: Former theatre hosting live music. Mornington Crescent 2 mins.
+              - generic [ref=e1918]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e1919]':
+                  - generic [ref=e1920]: Stay Dry
+                - generic [ref=e1921]: £25
+              - button "View Details" [ref=e1922] [cursor=pointer]
+          - article [ref=e1923]:
+            - button "Add bookmark" [ref=e1926] [cursor=pointer]:
+              - img [ref=e1927]
+            - generic [ref=e1929]:
+              - heading "Leadenhall Market" [level=3] [ref=e1930]
+              - generic [ref=e1931]:
+                - generic [ref=e1932]: Central
+                - generic [ref=e1933]: Markets
+                - generic [ref=e1934]: Shopping
+              - paragraph [ref=e1935]: Victorian covered market used in Harry Potter. Bank 3 mins.
+              - generic [ref=e1936]:
+                - 'img "Wetness score: 20%, Stay Dry" [ref=e1937]':
+                  - generic [ref=e1938]: Stay Dry
+                - generic [ref=e1939]: FREE
+              - button "View Details" [ref=e1940] [cursor=pointer]
+          - article [ref=e1941]:
+            - button "Add bookmark" [ref=e1944] [cursor=pointer]:
+              - img [ref=e1945]
+            - generic [ref=e1947]:
+              - heading "Leadenhall Market (covered wander)" [level=3] [ref=e1948]
+              - generic [ref=e1949]:
+                - generic [ref=e1950]: Central
+                - generic [ref=e1951]: Markets
+                - generic [ref=e1952]: Architecture
+              - paragraph [ref=e1953]: A beautiful covered market for a rainy wander and a quick drink.
+              - generic [ref=e1954]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1955]':
+                  - generic [ref=e1956]: Stay Dry
+                - generic [ref=e1957]: FREE
+              - button "View Details" [ref=e1958] [cursor=pointer]
+          - article [ref=e1959]:
+            - button "Add bookmark" [ref=e1962] [cursor=pointer]:
+              - img [ref=e1963]
+            - generic [ref=e1965]:
+              - heading "Leake Street Arches" [level=3] [ref=e1966]
+              - generic [ref=e1967]:
+                - generic [ref=e1968]: South
+                - generic [ref=e1969]: Galleries
+              - paragraph [ref=e1970]: Legal graffiti tunnel and street art. Waterloo 2 mins.
+              - generic [ref=e1971]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e1972]':
+                  - generic [ref=e1973]: Stay Dry
+                - generic [ref=e1974]: Free
+              - button "View Details" [ref=e1975] [cursor=pointer]
+          - article [ref=e1976]:
+            - button "Add bookmark" [ref=e1979] [cursor=pointer]:
+              - img [ref=e1980]
+            - generic [ref=e1982]:
+              - heading "Leighton House" [level=3] [ref=e1983]
+              - generic [ref=e1984]:
+                - generic [ref=e1985]: West
+                - generic [ref=e1986]: Museums
+                - generic [ref=e1987]: Historic
+              - paragraph [ref=e1988]: A stunning Victorian artist’s house with jaw-dropping interiors and a famous Arab Hall. Calm, cultural and completely weather-proof.
+              - generic [ref=e1989]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e1990]':
+                  - generic [ref=e1991]: Stay Dry
+                - generic [ref=e1992]: FROM £16
+              - button "View Details" [ref=e1993] [cursor=pointer]
+          - article [ref=e1994]:
+            - button "Add bookmark" [ref=e1997] [cursor=pointer]:
+              - img [ref=e1998]
+            - generic [ref=e2000]:
+              - heading "Leighton House" [level=3] [ref=e2001]
+              - generic [ref=e2002]:
+                - generic [ref=e2003]: West
+                - generic [ref=e2004]: Museums
+                - generic [ref=e2005]: Art
+              - paragraph [ref=e2006]: A jaw-dropping artist’s house with incredible interiors.
+              - generic [ref=e2007]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2008]':
+                  - generic [ref=e2009]: Stay Dry
+                - generic [ref=e2010]: £16
+              - button "View Details" [ref=e2011] [cursor=pointer]
+          - article [ref=e2012]:
+            - button "Add bookmark" [ref=e2015] [cursor=pointer]:
+              - img [ref=e2016]
+            - generic [ref=e2018]:
+              - heading "Liberty London" [level=3] [ref=e2019]
+              - generic [ref=e2020]:
+                - generic [ref=e2021]: Central
+                - generic [ref=e2022]: Shopping
+              - paragraph [ref=e2023]: Tudor-style department store. Oxford Circus 3 mins.
+              - generic [ref=e2024]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e2025]':
+                  - generic [ref=e2026]: Stay Dry
+                - generic [ref=e2027]: FREE
+              - button "View Details" [ref=e2028] [cursor=pointer]
+          - article [ref=e2029]:
+            - button "Add bookmark" [ref=e2032] [cursor=pointer]:
+              - img [ref=e2033]
+            - generic [ref=e2035]:
+              - heading "Liberty London" [level=3] [ref=e2036]
+              - generic [ref=e2037]:
+                - generic [ref=e2038]: Central
+                - generic [ref=e2039]: Shopping
+                - generic [ref=e2040]: Design
+              - paragraph [ref=e2041]: A stunning department store for a slow rainy browse.
+              - generic [ref=e2042]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2043]':
+                  - generic [ref=e2044]: Stay Dry
+                - generic [ref=e2045]: FREE
+              - button "View Details" [ref=e2046] [cursor=pointer]
+          - article [ref=e2047]:
+            - button "Add bookmark" [ref=e2050] [cursor=pointer]:
+              - img [ref=e2051]
+            - generic [ref=e2053]:
+              - heading "Liberty London (warm wander)" [level=3] [ref=e2054]
+              - generic [ref=e2055]:
+                - generic [ref=e2056]: Central
+                - generic [ref=e2057]: Shopping
+                - generic [ref=e2058]: Design
+              - paragraph [ref=e2059]: Even if you don’t buy anything, the building is worth it.
+              - generic [ref=e2060]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2061]':
+                  - generic [ref=e2062]: Stay Dry
+                - generic [ref=e2063]: FREE
+              - button "View Details" [ref=e2064] [cursor=pointer]
+          - article [ref=e2065]:
+            - button "Add bookmark" [ref=e2068] [cursor=pointer]:
+              - img [ref=e2069]
+            - generic [ref=e2071]:
+              - heading "Little Venice" [level=3] [ref=e2072]
+              - generic [ref=e2073]:
+                - generic [ref=e2074]: West
+                - generic [ref=e2075]: Wellness
+                - generic [ref=e2076]: Scenic
+              - paragraph [ref=e2077]: Canal walks and waterside cafes. Warwick Avenue direct.
+              - generic [ref=e2078]:
+                - 'img "Wetness score: 45%, Get Wet" [ref=e2079]':
+                  - generic [ref=e2080]: Get Wet
+                - generic [ref=e2081]: Free
+              - button "View Details" [ref=e2082] [cursor=pointer]
+          - article [ref=e2083]:
+            - button "Add bookmark" [ref=e2086] [cursor=pointer]:
+              - img [ref=e2087]
+            - generic [ref=e2089]:
+              - heading "London Aquarium" [level=3] [ref=e2090]
+              - generic [ref=e2091]:
+                - generic [ref=e2092]: South
+                - generic [ref=e2093]: Entertainment
+              - paragraph [ref=e2094]: Marine life exhibits and ocean tunnel. Waterloo direct access.
+              - generic [ref=e2095]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e2096]':
+                  - generic [ref=e2097]: Stay Dry
+                - generic [ref=e2098]: £35
+              - button "View Details" [ref=e2099] [cursor=pointer]
+          - article [ref=e2100]:
+            - button "Add bookmark" [ref=e2103] [cursor=pointer]:
+              - img [ref=e2104]
+            - generic [ref=e2106]:
+              - heading "London Canal Museum" [level=3] [ref=e2107]
+              - generic [ref=e2108]:
+                - generic [ref=e2109]: Central
+                - generic [ref=e2110]: Museums
+                - generic [ref=e2111]: Historic
+              - paragraph [ref=e2112]: A quirky museum on London’s canal history with a famous ice well. A brilliant little indoor hidden gem.
+              - generic [ref=e2113]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2114]':
+                  - generic [ref=e2115]: Stay Dry
+                - generic [ref=e2116]: FROM £7
+              - button "View Details" [ref=e2117] [cursor=pointer]
+          - article [ref=e2118]:
+            - button "Add bookmark" [ref=e2121] [cursor=pointer]:
+              - img [ref=e2122]
+            - generic [ref=e2124]:
+              - heading "London Dungeon" [level=3] [ref=e2125]
+              - generic [ref=e2126]:
+                - generic [ref=e2127]: Central
+                - generic [ref=e2128]: Attractions
+                - generic [ref=e2129]: Immersive
+              - paragraph [ref=e2130]: Dark history with actors, jump scares and gallows humour.
+              - generic [ref=e2131]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2132]':
+                  - generic [ref=e2133]: Stay Dry
+                - generic [ref=e2134]: £30
+              - button "View Details" [ref=e2135] [cursor=pointer]
+          - article [ref=e2136]:
+            - button "Add bookmark" [ref=e2139] [cursor=pointer]:
+              - img [ref=e2140]
+            - generic [ref=e2142]:
+              - heading "London Dungeon" [level=3] [ref=e2143]
+              - generic [ref=e2144]:
+                - generic [ref=e2145]: South
+                - generic [ref=e2146]: Entertainment
+                - generic [ref=e2147]: Museums
+              - paragraph [ref=e2148]: Interactive journey through London's dark history. Waterloo station 3 mins.
+              - generic [ref=e2149]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e2150]':
+                  - generic [ref=e2151]: Stay Dry
+                - generic [ref=e2152]: £32
+              - button "View Details" [ref=e2153] [cursor=pointer]
+          - article [ref=e2154]:
+            - button "Add bookmark" [ref=e2157] [cursor=pointer]:
+              - img [ref=e2158]
+            - generic [ref=e2160]:
+              - heading "London Eye" [level=3] [ref=e2161]
+              - generic [ref=e2162]:
+                - generic [ref=e2163]: South
+                - generic [ref=e2164]: Entertainment
+              - paragraph [ref=e2165]: Iconic observation wheel with Thames views. Waterloo 5 mins.
+              - generic [ref=e2166]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e2167]':
+                  - generic [ref=e2168]: Stay Dry
+                - generic [ref=e2169]: £32
+              - button "View Details" [ref=e2170] [cursor=pointer]
+          - article [ref=e2171]:
+            - button "Add bookmark" [ref=e2174] [cursor=pointer]:
+              - img [ref=e2175]
+            - generic [ref=e2177]:
+              - heading "London Film Museum" [level=3] [ref=e2178]
+              - generic [ref=e2179]:
+                - generic [ref=e2180]: Central
+                - generic [ref=e2181]: Museums
+                - generic [ref=e2182]: Exhibitions
+              - paragraph [ref=e2183]: Film-focused exhibitions with props and displays, ideal for movie lovers. Indoors and great for a wet afternoon in town.
+              - generic [ref=e2184]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2185]':
+                  - generic [ref=e2186]: Stay Dry
+                - generic [ref=e2187]: FROM £16
+              - button "View Details" [ref=e2188] [cursor=pointer]
+          - article [ref=e2189]:
+            - button "Add bookmark" [ref=e2192] [cursor=pointer]:
+              - img [ref=e2193]
+            - generic [ref=e2195]:
+              - heading "London Library" [level=3] [ref=e2196]
+              - generic [ref=e2197]:
+                - generic [ref=e2198]: Central
+                - generic [ref=e2199]: Libraries
+              - paragraph [ref=e2200]: Historic independent library. Piccadilly Circus 5 mins.
+              - generic [ref=e2201]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e2202]':
+                  - generic [ref=e2203]: Stay Dry
+                - generic [ref=e2204]: £20
+              - button "View Details" [ref=e2205] [cursor=pointer]
+          - article [ref=e2206]:
+            - button "Add bookmark" [ref=e2209] [cursor=pointer]:
+              - img [ref=e2210]
+            - generic [ref=e2212]:
+              - heading "London Mithraeum" [level=3] [ref=e2213]
+              - generic [ref=e2214]:
+                - generic [ref=e2215]: Central
+                - generic [ref=e2216]: Historic
+              - paragraph [ref=e2217]: Ancient Roman temple of Mithras discovered under Bloomberg.
+              - generic [ref=e2218]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2219]':
+                  - generic [ref=e2220]: Stay Dry
+                - generic [ref=e2221]: FREE
+              - button "View Details" [ref=e2222] [cursor=pointer]
+          - article [ref=e2223]:
+            - button "Add bookmark" [ref=e2226] [cursor=pointer]:
+              - img [ref=e2227]
+            - generic [ref=e2229]:
+              - heading "London Mithraeum" [level=3] [ref=e2230]
+              - generic [ref=e2231]:
+                - generic [ref=e2232]: Central
+                - generic [ref=e2233]: Museums
+                - generic [ref=e2234]: History
+              - paragraph [ref=e2235]: A Roman temple under the City with immersive lighting and a hidden-London vibe.
+              - generic [ref=e2236]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2237]':
+                  - generic [ref=e2238]: Stay Dry
+                - generic [ref=e2239]: FREE
+              - button "View Details" [ref=e2240] [cursor=pointer]
+          - article [ref=e2241]:
+            - button "Add bookmark" [ref=e2244] [cursor=pointer]:
+              - img [ref=e2245]
+            - generic [ref=e2247]:
+              - heading "London Mithraeum (City hideout)" [level=3] [ref=e2248]
+              - generic [ref=e2249]:
+                - generic [ref=e2250]: Central
+                - generic [ref=e2251]: Museums
+                - generic [ref=e2252]: History
+              - paragraph [ref=e2253]: A quick, free, and atmospheric slice of Roman London.
+              - generic [ref=e2254]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2255]':
+                  - generic [ref=e2256]: Stay Dry
+                - generic [ref=e2257]: FREE
+              - button "View Details" [ref=e2258] [cursor=pointer]
+          - article [ref=e2259]:
+            - button "Add bookmark" [ref=e2262] [cursor=pointer]:
+              - img [ref=e2263]
+            - generic [ref=e2265]:
+              - heading "London Museum Docklands" [level=3] [ref=e2266]
+              - generic [ref=e2267]:
+                - generic [ref=e2268]: East
+                - generic [ref=e2269]: Museums
+                - generic [ref=e2270]: Historic
+              - paragraph [ref=e2271]: Museum of London’s Docklands site, telling the story of trade, riverside London and the docks. Spacious, indoor and family-friendly.
+              - generic [ref=e2272]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2273]':
+                  - generic [ref=e2274]: Stay Dry
+                - generic [ref=e2275]: FREE
+              - button "View Details" [ref=e2276] [cursor=pointer]
+          - article [ref=e2277]:
+            - button "Add bookmark" [ref=e2280] [cursor=pointer]:
+              - img [ref=e2281]
+            - generic [ref=e2283]:
+              - heading "London Transport Museum" [level=3] [ref=e2284]
+              - generic [ref=e2285]:
+                - generic [ref=e2286]: Central
+                - generic [ref=e2287]: Museums
+              - paragraph [ref=e2288]: History of London's iconic transport. Covent Garden direct.
+              - generic [ref=e2289]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e2290]':
+                  - generic [ref=e2291]: Stay Dry
+                - generic [ref=e2292]: £19
+              - button "View Details" [ref=e2293] [cursor=pointer]
+          - article [ref=e2294]:
+            - button "Add bookmark" [ref=e2297] [cursor=pointer]:
+              - img [ref=e2298]
+            - generic [ref=e2300]:
+              - heading "London Transport Museum (family day)" [level=3] [ref=e2301]
+              - generic [ref=e2302]:
+                - generic [ref=e2303]: Central
+                - generic [ref=e2304]: Museums
+                - generic [ref=e2305]: Transport
+              - paragraph [ref=e2306]: Extra good with kids. Hands-on, colourful, and completely rainproof.
+              - generic [ref=e2307]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2308]':
+                  - generic [ref=e2309]: Stay Dry
+                - generic [ref=e2310]: £24
+              - button "View Details" [ref=e2311] [cursor=pointer]
+          - article [ref=e2312]:
+            - button "Add bookmark" [ref=e2315] [cursor=pointer]:
+              - img [ref=e2316]
+            - generic [ref=e2318]:
+              - heading "Madame Tussauds" [level=3] [ref=e2319]
+              - generic [ref=e2320]:
+                - generic [ref=e2321]: Central
+                - generic [ref=e2322]: Entertainment
+                - generic [ref=e2323]: Exhibitions
+              - paragraph [ref=e2324]: Wax figure museum. Baker Street 3 mins.
+              - generic [ref=e2325]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e2326]':
+                  - generic [ref=e2327]: Stay Dry
+                - generic [ref=e2328]: £35
+              - button "View Details" [ref=e2329] [cursor=pointer]
+          - article [ref=e2330]:
+            - button "Add bookmark" [ref=e2333] [cursor=pointer]:
+              - img [ref=e2334]
+            - generic [ref=e2336]:
+              - heading "Madame Tussauds" [level=3] [ref=e2337]
+              - generic [ref=e2338]:
+                - generic [ref=e2339]: Central
+                - generic [ref=e2340]: Attractions
+                - generic [ref=e2341]: Family
+              - paragraph [ref=e2342]: Camp, crowded, and oddly fun if you lean into it.
+              - generic [ref=e2343]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2344]':
+                  - generic [ref=e2345]: Stay Dry
+                - generic [ref=e2346]: £35
+              - button "View Details" [ref=e2347] [cursor=pointer]
+          - article [ref=e2348]:
+            - button "Add bookmark" [ref=e2351] [cursor=pointer]:
+              - img [ref=e2352]
+            - generic [ref=e2354]:
+              - heading "Mercato Mayfair" [level=3] [ref=e2355]
+              - generic [ref=e2356]:
+                - generic [ref=e2357]: Central
+                - generic [ref=e2358]: Dining
+              - paragraph [ref=e2359]: Sustainable food hall in a stunning converted church.
+              - generic [ref=e2360]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e2361]':
+                  - generic [ref=e2362]: Stay Dry
+                - generic [ref=e2363]: FREE ENTRY
+              - button "View Details" [ref=e2364] [cursor=pointer]
+          - article [ref=e2365]:
+            - button "Add bookmark" [ref=e2368] [cursor=pointer]:
+              - img [ref=e2369]
+            - generic [ref=e2371]:
+              - heading "Mercato Mayfair" [level=3] [ref=e2372]
+              - generic [ref=e2373]:
+                - generic [ref=e2374]: Central
+                - generic [ref=e2375]: Food
+                - generic [ref=e2376]: Markets
+              - paragraph [ref=e2377]: Food hall inside a church. Great for a rainy evening.
+              - generic [ref=e2378]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2379]':
+                  - generic [ref=e2380]: Stay Dry
+                - generic [ref=e2381]: FREE
+              - button "View Details" [ref=e2382] [cursor=pointer]
+          - article [ref=e2383]:
+            - button "Add bookmark" [ref=e2386] [cursor=pointer]:
+              - img [ref=e2387]
+            - generic [ref=e2389]:
+              - heading "Mercato Metropolitano" [level=3] [ref=e2390]
+              - generic [ref=e2391]:
+                - generic [ref=e2392]: South
+                - generic [ref=e2393]: Food
+                - generic [ref=e2394]: Markets
+              - paragraph [ref=e2395]: Big indoor food hall energy. Easy group option, lots of choice.
+              - generic [ref=e2396]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2397]':
+                  - generic [ref=e2398]: Stay Dry
+                - generic [ref=e2399]: FREE
+              - button "View Details" [ref=e2400] [cursor=pointer]
+          - article [ref=e2401]:
+            - button "Add bookmark" [ref=e2404] [cursor=pointer]:
+              - img [ref=e2405]
+            - generic [ref=e2407]:
+              - heading "Moco Museum London" [level=3] [ref=e2408]
+              - generic [ref=e2409]:
+                - generic [ref=e2410]: Central
+                - generic [ref=e2411]: Museums
+                - generic [ref=e2412]: Galleries
+              - paragraph [ref=e2413]: Modern and contemporary art museum with rotating exhibitions, bold installations and big-name artists. Fully indoors and easy to fit into a rainy-day itinerary.
+              - generic [ref=e2414]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2415]':
+                  - generic [ref=e2416]: Stay Dry
+                - generic [ref=e2417]: FROM £19
+              - button "View Details" [ref=e2418] [cursor=pointer]
+          - article [ref=e2419]:
+            - button "Add bookmark" [ref=e2422] [cursor=pointer]:
+              - img [ref=e2423]
+            - generic [ref=e2425]:
+              - heading "Monopoly Lifesized" [level=3] [ref=e2426]
+              - generic [ref=e2427]:
+                - generic [ref=e2428]: Central
+                - generic [ref=e2429]: Games
+                - generic [ref=e2430]: Entertainment
+              - paragraph [ref=e2431]: A real-life Monopoly board game with rooms, challenges and a proper competitive vibe. Brilliant for groups and fully indoors.
+              - generic [ref=e2432]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2433]':
+                  - generic [ref=e2434]: Stay Dry
+                - generic [ref=e2435]: FROM £38
+              - button "View Details" [ref=e2436] [cursor=pointer]
+          - article [ref=e2437]:
+            - button "Add bookmark" [ref=e2440] [cursor=pointer]:
+              - img [ref=e2441]
+            - generic [ref=e2443]:
+              - heading "Mr Fogg's Society of Exploration" [level=3] [ref=e2444]
+              - generic [ref=e2445]:
+                - generic [ref=e2446]: Central
+                - generic [ref=e2447]: Drinks
+                - generic [ref=e2448]: Entertainment
+              - paragraph [ref=e2449]: A themed cocktail bar experience with a quirky, escapist atmosphere. Indoors, cosy, and feels like a mini adventure on a wet night.
+              - generic [ref=e2450]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2451]':
+                  - generic [ref=e2452]: Stay Dry
+                - generic [ref=e2453]: BOOK A TABLE
+              - button "View Details" [ref=e2454] [cursor=pointer]
+          - article [ref=e2455]:
+            - button "Add bookmark" [ref=e2458] [cursor=pointer]:
+              - img [ref=e2459]
+            - generic [ref=e2461]:
+              - heading "Museum of Brands" [level=3] [ref=e2462]
+              - generic [ref=e2463]:
+                - generic [ref=e2464]: West
+                - generic [ref=e2465]: Museums
+              - paragraph [ref=e2466]: Examines the history of consumer culture and packaging.
+              - generic [ref=e2467]:
+                - 'img "Wetness score: 25%, Slightly Wet" [ref=e2468]':
+                  - generic [ref=e2469]: Slightly Wet
+                - generic [ref=e2470]: £9
+              - button "View Details" [ref=e2471] [cursor=pointer]
+          - article [ref=e2472]:
+            - button "Add bookmark" [ref=e2475] [cursor=pointer]:
+              - img [ref=e2476]
+            - generic [ref=e2478]:
+              - heading "Museum of Brands" [level=3] [ref=e2479]
+              - generic [ref=e2480]:
+                - generic [ref=e2481]: West
+                - generic [ref=e2482]: Museums
+                - generic [ref=e2483]: Nostalgia
+              - paragraph [ref=e2484]: A joyful time capsule of packaging, ads and everyday design through the decades.
+              - generic [ref=e2485]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2486]':
+                  - generic [ref=e2487]: Stay Dry
+                - generic [ref=e2488]: £12
+              - button "View Details" [ref=e2489] [cursor=pointer]
+          - article [ref=e2490]:
+            - button "Add bookmark" [ref=e2493] [cursor=pointer]:
+              - img [ref=e2494]
+            - generic [ref=e2496]:
+              - heading "Museum of Brands (nostalgia)" [level=3] [ref=e2497]
+              - generic [ref=e2498]:
+                - generic [ref=e2499]: West
+                - generic [ref=e2500]: Museums
+                - generic [ref=e2501]: Nostalgia
+              - paragraph [ref=e2502]: Packaging history that’s oddly emotional.
+              - generic [ref=e2503]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2504]':
+                  - generic [ref=e2505]: Stay Dry
+                - generic [ref=e2506]: £12
+              - button "View Details" [ref=e2507] [cursor=pointer]
+          - article [ref=e2508]:
+            - button "Add bookmark" [ref=e2511] [cursor=pointer]:
+              - img [ref=e2512]
+            - generic [ref=e2514]:
+              - heading "Museum of London" [level=3] [ref=e2515]
+              - generic [ref=e2516]:
+                - generic [ref=e2517]: Central
+                - generic [ref=e2518]: Museums
+                - generic [ref=e2519]: Historic
+              - paragraph [ref=e2520]: London's history from prehistoric to modern times. Barbican station 2 mins.
+              - generic [ref=e2521]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e2522]':
+                  - generic [ref=e2523]: Stay Dry
+                - generic [ref=e2524]: FREE
+              - button "View Details" [ref=e2525] [cursor=pointer]
+          - article [ref=e2526]:
+            - button "Add bookmark" [ref=e2529] [cursor=pointer]:
+              - img [ref=e2530]
+            - generic [ref=e2532]:
+              - heading "Museum of the Home" [level=3] [ref=e2533]
+              - generic [ref=e2534]:
+                - generic [ref=e2535]: East
+                - generic [ref=e2536]: Museums
+                - generic [ref=e2537]: Exhibitions
+              - paragraph [ref=e2538]: A thoughtful museum exploring home life through the ages, with brilliant rooms and displays. Indoors and a great rainy-day wander.
+              - generic [ref=e2539]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2540]':
+                  - generic [ref=e2541]: Stay Dry
+                - generic [ref=e2542]: FREE
+              - button "View Details" [ref=e2543] [cursor=pointer]
+          - article [ref=e2544]:
+            - button "Add bookmark" [ref=e2547] [cursor=pointer]:
+              - img [ref=e2548]
+            - generic [ref=e2550]:
+              - heading "Museum of the Home" [level=3] [ref=e2551]
+              - generic [ref=e2552]:
+                - generic [ref=e2553]: East
+                - generic [ref=e2554]: Museums
+                - generic [ref=e2555]: Design
+              - paragraph [ref=e2556]: Domestic life through the centuries, done beautifully.
+              - generic [ref=e2557]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2558]':
+                  - generic [ref=e2559]: Stay Dry
+                - generic [ref=e2560]: FREE
+              - button "View Details" [ref=e2561] [cursor=pointer]
+          - article [ref=e2562]:
+            - button "Add bookmark" [ref=e2565] [cursor=pointer]:
+              - img [ref=e2566]
+            - generic [ref=e2568]:
+              - heading "Namco Funscape" [level=3] [ref=e2569]
+              - generic [ref=e2570]:
+                - generic [ref=e2571]: Central
+                - generic [ref=e2572]: Gaming
+                - generic [ref=e2573]: Entertainment
+              - paragraph [ref=e2574]: Multi-level arcade and bowling at County Hall. Waterloo station 5 min walk.
+              - generic [ref=e2575]:
+                - 'img "Wetness score: 30%, Slightly Wet" [ref=e2576]':
+                  - generic [ref=e2577]: Slightly Wet
+                - generic [ref=e2578]: £25
+              - button "View Details" [ref=e2579] [cursor=pointer]
+          - article [ref=e2580]:
+            - button "Add bookmark" [ref=e2583] [cursor=pointer]:
+              - img [ref=e2584]
+            - generic [ref=e2586]:
+              - heading "National Gallery" [level=3] [ref=e2587]
+              - generic [ref=e2588]:
+                - generic [ref=e2589]: Central
+                - generic [ref=e2590]: Galleries
+              - paragraph [ref=e2591]: European paintings from 13th-19th centuries in Trafalgar Square. Direct Charing Cross access.
+              - generic [ref=e2592]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2593]':
+                  - generic [ref=e2594]: Stay Dry
+                - generic [ref=e2595]: FREE
+              - button "View Details" [ref=e2596] [cursor=pointer]
+          - article [ref=e2597]:
+            - button "Add bookmark" [ref=e2600] [cursor=pointer]:
+              - img [ref=e2601]
+            - generic [ref=e2603]:
+              - heading "National Gallery (masterpieces)" [level=3] [ref=e2604]
+              - generic [ref=e2605]:
+                - generic [ref=e2606]: Central
+                - generic [ref=e2607]: Galleries
+                - generic [ref=e2608]: Art
+              - paragraph [ref=e2609]: Paintings, warmth, and zero entry fee.
+              - generic [ref=e2610]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2611]':
+                  - generic [ref=e2612]: Stay Dry
+                - generic [ref=e2613]: FREE
+              - button "View Details" [ref=e2614] [cursor=pointer]
+          - article [ref=e2615]:
+            - button "Add bookmark" [ref=e2618] [cursor=pointer]:
+              - img [ref=e2619]
+            - generic [ref=e2621]:
+              - heading "National Portrait Gallery (new hang)" [level=3] [ref=e2622]
+              - generic [ref=e2623]:
+                - generic [ref=e2624]: Central
+                - generic [ref=e2625]: Galleries
+                - generic [ref=e2626]: Art
+              - paragraph [ref=e2627]: Easy to dip into for an hour between other plans.
+              - generic [ref=e2628]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2629]':
+                  - generic [ref=e2630]: Stay Dry
+                - generic [ref=e2631]: FREE
+              - button "View Details" [ref=e2632] [cursor=pointer]
+          - article [ref=e2633]:
+            - button "Add bookmark" [ref=e2636] [cursor=pointer]:
+              - img [ref=e2637]
+            - generic [ref=e2639]:
+              - heading "Natural History Museum" [level=3] [ref=e2640]
+              - generic [ref=e2641]:
+                - generic [ref=e2642]: West
+                - generic [ref=e2643]: Museums
+              - paragraph [ref=e2644]: Dinosaur skeletons, wildlife specimens, and the famous blue whale. South Kensington.
+              - generic [ref=e2645]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2646]':
+                  - generic [ref=e2647]: Stay Dry
+                - generic [ref=e2648]: FREE
+              - button "View Details" [ref=e2649] [cursor=pointer]
+          - article [ref=e2650]:
+            - button "Add bookmark" [ref=e2653] [cursor=pointer]:
+              - img [ref=e2654]
+            - generic [ref=e2656]:
+              - heading "O2 Shepherd's Bush Empire" [level=3] [ref=e2657]
+              - generic [ref=e2658]:
+                - generic [ref=e2659]: West
+                - generic [ref=e2660]: Music
+              - paragraph [ref=e2661]: Historic music venue. Shepherd's Bush 2 mins.
+              - generic [ref=e2662]:
+                - 'img "Wetness score: 20%, Stay Dry" [ref=e2663]':
+                  - generic [ref=e2664]: Stay Dry
+                - generic [ref=e2665]: FROM £30
+              - button "View Details" [ref=e2666] [cursor=pointer]
+          - article [ref=e2667]:
+            - button "Add bookmark" [ref=e2670] [cursor=pointer]:
+              - img [ref=e2671]
+            - generic [ref=e2673]:
+              - heading "Obby Classes" [level=3] [ref=e2674]
+              - generic [ref=e2675]:
+                - generic [ref=e2676]: Central
+                - generic [ref=e2677]: Workshops
+              - paragraph [ref=e2678]: Various creative workshops across London. Multiple locations.
+              - generic [ref=e2679]:
+                - 'img "Wetness score: 20%, Stay Dry" [ref=e2680]':
+                  - generic [ref=e2681]: Stay Dry
+                - generic [ref=e2682]: FROM £45
+              - button "View Details" [ref=e2683] [cursor=pointer]
+          - article [ref=e2684]:
+            - button "Add bookmark" [ref=e2687] [cursor=pointer]:
+              - img [ref=e2688]
+            - generic [ref=e2690]:
+              - heading "Old Operating Theatre" [level=3] [ref=e2691]
+              - generic [ref=e2692]:
+                - generic [ref=e2693]: South
+                - generic [ref=e2694]: Museums
+                - generic [ref=e2695]: Historic
+              - paragraph [ref=e2696]: Oldest surviving surgical theatre in Europe near London Bridge.
+              - generic [ref=e2697]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e2698]':
+                  - generic [ref=e2699]: Stay Dry
+                - generic [ref=e2700]: £8
+              - button "View Details" [ref=e2701] [cursor=pointer]
+          - article [ref=e2702]:
+            - button "Add bookmark" [ref=e2705] [cursor=pointer]:
+              - img [ref=e2706]
+            - generic [ref=e2708]:
+              - heading "Old Spitalfields Market (covered)" [level=3] [ref=e2709]
+              - generic [ref=e2710]:
+                - generic [ref=e2711]: East
+                - generic [ref=e2712]: Markets
+                - generic [ref=e2713]: Shopping
+              - paragraph [ref=e2714]: A big covered market with pop-ups, food and shops.
+              - generic [ref=e2715]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2716]':
+                  - generic [ref=e2717]: Stay Dry
+                - generic [ref=e2718]: FREE
+              - button "View Details" [ref=e2719] [cursor=pointer]
+          - article [ref=e2720]:
+            - button "Add bookmark" [ref=e2723] [cursor=pointer]:
+              - img [ref=e2724]
+            - generic [ref=e2726]:
+              - heading "Outernet" [level=3] [ref=e2727]
+              - generic [ref=e2728]:
+                - generic [ref=e2729]: Central
+                - generic [ref=e2730]: Exhibitions
+                - generic [ref=e2731]: Entertainment
+              - paragraph [ref=e2732]: Immersive digital art spaces. Tottenham Court Road direct.
+              - generic [ref=e2733]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e2734]':
+                  - generic [ref=e2735]: Stay Dry
+                - generic [ref=e2736]: FREE
+              - button "View Details" [ref=e2737] [cursor=pointer]
+          - article [ref=e2738]:
+            - button "Add bookmark" [ref=e2741] [cursor=pointer]:
+              - img [ref=e2742]
+            - generic [ref=e2744]:
+              - heading "Outernet London" [level=3] [ref=e2745]
+              - generic [ref=e2746]:
+                - generic [ref=e2747]: Central
+                - generic [ref=e2748]: Attractions
+                - generic [ref=e2749]: Free
+              - paragraph [ref=e2750]: Massive digital screens and pop-up exhibitions. Quick, free, weatherproof.
+              - generic [ref=e2751]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2752]':
+                  - generic [ref=e2753]: Stay Dry
+                - generic [ref=e2754]: FREE
+              - button "View Details" [ref=e2755] [cursor=pointer]
+          - article [ref=e2756]:
+            - button "Add bookmark" [ref=e2759] [cursor=pointer]:
+              - img [ref=e2760]
+            - generic [ref=e2762]:
+              - heading "Paradox Museum London" [level=3] [ref=e2763]
+              - generic [ref=e2764]:
+                - generic [ref=e2765]: Central
+                - generic [ref=e2766]: Museums
+                - generic [ref=e2767]: Immersive
+              - paragraph [ref=e2768]: Interactive illusion museum with hands-on rooms, photo moments and mind-bending exhibits. Great for couples, mates or families, and fully indoors.
+              - generic [ref=e2769]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2770]':
+                  - generic [ref=e2771]: Stay Dry
+                - generic [ref=e2772]: FROM £27
+              - button "View Details" [ref=e2773] [cursor=pointer]
+          - article [ref=e2774]:
+            - button "Add bookmark" [ref=e2777] [cursor=pointer]:
+              - img [ref=e2778]
+            - generic [ref=e2780]:
+              - heading "Petersham Nurseries" [level=3] [ref=e2781]
+              - generic [ref=e2782]:
+                - generic [ref=e2783]: Central
+                - generic [ref=e2784]: Dining
+              - paragraph [ref=e2785]: Garden-inspired dining in Covent Garden. Covent Garden 2 mins.
+              - generic [ref=e2786]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e2787]':
+                  - generic [ref=e2788]: Stay Dry
+                - generic [ref=e2789]: £70
+              - button "View Details" [ref=e2790] [cursor=pointer]
+          - article [ref=e2791]:
+            - button "Add bookmark" [ref=e2794] [cursor=pointer]:
+              - img [ref=e2795]
+            - generic [ref=e2797]:
+              - heading "Phantom of the Opera" [level=3] [ref=e2798]
+              - generic [ref=e2799]:
+                - generic [ref=e2800]: Central
+                - generic [ref=e2801]: Theatre
+                - generic [ref=e2802]: Music
+              - paragraph [ref=e2803]: Andrew Lloyd Webber's classic musical. His Majesty's Theatre, Piccadilly 3 mins.
+              - generic [ref=e2804]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e2805]':
+                  - generic [ref=e2806]: Stay Dry
+                - generic [ref=e2807]: FROM £55
+              - button "View Details" [ref=e2808] [cursor=pointer]
+          - article [ref=e2809]:
+            - button "Add bookmark" [ref=e2812] [cursor=pointer]:
+              - img [ref=e2813]
+            - generic [ref=e2815]:
+              - heading "Phoenix Cinema" [level=3] [ref=e2816]
+              - generic [ref=e2817]:
+                - generic [ref=e2818]: North
+                - generic [ref=e2819]: Cinema
+                - generic [ref=e2820]: Classic
+              - paragraph [ref=e2821]: One of London’s oldest cinemas. Cosy, charming, and properly local.
+              - generic [ref=e2822]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2823]':
+                  - generic [ref=e2824]: Stay Dry
+                - generic [ref=e2825]: £14
+              - button "View Details" [ref=e2826] [cursor=pointer]
+          - article [ref=e2827]:
+            - button "Add bookmark" [ref=e2830] [cursor=pointer]:
+              - img [ref=e2831]
+            - generic [ref=e2833]:
+              - heading "Photographers’ Gallery" [level=3] [ref=e2834]
+              - generic [ref=e2835]:
+                - generic [ref=e2836]: Central
+                - generic [ref=e2837]: Galleries
+                - generic [ref=e2838]: Photography
+              - paragraph [ref=e2839]: Strong photography exhibitions with a decent café and bookshop.
+              - generic [ref=e2840]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2841]':
+                  - generic [ref=e2842]: Stay Dry
+                - generic [ref=e2843]: £16
+              - button "View Details" [ref=e2844] [cursor=pointer]
+          - article [ref=e2845]:
+            - button "Add bookmark" [ref=e2848] [cursor=pointer]:
+              - img [ref=e2849]
+            - generic [ref=e2851]:
+              - heading "Picturehouse Central" [level=3] [ref=e2852]
+              - generic [ref=e2853]:
+                - generic [ref=e2854]: Central
+                - generic [ref=e2855]: Cinema
+                - generic [ref=e2856]: Entertainment
+              - paragraph [ref=e2857]: Central London cinema with great screens and a proper grown-up feel. Ideal rainy-day activity when you want something easy.
+              - generic [ref=e2858]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2859]':
+                  - generic [ref=e2860]: Stay Dry
+                - generic [ref=e2861]: FROM £12
+              - button "View Details" [ref=e2862] [cursor=pointer]
+          - article [ref=e2863]:
+            - button "Add bookmark" [ref=e2866] [cursor=pointer]:
+              - img [ref=e2867]
+            - generic [ref=e2869]:
+              - heading "Platform Arcade" [level=3] [ref=e2870]
+              - generic [ref=e2871]:
+                - generic [ref=e2872]: East
+                - generic [ref=e2873]: Games
+                - generic [ref=e2874]: Arcade
+              - paragraph [ref=e2875]: Retro gaming with a beer. Low-effort joy, maximum indoors.
+              - generic [ref=e2876]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2877]':
+                  - generic [ref=e2878]: Stay Dry
+                - generic [ref=e2879]: £10
+              - button "View Details" [ref=e2880] [cursor=pointer]
+          - article [ref=e2881]:
+            - button "Add bookmark" [ref=e2884] [cursor=pointer]:
+              - img [ref=e2885]
+            - generic [ref=e2887]:
+              - heading "Postal Museum" [level=3] [ref=e2888]
+              - generic [ref=e2889]:
+                - generic [ref=e2890]: Central
+                - generic [ref=e2891]: Museums
+                - generic [ref=e2892]: History
+              - paragraph [ref=e2893]: The story of post and people, with hands-on displays that keep kids moving.
+              - generic [ref=e2894]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2895]':
+                  - generic [ref=e2896]: Stay Dry
+                - generic [ref=e2897]: £17
+              - button "View Details" [ref=e2898] [cursor=pointer]
+          - article [ref=e2899]:
+            - button "Add bookmark" [ref=e2902] [cursor=pointer]:
+              - img [ref=e2903]
+            - generic [ref=e2905]:
+              - heading "Postal Museum (Mail Rail optional)" [level=3] [ref=e2906]
+              - generic [ref=e2907]:
+                - generic [ref=e2908]: Central
+                - generic [ref=e2909]: Museums
+                - generic [ref=e2910]: History
+              - paragraph [ref=e2911]: Add Mail Rail if you want the underground train ride.
+              - generic [ref=e2912]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2913]':
+                  - generic [ref=e2914]: Stay Dry
+                - generic [ref=e2915]: £17
+              - button "View Details" [ref=e2916] [cursor=pointer]
+          - article [ref=e2917]:
+            - button "Add bookmark" [ref=e2920] [cursor=pointer]:
+              - img [ref=e2921]
+            - generic [ref=e2923]:
+              - heading "Prince Charles Cinema" [level=3] [ref=e2924]
+              - generic [ref=e2925]:
+                - generic [ref=e2926]: Central
+                - generic [ref=e2927]: Cinema
+              - paragraph [ref=e2928]: Cult classics and sing-alongs. Leicester Square 2 mins.
+              - generic [ref=e2929]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e2930]':
+                  - generic [ref=e2931]: Stay Dry
+                - generic [ref=e2932]: £12
+              - button "View Details" [ref=e2933] [cursor=pointer]
+          - article [ref=e2934]:
+            - button "Add bookmark" [ref=e2937] [cursor=pointer]:
+              - img [ref=e2938]
+            - generic [ref=e2940]:
+              - heading "Prince Charles Cinema" [level=3] [ref=e2941]
+              - generic [ref=e2942]:
+                - generic [ref=e2943]: Central
+                - generic [ref=e2944]: Cinema
+                - generic [ref=e2945]: Late
+              - paragraph [ref=e2946]: Cult screenings, singalongs, classics and weird gems.
+              - generic [ref=e2947]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2948]':
+                  - generic [ref=e2949]: Stay Dry
+                - generic [ref=e2950]: £10
+              - button "View Details" [ref=e2951] [cursor=pointer]
+          - article [ref=e2952]:
+            - button "Add bookmark" [ref=e2955] [cursor=pointer]:
+              - img [ref=e2956]
+            - generic [ref=e2958]:
+              - heading "Psycle" [level=3] [ref=e2959]
+              - generic [ref=e2960]:
+                - generic [ref=e2961]: Central
+                - generic [ref=e2962]: Wellness
+                - generic [ref=e2963]: Sports
+              - paragraph [ref=e2964]: Premium cycling studio. Multiple locations.
+              - generic [ref=e2965]:
+                - 'img "Wetness score: 20%, Stay Dry" [ref=e2966]':
+                  - generic [ref=e2967]: Stay Dry
+                - generic [ref=e2968]: £26
+              - button "View Details" [ref=e2969] [cursor=pointer]
+          - article [ref=e2970]:
+            - button "Add bookmark" [ref=e2973] [cursor=pointer]:
+              - img [ref=e2974]
+            - generic [ref=e2976]:
+              - heading "Queen's House" [level=3] [ref=e2977]
+              - generic [ref=e2978]:
+                - generic [ref=e2979]: East
+                - generic [ref=e2980]: Museums
+                - generic [ref=e2981]: Historic
+              - paragraph [ref=e2982]: Elegant historic house in Greenwich with art and architecture highlights. Mostly indoors, great for a calmer rainy afternoon.
+              - generic [ref=e2983]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e2984]':
+                  - generic [ref=e2985]: Stay Dry
+                - generic [ref=e2986]: FREE
+              - button "View Details" [ref=e2987] [cursor=pointer]
+          - article [ref=e2988]:
+            - button "Add bookmark" [ref=e2991] [cursor=pointer]:
+              - img [ref=e2992]
+            - generic [ref=e2994]:
+              - heading "Queer Britain Museum" [level=3] [ref=e2995]
+              - generic [ref=e2996]:
+                - generic [ref=e2997]: Central
+                - generic [ref=e2998]: Museums
+                - generic [ref=e2999]: Exhibitions
+              - paragraph [ref=e3000]: The UK’s first national LGBTQ+ museum with rotating exhibitions and stories of queer British history. Fully indoors and thoughtful.
+              - generic [ref=e3001]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3002]':
+                  - generic [ref=e3003]: Stay Dry
+                - generic [ref=e3004]: FREE
+              - button "View Details" [ref=e3005] [cursor=pointer]
+          - article [ref=e3006]:
+            - button "Add bookmark" [ref=e3009] [cursor=pointer]:
+              - img [ref=e3010]
+            - generic [ref=e3012]:
+              - heading "Queer Britain Museum" [level=3] [ref=e3013]
+              - generic [ref=e3014]:
+                - generic [ref=e3015]: Central
+                - generic [ref=e3016]: Museum
+                - generic [ref=e3017]: Exhibition
+              - paragraph [ref=e3018]: UK’s first national LGBTQ+ museum, entirely indoors and donation-based.
+              - generic [ref=e3019]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3020]':
+                  - generic [ref=e3021]: Stay Dry
+                - generic [ref=e3022]: Pay What You Can to £10
+              - button "View Details" [ref=e3023] [cursor=pointer]
+          - article [ref=e3024]:
+            - button "Add bookmark" [ref=e3027] [cursor=pointer]:
+              - img [ref=e3028]
+            - generic [ref=e3030]:
+              - heading "Ronnie Scott's Jazz Club" [level=3] [ref=e3031]
+              - generic [ref=e3032]:
+                - generic [ref=e3033]: Central
+                - generic [ref=e3034]: Music
+                - generic [ref=e3035]: Nightlife
+              - paragraph [ref=e3036]: World-famous jazz venue in Soho. Leicester Square 4 min walk.
+              - generic [ref=e3037]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e3038]':
+                  - generic [ref=e3039]: Stay Dry
+                - generic [ref=e3040]: £45
+              - button "View Details" [ref=e3041] [cursor=pointer]
+          - article [ref=e3042]:
+            - button "Add bookmark" [ref=e3045] [cursor=pointer]:
+              - img [ref=e3046]
+            - generic [ref=e3048]:
+              - heading "Royal Academy of Arts" [level=3] [ref=e3049]
+              - generic [ref=e3050]:
+                - generic [ref=e3051]: Central
+                - generic [ref=e3052]: Galleries
+                - generic [ref=e3053]: Art
+              - paragraph [ref=e3054]: Major exhibitions and a beautiful courtyard.
+              - generic [ref=e3055]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3056]':
+                  - generic [ref=e3057]: Stay Dry
+                - generic [ref=e3058]: £20
+              - button "View Details" [ref=e3059] [cursor=pointer]
+          - article [ref=e3060]:
+            - button "Add bookmark" [ref=e3063] [cursor=pointer]:
+              - img [ref=e3064]
+            - generic [ref=e3066]:
+              - heading "Royal Academy of Arts (winter exhibition)" [level=3] [ref=e3067]
+              - generic [ref=e3068]:
+                - generic [ref=e3069]: Central
+                - generic [ref=e3070]: Galleries
+                - generic [ref=e3071]: Art
+              - paragraph [ref=e3072]: Big-ticket shows and a refined, central London vibe.
+              - generic [ref=e3073]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3074]':
+                  - generic [ref=e3075]: Stay Dry
+                - generic [ref=e3076]: £20
+              - button "View Details" [ref=e3077] [cursor=pointer]
+          - article [ref=e3078]:
+            - button "Add bookmark" [ref=e3081] [cursor=pointer]:
+              - img [ref=e3082]
+            - generic [ref=e3084]:
+              - heading "Royal Academy of Music Museum" [level=3] [ref=e3085]
+              - generic [ref=e3086]:
+                - generic [ref=e3087]: Central
+                - generic [ref=e3088]: Museums
+                - generic [ref=e3089]: Music
+              - paragraph [ref=e3090]: Small museum with instruments, manuscripts and music history. A lovely, low-key indoor find near Oxford Circus.
+              - generic [ref=e3091]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3092]':
+                  - generic [ref=e3093]: Stay Dry
+                - generic [ref=e3094]: FREE
+              - button "View Details" [ref=e3095] [cursor=pointer]
+          - article [ref=e3096]:
+            - button "Add bookmark" [ref=e3099] [cursor=pointer]:
+              - img [ref=e3100]
+            - generic [ref=e3102]:
+              - heading "Royal Albert Hall" [level=3] [ref=e3103]
+              - generic [ref=e3104]:
+                - generic [ref=e3105]: West
+                - generic [ref=e3106]: Music
+              - paragraph [ref=e3107]: Iconic concert hall. South Kensington 10 mins.
+              - generic [ref=e3108]:
+                - 'img "Wetness score: 60%, Get Wet" [ref=e3109]':
+                  - generic [ref=e3110]: Get Wet
+                - generic [ref=e3111]: FROM £35
+              - button "View Details" [ref=e3112] [cursor=pointer]
+          - article [ref=e3113]:
+            - button "Add bookmark" [ref=e3116] [cursor=pointer]:
+              - img [ref=e3117]
+            - generic [ref=e3119]:
+              - heading "Royal Albert Hall Tour" [level=3] [ref=e3120]
+              - generic [ref=e3121]:
+                - generic [ref=e3122]: West
+                - generic [ref=e3123]: Music
+                - generic [ref=e3124]: Tours
+              - paragraph [ref=e3125]: Behind-the-scenes guided tour of the Royal Albert Hall. A classic indoor activity with proper London history and wow-factor spaces.
+              - generic [ref=e3126]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3127]':
+                  - generic [ref=e3128]: Stay Dry
+                - generic [ref=e3129]: FROM £18
+              - button "View Details" [ref=e3130] [cursor=pointer]
+          - article [ref=e3131]:
+            - button "Add bookmark" [ref=e3134] [cursor=pointer]:
+              - img [ref=e3135]
+            - generic [ref=e3137]:
+              - heading "Royal Festival Hall" [level=3] [ref=e3138]
+              - generic [ref=e3139]:
+                - generic [ref=e3140]: South
+                - generic [ref=e3141]: Arts
+                - generic [ref=e3142]: Free
+              - paragraph [ref=e3143]: A surprisingly good indoor roam with bars, seating and river views.
+              - generic [ref=e3144]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3145]':
+                  - generic [ref=e3146]: Stay Dry
+                - generic [ref=e3147]: FREE
+              - button "View Details" [ref=e3148] [cursor=pointer]
+          - article [ref=e3149]:
+            - button "Add bookmark" [ref=e3152] [cursor=pointer]:
+              - img [ref=e3153]
+            - generic [ref=e3155]:
+              - heading "Royal Opera House Tour" [level=3] [ref=e3156]
+              - generic [ref=e3157]:
+                - generic [ref=e3158]: Central
+                - generic [ref=e3159]: Music
+                - generic [ref=e3160]: Tours
+              - paragraph [ref=e3161]: Explore backstage areas and learn how productions come to life. A premium-feeling indoor activity in Covent Garden.
+              - generic [ref=e3162]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3163]':
+                  - generic [ref=e3164]: Stay Dry
+                - generic [ref=e3165]: FROM £17
+              - button "View Details" [ref=e3166] [cursor=pointer]
+          - article [ref=e3167]:
+            - button "Add bookmark" [ref=e3170] [cursor=pointer]:
+              - img [ref=e3171]
+            - generic [ref=e3173]:
+              - heading "Saatchi Gallery (big rooms)" [level=3] [ref=e3174]
+              - generic [ref=e3175]:
+                - generic [ref=e3176]: West
+                - generic [ref=e3177]: Galleries
+                - generic [ref=e3178]: Art
+              - paragraph [ref=e3179]: Huge rooms for contemporary work and plenty of wandering.
+              - generic [ref=e3180]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3181]':
+                  - generic [ref=e3182]: Stay Dry
+                - generic [ref=e3183]: FREE
+              - button "View Details" [ref=e3184] [cursor=pointer]
+          - article [ref=e3185]:
+            - button "Add bookmark" [ref=e3188] [cursor=pointer]:
+              - img [ref=e3189]
+            - generic [ref=e3191]:
+              - heading "Science Gallery London" [level=3] [ref=e3192]
+              - generic [ref=e3193]:
+                - generic [ref=e3194]: Central
+                - generic [ref=e3195]: Exhibitions
+                - generic [ref=e3196]: Education
+              - paragraph [ref=e3197]: Free rotating exhibitions mixing science, tech and art. A smart rainy-day stop near London Bridge.
+              - generic [ref=e3198]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3199]':
+                  - generic [ref=e3200]: Stay Dry
+                - generic [ref=e3201]: FREE
+              - button "View Details" [ref=e3202] [cursor=pointer]
+          - article [ref=e3203]:
+            - button "Add bookmark" [ref=e3206] [cursor=pointer]:
+              - img [ref=e3207]
+            - generic [ref=e3209]:
+              - heading "Science Museum" [level=3] [ref=e3210]
+              - generic [ref=e3211]:
+                - generic [ref=e3212]: West
+                - generic [ref=e3213]: Museums
+                - generic [ref=e3214]: Exhibitions
+              - paragraph [ref=e3215]: Interactive exhibits showcasing scientific innovations. South Kensington station adjacent.
+              - generic [ref=e3216]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3217]':
+                  - generic [ref=e3218]: Stay Dry
+                - generic [ref=e3219]: FREE
+              - button "View Details" [ref=e3220] [cursor=pointer]
+          - article [ref=e3221]:
+            - button "Add bookmark" [ref=e3224] [cursor=pointer]:
+              - img [ref=e3225]
+            - generic [ref=e3227]:
+              - heading "SEA LIFE London" [level=3] [ref=e3228]
+              - generic [ref=e3229]:
+                - generic [ref=e3230]: South
+                - generic [ref=e3231]: Exhibitions
+              - paragraph [ref=e3232]: Underwater aquarium experience. Westminster 5 mins.
+              - generic [ref=e3233]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e3234]':
+                  - generic [ref=e3235]: Stay Dry
+                - generic [ref=e3236]: £32
+              - button "View Details" [ref=e3237] [cursor=pointer]
+          - article [ref=e3238]:
+            - button "Add bookmark" [ref=e3241] [cursor=pointer]:
+              - img [ref=e3242]
+            - generic [ref=e3244]:
+              - heading "SEA LIFE London" [level=3] [ref=e3245]
+              - generic [ref=e3246]:
+                - generic [ref=e3247]: South
+                - generic [ref=e3248]: Attractions
+                - generic [ref=e3249]: Family
+              - paragraph [ref=e3250]: Tunnels, sharks and enough spectacle to keep everyone entertained.
+              - generic [ref=e3251]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3252]':
+                  - generic [ref=e3253]: Stay Dry
+                - generic [ref=e3254]: £30
+              - button "View Details" [ref=e3255] [cursor=pointer]
+          - article [ref=e3256]:
+            - button "Add bookmark" [ref=e3259] [cursor=pointer]:
+              - img [ref=e3260]
+            - generic [ref=e3262]:
+              - heading "Serpentine Galleries (free show)" [level=3] [ref=e3263]
+              - generic [ref=e3264]:
+                - generic [ref=e3265]: Central
+                - generic [ref=e3266]: Galleries
+                - generic [ref=e3267]: Art
+              - paragraph [ref=e3268]: Free exhibitions with the bonus of Hyde Park nearby.
+              - generic [ref=e3269]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3270]':
+                  - generic [ref=e3271]: Stay Dry
+                - generic [ref=e3272]: FREE
+              - button "View Details" [ref=e3273] [cursor=pointer]
+          - article [ref=e3274]:
+            - button "Add bookmark" [ref=e3277] [cursor=pointer]:
+              - img [ref=e3278]
+            - generic [ref=e3280]:
+              - heading "Shakespeare's Globe Exhibition" [level=3] [ref=e3281]
+              - generic [ref=e3282]:
+                - generic [ref=e3283]: Central
+                - generic [ref=e3284]: Exhibitions
+                - generic [ref=e3285]: Theatre
+              - paragraph [ref=e3286]: Visit the indoor exhibition to explore Shakespeare’s world with artefacts, stories and theatre history. Great add-on for a rainy South Bank day.
+              - generic [ref=e3287]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3288]':
+                  - generic [ref=e3289]: Stay Dry
+                - generic [ref=e3290]: FROM £25
+              - button "View Details" [ref=e3291] [cursor=pointer]
+          - article [ref=e3292]:
+            - button "Add bookmark" [ref=e3295] [cursor=pointer]:
+              - img [ref=e3296]
+            - generic [ref=e3298]:
+              - heading "Sir John Soane's Museum" [level=3] [ref=e3299]
+              - generic [ref=e3300]:
+                - generic [ref=e3301]: Central
+                - generic [ref=e3302]: Museums
+              - paragraph [ref=e3303]: Eccentric home of the Neo-classical architect. Very narrow.
+              - generic [ref=e3304]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e3305]':
+                  - generic [ref=e3306]: Stay Dry
+                - generic [ref=e3307]: FREE
+              - button "View Details" [ref=e3308] [cursor=pointer]
+          - article [ref=e3309]:
+            - button "Add bookmark" [ref=e3312] [cursor=pointer]:
+              - img [ref=e3313]
+            - generic [ref=e3315]:
+              - heading "Sir John Soane’s Museum" [level=3] [ref=e3316]
+              - generic [ref=e3317]:
+                - generic [ref=e3318]: Central
+                - generic [ref=e3319]: Museums
+                - generic [ref=e3320]: History
+              - paragraph [ref=e3321]: A wonderfully odd house museum packed with paintings, fragments, and genius clutter.
+              - generic [ref=e3322]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3323]':
+                  - generic [ref=e3324]: Stay Dry
+                - generic [ref=e3325]: FREE
+              - button "View Details" [ref=e3326] [cursor=pointer]
+          - article [ref=e3327]:
+            - button "Add bookmark" [ref=e3330] [cursor=pointer]:
+              - img [ref=e3331]
+            - generic [ref=e3333]:
+              - heading "Sir John Soane’s Museum (Late opening)" [level=3] [ref=e3334]
+              - generic [ref=e3335]:
+                - generic [ref=e3336]: Central
+                - generic [ref=e3337]: Museums
+                - generic [ref=e3338]: History
+              - paragraph [ref=e3339]: Evening sessions feel extra atmospheric after dark.
+              - generic [ref=e3340]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3341]':
+                  - generic [ref=e3342]: Stay Dry
+                - generic [ref=e3343]: FREE
+              - button "View Details" [ref=e3344] [cursor=pointer]
+          - article [ref=e3345]:
+            - button "Add bookmark" [ref=e3348] [cursor=pointer]:
+              - img [ref=e3349]
+            - generic [ref=e3351]:
+              - heading "Sixes Cricket" [level=3] [ref=e3352]
+              - generic [ref=e3353]:
+                - generic [ref=e3355]: Games
+                - generic [ref=e3356]: Cricket
+              - paragraph [ref=e3357]: Batting nets with food and drinks. Fun even if you’re terrible.
+              - generic [ref=e3358]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3359]':
+                  - generic [ref=e3360]: Stay Dry
+                - generic [ref=e3361]: £20
+              - button "View Details" [ref=e3362] [cursor=pointer]
+          - article [ref=e3363]:
+            - button "Add bookmark" [ref=e3366] [cursor=pointer]:
+              - img [ref=e3367]
+            - generic [ref=e3369]:
+              - heading "Sketch Afternoon Tea" [level=3] [ref=e3370]
+              - generic [ref=e3371]:
+                - generic [ref=e3372]: Central
+                - generic [ref=e3373]: Dining
+              - paragraph [ref=e3374]: Instagram-famous pink tearoom. Oxford Circus station 4 min walk.
+              - generic [ref=e3375]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e3376]':
+                  - generic [ref=e3377]: Stay Dry
+                - generic [ref=e3378]: £75
+              - button "View Details" [ref=e3379] [cursor=pointer]
+          - article [ref=e3380]:
+            - button "Add bookmark" [ref=e3383] [cursor=pointer]:
+              - img [ref=e3384]
+            - generic [ref=e3386]:
+              - heading "Sketch Gallery" [level=3] [ref=e3387]
+              - generic [ref=e3388]:
+                - generic [ref=e3389]: Central
+                - generic [ref=e3390]: Dining
+              - paragraph [ref=e3391]: Art-filled dining experience. Oxford Circus 5 mins.
+              - generic [ref=e3392]:
+                - 'img "Wetness score: 35%, Slightly Wet" [ref=e3393]':
+                  - generic [ref=e3394]: Slightly Wet
+                - generic [ref=e3395]: £80
+              - button "View Details" [ref=e3396] [cursor=pointer]
+          - article [ref=e3397]:
+            - button "Add bookmark" [ref=e3400] [cursor=pointer]:
+              - img [ref=e3401]
+            - generic [ref=e3403]:
+              - heading "Sky Garden" [level=3] [ref=e3404]
+              - generic [ref=e3405]:
+                - generic [ref=e3406]: Central
+                - generic [ref=e3407]: Dining
+                - generic [ref=e3408]: Entertainment
+              - paragraph [ref=e3409]: London's highest public garden with panoramic views. Monument station 3 mins.
+              - generic [ref=e3410]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e3411]':
+                  - generic [ref=e3412]: Stay Dry
+                - generic [ref=e3413]: FREE
+              - button "View Details" [ref=e3414] [cursor=pointer]
+          - article [ref=e3415]:
+            - button "Add bookmark" [ref=e3418] [cursor=pointer]:
+              - img [ref=e3419]
+            - generic [ref=e3421]:
+              - heading "Sloane Square Theatre" [level=3] [ref=e3422]
+              - generic [ref=e3423]:
+                - generic [ref=e3424]: West
+                - generic [ref=e3425]: Theatre
+              - paragraph [ref=e3426]: Contemporary plays in the heart of Chelsea. Direct tube access.
+              - generic [ref=e3427]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e3428]':
+                  - generic [ref=e3429]: Stay Dry
+                - generic [ref=e3430]: FROM £30
+              - button "View Details" [ref=e3431] [cursor=pointer]
+          - article [ref=e3432]:
+            - button "Add bookmark" [ref=e3435] [cursor=pointer]:
+              - img [ref=e3436]
+            - generic [ref=e3438]:
+              - heading "Soho Theatre" [level=3] [ref=e3439]
+              - generic [ref=e3440]:
+                - generic [ref=e3441]: Central
+                - generic [ref=e3442]: Comedy
+                - generic [ref=e3443]: Theatre
+              - paragraph [ref=e3444]: Cutting-edge comedy and theatre. Tottenham Court Road 3 mins.
+              - generic [ref=e3445]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e3446]':
+                  - generic [ref=e3447]: Stay Dry
+                - generic [ref=e3448]: £18
+              - button "View Details" [ref=e3449] [cursor=pointer]
+          - article [ref=e3450]:
+            - button "Add bookmark" [ref=e3453] [cursor=pointer]:
+              - img [ref=e3454]
+            - generic [ref=e3456]:
+              - heading "Somerset House" [level=3] [ref=e3457]
+              - generic [ref=e3458]:
+                - generic [ref=e3459]: Central
+                - generic [ref=e3460]: Galleries
+                - generic [ref=e3461]: Exhibitions
+              - paragraph [ref=e3462]: Neoclassical building with galleries and courtyard. Temple 3 mins.
+              - generic [ref=e3463]:
+                - 'img "Wetness score: 25%, Slightly Wet" [ref=e3464]':
+                  - generic [ref=e3465]: Slightly Wet
+                - generic [ref=e3466]: Free Entry
+              - button "View Details" [ref=e3467] [cursor=pointer]
+          - article [ref=e3468]:
+            - button "Add bookmark" [ref=e3471] [cursor=pointer]:
+              - img [ref=e3472]
+            - generic [ref=e3474]:
+              - heading "Somerset House" [level=3] [ref=e3475]
+              - generic [ref=e3476]:
+                - generic [ref=e3477]: Central
+                - generic [ref=e3478]: Arts
+                - generic [ref=e3479]: Exhibitions
+              - paragraph [ref=e3480]: Major exhibitions in a gorgeous building. Even the corridors feel fancy.
+              - generic [ref=e3481]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3482]':
+                  - generic [ref=e3483]: Stay Dry
+                - generic [ref=e3484]: £15
+              - button "View Details" [ref=e3485] [cursor=pointer]
+          - article [ref=e3486]:
+            - button "Add bookmark" [ref=e3489] [cursor=pointer]:
+              - img [ref=e3490]
+            - generic [ref=e3492]:
+              - heading "Somerset House (seasonal shows)" [level=3] [ref=e3493]
+              - generic [ref=e3494]:
+                - generic [ref=e3495]: Central
+                - generic [ref=e3496]: Arts
+                - generic [ref=e3497]: Exhibitions
+              - paragraph [ref=e3498]: Rotating exhibitions that always feel a bit special.
+              - generic [ref=e3499]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3500]':
+                  - generic [ref=e3501]: Stay Dry
+                - generic [ref=e3502]: £15
+              - button "View Details" [ref=e3503] [cursor=pointer]
+          - article [ref=e3504]:
+            - button "Add bookmark" [ref=e3507] [cursor=pointer]:
+              - img [ref=e3508]
+            - generic [ref=e3510]:
+              - heading "Southbank Centre" [level=3] [ref=e3511]
+              - generic [ref=e3512]:
+                - generic [ref=e3513]: South
+                - generic [ref=e3514]: Arts
+                - generic [ref=e3515]: Free
+              - paragraph [ref=e3516]: Free rotating exhibitions and plenty of warm indoor corners.
+              - generic [ref=e3517]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3518]':
+                  - generic [ref=e3519]: Stay Dry
+                - generic [ref=e3520]: FREE
+              - button "View Details" [ref=e3521] [cursor=pointer]
+          - article [ref=e3522]:
+            - button "Add bookmark" [ref=e3525] [cursor=pointer]:
+              - img [ref=e3526]
+            - generic [ref=e3528]:
+              - heading "St Paul's Cathedral" [level=3] [ref=e3529]
+              - generic [ref=e3530]:
+                - generic [ref=e3531]: Central
+                - generic [ref=e3532]: Historic
+              - paragraph [ref=e3533]: Iconic baroque cathedral. St Paul's direct.
+              - generic [ref=e3534]:
+                - 'img "Wetness score: 20%, Stay Dry" [ref=e3535]':
+                  - generic [ref=e3536]: Stay Dry
+                - generic [ref=e3537]: £23
+              - button "View Details" [ref=e3538] [cursor=pointer]
+          - article [ref=e3539]:
+            - button "Add bookmark" [ref=e3542] [cursor=pointer]:
+              - img [ref=e3543]
+            - generic [ref=e3545]:
+              - heading "Swingers City" [level=3] [ref=e3546]
+              - generic [ref=e3547]:
+                - generic [ref=e3548]: Central
+                - generic [ref=e3549]: Games
+                - generic [ref=e3550]: Food
+              - paragraph [ref=e3551]: Indoor crazy golf with street-food and cocktails in a slick setting. Great for date nights or group plans when it’s raining.
+              - generic [ref=e3552]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3553]':
+                  - generic [ref=e3554]: Stay Dry
+                - generic [ref=e3555]: FROM £15
+              - button "View Details" [ref=e3556] [cursor=pointer]
+          - article [ref=e3557]:
+            - button "Add bookmark" [ref=e3560] [cursor=pointer]:
+              - img [ref=e3561]
+            - generic [ref=e3563]:
+              - heading "Swingers Crazy Golf" [level=3] [ref=e3564]
+              - generic [ref=e3565]:
+                - generic [ref=e3566]: Central
+                - generic [ref=e3567]: Games
+                - generic [ref=e3568]: Golf
+              - paragraph [ref=e3569]: Crazy golf with cocktails. Surprisingly good for date night or groups.
+              - generic [ref=e3570]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3571]':
+                  - generic [ref=e3572]: Stay Dry
+                - generic [ref=e3573]: £15
+              - button "View Details" [ref=e3574] [cursor=pointer]
+          - article [ref=e3575]:
+            - button "Add bookmark" [ref=e3578] [cursor=pointer]:
+              - img [ref=e3579]
+            - generic [ref=e3581]:
+              - heading "Swingers West End" [level=3] [ref=e3582]
+              - generic [ref=e3583]:
+                - generic [ref=e3584]: Central
+                - generic [ref=e3585]: Gaming
+                - generic [ref=e3586]: Dining
+              - paragraph [ref=e3587]: Crazy golf with street food. Oxford Circus 4 mins.
+              - generic [ref=e3588]:
+                - 'img "Wetness score: 20%, Stay Dry" [ref=e3589]':
+                  - generic [ref=e3590]: Stay Dry
+                - generic [ref=e3591]: £25
+              - button "View Details" [ref=e3592] [cursor=pointer]
+          - article [ref=e3593]:
+            - button "Add bookmark" [ref=e3596] [cursor=pointer]:
+              - img [ref=e3597]
+            - generic [ref=e3599]:
+              - heading "Tate Britain" [level=3] [ref=e3600]
+              - generic [ref=e3601]:
+                - generic [ref=e3602]: Central
+                - generic [ref=e3603]: Galleries
+              - paragraph [ref=e3604]: The home of British art from 1500 to today. 10 min walk.
+              - generic [ref=e3605]:
+                - 'img "Wetness score: 30%, Slightly Wet" [ref=e3606]':
+                  - generic [ref=e3607]: Slightly Wet
+                - generic [ref=e3608]: FREE
+              - button "View Details" [ref=e3609] [cursor=pointer]
+          - article [ref=e3610]:
+            - button "Add bookmark" [ref=e3613] [cursor=pointer]:
+              - img [ref=e3614]
+            - generic [ref=e3616]:
+              - heading "Tate Modern" [level=3] [ref=e3617]
+              - generic [ref=e3618]:
+                - generic [ref=e3619]: South
+                - generic [ref=e3620]: Galleries
+              - paragraph [ref=e3621]: Britain's national gallery of modern and contemporary art. 5 min walk from Southwark station.
+              - generic [ref=e3622]:
+                - 'img "Wetness score: 30%, Slightly Wet" [ref=e3623]':
+                  - generic [ref=e3624]: Slightly Wet
+                - generic [ref=e3625]: FREE
+              - button "View Details" [ref=e3626] [cursor=pointer]
+          - article [ref=e3627]:
+            - button "Add bookmark" [ref=e3630] [cursor=pointer]:
+              - img [ref=e3631]
+            - generic [ref=e3633]:
+              - heading "Tate Modern (late)" [level=3] [ref=e3634]
+              - generic [ref=e3635]:
+                - generic [ref=e3636]: Central
+                - generic [ref=e3637]: Galleries
+                - generic [ref=e3638]: Art
+              - paragraph [ref=e3639]: Evening visits can be calmer, with great views from inside.
+              - generic [ref=e3640]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3641]':
+                  - generic [ref=e3642]: Stay Dry
+                - generic [ref=e3643]: FREE
+              - button "View Details" [ref=e3644] [cursor=pointer]
+          - article [ref=e3645]:
+            - button "Add bookmark" [ref=e3648] [cursor=pointer]:
+              - img [ref=e3649]
+            - generic [ref=e3651]:
+              - heading "The Box Soho" [level=3] [ref=e3652]
+              - generic [ref=e3653]:
+                - generic [ref=e3654]: Central
+                - generic [ref=e3655]: Nightlife
+              - paragraph [ref=e3656]: Exclusive nightclub with performances. Leicester Square 5 mins.
+              - generic [ref=e3657]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e3658]':
+                  - generic [ref=e3659]: Stay Dry
+                - generic [ref=e3660]: £35
+              - button "View Details" [ref=e3661] [cursor=pointer]
+          - article [ref=e3662]:
+            - button "Add bookmark" [ref=e3665] [cursor=pointer]:
+              - img [ref=e3666]
+            - generic [ref=e3668]:
+              - heading "The Cheese Shed" [level=3] [ref=e3669]
+              - generic [ref=e3670]:
+                - generic [ref=e3671]: North
+                - generic [ref=e3672]: Workshops
+                - generic [ref=e3673]: Dining
+              - paragraph [ref=e3674]: Cheese-making and tasting workshops. Camden 5 mins.
+              - generic [ref=e3675]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e3676]':
+                  - generic [ref=e3677]: Stay Dry
+                - generic [ref=e3678]: £55
+              - button "View Details" [ref=e3679] [cursor=pointer]
+          - article [ref=e3680]:
+            - button "Add bookmark" [ref=e3683] [cursor=pointer]:
+              - img [ref=e3684]
+            - generic [ref=e3686]:
+              - heading "The Cinema at Selfridges" [level=3] [ref=e3687]
+              - generic [ref=e3688]:
+                - generic [ref=e3689]: Central
+                - generic [ref=e3690]: Cinema
+              - paragraph [ref=e3691]: Boutique cinema experience inside the department store.
+              - generic [ref=e3692]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3693]':
+                  - generic [ref=e3694]: Stay Dry
+                - generic [ref=e3695]: £20
+              - button "View Details" [ref=e3696] [cursor=pointer]
+          - article [ref=e3697]:
+            - button "Add bookmark" [ref=e3700] [cursor=pointer]:
+              - img [ref=e3701]
+            - generic [ref=e3703]:
+              - heading "The Cinema Museum" [level=3] [ref=e3704]
+              - generic [ref=e3705]:
+                - generic [ref=e3706]: South
+                - generic [ref=e3707]: Museums
+                - generic [ref=e3708]: Film
+              - paragraph [ref=e3709]: A lovingly curated museum of cinema history with guided tours and rare memorabilia. A proper indoor hidden gem.
+              - generic [ref=e3710]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3711]':
+                  - generic [ref=e3712]: Stay Dry
+                - generic [ref=e3713]: FROM £10
+              - button "View Details" [ref=e3714] [cursor=pointer]
+          - article [ref=e3715]:
+            - button "Add bookmark" [ref=e3718] [cursor=pointer]:
+              - img [ref=e3719]
+            - generic [ref=e3721]:
+              - heading "The Comedy Store" [level=3] [ref=e3722]
+              - generic [ref=e3723]:
+                - generic [ref=e3724]: Central
+                - generic [ref=e3725]: Comedy
+                - generic [ref=e3726]: Nightlife
+              - paragraph [ref=e3727]: London's most iconic comedy club. Piccadilly Circus station 4 min walk.
+              - generic [ref=e3728]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e3729]':
+                  - generic [ref=e3730]: Stay Dry
+                - generic [ref=e3731]: £22
+              - button "View Details" [ref=e3732] [cursor=pointer]
+          - article [ref=e3733]:
+            - button "Add bookmark" [ref=e3736] [cursor=pointer]:
+              - img [ref=e3737]
+            - generic [ref=e3739]:
+              - heading "The Courtauld Gallery" [level=3] [ref=e3740]
+              - generic [ref=e3741]:
+                - generic [ref=e3742]: Central
+                - generic [ref=e3743]: Galleries
+                - generic [ref=e3744]: Art
+              - paragraph [ref=e3745]: A compact but world-class gallery with Impressionist highlights in a beautiful indoor setting at Somerset House. Great value and very rain-safe.
+              - generic [ref=e3746]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3747]':
+                  - generic [ref=e3748]: Stay Dry
+                - generic [ref=e3749]: FROM £10
+              - button "View Details" [ref=e3750] [cursor=pointer]
+          - article [ref=e3751]:
+            - button "Add bookmark" [ref=e3754] [cursor=pointer]:
+              - img [ref=e3755]
+            - generic [ref=e3757]:
+              - heading "The Courtauld Gallery" [level=3] [ref=e3758]
+              - generic [ref=e3759]:
+                - generic [ref=e3760]: Central
+                - generic [ref=e3761]: Galleries
+                - generic [ref=e3762]: Art
+              - paragraph [ref=e3763]: Impressionists and classics in a refined setting at Somerset House.
+              - generic [ref=e3764]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3765]':
+                  - generic [ref=e3766]: Stay Dry
+                - generic [ref=e3767]: £14
+              - button "View Details" [ref=e3768] [cursor=pointer]
+          - article [ref=e3769]:
+            - button "Add bookmark" [ref=e3772] [cursor=pointer]:
+              - img [ref=e3773]
+            - generic [ref=e3775]:
+              - heading "The Crystal Maze LIVE" [level=3] [ref=e3776]
+              - generic [ref=e3777]:
+                - generic [ref=e3778]: North
+                - generic [ref=e3779]: Gaming
+                - generic [ref=e3780]: Entertainment
+              - paragraph [ref=e3781]: Interactive game show experience. Angel 10 mins.
+              - generic [ref=e3782]:
+                - 'img "Wetness score: 20%, Stay Dry" [ref=e3783]':
+                  - generic [ref=e3784]: Stay Dry
+                - generic [ref=e3785]: £55
+              - button "View Details" [ref=e3786] [cursor=pointer]
+          - article [ref=e3787]:
+            - button "Add bookmark" [ref=e3790] [cursor=pointer]:
+              - img [ref=e3791]
+            - generic [ref=e3793]:
+              - heading "The Crystal Maze LIVE Experience London" [level=3] [ref=e3794]
+              - generic [ref=e3795]:
+                - generic [ref=e3796]: Central
+                - generic [ref=e3797]: Games
+                - generic [ref=e3798]: Entertainment
+              - paragraph [ref=e3799]: Team-based physical and mental challenges inspired by the TV show. Fully indoors and a big rainy-day group win.
+              - generic [ref=e3800]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3801]':
+                  - generic [ref=e3802]: Stay Dry
+                - generic [ref=e3803]: FROM £55
+              - button "View Details" [ref=e3804] [cursor=pointer]
+          - article [ref=e3805]:
+            - button "Add bookmark" [ref=e3808] [cursor=pointer]:
+              - img [ref=e3809]
+            - generic [ref=e3811]:
+              - heading "The Mousetrap" [level=3] [ref=e3812]
+              - generic [ref=e3813]:
+                - generic [ref=e3814]: Central
+                - generic [ref=e3815]: Theatre
+              - paragraph [ref=e3816]: World's longest-running play. St Martin's Theatre, Leicester Square 5 mins.
+              - generic [ref=e3817]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e3818]':
+                  - generic [ref=e3819]: Stay Dry
+                - generic [ref=e3820]: £35
+              - button "View Details" [ref=e3821] [cursor=pointer]
+          - article [ref=e3822]:
+            - button "Add bookmark" [ref=e3825] [cursor=pointer]:
+              - img [ref=e3826]
+            - generic [ref=e3828]:
+              - heading "The Painted Hall" [level=3] [ref=e3829]
+              - generic [ref=e3830]:
+                - generic [ref=e3831]: South
+                - generic [ref=e3832]: Historic
+              - paragraph [ref=e3833]: The 'Sistine Chapel of the UK' at Greenwich.
+              - generic [ref=e3834]:
+                - 'img "Wetness score: 35%, Slightly Wet" [ref=e3835]':
+                  - generic [ref=e3836]: Slightly Wet
+                - generic [ref=e3837]: £15
+              - button "View Details" [ref=e3838] [cursor=pointer]
+          - article [ref=e3839]:
+            - button "Add bookmark" [ref=e3842] [cursor=pointer]:
+              - img [ref=e3843]
+            - generic [ref=e3845]:
+              - heading "The Piano Works" [level=3] [ref=e3846]
+              - generic [ref=e3847]:
+                - generic [ref=e3848]: Central
+                - generic [ref=e3849]: Nightlife
+                - generic [ref=e3850]: Music
+              - paragraph [ref=e3851]: Live music request venue. Farringdon 5 mins.
+              - generic [ref=e3852]:
+                - 'img "Wetness score: 35%, Slightly Wet" [ref=e3853]':
+                  - generic [ref=e3854]: Slightly Wet
+                - generic [ref=e3855]: £20
+              - button "View Details" [ref=e3856] [cursor=pointer]
+          - article [ref=e3857]:
+            - button "Add bookmark" [ref=e3860] [cursor=pointer]:
+              - img [ref=e3861]
+            - generic [ref=e3863]:
+              - heading "The Postal Museum" [level=3] [ref=e3864]
+              - generic [ref=e3865]:
+                - generic [ref=e3866]: Central
+                - generic [ref=e3867]: Museums
+                - generic [ref=e3868]: Historic
+              - paragraph [ref=e3869]: Ride the underground Mail Rail through hidden tunnels. Direct access.
+              - generic [ref=e3870]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3871]':
+                  - generic [ref=e3872]: Stay Dry
+                - generic [ref=e3873]: £16
+              - button "View Details" [ref=e3874] [cursor=pointer]
+          - article [ref=e3875]:
+            - button "Add bookmark" [ref=e3878] [cursor=pointer]:
+              - img [ref=e3879]
+            - generic [ref=e3881]:
+              - heading "The Shard Viewing Platform" [level=3] [ref=e3882]
+              - generic [ref=e3883]:
+                - generic [ref=e3884]: South
+                - generic [ref=e3885]: Entertainment
+                - generic [ref=e3886]: Exhibitions
+              - paragraph [ref=e3887]: Breathtaking 360° views from Western Europe's tallest building. London Bridge direct.
+              - generic [ref=e3888]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3889]':
+                  - generic [ref=e3890]: Stay Dry
+                - generic [ref=e3891]: £32
+              - button "View Details" [ref=e3892] [cursor=pointer]
+          - article [ref=e3893]:
+            - button "Add bookmark" [ref=e3896] [cursor=pointer]:
+              - img [ref=e3897]
+            - generic [ref=e3899]:
+              - heading "The Viktor Wynd Museum" [level=3] [ref=e3900]
+              - generic [ref=e3901]:
+                - generic [ref=e3902]: East
+                - generic [ref=e3903]: Museums
+              - paragraph [ref=e3904]: Curiosities and fine art in a basement in Hackney.
+              - generic [ref=e3905]:
+                - 'img "Wetness score: 30%, Slightly Wet" [ref=e3906]':
+                  - generic [ref=e3907]: Slightly Wet
+                - generic [ref=e3908]: £10
+              - button "View Details" [ref=e3909] [cursor=pointer]
+          - article [ref=e3910]:
+            - button "Add bookmark" [ref=e3913] [cursor=pointer]:
+              - img [ref=e3914]
+            - generic [ref=e3916]:
+              - heading "The Wallace Collection" [level=3] [ref=e3917]
+              - generic [ref=e3918]:
+                - generic [ref=e3919]: Central
+                - generic [ref=e3920]: Museums
+                - generic [ref=e3921]: Art
+              - paragraph [ref=e3922]: A ridiculously good free museum in a mansion. Paintings, armour, and calm.
+              - generic [ref=e3923]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e3924]':
+                  - generic [ref=e3925]: Stay Dry
+                - generic [ref=e3926]: FREE
+              - button "View Details" [ref=e3927] [cursor=pointer]
+          - article [ref=e3928]:
+            - button "Add bookmark" [ref=e3931] [cursor=pointer]:
+              - img [ref=e3932]
+            - generic [ref=e3934]:
+              - heading "Third Space Tower Bridge" [level=3] [ref=e3935]
+              - generic [ref=e3936]:
+                - generic [ref=e3937]: Central
+                - generic [ref=e3938]: Wellness
+                - generic [ref=e3939]: Sports
+              - paragraph [ref=e3940]: Premium gym and spa facilities. Tower Hill 5 mins.
+              - generic [ref=e3941]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e3942]':
+                  - generic [ref=e3943]: Stay Dry
+                - generic [ref=e3944]: £35
+              - button "View Details" [ref=e3945] [cursor=pointer]
+          - article [ref=e3946]:
+            - button "Add bookmark" [ref=e3949] [cursor=pointer]:
+              - img [ref=e3950]
+            - generic [ref=e3952]:
+              - heading "TOCA Social" [level=3] [ref=e3953]
+              - generic [ref=e3954]:
+                - generic [ref=e3955]: Central
+                - generic [ref=e3956]: Gaming
+                - generic [ref=e3957]: Entertainment
+              - paragraph [ref=e3958]: Football-themed gaming and dining. The O2 direct.
+              - generic [ref=e3959]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e3960]':
+                  - generic [ref=e3961]: Stay Dry
+                - generic [ref=e3962]: £35
+              - button "View Details" [ref=e3963] [cursor=pointer]
+          - article [ref=e3964]:
+            - button "Add bookmark" [ref=e3967] [cursor=pointer]:
+              - img [ref=e3968]
+            - generic [ref=e3970]:
+              - heading "Top Secret Comedy Club" [level=3] [ref=e3971]
+              - generic [ref=e3972]:
+                - generic [ref=e3973]: Central
+                - generic [ref=e3974]: Comedy
+                - generic [ref=e3975]: Nightlife
+              - paragraph [ref=e3976]: Hidden comedy gem in Covent Garden. Covent Garden 2 mins.
+              - generic [ref=e3977]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e3978]':
+                  - generic [ref=e3979]: Stay Dry
+                - generic [ref=e3980]: £15
+              - button "View Details" [ref=e3981] [cursor=pointer]
+          - article [ref=e3982]:
+            - button "Add bookmark" [ref=e3985] [cursor=pointer]:
+              - img [ref=e3986]
+            - generic [ref=e3988]:
+              - heading "Tower of London" [level=3] [ref=e3989]
+              - generic [ref=e3990]:
+                - generic [ref=e3991]: Central
+                - generic [ref=e3992]: Historic
+                - generic [ref=e3993]: Museums
+              - paragraph [ref=e3994]: Historic royal palace and fortress. Tower Hill direct.
+              - generic [ref=e3995]:
+                - 'img "Wetness score: 20%, Slightly Wet" [ref=e3996]':
+                  - generic [ref=e3997]: Slightly Wet
+                - generic [ref=e3998]: £34
+              - button "View Details" [ref=e3999] [cursor=pointer]
+          - article [ref=e4000]:
+            - button "Add bookmark" [ref=e4003] [cursor=pointer]:
+              - img [ref=e4004]
+            - generic [ref=e4006]:
+              - heading "Twist Museum" [level=3] [ref=e4007]
+              - generic [ref=e4008]:
+                - generic [ref=e4009]: Central
+                - generic [ref=e4010]: Museums
+                - generic [ref=e4011]: Immersive
+              - paragraph [ref=e4012]: A museum of illusions and perception designed for hands-on exploring and brilliant photos. Fully indoors and perfect when it’s grim outside.
+              - generic [ref=e4013]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e4014]':
+                  - generic [ref=e4015]: Stay Dry
+                - generic [ref=e4016]: FROM £22
+              - button "View Details" [ref=e4017] [cursor=pointer]
+          - article [ref=e4018]:
+            - button "Add bookmark" [ref=e4021] [cursor=pointer]:
+              - img [ref=e4022]
+            - generic [ref=e4024]:
+              - 'heading "Van Gogh: The Immersive Experience London" [level=3] [ref=e4025]'
+              - generic [ref=e4026]:
+                - generic [ref=e4027]: Central
+                - generic [ref=e4028]: Art
+                - generic [ref=e4029]: Immersive
+              - paragraph [ref=e4030]: Large-scale immersive Van Gogh visuals with sound and storytelling. Fully indoors and great for something different beyond a standard gallery.
+              - generic [ref=e4031]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e4032]':
+                  - generic [ref=e4033]: Stay Dry
+                - generic [ref=e4034]: FROM £20
+              - button "View Details" [ref=e4035] [cursor=pointer]
+          - article [ref=e4036]:
+            - button "Add bookmark" [ref=e4039] [cursor=pointer]:
+              - img [ref=e4040]
+            - generic [ref=e4042]:
+              - heading "Victoria & Albert Museum" [level=3] [ref=e4043]
+              - generic [ref=e4044]:
+                - generic [ref=e4045]: West
+                - generic [ref=e4046]: Museums
+                - generic [ref=e4047]: Galleries
+              - paragraph [ref=e4048]: World's leading museum of art, design and performance. South Kensington tube adjacent.
+              - generic [ref=e4049]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e4050]':
+                  - generic [ref=e4051]: Stay Dry
+                - generic [ref=e4052]: FREE
+              - button "View Details" [ref=e4053] [cursor=pointer]
+          - article [ref=e4054]:
+            - button "Add bookmark" [ref=e4057] [cursor=pointer]:
+              - img [ref=e4058]
+            - generic [ref=e4060]:
+              - heading "Wallace Collection" [level=3] [ref=e4061]
+              - generic [ref=e4062]:
+                - generic [ref=e4063]: Central
+                - generic [ref=e4064]: Galleries
+              - paragraph [ref=e4065]: Unrivalled collection of fine and decorative arts in a mansion.
+              - generic [ref=e4066]:
+                - 'img "Wetness score: 15%, Stay Dry" [ref=e4067]':
+                  - generic [ref=e4068]: Stay Dry
+                - generic [ref=e4069]: FREE
+              - button "View Details" [ref=e4070] [cursor=pointer]
+          - article [ref=e4071]:
+            - button "Add bookmark" [ref=e4074] [cursor=pointer]:
+              - img [ref=e4075]
+            - generic [ref=e4077]:
+              - heading "Waterstones Piccadilly" [level=3] [ref=e4078]
+              - generic [ref=e4079]:
+                - generic [ref=e4080]: Central
+                - generic [ref=e4081]: Shopping
+                - generic [ref=e4082]: Books
+              - paragraph [ref=e4083]: A huge bookshop that’s warm, calm, and dangerously easy to lose time in.
+              - generic [ref=e4084]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e4085]':
+                  - generic [ref=e4086]: Stay Dry
+                - generic [ref=e4087]: FREE
+              - button "View Details" [ref=e4088] [cursor=pointer]
+          - article [ref=e4089]:
+            - button "Add bookmark" [ref=e4092] [cursor=pointer]:
+              - img [ref=e4093]
+            - generic [ref=e4095]:
+              - heading "Waterstones Piccadilly (big browse)" [level=3] [ref=e4096]
+              - generic [ref=e4097]:
+                - generic [ref=e4098]: Central
+                - generic [ref=e4099]: Shopping
+                - generic [ref=e4100]: Books
+              - paragraph [ref=e4101]: Plan to ‘pop in’ and accidentally stay an hour.
+              - generic [ref=e4102]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e4103]':
+                  - generic [ref=e4104]: Stay Dry
+                - generic [ref=e4105]: FREE
+              - button "View Details" [ref=e4106] [cursor=pointer]
+          - article [ref=e4107]:
+            - button "Add bookmark" [ref=e4110] [cursor=pointer]:
+              - img [ref=e4111]
+            - generic [ref=e4113]:
+              - heading "Wellcome Collection" [level=3] [ref=e4114]
+              - generic [ref=e4115]:
+                - generic [ref=e4116]: Central
+                - generic [ref=e4117]: Museums
+                - generic [ref=e4118]: Galleries
+              - paragraph [ref=e4119]: Free museum exploring medicine, life and art. Euston Square direct access.
+              - generic [ref=e4120]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e4121]':
+                  - generic [ref=e4122]: Stay Dry
+                - generic [ref=e4123]: FREE
+              - button "View Details" [ref=e4124] [cursor=pointer]
+          - article [ref=e4125]:
+            - button "Add bookmark" [ref=e4128] [cursor=pointer]:
+              - img [ref=e4129]
+            - generic [ref=e4131]:
+              - heading "Wellcome Collection" [level=3] [ref=e4132]
+              - generic [ref=e4133]:
+                - generic [ref=e4134]: Central
+                - generic [ref=e4135]: Museums
+                - generic [ref=e4136]: Science
+              - paragraph [ref=e4137]: Bold exhibitions about health and culture, plus a brilliant bookshop and calm reading room.
+              - generic [ref=e4138]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e4139]':
+                  - generic [ref=e4140]: Stay Dry
+                - generic [ref=e4141]: FREE
+              - button "View Details" [ref=e4142] [cursor=pointer]
+          - article [ref=e4143]:
+            - button "Add bookmark" [ref=e4146] [cursor=pointer]:
+              - img [ref=e4147]
+            - generic [ref=e4149]:
+              - heading "Wellcome Collection (reading room)" [level=3] [ref=e4150]
+              - generic [ref=e4151]:
+                - generic [ref=e4152]: Central
+                - generic [ref=e4153]: Museums
+                - generic [ref=e4154]: Science
+              - paragraph [ref=e4155]: Perfect for a slower rainy day with a book and a coffee.
+              - generic [ref=e4156]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e4157]':
+                  - generic [ref=e4158]: Stay Dry
+                - generic [ref=e4159]: FREE
+              - button "View Details" [ref=e4160] [cursor=pointer]
+          - article [ref=e4161]:
+            - button "Add bookmark" [ref=e4164] [cursor=pointer]:
+              - img [ref=e4165]
+            - generic [ref=e4167]:
+              - heading "Westminster Abbey" [level=3] [ref=e4168]
+              - generic [ref=e4169]:
+                - generic [ref=e4170]: Central
+                - generic [ref=e4171]: Historic
+              - paragraph [ref=e4172]: Gothic abbey church. Westminster 3 mins.
+              - generic [ref=e4173]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e4174]':
+                  - generic [ref=e4175]: Stay Dry
+                - generic [ref=e4176]: £27
+              - button "View Details" [ref=e4177] [cursor=pointer]
+          - article [ref=e4178]:
+            - button "Add bookmark" [ref=e4181] [cursor=pointer]:
+              - img [ref=e4182]
+            - generic [ref=e4184]:
+              - heading "Whitechapel Gallery" [level=3] [ref=e4185]
+              - generic [ref=e4186]:
+                - generic [ref=e4187]: East
+                - generic [ref=e4188]: Galleries
+              - paragraph [ref=e4189]: Contemporary art gallery for the local community.
+              - generic [ref=e4190]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e4191]':
+                  - generic [ref=e4192]: Stay Dry
+                - generic [ref=e4193]: FREE
+              - button "View Details" [ref=e4194] [cursor=pointer]
+          - article [ref=e4195]:
+            - button "Add bookmark" [ref=e4198] [cursor=pointer]:
+              - img [ref=e4199]
+            - generic [ref=e4201]:
+              - heading "Whitechapel Gallery (free show)" [level=3] [ref=e4202]
+              - generic [ref=e4203]:
+                - generic [ref=e4204]: East
+                - generic [ref=e4205]: Galleries
+                - generic [ref=e4206]: Art
+              - paragraph [ref=e4207]: Contemporary exhibitions with a café for a warm reset.
+              - generic [ref=e4208]:
+                - 'img "Wetness score: 0%, Stay Dry" [ref=e4209]':
+                  - generic [ref=e4210]: Stay Dry
+                - generic [ref=e4211]: FREE
+              - button "View Details" [ref=e4212] [cursor=pointer]
+          - article [ref=e4213]:
+            - button "Add bookmark" [ref=e4216] [cursor=pointer]:
+              - img [ref=e4217]
+            - generic [ref=e4219]:
+              - heading "Wicked" [level=3] [ref=e4220]
+              - generic [ref=e4221]:
+                - generic [ref=e4222]: Central
+                - generic [ref=e4223]: Theatre
+                - generic [ref=e4224]: Music
+              - paragraph [ref=e4225]: The untold story of the Witches of Oz. Apollo Victoria, Victoria 2 mins.
+              - generic [ref=e4226]:
+                - 'img "Wetness score: 5%, Stay Dry" [ref=e4227]':
+                  - generic [ref=e4228]: Stay Dry
+                - generic [ref=e4229]: FROM £60
+              - button "View Details" [ref=e4230] [cursor=pointer]
+          - article [ref=e4231]:
+            - button "Add bookmark" [ref=e4234] [cursor=pointer]:
+              - img [ref=e4235]
+            - generic [ref=e4237]:
+              - heading "Yoga Haven Camden" [level=3] [ref=e4238]
+              - generic [ref=e4239]:
+                - generic [ref=e4240]: North
+                - generic [ref=e4241]: Wellness
+                - generic [ref=e4242]: Sports
+              - paragraph [ref=e4243]: Peaceful yoga studio offering various classes. Camden Town station 3 min walk.
+              - generic [ref=e4244]:
+                - 'img "Wetness score: 10%, Stay Dry" [ref=e4245]':
+                  - generic [ref=e4246]: Stay Dry
+                - generic [ref=e4247]: £20
+              - button "View Details" [ref=e4248] [cursor=pointer]
+  - contentinfo [ref=e139]:
+    - generic [ref=e140]:
+      - generic [ref=e141]:
+        - generic [ref=e142]:
+          - heading "Wet London" [level=3] [ref=e143]
+          - paragraph [ref=e144]: Your guide to the best indoor activities in London. Never let the rain stop your plans again.
+          - generic [ref=e145]:
+            - link "Twitter" [ref=e146] [cursor=pointer]:
+              - /url: https://twitter.com/wetlondon
+              - img [ref=e147]
+            - link "Instagram" [ref=e149] [cursor=pointer]:
+              - /url: https://instagram.com/wetlondon
+              - img [ref=e150]
+            - link "Facebook" [ref=e152] [cursor=pointer]:
+              - /url: https://facebook.com/wetlondon
+              - img [ref=e153]
+            - link "TikTok" [ref=e155] [cursor=pointer]:
+              - /url: https://tiktok.com/@wetlondon
+              - img [ref=e156]
+        - generic [ref=e158]:
+          - heading "Quick Links" [level=4] [ref=e159]
+          - list [ref=e160]:
+            - listitem [ref=e161]:
+              - link "Home" [ref=e162] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e163]:
+              - link "Featured Activities" [ref=e164] [cursor=pointer]:
+                - /url: /#activities
+            - listitem [ref=e165]:
+              - link "What's On" [ref=e166] [cursor=pointer]:
+                - /url: /events
+            - listitem [ref=e167]:
+              - link "Pop-ups" [ref=e168] [cursor=pointer]:
+                - /url: /popups
+            - listitem [ref=e169]:
+              - link "About Us" [ref=e170] [cursor=pointer]:
+                - /url: /about
+        - generic [ref=e171]:
+          - heading "Legal" [level=4] [ref=e172]
+          - list [ref=e173]:
+            - listitem [ref=e174]:
+              - link "Privacy Policy" [ref=e175] [cursor=pointer]:
+                - /url: /privacy
+            - listitem [ref=e176]:
+              - link "Terms & Conditions" [ref=e177] [cursor=pointer]:
+                - /url: /terms
+            - listitem [ref=e178]:
+              - link "Cookie Policy" [ref=e179] [cursor=pointer]:
+                - /url: /cookies
+      - paragraph [ref=e181]: 2026 Wet London. All rights reserved.

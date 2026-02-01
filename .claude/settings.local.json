@@ -31,7 +31,8 @@
       "Bash(grep:*)",
       "Bash(head:*)",
       "Bash(ls:*)",
-      "Bash(npm show:*)"
+      "Bash(npm show:*)",
+      "mcp__plugin_playwright_playwright__browser_console_messages"
     ]
   }
 }

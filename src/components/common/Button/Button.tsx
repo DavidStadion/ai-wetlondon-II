@@ -3,7 +3,7 @@ import styles from './Button.module.css';
 
 interface ButtonBaseProps {
   children: ComponentChildren;
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'accent';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
 }
