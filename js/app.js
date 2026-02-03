@@ -760,10 +760,15 @@ async function renderVenues(venues, options = {}) {
 
     if (venues.length === 0) {
         grid.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem;">
-                        <h3 style="margin-bottom: 1rem; font-size: 1.5rem;">No activities found</h3>
-                        <p style="color: #666;">Try adjusting your filters to see more results</p>
-                    </div >
+        <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <h3 class="empty-state-title">No activities found</h3>
+            <p class="empty-state-message">We couldn't find any activities matching your current filters. Try broadening your search or clearing some filters.</p>
+            <div class="empty-state-actions">
+                <button class="empty-state-btn empty-state-btn-primary" onclick="clearAllFilters()">Clear All Filters</button>
+                <button class="empty-state-btn empty-state-btn-secondary" onclick="openCustomizeModal()">Adjust Filters</button>
+            </div>
+        </div>
         `;
         counter.textContent = "0 activities found";
         loadMoreContainer.style.display = 'none';
@@ -1551,6 +1556,13 @@ function switchTab(tabName) {
         const tabBtn = document.querySelector(`.activity-tab[onclick*="${tabName}"]`);
         if (tabBtn) tabBtn.classList.add('active');
     }
+
+    // Update tab indicators
+    document.querySelectorAll('.tab-indicator').forEach(indicator => {
+        indicator.classList.remove('active');
+    });
+    const activeIndicator = document.querySelector(`.tab-indicator[data-tab="${tabName}"]`);
+    if (activeIndicator) activeIndicator.classList.add('active');
 
     // Update tab content
     document.querySelectorAll('.activity-tab-content').forEach(content => {
@@ -3050,6 +3062,15 @@ function displayWeather(weather) {
 
     // Update weather-based recommendations
     updateWeatherRecommendations(weather);
+
+    // Update weather hero message
+    if (typeof updateWeatherHeroMessage === 'function') {
+        updateWeatherHeroMessage({
+            temp: weather.temp,
+            condition: weather.description,
+            rainChance: weather.isRaining ? 80 : 20
+        });
+    }
 }
 
 function displayDemoWeather() {
@@ -3416,6 +3437,120 @@ window.shareViaFacebook = shareViaFacebook;
 window.copyShareLink = copyShareLink;
 window.feelingLucky = feelingLucky;
 window.closeLuckySelection = closeLuckySelection;
+
+// ============================================
+// QUICK FILTERS
+// ============================================
+
+function toggleQuickFilter(filterType) {
+    const chip = document.querySelector(`.quick-filter-chip[data-filter="${filterType}"]`);
+    if (!chip) return;
+
+    const isActive = chip.classList.toggle('active');
+
+    if (filterType === 'openNow') {
+        // Toggle Open Now filter
+        filters.openNow = isActive;
+    } else {
+        // Toggle type filter
+        if (isActive) {
+            filters.types.add(filterType);
+        } else {
+            filters.types.delete(filterType);
+        }
+    }
+
+    // Apply filters and show results
+    const filtered = filterVenues();
+    setGeneratedResults(filtered, { title: 'Your Personalized Selection' });
+
+    // Show toast
+    if (typeof showToast === 'function') {
+        if (filtered.length > 0) {
+            showToast('✨', `Found ${filtered.length} ${filtered.length === 1 ? 'activity' : 'activities'}`);
+        } else {
+            showToast('🔍', 'No activities found - try different filters');
+        }
+    }
+
+    // Update filter counter
+    updateFilterCountDisplay();
+}
+
+function clearAllFilters() {
+    // Clear filter state
+    filters.types.clear();
+    filters.locations.clear();
+    filters.wetness.clear();
+    filters.constraints.clear();
+    filters.openNow = false;
+    filters.maxWetnessScore = 100;
+
+    // Clear quick filter chips
+    document.querySelectorAll('.quick-filter-chip').forEach(chip => {
+        chip.classList.remove('active');
+    });
+
+    // Show all venues
+    const allVenues = window.londonVenues || [];
+    setGeneratedResults(allVenues, { title: 'All Activities' });
+
+    showToast('🔄', 'Filters cleared');
+}
+
+window.toggleQuickFilter = toggleQuickFilter;
+window.clearAllFilters = clearAllFilters;
+
+// ============================================
+// WEATHER-BASED HERO MESSAGING
+// ============================================
+
+function updateWeatherHeroMessage(weatherData) {
+    const heroMessage = document.getElementById('weatherHeroMessage');
+    if (!heroMessage) return;
+
+    const icon = heroMessage.querySelector('.weather-icon');
+    const text = heroMessage.querySelector('.weather-text');
+    if (!icon || !text) return;
+
+    let messageIcon = '🌧️';
+    let messageText = 'Perfect day to explore indoors!';
+
+    if (weatherData) {
+        const temp = weatherData.temp || 15;
+        const condition = (weatherData.condition || '').toLowerCase();
+        const rainChance = weatherData.rainChance || 0;
+
+        if (condition.includes('rain') || condition.includes('drizzle') || rainChance > 60) {
+            messageIcon = '🌧️';
+            messageText = 'Perfect day to explore indoors!';
+        } else if (condition.includes('thunder') || condition.includes('storm')) {
+            messageIcon = '⛈️';
+            messageText = 'Storm brewing - stay cosy inside!';
+        } else if (condition.includes('cloud') || condition.includes('overcast')) {
+            messageIcon = '☁️';
+            messageText = 'Grey skies? Great indoor adventures await!';
+        } else if (condition.includes('snow')) {
+            messageIcon = '❄️';
+            messageText = 'Snowy day - warm up inside!';
+        } else if (temp < 10) {
+            messageIcon = '🥶';
+            messageText = 'Bit chilly - perfect for indoor exploring!';
+        } else if (condition.includes('sun') || condition.includes('clear')) {
+            messageIcon = '☀️';
+            messageText = 'Nice day, but we\'ve got backup plans!';
+        } else {
+            messageIcon = '🌂';
+            messageText = 'Grab an umbrella, just in case!';
+        }
+    }
+
+    icon.textContent = messageIcon;
+    text.textContent = messageText;
+    heroMessage.style.display = 'inline-flex';
+}
+
+window.updateWeatherHeroMessage = updateWeatherHeroMessage;
 
 // Initialize View Details buttons on page load for Featured Activities
 document.addEventListener('DOMContentLoaded', async function () {
