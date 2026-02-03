@@ -862,6 +862,20 @@ function clearResults() {
     currentOffset = 0;
     allFilteredVenues = [];
     displayedCount = 0;
+
+    // Clear quick filter states
+    clearQuickFilters();
+}
+
+function clearQuickFilters() {
+    // Remove active class from all quick filter chips
+    document.querySelectorAll('.quick-filter-chip').forEach(chip => {
+        chip.classList.remove('active');
+    });
+
+    // Reset the filter state
+    filters.openNow = false;
+    filters.types.clear();
 }
 
 function showLoading() {
