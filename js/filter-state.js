@@ -54,6 +54,20 @@ function applyFilters() {
         console.warn('--- [applyFilters] closeModal function not found ---');
     }
 
+    // Show skeleton loading in generated grid
+    const generatedGrid = document.getElementById('generatedGrid');
+    const section = document.getElementById('generatedSection');
+
+    if (generatedGrid && typeof showSkeletonLoading === 'function') {
+        showSkeletonLoading(generatedGrid, 6);
+    }
+
+    // Show the section immediately with skeletons
+    if (section) {
+        section.style.display = 'block';
+        section.classList.add('active');
+    }
+
     // Read filter state
     const filtersSummary = {
         keywords: filters.keywords,
@@ -66,42 +80,45 @@ function applyFilters() {
     };
     console.log('--- [applyFilters] Current Filters State ---', filtersSummary);
 
-    // Use existing filterVenues function from app.js
-    if (typeof filterVenues === 'function') {
-        console.log('--- [applyFilters] Calling filterVenues() ---');
-        const filtered = filterVenues();
-        console.log('--- [applyFilters] Filtered venues count: ' + filtered.length + ' ---');
+    // Small delay to show skeletons, then load actual results
+    setTimeout(() => {
+        // Use existing filterVenues function from app.js
+        if (typeof filterVenues === 'function') {
+            console.log('--- [applyFilters] Calling filterVenues() ---');
+            const filtered = filterVenues();
+            console.log('--- [applyFilters] Filtered venues count: ' + filtered.length + ' ---');
 
-        // Render results immediately
-        if (typeof setGeneratedResults === 'function') {
-            console.log('--- [applyFilters] Calling setGeneratedResults() ---');
-            setGeneratedResults(filtered, { title: 'Your Personalized Selection' });
+            // Render results
+            if (typeof setGeneratedResults === 'function') {
+                console.log('--- [applyFilters] Calling setGeneratedResults() ---');
+                setGeneratedResults(filtered, { title: 'Your Personalized Selection' });
 
-            // Show toast notification with results count
-            if (typeof showToast === 'function') {
+                // Show toast notification with results count
+                if (typeof showToast === 'function') {
+                    if (filtered.length > 0) {
+                        showToast('✨', `Found ${filtered.length} ${filtered.length === 1 ? 'activity' : 'activities'} matching your filters`);
+                    } else {
+                        showToast('🔍', 'No activities found - try adjusting your filters');
+                    }
+                }
+
+                // Scroll to results section if results were found
                 if (filtered.length > 0) {
-                    showToast('✨', `Found ${filtered.length} ${filtered.length === 1 ? 'activity' : 'activities'} matching your filters`);
-                } else {
-                    showToast('🔍', 'No activities found - try adjusting your filters');
+                    const section = document.getElementById('generatedSection');
+                    if (section) {
+                        console.log('--- [applyFilters] Scrolling to results section ---');
+                        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 }
-            }
-
-            // Scroll to results section if results were found
-            if (filtered.length > 0) {
-                const section = document.getElementById('generatedSection');
-                if (section) {
-                    console.log('--- [applyFilters] Scrolling to results section ---');
-                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+            } else {
+                console.error('❌ [applyFilters] ERROR: setGeneratedResults function not found!');
             }
         } else {
-            console.error('❌ [applyFilters] ERROR: setGeneratedResults function not found!');
+            console.error('❌ [applyFilters] ERROR: filterVenues function not found!');
         }
-    } else {
-        console.error('❌ [applyFilters] ERROR: filterVenues function not found!');
-    }
 
-    console.log('✅ [filter-state.js] applyFilters execution complete');
+        console.log('✅ [filter-state.js] applyFilters execution complete');
+    }, 400);
 }
 
 // Expose THE ONE applyFilters function globally
