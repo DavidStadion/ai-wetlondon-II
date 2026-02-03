@@ -177,6 +177,12 @@
         </div>
 
         <div class="hero-content">
+            <!-- Dynamic Weather Message -->
+            <div class="weather-hero-message" id="weatherHeroMessage" style="display: none;">
+                <span class="weather-icon">🌧️</span>
+                <span class="weather-text">Perfect day to explore indoors!</span>
+            </div>
+
             <h1>Wet London.</h1>
             <p>London ideas for when the weather is awful and your motivation is worse.</p>
 
@@ -198,6 +204,31 @@
             <div class="hero-buttons">
                 <button class="customize-btn">Customize Your Experience</button>
                 <button class="lucky-btn">🎲 I'm Feeling Lucky</button>
+            </div>
+
+            <!-- Quick Filters -->
+            <div class="quick-filters" id="quickFilters">
+                <button class="quick-filter-chip open-now" data-filter="openNow" onclick="toggleQuickFilter('openNow')">
+                    <span>🟢</span> Open Now
+                </button>
+                <button class="quick-filter-chip" data-filter="museums" onclick="toggleQuickFilter('museums')">
+                    🏛️ Museums
+                </button>
+                <button class="quick-filter-chip" data-filter="theatre" onclick="toggleQuickFilter('theatre')">
+                    🎭 Theatre
+                </button>
+                <button class="quick-filter-chip" data-filter="dining" onclick="toggleQuickFilter('dining')">
+                    🍽️ Dining
+                </button>
+                <button class="quick-filter-chip" data-filter="gaming" onclick="toggleQuickFilter('gaming')">
+                    🎮 Gaming
+                </button>
+                <button class="quick-filter-chip" data-filter="entertainment" onclick="toggleQuickFilter('entertainment')">
+                    🎬 Entertainment
+                </button>
+                <button class="quick-filter-chip" data-filter="shopping" onclick="toggleQuickFilter('shopping')">
+                    🛍️ Shopping
+                </button>
             </div>
         </div>
     </section>
@@ -1085,6 +1116,11 @@ Save
                 <div class="activity-tab" onclick="switchTab('gallery')">Gallery</div>
                 <div class="activity-tab" onclick="switchTab('reviews')">Reviews</div>
             </div>
+            <div class="modal-tab-indicators">
+                <div class="tab-indicator active" data-tab="overview"></div>
+                <div class="tab-indicator" data-tab="gallery"></div>
+                <div class="tab-indicator" data-tab="reviews"></div>
+            </div>
 
             <div class="activity-modal-body">
                 <!-- Overview Tab -->
@@ -1583,7 +1619,7 @@ Save
       <p>Open a couple of activities and we’ll keep them here for quick backtracking.</p>
     </div>
 
-    <div class="activity-grid" id="recentlyViewedGrid"></div>
+    <div class="recently-viewed-carousel" id="recentlyViewedGrid"></div>
   </div>
 </section>
 

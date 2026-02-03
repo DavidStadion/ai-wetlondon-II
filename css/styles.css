@@ -3232,6 +3232,212 @@
 }
 
 /* ============================================
+   EMPTY STATE DESIGNS
+   ============================================ */
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    grid-column: 1 / -1;
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.6;
+}
+
+.empty-state-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--wl-text, #e6eefc);
+    margin-bottom: 0.75rem;
+}
+
+.empty-state-message {
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 1.5rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.empty-state-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.empty-state-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.empty-state-btn-primary {
+    background: linear-gradient(135deg, rgba(77,163,255,1), rgba(124,195,255,1));
+    color: #07101b;
+}
+
+.empty-state-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(77,163,255,0.3);
+}
+
+.empty-state-btn-secondary {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--wl-text, #e6eefc);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.empty-state-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* ============================================
+   MODAL TAB PROGRESS INDICATOR
+   ============================================ */
+
+.modal-tab-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.tab-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.tab-indicator.active {
+    background: linear-gradient(135deg, rgba(77,163,255,1), rgba(124,195,255,1));
+    width: 24px;
+    border-radius: 4px;
+}
+
+/* ============================================
+   QUICK FILTERS BAR
+   ============================================ */
+
+.quick-filters {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin: 0 -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.quick-filters::-webkit-scrollbar {
+    display: none;
+}
+
+.quick-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    color: var(--wl-text, #e6eefc);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.quick-filter-chip:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.quick-filter-chip.active {
+    background: linear-gradient(135deg, rgba(77,163,255,0.2), rgba(124,195,255,0.2));
+    border-color: rgba(77,163,255,0.5);
+    color: #7cc3ff;
+}
+
+.quick-filter-chip.open-now {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+.quick-filter-chip.open-now.active {
+    background: rgba(34, 197, 94, 0.25);
+    border-color: rgba(34, 197, 94, 0.5);
+    color: #22c55e;
+}
+
+/* ============================================
+   RECENTLY VIEWED HORIZONTAL CAROUSEL
+   ============================================ */
+
+.recently-viewed-carousel {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0.5rem 0 1rem;
+    margin: 0 -1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.recently-viewed-carousel::-webkit-scrollbar {
+    display: none;
+}
+
+.recently-viewed-carousel .activity-card {
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+}
+
+@media (max-width: 640px) {
+    .recently-viewed-carousel .activity-card {
+        flex: 0 0 260px;
+    }
+}
+
+/* ============================================
+   WEATHER HERO MESSAGING
+   ============================================ */
+
+.weather-hero-message {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    color: var(--wl-text, #e6eefc);
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.weather-hero-message .weather-icon {
+    font-size: 1.1rem;
+}
+
+/* ============================================
    BOOKMARK CONFETTI CELEBRATION
    ============================================ */
 

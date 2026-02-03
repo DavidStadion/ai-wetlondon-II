@@ -77,6 +77,15 @@ function applyFilters() {
             console.log('--- [applyFilters] Calling setGeneratedResults() ---');
             setGeneratedResults(filtered, { title: 'Your Personalized Selection' });
 
+            // Show toast notification with results count
+            if (typeof showToast === 'function') {
+                if (filtered.length > 0) {
+                    showToast('✨', `Found ${filtered.length} ${filtered.length === 1 ? 'activity' : 'activities'} matching your filters`);
+                } else {
+                    showToast('🔍', 'No activities found - try adjusting your filters');
+                }
+            }
+
             // Scroll to results section if results were found
             if (filtered.length > 0) {
                 const section = document.getElementById('generatedSection');

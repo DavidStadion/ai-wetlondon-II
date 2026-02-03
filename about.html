@@ -455,6 +455,26 @@
 
     statEls.forEach(el => io.observe(el));
 })();
+
+// Back to Top Button functionality
+const backToTopBtn = document.getElementById('backToTopBtn');
+
+window.addEventListener('scroll', function() {
+    if (window.scrollY > 300) {
+        backToTopBtn.style.display = 'flex';
+    } else {
+        backToTopBtn.style.display = 'none';
+    }
+});
+
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 </script>
+
+<!-- Back to Top Button -->
+<button class="back-to-top-btn" id="backToTopBtn" onclick="scrollToTop()" style="display: none;">
+    ↑
+</button>
 </body>
 </html>
