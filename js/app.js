@@ -3474,18 +3474,33 @@ function toggleQuickFilter(filterType) {
         }
     }
 
-    // Apply filters and show results
-    const filtered = filterVenues();
-    setGeneratedResults(filtered, { title: 'Your Personalized Selection' });
-
-    // Show toast
-    if (typeof showToast === 'function') {
-        if (filtered.length > 0) {
-            showToast('✨', `Found ${filtered.length} ${filtered.length === 1 ? 'activity' : 'activities'}`);
-        } else {
-            showToast('🔍', 'No activities found - try different filters');
-        }
+    // Show skeleton loading in generated grid
+    const generatedGrid = document.getElementById('generatedGrid');
+    if (generatedGrid) {
+        showSkeletonLoading(generatedGrid, 6);
     }
+
+    // Show the section immediately with skeletons
+    const section = document.getElementById('generatedSection');
+    if (section) {
+        section.style.display = 'block';
+        section.classList.add('active');
+    }
+
+    // Small delay to show skeletons, then load actual results
+    setTimeout(() => {
+        const filtered = filterVenues();
+        setGeneratedResults(filtered, { title: 'Your Personalized Selection' });
+
+        // Show toast
+        if (typeof showToast === 'function') {
+            if (filtered.length > 0) {
+                showToast('✨', `Found ${filtered.length} ${filtered.length === 1 ? 'activity' : 'activities'}`);
+            } else {
+                showToast('🔍', 'No activities found - try different filters');
+            }
+        }
+    }, 300);
 
     // Update filter counter
     updateFilterCountDisplay();
@@ -3590,6 +3605,17 @@ document.addEventListener('DOMContentLoaded', async function () {
     document.querySelectorAll('.activity-grid').forEach(grid => {
         observeCardsForLazyLoading(grid);
     });
+
+    // Show skeleton loading states before data loads
+    const featuredGrid = document.querySelector('#activities .activity-grid');
+    const allActivitiesGrid = document.getElementById('allActivitiesGrid');
+
+    if (featuredGrid) {
+        showSkeletonLoading(featuredGrid, 6);
+    }
+    if (allActivitiesGrid) {
+        showSkeletonLoading(allActivitiesGrid, 9);
+    }
 
     // Show loading state while Supabase fetches
     setVenuesLoading(true);
