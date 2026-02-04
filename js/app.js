@@ -3456,6 +3456,9 @@ window.closeLuckySelection = closeLuckySelection;
 // QUICK FILTERS
 // ============================================
 
+// Date night types - venues good for romantic outings
+const DATE_NIGHT_TYPES = ['dining', 'theatre', 'comedy', 'music', 'cocktails', 'rooftop', 'cinema', 'jazz', 'wine'];
+
 function toggleQuickFilter(filterType) {
     const chip = document.querySelector(`.quick-filter-chip[data-filter="${filterType}"]`);
     if (!chip) return;
@@ -3465,6 +3468,13 @@ function toggleQuickFilter(filterType) {
     if (filterType === 'openNow') {
         // Toggle Open Now filter
         filters.openNow = isActive;
+    } else if (filterType === 'date') {
+        // Special handling for date night filter - toggle multiple types
+        if (isActive) {
+            DATE_NIGHT_TYPES.forEach(type => filters.types.add(type));
+        } else {
+            DATE_NIGHT_TYPES.forEach(type => filters.types.delete(type));
+        }
     } else {
         // Toggle type filter
         if (isActive) {

@@ -3383,6 +3383,17 @@
     color: #22c55e;
 }
 
+.quick-filter-chip.date-night {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.quick-filter-chip.date-night.active {
+    background: rgba(239, 68, 68, 0.25);
+    border-color: rgba(239, 68, 68, 0.5);
+    color: #f87171;
+}
+
 /* ============================================
    RECENTLY VIEWED HORIZONTAL CAROUSEL
    ============================================ */
