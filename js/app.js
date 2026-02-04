@@ -672,7 +672,7 @@ function createActivityCardHTML(venue, index, options = {}) {
                     </div>
                     <span class="wetness-label">${wetnessPercent}% wet</span>
                 </div>
-                <div class="price">${venue.priceDisplay}</div>
+                <div class="price">${venue.priceDisplay || (venue.price === 0 ? 'FREE' : `£${venue.price}`)}</div>
                 <button class="book-btn">View Details</button>
             </div>
         </div>

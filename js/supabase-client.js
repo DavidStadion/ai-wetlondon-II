@@ -68,14 +68,18 @@ function convertVenue(dbVenue) {
     const cleanedTypes = rawTypes.map(normaliseCategory).filter(Boolean);
     const uniqueTypes = Array.from(new Set(cleanedTypes));
 
+    const price = parseFloat(dbVenue.price) || 0;
+    // Use price_display from DB, or generate a fallback from price
+    const priceDisplay = dbVenue.price_display || (price === 0 ? 'FREE' : `£${price}`);
+
     return {
         name: dbVenue.name,
         type: uniqueTypes,
         location: dbVenue.location,
         wetness: dbVenue.wetness,
         wetnessScore: dbVenue.wetness_score,
-        price: parseFloat(dbVenue.price) || 0,
-        priceDisplay: dbVenue.price_display,
+        price: price,
+        priceDisplay: priceDisplay,
         description: dbVenue.description,
         rating: parseFloat(dbVenue.rating) || 4.5,
         sponsored: dbVenue.sponsored || false,
