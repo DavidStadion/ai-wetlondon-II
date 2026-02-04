@@ -1,6 +1,21 @@
 console.log("WetLondon version:", "2026-01-26 lazy-load");
 
 // ==========================================
+// SECURITY: HTML ESCAPE HELPER
+// Prevents XSS when inserting user-generated content
+// ==========================================
+function escapeHTML(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    }[char]));
+}
+
+// ==========================================
 // LAZY LOADING FOR IMAGES (PERFORMANCE)
 // ==========================================
 const lazyImageObserver = new IntersectionObserver((entries, observer) => {
