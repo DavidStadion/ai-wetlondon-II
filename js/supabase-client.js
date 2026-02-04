@@ -69,8 +69,14 @@ function convertVenue(dbVenue) {
     const uniqueTypes = Array.from(new Set(cleanedTypes));
 
     const price = parseFloat(dbVenue.price) || 0;
-    // Use price_display from DB, or generate a fallback from price
-    const priceDisplay = dbVenue.price_display || (price === 0 ? 'FREE' : `£${price}`);
+
+    // Format price display - check if price_display is a proper formatted string (contains £ or text like FREE)
+    // If it's just a number, format it properly with £ symbol
+    let priceDisplay = dbVenue.price_display;
+    if (!priceDisplay || /^[\d.]+$/.test(String(priceDisplay).trim())) {
+        // price_display is missing or is just a raw number - format it
+        priceDisplay = price === 0 ? 'FREE' : `£${Math.round(price)}`;
+    }
 
     return {
         name: dbVenue.name,
