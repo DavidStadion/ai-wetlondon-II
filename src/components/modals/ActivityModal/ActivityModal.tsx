@@ -3,6 +3,7 @@ import type { Venue } from '@/types';
 import { Modal } from '@/components/common/Modal';
 import { Button } from '@/components/common/Button';
 import { BookmarkIcon } from '@/components/common/BookmarkIcon';
+import { WetnessIndicator } from '@/components/common/WetnessIndicator';
 import { bookmarkedVenues, toggleBookmark, addToRecentlyViewed } from '@/signals/uiSignals';
 import { OverviewTab } from './OverviewTab';
 import { GalleryTab } from './GalleryTab';
@@ -90,37 +91,38 @@ export function ActivityModal({ venue, isOpen, onClose, imageUrl }: ActivityModa
       {/* Meta info */}
       <div className={styles.meta}>
         <span className={styles.rating}>
-          <span className={styles.ratingStars}>{'*'.repeat(Math.round(venue.rating))}</span>
+          <span className={styles.ratingStars}>{'★'.repeat(Math.round(venue.rating))}{'☆'.repeat(5 - Math.round(venue.rating))}</span>
           <span>{venue.rating.toFixed(1)}</span>
         </span>
         <span className={styles.metaTag}>{venue.priceDisplay}</span>
         <span className={styles.metaTag}>
           {venue.location.charAt(0).toUpperCase() + venue.location.slice(1)}
         </span>
+        <span className={styles.metaWetness}>
+          <WetnessIndicator score={venue.wetnessScore} level={venue.wetness} size="sm" />
+          <span>{venue.wetnessScore}% wet</span>
+        </span>
       </div>
 
       {/* Actions */}
       <div className={styles.actions}>
         <Button
+          variant="danger"
+          size="sm"
           onClick={() => {
             if (venue.affiliateLink) {
               window.open(venue.affiliateLink, '_blank', 'noopener,noreferrer');
             }
           }}
         >
-          Book Now
+          Book Tickets
         </Button>
-        <div className={styles.actionsRow}>
-          <BookmarkIcon
-            isBookmarked={isBookmarked}
-            onToggle={handleToggleBookmark}
-            size={16}
-            label={isBookmarked ? 'Saved' : 'Save'}
-          />
-          <Button variant="secondary" onClick={handleShare}>
-            Share
-          </Button>
-        </div>
+        <Button variant="accent" size="sm" onClick={handleToggleBookmark}>
+          {isBookmarked ? 'Saved' : 'Save'}
+        </Button>
+        <Button variant="accent" size="sm" onClick={handleShare}>
+          Share
+        </Button>
       </div>
 
       {/* Tabs */}

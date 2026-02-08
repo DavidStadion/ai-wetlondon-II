@@ -25,9 +25,50 @@
   width: 100%;
   height: 100%;
   background: var(--color-bg-secondary);
-  /* Static placeholder - no animation to reduce GPU load */
 }
 
+.imageShimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Open/Closed status badges */
+.statusOpen {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 20px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: #16a34a;
+  color: #ffffff;
+  z-index: 10;
+}
+
+.statusClosed {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 20px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: #dc2626;
+  color: #ffffff;
+  z-index: 10;
+}
 
 /* Bookmark positioning */
 .bookmark {
@@ -73,7 +114,8 @@
   box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4);
 }
 
-.badge--spotlight {
+.badge--spotlight,
+.badge--spotlightHero {
   background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
   color: #1a1a1a;
   box-shadow: 0 2px 12px rgba(245, 158, 11, 0.5);
@@ -270,8 +312,67 @@
   color: #ffffff;
 }
 
+/* ===== VARIANT: Spotlight Hero (horizontal layout) ===== */
+.card--spotlightHero {
+  flex-direction: row;
+  background: #0f172a;
+  border: 2px solid #10b981;
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.card--spotlightHero .image {
+  width: 50%;
+  height: auto;
+  min-height: 280px;
+  flex-shrink: 0;
+}
+
+.card--spotlightHero .content {
+  width: 50%;
+}
+
+.card--spotlightHero .name,
+.card--spotlightHero .price {
+  color: #ffffff;
+}
+
+.card--spotlightHero .description {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.card--spotlightHero .tag {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.card--spotlightHero .cta {
+  background: transparent;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.card--spotlightHero .cta:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+}
+
 /* Mobile adjustments */
 @media (max-width: 768px) {
+  .card--spotlightHero {
+    flex-direction: column;
+  }
+
+  .card--spotlightHero .image {
+    width: 100%;
+    min-height: 180px;
+  }
+
+  .card--spotlightHero .content {
+    width: 100%;
+  }
+
   .image {
     height: 140px;
   }

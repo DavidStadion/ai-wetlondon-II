@@ -12,7 +12,7 @@ export type VenueType =
 
 export type AreaType = 'central' | 'west' | 'east' | 'north' | 'south';
 export type WetnessLevel = 'dry' | 'slightly' | 'wet';
-export type CardVariant = 'default' | 'featured' | 'sponsored' | 'partner' | 'lucky' | 'spotlight';
+export type CardVariant = 'default' | 'featured' | 'sponsored' | 'partner' | 'lucky' | 'spotlight' | 'spotlightHero';
 
 export interface Venue {
   id?: number;

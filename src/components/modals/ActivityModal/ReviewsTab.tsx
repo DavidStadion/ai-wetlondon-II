@@ -11,7 +11,7 @@ export function ReviewsTab({ venue }: ReviewsTabProps) {
       <div className={styles.summary}>
         <div className={styles.rating}>
           <span className={styles.ratingValue}>{venue.rating.toFixed(1)}</span>
-          <span className={styles.ratingStars}>{'*'.repeat(Math.round(venue.rating))}</span>
+          <span className={styles.ratingStars}>{'★'.repeat(Math.round(venue.rating))}{'☆'.repeat(5 - Math.round(venue.rating))}</span>
         </div>
         <p className={styles.ratingLabel}>Average rating</p>
       </div>
