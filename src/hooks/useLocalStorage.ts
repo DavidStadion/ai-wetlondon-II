@@ -1,4 +1,4 @@
-import { signal, effect } from '@preact/signals';
+import { useState, useCallback } from 'preact/hooks';
 
 /**
  * Hook for localStorage state syncing.
@@ -8,22 +8,18 @@ export function useLocalStorage<T>(
   key: string,
   initialValue: T
 ): [T, (value: T) => void] {
-  const storedValue = signal<T>(getStoredValue(key, initialValue));
+  const [storedValue, setStoredValue] = useState<T>(() => getStoredValue(key, initialValue));
 
-  // Sync to localStorage when value changes
-  effect(() => {
+  const setValue = useCallback((value: T): void => {
+    setStoredValue(value);
     try {
-      localStorage.setItem(key, JSON.stringify(storedValue.value));
+      localStorage.setItem(key, JSON.stringify(value));
     } catch {
       // Ignore write errors (quota exceeded, etc.)
     }
-  });
+  }, [key]);
 
-  const setValue = (value: T): void => {
-    storedValue.value = value;
-  };
-
-  return [storedValue.value, setValue];
+  return [storedValue, setValue];
 }
 
 function getStoredValue<T>(key: string, fallback: T): T {

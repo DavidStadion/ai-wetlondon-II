@@ -8,7 +8,9 @@
   --color-bg-secondary: #1e293b;
   --color-text: #f8fafc;
   --color-text-secondary: #94a3b8;
+  --color-text-accent: #666;
   --color-border: #334155;
+
 
   --color-primary: #2563eb;
   --color-primary-dark: #1d4ed8;
@@ -20,7 +22,7 @@
 
   --color-accent: #dcdaf5;
   --color-accent-hover: #c9c6e8;
-  --color-accent-text: #1a1a1a;
+  
 
   /* Page accent colors */
   --color-partner-accent: #10b981;
@@ -43,7 +45,7 @@
   --wl-border: rgba(255, 255, 255, 0.10);
   --wl-shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.35);
 
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
 
 /*

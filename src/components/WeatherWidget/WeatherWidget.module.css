@@ -69,25 +69,28 @@
 }
 
 .icon {
-  font-size: 2.1rem;
+  font-size: 3rem;
   line-height: 1;
 }
 
 .info {
   display: flex;
+  flex: 1;
   flex-direction: column;
 }
 
 .temp {
-  font-size: 1.5rem;
+  font-size: 2rem;
   font-weight: 600;
   color: var(--color-text);
   line-height: 1.2;
+  margin-bottom: 0.25rem;
 }
 
 .description {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   color: var(--color-text-secondary);
+  text-transform: capitalize;
 }
 
 .details {

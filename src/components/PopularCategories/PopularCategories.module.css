@@ -4,28 +4,28 @@
 }
 
 .container {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 .sectionTitle {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 600;
   color: var(--color-text);
-  margin: 0 0 1.5rem;
+  margin-bottom: 2.5rem;
+  letter-spacing: -0.02em;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
 }
 
 .card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  text-align: left;
   padding: 2rem;
   background: var(--color-bg);
   border: 1px solid var(--color-border);
@@ -79,7 +79,7 @@
 
 .cardDescription {
   font-size: 0.875rem;
-  color: var(--color-text-secondary);
+  color: var(--color-text-accent);
   margin: 0;
   line-height: 1.4;
 }

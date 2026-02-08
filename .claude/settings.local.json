@@ -32,7 +32,9 @@
       "Bash(head:*)",
       "Bash(ls:*)",
       "Bash(npm show:*)",
-      "mcp__plugin_playwright_playwright__browser_console_messages"
+      "mcp__plugin_playwright_playwright__browser_console_messages",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)"
     ]
   }
 }

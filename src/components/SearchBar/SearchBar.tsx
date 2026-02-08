@@ -1,6 +1,6 @@
-import { useRef, useCallback, useEffect } from 'preact/hooks';
-import { keywords } from '@/signals/filterSignals';
-import styles from './SearchBar.module.css';
+import { useRef, useCallback, useEffect } from "preact/hooks";
+import { keywords } from "@/signals/filterSignals";
+import styles from "./SearchBar.module.css";
 
 const DEBOUNCE_MS = 300;
 
@@ -22,9 +22,9 @@ export function SearchBar() {
   }, []);
 
   const handleClear = useCallback(() => {
-    keywords.value = '';
+    keywords.value = "";
     if (inputRef.current) {
-      inputRef.current.value = '';
+      inputRef.current.value = "";
       inputRef.current.focus();
     }
     if (timeoutRef.current !== null) {
@@ -46,10 +46,7 @@ export function SearchBar() {
   return (
     <div className={styles.container}>
       <span className={styles.icon} aria-hidden="true">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <circle cx="11" cy="11" r="8" />
-          <path d="M21 21l-4.35-4.35" />
-        </svg>
+        🔍
       </span>
       <input
         ref={inputRef}
@@ -67,7 +64,16 @@ export function SearchBar() {
           onClick={handleClear}
           aria-label="Clear search"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
             <path d="M18 6L6 18M6 6l12 12" />
           </svg>
         </button>

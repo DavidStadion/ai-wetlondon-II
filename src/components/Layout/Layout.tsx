@@ -31,10 +31,9 @@ function NavLink({ href, children }: NavLinkProps) {
   const [router] = useRouter();
   const currentPath = router.path || '/';
 
-  // Handle hash links (like /#activities)
+  // Hash links are scroll anchors, not separate pages — never mark active
   const isHashLink = href.includes('#');
-  const basePath = href.split('#')[0] || '/';
-  const isActive = isHashLink ? currentPath === basePath : currentPath === href;
+  const isActive = isHashLink ? false : currentPath === href;
 
   if (isHashLink) {
     // Hash links need regular anchor for scroll behavior

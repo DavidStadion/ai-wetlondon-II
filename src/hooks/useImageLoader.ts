@@ -1,4 +1,4 @@
-import { signal, effect } from '@preact/signals';
+import { useState, useEffect } from 'preact/hooks';
 import type { VenueType } from '../types';
 
 const IMAGE_CACHE_KEY = 'wet_london_images_cache';
@@ -28,13 +28,14 @@ export function useImageLoader(
   venueName: string,
   venueTypes: VenueType[] = []
 ): ImageLoaderState {
-  const state = signal<ImageLoaderState>({
-    src: getPlaceholderImage(venueName, venueTypes),
+  const placeholder = getPlaceholderImage(venueName, venueTypes);
+  const [state, setState] = useState<ImageLoaderState>({
+    src: placeholder,
     isLoading: true,
     error: false,
   });
 
-  effect(() => {
+  useEffect(() => {
     let cancelled = false;
 
     const load = async () => {
@@ -42,7 +43,7 @@ export function useImageLoader(
       const cached = getCachedImage(venueName);
       if (cached) {
         if (!cancelled) {
-          state.value = { src: cached, isLoading: false, error: false };
+          setState({ src: cached, isLoading: false, error: false });
         }
         return;
       }
@@ -52,22 +53,14 @@ export function useImageLoader(
         const url = await fetchPlacesImage(venueName);
         if (!cancelled) {
           if (url) {
-            state.value = { src: url, isLoading: false, error: false };
+            setState({ src: url, isLoading: false, error: false });
           } else {
-            state.value = {
-              src: getPlaceholderImage(venueName, venueTypes),
-              isLoading: false,
-              error: true,
-            };
+            setState({ src: placeholder, isLoading: false, error: true });
           }
         }
       } catch {
         if (!cancelled) {
-          state.value = {
-            src: getPlaceholderImage(venueName, venueTypes),
-            isLoading: false,
-            error: true,
-          };
+          setState({ src: placeholder, isLoading: false, error: true });
         }
       }
     };
@@ -77,9 +70,9 @@ export function useImageLoader(
     return () => {
       cancelled = true;
     };
-  });
+  }, [venueName]);
 
-  return state.value;
+  return state;
 }
 
 function getImageCache(): ImageCache {
