@@ -1,55 +1,43 @@
 .hero {
   position: relative;
-  background: var(--color-bg);
-  padding: 3rem 1.5rem 2rem;
-  overflow: hidden;
+  margin-top: 80px;
+  padding: 6rem 3rem;
+  text-align: center;
+  background: transparent;
+  overflow: visible;
 }
 
 .heroContent {
   position: relative;
   z-index: 2;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-.heroTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.branding {
-  flex: 1;
 }
 
 .title {
-  font-size: 3rem;
-  font-weight: 700;
+  font-size: 3.5rem;
+  font-weight: 600;
   color: var(--color-text);
-  margin: 0;
-  line-height: 1.1;
+  margin: 0 0 1rem;
+  letter-spacing: -0.03em;
 }
 
 .tagline {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   color: var(--color-text-secondary);
-  margin: 0.5rem 0 0;
-  max-width: 400px;
+  margin: 0 0 2.5rem;
+  font-weight: 400;
 }
 
 .searchSection {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  position: relative;
+  z-index: 100;
 }
 
 .actions {
   display: flex;
   gap: 1rem;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
@@ -70,10 +58,12 @@
   top: -20px;
   width: 2px;
   height: 20px;
-  background: linear-gradient(to bottom, transparent, rgba(108, 99, 255, 0.56));
+  background: linear-gradient(to bottom, transparent, rgba(77, 163, 255, 0.55));
   animation: fall linear infinite;
   border-radius: 50px;
   will-change: transform;
+  contain: strict;
+  opacity: 0.9;
 }
 
 @keyframes fall {
@@ -104,31 +94,45 @@
 .rainDrop:nth-child(19) { left: 55%; animation-duration: 2.4s; animation-delay: 0.6s; }
 .rainDrop:nth-child(20) { left: 68%; animation-duration: 2.6s; animation-delay: 1.0s; }
 
-/* Responsive */
+/* Weather Widget positioning */
+.weatherWrapper {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 10;
+}
+
+/* Mobile Styles */
 @media (max-width: 768px) {
   .hero {
-    padding: 2rem 1rem 1.5rem;
-  }
-
-  .heroTop {
-    flex-direction: column;
-    align-items: stretch;
+    margin-top: 60px;
+    padding: 3.5rem 1rem 2.25rem;
   }
 
   .title {
-    font-size: 2rem;
+    font-size: 2.15rem;
+    line-height: 1.12;
   }
 
   .tagline {
     font-size: 1rem;
-  }
-
-  .searchSection {
-    flex-direction: column;
-    align-items: stretch;
+    line-height: 1.35;
   }
 
   .actions {
     flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+
+  .weatherWrapper {
+    position: relative;
+    top: auto;
+    right: auto;
+    margin: 0 auto 2rem;
+    max-width: 100%;
   }
 }

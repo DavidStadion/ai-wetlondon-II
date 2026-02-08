@@ -1,11 +1,11 @@
 .widget {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  background: var(--color-bg-secondary);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
+  position: relative;
+  min-width: 320px;
+  padding: 0.9rem;
+  background: rgba(15, 22, 36, 0.92);
+  border-radius: 12px;
+  border: 1px solid var(--wl-border);
+  box-shadow: var(--wl-shadow-soft);
 }
 
 .widget--rainy {
@@ -24,31 +24,116 @@
   gap: 0.25rem;
 }
 
+.refresh {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.refresh:hover {
+  color: var(--color-text);
+  border-color: var(--color-text-secondary);
+}
+
+.refresh:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.refreshing {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
 .icon {
-  font-size: 2rem;
+  font-size: 2.1rem;
   line-height: 1;
 }
 
-.details {
+.info {
   display: flex;
   flex-direction: column;
-  gap: 0.125rem;
 }
 
 .temp {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 600;
   color: var(--color-text);
+  line-height: 1.2;
 }
 
 .description {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+  margin-bottom: 1rem;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.value {
+  font-size: 0.85rem;
+  font-weight: 500;
   color: var(--color-text);
 }
 
-.feelsLike {
+.message {
+  background: rgba(37, 99, 235, 0.1);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.updated {
   font-size: 0.75rem;
   color: var(--color-text-secondary);
+  text-align: center;
 }
 
 .error {

@@ -1,4 +1,5 @@
 .page {
+  padding-top: 80px; /* Account for fixed header */
   padding-bottom: 3rem;
 }
 

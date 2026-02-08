@@ -5,6 +5,8 @@ import styles from './WeatherWidget.module.css';
 interface WeatherData {
   temp: number;
   feelsLike: number;
+  humidity: number;
+  rain: number;
   description: string;
   isRaining: boolean;
   weatherCode: number;
@@ -13,7 +15,7 @@ interface WeatherData {
 type LoadingState = 'loading' | 'success' | 'error';
 
 const LONDON_COORDS = { lat: 51.5074, lon: -0.1278 };
-const API_URL = `https://api.open-meteo.com/v1/forecast?latitude=${LONDON_COORDS.lat}&longitude=${LONDON_COORDS.lon}&current=temperature_2m,apparent_temperature,weather_code,precipitation`;
+const API_URL = `https://api.open-meteo.com/v1/forecast?latitude=${LONDON_COORDS.lat}&longitude=${LONDON_COORDS.lon}&current=temperature_2m,apparent_temperature,weather_code,precipitation,relative_humidity_2m`;
 
 function getWeatherDescription(code: number): string {
   if (code === 0) return 'Clear sky';
@@ -36,41 +38,62 @@ function getWeatherIcon(code: number): string {
   return '\u2601\ufe0f'; // cloud
 }
 
+function getWeatherMessage(code: number, isRaining: boolean): string {
+  if (isRaining || code >= 50) {
+    return "It's wet out there! Perfect time for indoor activities.";
+  }
+  if (code <= 3) {
+    return "Nice weather, but we've got indoor options if you prefer!";
+  }
+  return "Weather's looking uncertain. Stay prepared!";
+}
+
+function formatTime(date: Date): string {
+  return date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+}
+
 export function WeatherWidget() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [state, setState] = useState<LoadingState>('loading');
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  async function fetchWeather(signal?: AbortSignal) {
+    try {
+      const response = await fetch(API_URL, { signal });
+      if (!response.ok) throw new Error('Weather fetch failed');
+
+      const data = await response.json();
+      const current = data.current;
+
+      setWeather({
+        temp: Math.round(current.temperature_2m),
+        feelsLike: Math.round(current.apparent_temperature),
+        humidity: Math.round(current.relative_humidity_2m),
+        rain: current.precipitation,
+        description: getWeatherDescription(current.weather_code),
+        isRaining: current.weather_code >= 50 || current.precipitation > 0,
+        weatherCode: current.weather_code,
+      });
+      setState('success');
+      setLastUpdated(new Date());
+    } catch (err) {
+      if (err instanceof Error && err.name === 'AbortError') return;
+      setState('error');
+    }
+  }
 
   useEffect(() => {
     const controller = new AbortController();
-
-    async function fetchWeather() {
-      try {
-        const response = await fetch(API_URL, { signal: controller.signal });
-        if (!response.ok) throw new Error('Weather fetch failed');
-
-        const data = await response.json();
-        const current = data.current;
-
-        setWeather({
-          temp: Math.round(current.temperature_2m),
-          feelsLike: Math.round(current.apparent_temperature),
-          description: getWeatherDescription(current.weather_code),
-          isRaining: current.weather_code >= 50 || current.precipitation > 0,
-          weatherCode: current.weather_code,
-        });
-        setState('success');
-      } catch (err) {
-        if (err instanceof Error && err.name === 'AbortError') return;
-        setState('error');
-      }
-    }
-
-    fetchWeather();
-
-    return () => {
-      controller.abort();
-    };
+    fetchWeather(controller.signal);
+    return () => controller.abort();
   }, []);
+
+  function handleRefresh() {
+    if (refreshing) return;
+    setRefreshing(true);
+    fetchWeather().finally(() => setRefreshing(false));
+  }
 
   if (state === 'loading') {
     return (
@@ -101,14 +124,50 @@ export function WeatherWidget() {
       className={`${styles.widget} ${weather.isRaining ? styles['widget--rainy'] : ''}`}
       aria-label={`Current weather in London: ${weather.temp} degrees, ${weather.description}`}
     >
-      <span className={styles.icon} aria-hidden="true">
-        {getWeatherIcon(weather.weatherCode)}
-      </span>
-      <div className={styles.details}>
-        <span className={styles.temp}>{weather.temp}°C</span>
-        <span className={styles.description}>{weather.description}</span>
-        <span className={styles.feelsLike}>Feels like {weather.feelsLike}°C</span>
+      <button
+        type="button"
+        className={`${styles.refresh} ${refreshing ? styles.refreshing : ''}`}
+        onClick={handleRefresh}
+        aria-label="Refresh weather"
+        disabled={refreshing}
+      >
+        ↻
+      </button>
+
+      <div className={styles.main}>
+        <span className={styles.icon} aria-hidden="true">
+          {getWeatherIcon(weather.weatherCode)}
+        </span>
+        <div className={styles.info}>
+          <span className={styles.temp}>{weather.temp}°C</span>
+          <span className={styles.description}>{weather.description}</span>
+        </div>
       </div>
+
+      <div className={styles.details}>
+        <div className={styles.detailItem}>
+          <span className={styles.label}>Feels like</span>
+          <span className={styles.value}>{weather.feelsLike}°C</span>
+        </div>
+        <div className={styles.detailItem}>
+          <span className={styles.label}>Humidity</span>
+          <span className={styles.value}>{weather.humidity}%</span>
+        </div>
+        <div className={styles.detailItem}>
+          <span className={styles.label}>Rain</span>
+          <span className={styles.value}>{weather.rain}mm</span>
+        </div>
+      </div>
+
+      <div className={styles.message}>
+        {getWeatherMessage(weather.weatherCode, weather.isRaining)}
+      </div>
+
+      {lastUpdated && (
+        <div className={styles.updated}>
+          Updated: {formatTime(lastUpdated)}
+        </div>
+      )}
     </div>
   );
 }

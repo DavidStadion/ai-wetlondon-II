@@ -10,7 +10,7 @@ interface HeroProps {
 
 export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
   return (
-    <section className={styles.hero}>
+    <section className={styles.hero} id="hero">
       {/* Rain Animation */}
       <div className={styles.rain}>
         {Array.from({ length: 20 }, (_, i) => (
@@ -18,27 +18,27 @@ export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
         ))}
       </div>
 
+      {/* Weather Widget - positioned absolutely */}
+      <div className={styles.weatherWrapper}>
+        <WeatherWidget />
+      </div>
+
       <div className={styles.heroContent}>
-        <div className={styles.heroTop}>
-          <div className={styles.branding}>
-            <h1 className={styles.title}>Wet London.</h1>
-            <p className={styles.tagline}>
-              London ideas for when the weather is awful...
-            </p>
-          </div>
-          <WeatherWidget />
-        </div>
+        <h1 className={styles.title}>Wet London.</h1>
+        <p className={styles.tagline}>
+          London ideas for when the weather is awful and your motivation is worse.
+        </p>
 
         <div className={styles.searchSection}>
           <SearchBar />
         </div>
 
         <div className={styles.actions}>
-          <Button onClick={onCustomize} variant="accent">
+          <Button onClick={onCustomize} variant="accent" size="lg">
             Customize Your Experience
           </Button>
-          <Button onClick={onFeelingLucky} variant="secondary">
-            I'm Feeling Lucky
+          <Button onClick={onFeelingLucky} variant="secondary" size="lg">
+            🎲 I'm Feeling Lucky
           </Button>
         </div>
       </div>

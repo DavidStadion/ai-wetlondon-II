@@ -1,5 +1,5 @@
 .page {
-  padding: 2rem 0 5rem;
+  padding: 80px 0 5rem; /* 80px accounts for fixed header */
 }
 
 /* Hero */

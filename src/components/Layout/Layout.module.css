@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--color-bg-secondary);
+  background: radial-gradient(1200px 700px at 20% 0%, rgba(77,163,255,0.12), transparent 55%), radial-gradient(900px 500px at 90% 10%, rgba(124,195,255,0.08), transparent 55%), var(--wl-bg);
 }
 
 /* Header */
@@ -106,7 +106,6 @@
 /* Main Content */
 .main {
   flex: 1;
-  padding-top: 80px; /* Account for fixed header height */
 }
 
 /* Footer */
