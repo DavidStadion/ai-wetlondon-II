@@ -35,17 +35,18 @@ For each chunk, run this loop:
 ```
 CYCLE = 1
 while CYCLE <= 3:
-    1. Delegate to doer agent:
+    1. Use the Task tool with subagent_type: 'doer':
        "Implement chunk N: [description]. Here's what to do: [details]"
 
-    2. Delegate to verifier agent:
+    2. Use the Task tool with subagent_type: 'verifier':
        "Review the implementation of chunk N against this plan: [details]"
 
     3. If verifier returns "APPROVED":
        → Move to next chunk
 
     4. If verifier returns "ISSUES":
-       → Pass issues to doer: "Fix these issues: [list]"
+       → Pass issues to doer (via Task tool with subagent_type: 'doer'):
+         "Fix these issues: [list]"
        → CYCLE += 1
 
 if CYCLE > 3:
@@ -53,6 +54,10 @@ if CYCLE > 3:
     "Chunk N failed verification after 3 attempts. Issues remaining: [list]"
     "Please provide guidance on how to proceed."
 ```
+
+**Cross-chunk context:** When starting a new chunk, include a summary of what previous chunks implemented (files changed, key decisions) so the doer has full context.
+
+**Dev server:** If the plan involves UI changes, ensure the Vite dev server is running (`npm run dev`) before verification.
 
 ### Step 3: Completion
 

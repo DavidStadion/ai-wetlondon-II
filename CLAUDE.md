@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Wet London is a web app helping Londoners discover indoor activities during rainy weather. Activities are rated by "wetness score" (0-100) indicating rain exposure. The frontend is vanilla HTML/CSS/JS, deployed on Vercel with serverless API functions.
+Wet London is a web app helping Londoners discover indoor activities during rainy weather. Activities are rated by "wetness score" (0-100) indicating rain exposure. The frontend is a Preact + TypeScript SPA built with Vite, deployed on Vercel with serverless API functions.
 
 ## Approach
 
@@ -77,73 +77,104 @@ This ensures quality through automated review cycles rather than manual back-and
 
 ## Development
 
-This is a static frontend with Vercel serverless functions. No build step required.
+Preact + Vite SPA with serverless API functions.
 
-**Local development:** Open `index.html` directly in browser for basic testing, or use Vercel CLI for API functions:
-```bash
-npx vercel dev
-```
+**Scripts:**
+- `npm run dev` — Vite dev server with HMR
+- `npm run dev:api` — Local API server (`node server.js`) for `/api` routes
+- `npm run build` — TypeScript check + Vite build
+- `npm run typecheck` — TypeScript only
+- `npm run lint` — ESLint
 
-**API functions require environment variables:**
-- `GOOGLE_PLACES_API_KEY` or `GOOGLE_MAPS_API_KEY` - For place photos and details
-- `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` - For user reviews API
+**Notes:**
+- Vite proxies `/api` to `localhost:3000` in dev
+- Run `npm run dev` and `npm run dev:api` in separate terminals for full local development
+
+**Environment variables:**
+- `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` — Client-side (Supabase)
+- `GOOGLE_MAPS_KEY` — Server-only (API functions)
 
 ## Architecture
 
 ### Data Flow
-1. **Primary source:** Supabase database via `js/supabase-client.js` (`venues` table)
-2. **Fallback:** Static `js/data.js` array if Supabase fails
-3. Data loads on page init, fires `venues:loaded` custom event when ready
-4. Global `window.londonVenues` holds the active venue list
+1. Supabase database via `src/utils/supabase.ts` — `fetchVenues()` loads the `venues` table
+2. `convertVenue()` maps snake_case DB fields to camelCase
+3. Data stored in `venues` signal (`src/signals/venueSignals.ts`)
+4. No fallback data file — Supabase is the sole source
 
-### Filter System
-Single source of truth in `js/filter-state.js`:
-- `filters` object contains all filter state (keywords, types, areas, wetness, openNow, constraints)
-- `applyFilters()` is the only function that should trigger filtering
-- Calls `filterVenues()` from app.js, then `setGeneratedResults()` to render
+### State Management
+`@preact/signals` — all reactive state lives in `src/signals/`:
+- **venueSignals.ts** — venues list, filtered/sorted views, stats
+- **filterSignals.ts** — all filter state (keywords, types, areas, wetness, openNow, constraints)
+- **uiSignals.ts** — modals, bookmarks, toasts, recently viewed
+- **weatherSignals.ts** — weather data
+- **eventSignals.ts** — events data
+- **partnerSignals.ts** — partner venues
+- **adminSignals.ts** — admin state
 
-### Key Files
-- **js/app.js** - Main application logic: rendering, modals, search, image loading (lazy-loaded via IntersectionObserver)
-- **js/data.js** - Fallback venue data with full schema example
-- **js/filter-state.js** - Centralized filter state management
-- **js/supabase-client.js** - Database client, `convertVenue()` maps snake_case DB fields to camelCase
+### Routing
+`preact-router` in `src/main.tsx`:
+
+| Route | Page Component |
+|-------|---------------|
+| `/` | `HomePage` |
+| `/about` | `AboutPage` |
+| `/events` | `EventsPage` |
+| `/popups` | `PopupsPage` |
+| `/situations` | `SituationsPage` |
+| `/admin` | `AdminPage` |
+
+### Component Structure
+Co-located in `src/components/` — each directory contains:
+- `Component.tsx` — main component
+- `Component.module.css` — styles
+- `index.ts` — barrel export
+
+Pages live in `src/pages/`.
+
+### Key Utilities
+- `src/utils/openingHours.ts` — `isVenueOpenNow()` returns true/false/null
+- `src/utils/formatters.ts` — display formatting helpers
+- `src/hooks/useImageLoader.ts` — signal-based image loading with localStorage cache
 
 ### Venue Data Model
-```javascript
-{
-  name: string,
-  type: string[],           // e.g., ["museums", "historic"]
-  location: string,         // "central", "west", "east", etc.
-  wetness: string,          // "dry", "slightly", "wet"
-  wetnessScore: number,     // 0-100, lower is drier
-  price: number,
-  priceDisplay: string,     // e.g., "FREE", "£26"
-  prerequisites: string[],  // accessibility/amenity tags
-  openingHours: object,     // day: "HH:MM-HH:MM" format
-  sponsored: boolean,
-  highlighted: boolean,
-  featured: boolean
+```typescript
+type VenueType = 'museums' | 'galleries' | 'theatre' | 'dining' | 'entertainment' | ... ;
+type AreaType = 'central' | 'west' | 'east' | 'north' | 'south';
+type WetnessLevel = 'dry' | 'slightly' | 'wet';
+type CardVariant = 'default' | 'featured' | 'sponsored' | 'partner' | 'lucky' | 'spotlight' | 'spotlightHero';
+
+interface Venue {
+  id?: number;
+  name: string;
+  type: VenueType[];
+  location: AreaType;
+  wetness: WetnessLevel;
+  wetnessScore: number;       // 0-100, lower is drier
+  price: number;
+  priceDisplay: string;       // e.g., "FREE", "£26"
+  description: string;
+  rating: number;
+  sponsored?: boolean;
+  highlighted?: boolean;
+  featured?: boolean;
+  affiliateLink?: string | null;
+  prerequisites?: string[];   // accessibility/amenity tags
+  openingHours?: Record<string, string> | null;  // day: "HH:MM-HH:MM"
 }
 ```
 
+Types defined in `src/types/venue.ts`.
+
 ### API Functions (Vercel Serverless)
-Located in `api/`:
-- **place-photo.js** - Google Places photos proxy (keeps API key server-side)
+Located in `api/` (vanilla JS, served by `server.js` locally):
+- **place-photo.js** — Google Places photos proxy (keeps API key server-side)
   - `GET /api/place-photo?q=venue+name` returns proxy URL
   - `GET /api/place-photo?photo=places/...` streams actual image
-- **place-details.js** - Fetches reviews, ratings, hours from Google Places
-- **reviews.js** - User review CRUD via Supabase `user_reviews` table
+- **place-details.js** — Fetches reviews, ratings, hours from Google Places
+- **reviews.js** — User review CRUD via Supabase `user_reviews` table
 
 ### Image Loading Strategy
 1. Check localStorage cache (7-day TTL)
 2. Try Google Places API via `/api/place-photo`
-3. Fall back to Unsplash API
-4. Generate gradient/SVG placeholder if all fail
-
-### Pages
-- `index.html` - Main activity browser
-- `events.html` - Events/what's on
-- `popups.html` - Pop-up venues
-- `situations.html` - Curated lists by situation ("For who?")
-- `about.html` - About page
-- `admin.html` - Admin interface
+3. Generate SVG gradient placeholder if API fails

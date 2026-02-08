@@ -45,12 +45,21 @@ Review for these vulnerabilities:
 - [ ] Consistent formatting
 - [ ] Clear naming conventions
 
+## Project-Specific Checks
+- [ ] Signals not mutated during render (use `useEffect` for side effects)
+- [ ] CSS uses modules, not global styles or inline styles
+- [ ] CSS variables used for colors/spacing (no hardcoded values)
+- [ ] Components follow co-location pattern (`.tsx` + `.module.css` + `index.ts`)
+- [ ] Imports use `@/` path alias, not relative `../../`
+- [ ] Types imported from `src/types/`, not redefined locally
+
 ## Browser Validation
 When UI changes are involved:
-1. Navigate to the relevant page
-2. Take a snapshot to verify layout
-3. Check console for errors
-4. Test key interactions
+1. Verify the Vite dev server is running (`npm run dev`) before navigating
+2. Navigate to the relevant page
+3. Take a snapshot to verify layout
+4. Check console for errors
+5. Test key interactions
 
 ## Output Format
 Return ONE of these:

@@ -109,6 +109,38 @@ export function toggleType(type: VenueType): void {
 }
 ```
 
+## CSS Modules
+
+**Import pattern:**
+```tsx
+import styles from './Component.module.css';
+```
+
+**Class composition:**
+```tsx
+<div className={[styles.card, variant && styles[`card--${variant}`]].filter(Boolean).join(' ')}>
+```
+
+**Naming conventions:**
+- camelCase base classes: `.card`, `.content`, `.headerNav`
+- BEM-style variants: `.card--featured`, `.button--primary`
+
+**CSS variables — always use tokens from `src/styles/global.css`:**
+```css
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+}
+```
+
+**No global styles or inline styles.**
+
+## Signals Gotchas
+
+- **Never mutate signals during render** — use `useEffect` for side effects
+- **Immutable Set/Map updates** — always create a new Set/Map, never `.add()` or `.delete()` on the existing one
+
 ## TypeScript Patterns
 
 **Union types for constrained values:**

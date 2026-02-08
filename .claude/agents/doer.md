@@ -32,6 +32,15 @@ You are a senior frontend developer specializing in:
 - Don't add error handling for impossible scenarios
 - Don't "improve" adjacent code that wasn't part of the task
 
+## Project Context
+
+- **Path alias:** `@/` maps to `src/`
+- **State:** `@preact/signals` — signals in `src/signals/`, never mutate during render
+- **Styling:** CSS Modules with co-located `.module.css` files, use CSS variables from `src/styles/global.css`
+- **Component pattern:** `Component.tsx` + `Component.module.css` + `index.ts` barrel export
+- **Types:** defined in `src/types/` (`venue.ts`, `event.ts`, `partner.ts`)
+- **Data:** Supabase client in `src/utils/supabase.ts`, DB fields are snake_case converted to camelCase via `convertVenue()`
+
 ### Output Format
 When complete, summarize:
 1. Files created/modified
