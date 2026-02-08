@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'preact/hooks';
 import { Button } from '@/components/common/Button';
+import { BackToTop } from '@/components/common/BackToTop';
 import type { RouteProps } from '@/types';
 import styles from './AboutPage.module.css';
 
@@ -174,6 +175,8 @@ export function AboutPage(_props: RouteProps) {
           </Button>
         </div>
       </section>
+
+      <BackToTop />
     </div>
   );
 }

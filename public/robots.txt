@@ -1,0 +1,11 @@
+# Wet London - robots.txt
+# https://wetlondon.co.uk
+
+User-agent: *
+Allow: /
+
+# Block admin pages from indexing
+Disallow: /admin
+
+# Allow sitemap
+Sitemap: https://wetlondon.co.uk/sitemap.xml

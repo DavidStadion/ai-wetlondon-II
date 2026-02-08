@@ -12,6 +12,7 @@ import { fetchEvents, sampleEvents } from '@/utils/supabase';
 import type { Event, EventCategory, RouteProps } from '@/types';
 import { EVENT_CATEGORY_LABELS } from '@/types/event';
 import { Button } from '@/components/common/Button';
+import { BackToTop } from '@/components/common/BackToTop';
 import styles from './EventsPage.module.css';
 
 const FILTERS: Array<{ value: EventCategory | 'all'; label: string }> = [
@@ -230,6 +231,8 @@ export function EventsPage(_props: RouteProps) {
           </Button>
         </div>
       </section>
+
+      <BackToTop />
     </div>
   );
 }

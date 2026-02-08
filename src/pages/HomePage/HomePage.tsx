@@ -11,7 +11,7 @@ import {
   sortOption,
 } from '@/signals/venueSignals';
 import type { SortOption } from '@/signals/venueSignals';
-import { hasActiveFilters } from '@/signals/filterSignals';
+import { hasActiveFilters, clearAllFilters } from '@/signals/filterSignals';
 import {
   loadBookmarks,
   loadRecentlyViewed,
@@ -23,6 +23,7 @@ import { fetchVenues } from '@/utils/supabase';
 import type { Venue, CardVariant, RouteProps } from '@/types';
 
 import { Hero } from '@/components/Hero';
+import { QuickFilters } from '@/components/QuickFilters';
 import { PopularCategories } from '@/components/PopularCategories';
 import { FilterChips } from '@/components/FilterChips';
 import { ActivityCard } from '@/components/ActivityCard';
@@ -135,6 +136,9 @@ export function HomePage(_props: RouteProps) {
     <div className={styles.page}>
       {/* Hero Section */}
       <Hero onCustomize={openCustomizeModal} onFeelingLucky={handleFeelingLucky} />
+
+      {/* Quick Filter Pills */}
+      <QuickFilters />
 
       {/* Popular Categories */}
       <PopularCategories />
@@ -253,9 +257,14 @@ export function HomePage(_props: RouteProps) {
             <p className={styles.emptyMessage}>
               No activities match your filters. Try adjusting your search criteria.
             </p>
-            <Button onClick={openCustomizeModal} variant="secondary">
-              Customize Filters
-            </Button>
+            <div className={styles.emptyActions}>
+              <Button onClick={clearAllFilters}>
+                Clear All Filters
+              </Button>
+              <Button onClick={openCustomizeModal} variant="secondary">
+                Adjust Filters
+              </Button>
+            </div>
           </div>
         )}
 

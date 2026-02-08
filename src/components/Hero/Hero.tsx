@@ -1,6 +1,7 @@
 import { SearchBar } from '@/components/SearchBar';
 import { WeatherWidget } from '@/components/WeatherWidget';
 import { Button } from '@/components/common/Button';
+import { weatherMessage, weatherIcon } from '@/signals/weatherSignals';
 import styles from './Hero.module.css';
 
 interface HeroProps {
@@ -24,6 +25,12 @@ export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
       </div>
 
       <div className={styles.heroContent}>
+        {weatherMessage.value && (
+          <div className={styles.weatherMessage}>
+            <span className={styles.weatherMessageIcon}>{weatherIcon.value}</span>
+            <span>{weatherMessage.value}</span>
+          </div>
+        )}
         <h1 className={styles.title}>Wet London.</h1>
         <p className={styles.tagline}>
           London ideas for when the weather is awful and your motivation is worse.

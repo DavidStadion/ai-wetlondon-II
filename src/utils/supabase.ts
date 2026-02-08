@@ -46,6 +46,11 @@ export function convertVenue(dbVenue: DbVenue): Venue {
     .filter((t): t is VenueType => t !== null);
   const uniqueTypes = [...new Set(cleanedTypes)];
 
+  const price = parseFloat(String(dbVenue.price)) || 0;
+  const rawDisplay = dbVenue.price_display;
+  const hasValidDisplay = rawDisplay && !/^[\d.]+$/.test(String(rawDisplay).trim());
+  const priceDisplay = hasValidDisplay ? rawDisplay : price === 0 ? 'FREE' : `£${Math.round(price)}`;
+
   return {
     id: dbVenue.id,
     name: dbVenue.name,
@@ -53,8 +58,8 @@ export function convertVenue(dbVenue: DbVenue): Venue {
     location: dbVenue.location as AreaType,
     wetness: dbVenue.wetness as WetnessLevel,
     wetnessScore: dbVenue.wetness_score,
-    price: parseFloat(String(dbVenue.price)) || 0,
-    priceDisplay: dbVenue.price_display,
+    price,
+    priceDisplay,
     description: dbVenue.description,
     rating: parseFloat(String(dbVenue.rating)) || 4.5,
     sponsored: dbVenue.sponsored || false,

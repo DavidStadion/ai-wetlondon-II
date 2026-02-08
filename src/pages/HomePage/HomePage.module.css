@@ -163,6 +163,13 @@
   margin-inline: auto;
 }
 
+.emptyActions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 /* Error State */
 .errorState {
   text-align: center;

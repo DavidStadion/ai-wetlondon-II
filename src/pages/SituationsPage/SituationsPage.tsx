@@ -12,6 +12,7 @@ import type { Venue, VenueType, RouteProps } from '@/types';
 import { ActivityCard } from '@/components/ActivityCard';
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { Button } from '@/components/common/Button';
+import { BackToTop } from '@/components/common/BackToTop';
 import styles from './SituationsPage.module.css';
 
 type Situation = 'solo' | 'couple' | 'date' | 'friends' | 'group' | 'work' | 'kids' | 'quiet' | 'chaotic';
@@ -50,7 +51,6 @@ const PAGE_SIZE = 9;
 // Local signals for this page
 const currentSituation = signal<Situation | null>(null);
 const shownCount = signal<number>(PAGE_SIZE);
-const showBackToTop = signal<boolean>(false);
 
 function hasAnyType(venue: Venue, types: VenueType[]): boolean {
   return types.some((t) => venue.type.includes(t));
@@ -127,15 +127,6 @@ export function SituationsPage(_props: RouteProps) {
     loadVenues();
   }, []);
 
-  useEffect(() => {
-    function handleScroll() {
-      showBackToTop.value = window.scrollY > 500;
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const selectSituation = useCallback((sit: Situation) => {
     currentSituation.value = sit;
     shownCount.value = PAGE_SIZE;
@@ -149,10 +140,6 @@ export function SituationsPage(_props: RouteProps) {
 
   const loadMore = useCallback(() => {
     shownCount.value += PAGE_SIZE;
-  }, []);
-
-  const scrollToTop = useCallback(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   const loading = isLoading.value;
@@ -254,18 +241,7 @@ export function SituationsPage(_props: RouteProps) {
         </div>
       </section>
 
-      {/* Back to Top */}
-      <button
-        type="button"
-        className={`${styles.backToTop} ${showBackToTop.value ? styles.show : ''}`}
-        onClick={scrollToTop}
-        aria-label="Back to top"
-        title="Back to top"
-      >
-        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M12 5l-7 7 1.4 1.4L11 8.8V20h2V8.8l4.6 4.6L19 12z" fill="currentColor"/>
-        </svg>
-      </button>
+      <BackToTop />
 
       {/* Activity Modal */}
       <ActivityModal

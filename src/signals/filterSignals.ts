@@ -37,6 +37,7 @@ export function clearAllFilters(): void {
   maxWetnessScore.value = 100;
   openNow.value = false;
   constraints.value = new Set();
+  isDateFilter.value = false;
 }
 
 export function toggleType(type: VenueType): void {
@@ -71,4 +72,29 @@ export function toggleConstraint(constraint: string): void {
 
 export function setTypeFilter(type: VenueType): void {
   selectedTypes.value = new Set([type]);
+}
+
+export const DATE_NIGHT_TYPES: VenueType[] = [
+  'dining', 'theatre', 'comedy', 'music', 'cocktails', 'cinema',
+];
+
+export const isDateFilter = signal<boolean>(false);
+
+export function toggleDateFilter(): void {
+  const active = isDateFilter.value;
+  if (active) {
+    const current = new Set(selectedTypes.value);
+    DATE_NIGHT_TYPES.forEach((t) => current.delete(t));
+    selectedTypes.value = current;
+    isDateFilter.value = false;
+  } else {
+    const current = new Set(selectedTypes.value);
+    DATE_NIGHT_TYPES.forEach((t) => current.add(t));
+    selectedTypes.value = current;
+    isDateFilter.value = true;
+  }
+}
+
+export function clearQuickFilters(): void {
+  isDateFilter.value = false;
 }

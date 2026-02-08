@@ -12,6 +12,7 @@ import { fetchPartners } from '@/utils/supabase';
 import type { Partner, PartnerType, PartnerLocation, RouteProps } from '@/types';
 import { PARTNER_TYPE_LABELS, PARTNER_LOCATION_LABELS } from '@/types/partner';
 import { Button } from '@/components/common/Button';
+import { BackToTop } from '@/components/common/BackToTop';
 import styles from './PopupsPage.module.css';
 
 const LOCATION_FILTERS: Array<{ value: PartnerLocation | 'all'; label: string }> = [
@@ -103,7 +104,7 @@ export function PopupsPage(_props: RouteProps) {
     <div className={styles.page}>
       {/* Hero */}
       <section className={styles.hero}>
-        <h1 className={styles.title}>Pop-ups</h1>
+        <h1 className={styles.title}>Pop-Ups</h1>
         <p className={styles.tagline}>
           Discover pop-up workshops, classes, and creative experiences from London's best independent businesses. Perfect for rainy days.
         </p>
@@ -187,6 +188,8 @@ export function PopupsPage(_props: RouteProps) {
           </Button>
         </div>
       </section>
+
+      <BackToTop />
     </div>
   );
 }

@@ -144,6 +144,16 @@ export function ActivityModal({ venue, isOpen, onClose, imageUrl }: ActivityModa
         ))}
       </div>
 
+      {/* Tab indicators */}
+      <div className={styles.tabIndicators} aria-hidden="true">
+        {TABS.map((tab) => (
+          <span
+            key={tab.id}
+            className={`${styles.tabDot} ${activeTab === tab.id ? styles['tabDot--active'] : ''}`}
+          />
+        ))}
+      </div>
+
       {/* Tab content */}
       <div
         className={styles.tabContent}

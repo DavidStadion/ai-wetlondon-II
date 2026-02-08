@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'preact/hooks';
 import { SkeletonLoader } from '@/components/common/SkeletonLoader';
+import { weatherState } from '@/signals/weatherSignals';
 import styles from './WeatherWidget.module.css';
 
 interface WeatherData {
@@ -75,6 +76,11 @@ export function WeatherWidget() {
         isRaining: current.weather_code >= 50 || current.precipitation > 0,
         weatherCode: current.weather_code,
       });
+      weatherState.value = {
+        weatherCode: current.weather_code,
+        isRaining: current.weather_code >= 50 || current.precipitation > 0,
+        temp: Math.round(current.temperature_2m),
+      };
       setState('success');
       setLastUpdated(new Date());
     } catch (err) {

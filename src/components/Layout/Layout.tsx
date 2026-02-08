@@ -94,8 +94,8 @@ export function Layout({ children }: LayoutProps) {
           <NavLink href="/#all-activities">All Activities</NavLink>
           <NavLink href="/#bookmarks">My Bookmarks</NavLink>
           <NavLink href="/events">What's On</NavLink>
-          <NavLink href="/popups">Pop-ups</NavLink>
-          <NavLink href="/situations">For who?</NavLink>
+          <NavLink href="/popups">Pop-Ups</NavLink>
+          <NavLink href="/situations">Pick Your Vibe</NavLink>
           <NavLink href="/about">About Us</NavLink>
         </nav>
       </header>
@@ -156,7 +156,7 @@ export function Layout({ children }: LayoutProps) {
                 <li><Link href="/">Home</Link></li>
                 <li><a href="/#activities">Featured Activities</a></li>
                 <li><a href="/#all-activities">All Activities</a></li>
-                <li><Link href="/popups">Pop-ups</Link></li>
+                <li><Link href="/popups">Pop-Ups</Link></li>
                 <li><a href="/#bookmarks">My Bookmarks</a></li>
               </ul>
             </div>
@@ -184,7 +184,7 @@ export function Layout({ children }: LayoutProps) {
             <div className={styles.footerColumn}>
               <h4 className={styles.footerHeading}>Resources</h4>
               <ul className={styles.footerLinks}>
-                <li><Link href="/situations">For who? About Us</Link></li>
+                <li><Link href="/situations">Pick Your Vibe</Link></li>
                 <li><Link href="/contact">Contact</Link></li>
                 <li><Link href="/blog">Blog</Link></li>
                 <li><Link href="/partnerships">Partnerships</Link></li>
@@ -217,7 +217,7 @@ export function Layout({ children }: LayoutProps) {
                 Wet London only lists places that still work when the weather doesn't.
               </p>
               <p className={styles.footerMadeWith}>
-                Made with ☁️ in London
+                Made by Dave ☔
               </p>
             </div>
           </div>
