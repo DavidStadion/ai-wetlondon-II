@@ -25,6 +25,11 @@
   width: 100%;
   height: 100%;
   background: var(--color-bg-secondary);
+  transition: transform 0.3s ease;
+}
+
+.card:hover .imagePlaceholder {
+  transform: scale(1.04);
 }
 
 .imageShimmer {
@@ -72,34 +77,36 @@
 
 /* Bookmark positioning */
 .bookmark {
-  position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
-  z-index: 10;
-  background: var(--color-bg);
-  border-radius: 50%;
-  padding: 0.25rem;
-  box-shadow: var(--shadow-sm);
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 10;
+    border-radius: 50%;
+    padding: 0.25rem;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
 /* Variant badge */
 .badge {
   position: absolute;
-  top: 0.75rem;
-  left: 0.75rem;
-  padding: 0.35rem 0.75rem;
-  border-radius: 20px;
-  font-size: 0.7rem;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
-  z-index: 10;
+  letter-spacing: 0.05em;
+  z-index: 12;
+  box-shadow: 0 2px 12px rgba(245, 158, 11, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .badge--featured {
-  background: linear-gradient(135deg, var(--color-accent) 0%, #b8b4e8 100%);
-  color: var(--color-accent-text);
-  box-shadow: 0 2px 8px rgba(220, 218, 245, 0.4);
+  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  color: #1a1a1a;
+  box-shadow: 0 2px 12px rgba(245, 158, 11, 0.5);
 }
 
 .badge--sponsored {
@@ -160,6 +167,8 @@
 
 /* Description */
 .description {
+  flex: 1 1 auto;
+  min-height: 2.4em;
   margin: 0 0 1rem;
   font-size: 0.875rem;
   line-height: 1.5;
@@ -170,20 +179,17 @@
   overflow: hidden;
 }
 
-/* Footer */
-.footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1rem;
+/* Wetness + Price */
+.wetnessRow {
+  margin-bottom: 0.5rem;
 }
 
 .price {
+  display: block;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-text);
-  letter-spacing: -0.01em;
+  margin-bottom: 1rem;
 }
 
 /* CTA Button */
@@ -191,9 +197,9 @@
   margin-top: auto;
   width: 100%;
   padding: 0.75rem;
-  background: var(--color-bg);
-  color: var(--color-text);
-  border: 1px solid var(--color-text);
+  background: #ffffff;
+  color: #1a1a1a;
+  border: 1px solid #1a1a1a;
   border-radius: var(--radius-md);
   font-size: 0.9rem;
   font-weight: 500;
@@ -202,35 +208,33 @@
 }
 
 .cta:hover {
-  background: var(--color-text);
-  color: var(--color-bg);
+  background: #1a1a1a;
+  color: #ffffff;
 }
 
 /* ===== VARIANT: Featured ===== */
 .card--featured {
-  background: linear-gradient(135deg, var(--color-accent) 0%, #c9c6e8 100%);
-  border-color: var(--color-accent);
+  background: #0f172a;
+  border: 2px solid #f59e0b;
+  box-shadow: 0 0 24px rgba(245, 158, 11, 0.25), 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .card--featured .name,
 .card--featured .price {
-  color: var(--color-accent-text);
+  color: #ffffff;
+}
+
+.card--featured .description {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .card--featured .tag {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.card--featured .cta {
-  background: var(--color-accent-text);
-  color: var(--color-bg);
-  border-color: var(--color-accent-text);
-}
 
-.card--featured .cta:hover {
-  background: #333333;
-}
 
 /* ===== VARIANT: Sponsored ===== */
 .card--sponsored {
@@ -316,14 +320,14 @@
 .card--spotlightHero {
   flex-direction: row;
   background: #0f172a;
-  border: 2px solid #10b981;
-  box-shadow: 0 0 24px rgba(16, 185, 129, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 2px solid #f59e0b;
+  box-shadow: 0 0 24px rgba(245, 158, 11, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 .card--spotlightHero .image {
   width: 50%;
   height: auto;
-  min-height: 280px;
+  min-height: 380px;
   flex-shrink: 0;
 }
 
@@ -344,18 +348,6 @@
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
   color: rgba(255, 255, 255, 0.9);
-}
-
-.card--spotlightHero .cta {
-  background: transparent;
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.card--spotlightHero .cta:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
-  color: #ffffff;
 }
 
 /* Mobile adjustments */

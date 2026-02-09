@@ -121,12 +121,10 @@ export function HomePage(_props: RouteProps) {
   }, [venueList]);
 
   // Split featured vs regular venues
-  const featuredVenues = venueList.filter((v) => v.featured || v.highlighted);
-  const regularVenues = venueList.filter((v) => !v.featured && !v.highlighted);
-
-  // First highlighted venue gets spotlight hero treatment
-  const spotlightVenue = featuredVenues.find((v) => v.highlighted) ?? featuredVenues[0];
-  const remainingFeatured = featuredVenues.filter((v) => v !== spotlightVenue);
+  const highlightedVenues = venueList.filter((v) => v.highlighted);
+  const spotlightVenue = highlightedVenues[0] ?? null;
+  const featuredVenues = highlightedVenues.slice(1, 4);
+  const regularVenues = venueList;
 
   // Paginate regular venues
   const visibleRegular = regularVenues.slice(0, displayedCount.value);
@@ -144,27 +142,23 @@ export function HomePage(_props: RouteProps) {
       <PopularCategories />
 
       {/* Featured Activities Section */}
-      {!loading && !errorMsg && featuredVenues.length > 0 && !filtersActive && (
+      {!loading && !errorMsg && spotlightVenue && !filtersActive && (
         <section className={styles.featured}>
           <h2 className={styles.sectionTitle}>Featured Activities</h2>
-
-          {spotlightVenue && (
-            <div className={styles.spotlightWrapper}>
-              <ActivityCard
-                venue={spotlightVenue}
-                variant="spotlightHero"
-                onClick={() => openActivityModal(spotlightVenue)}
-              />
-            </div>
-          )}
-
-          {remainingFeatured.length > 0 && (
+          <div className={styles.spotlightWrapper}>
+            <ActivityCard
+              venue={spotlightVenue}
+              variant="spotlightHero"
+              onClick={() => openActivityModal(spotlightVenue)}
+            />
+          </div>
+          {featuredVenues.length > 0 && (
             <div className={styles.grid}>
-              {remainingFeatured.map((venue, index) => (
+              {featuredVenues.map((venue, index) => (
                 <ActivityCard
                   key={`featured-${venue.name}-${index}`}
                   venue={venue}
-                  variant={getCardVariant(venue)}
+                  variant="featured"
                   onClick={() => openActivityModal(venue)}
                 />
               ))}

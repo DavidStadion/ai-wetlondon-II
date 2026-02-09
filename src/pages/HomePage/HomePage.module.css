@@ -4,10 +4,11 @@
 
 /* Section titles */
 .sectionTitle {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.75rem;
+  margin-bottom: 2.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--color-text);
-  margin: 0 0 0.5rem;
 }
 
 .subtitle {
@@ -20,6 +21,7 @@
 .featured {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 5rem 3rem;
 }
 
 .spotlightWrapper {

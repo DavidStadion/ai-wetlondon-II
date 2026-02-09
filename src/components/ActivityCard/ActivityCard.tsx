@@ -90,14 +90,14 @@ export function ActivityCard({ venue, variant = 'default', onClick }: ActivityCa
 
         <p className={styles.description}>{venue.description}</p>
 
-        <div className={styles.footer}>
+        <div className={styles.wetnessRow}>
           <WetnessIndicator
             score={venue.wetnessScore}
             level={venue.wetness}
             size="sm"
           />
-          <span className={styles.price}>{venue.priceDisplay}</span>
         </div>
+        <span className={styles.price}>{venue.priceDisplay}</span>
 
         <button type="button" className={styles.cta} onClick={onClick}>
           View Details

@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "dev:api": "node server.js",
-    "dev:all": "npm run dev",
+    "dev:all": "node server.js & vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint src/",
