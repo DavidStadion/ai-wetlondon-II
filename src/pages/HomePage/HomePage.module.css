@@ -232,6 +232,6 @@
 
 @media (min-width: 1401px) {
   .grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }

@@ -7,7 +7,7 @@
 .bar {
   flex: 1;
   height: 4px;
-  background: var(--color-border);
+  background: var(--color-wet);
   border-radius: 10px;
   overflow: hidden;
 }

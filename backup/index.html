@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wet London - Best Indoor Activities in London When It Rains</title>
 
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
     <!-- SEO Meta Tags -->
     <meta name="description" content="Discover 100+ indoor activities in London for rainy days. Museums, galleries, cinemas, restaurants and more - all rated by how dry you'll stay. Free to use.">
     <meta name="keywords" content="London indoor activities, rainy day London, things to do in London when raining, London museums, London galleries, wet weather activities London">
@@ -30,6 +35,95 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌧️</text></svg>">
+
+    <!-- Schema.org Structured Data for Rich Search Results -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Wet London",
+        "alternateName": "WetLondon",
+        "url": "https://wetlondon.co.uk/",
+        "description": "Discover 300+ indoor activities in London for rainy days. Museums, galleries, cinemas, restaurants and more.",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "https://wetlondon.co.uk/?search={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Wet London",
+        "url": "https://wetlondon.co.uk/",
+        "logo": "https://wetlondon.co.uk/assets/logo.png",
+        "description": "Your free guide to the best indoor activities in London when it rains",
+        "foundingDate": "2025",
+        "founder": {
+            "@type": "Person",
+            "name": "Dave"
+        },
+        "sameAs": []
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "Indoor Activities in London",
+        "description": "Curated list of the best indoor activities for rainy days in London",
+        "numberOfItems": 300,
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "item": {
+                    "@type": "TouristAttraction",
+                    "name": "British Museum",
+                    "description": "World-famous museum with free entry",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "London",
+                        "addressCountry": "UK"
+                    }
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "item": {
+                    "@type": "TouristAttraction",
+                    "name": "Tate Modern",
+                    "description": "Contemporary art gallery on the South Bank",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "London",
+                        "addressCountry": "UK"
+                    }
+                }
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "item": {
+                    "@type": "TouristAttraction",
+                    "name": "Science Museum",
+                    "description": "Interactive science exhibits for all ages",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "London",
+                        "addressCountry": "UK"
+                    }
+                }
+            }
+        ]
+    }
+    </script>
 
     <meta name="google-adsense-account" content="ca-pub-1382628707656079">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1382628707656079" crossorigin="anonymous"></script>
@@ -94,8 +188,8 @@
             <a href="#all-activities">All Activities</a>
             <a href="#bookmarks">My Bookmarks</a>
             <a href="events.html">What's On</a>
-            <a href="popups.html">Pop-ups</a>
-            <a href="situations.html">For who?</a>
+            <a href="popups.html">Pop-Ups</a>
+            <a href="situations.html">Pick Your Vibe</a>
             <a href="about.html">About Us</a>
         </nav>
     </header>
@@ -103,6 +197,21 @@
 
     <section class="hero" id="hero">
         <div class="rain">
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
+            <div class="rain-drop"></div>
             <div class="rain-drop"></div>
             <div class="rain-drop"></div>
             <div class="rain-drop"></div>
@@ -162,6 +271,12 @@
         </div>
 
         <div class="hero-content">
+            <!-- Dynamic Weather Message -->
+            <div class="weather-hero-message" id="weatherHeroMessage" style="display: none;">
+                <span class="weather-icon">🌧️</span>
+                <span class="weather-text">Perfect day to explore indoors!</span>
+            </div>
+
             <h1>Wet London.</h1>
             <p>London ideas for when the weather is awful and your motivation is worse.</p>
 
@@ -183,6 +298,18 @@
             <div class="hero-buttons">
                 <button class="customize-btn">Customize Your Experience</button>
                 <button class="lucky-btn">🎲 I'm Feeling Lucky</button>
+            </div>
+
+            <!-- Quick Filters -->
+            <div class="quick-filters" id="quickFilters">
+                <button class="quick-filter-chip open-now" data-filter="openNow" onclick="toggleQuickFilter('openNow')">Open Now</button>
+                <button class="quick-filter-chip" data-filter="museums" onclick="toggleQuickFilter('museums')">Museums</button>
+                <button class="quick-filter-chip" data-filter="theatre" onclick="toggleQuickFilter('theatre')">Theatre</button>
+                <button class="quick-filter-chip" data-filter="dining" onclick="toggleQuickFilter('dining')">Dining</button>
+                <button class="quick-filter-chip date-night" data-filter="date" onclick="toggleQuickFilter('date')">Date ❤️</button>
+                <button class="quick-filter-chip" data-filter="gaming" onclick="toggleQuickFilter('gaming')">Gaming</button>
+                <button class="quick-filter-chip" data-filter="entertainment" onclick="toggleQuickFilter('entertainment')">Entertainment</button>
+                <button class="quick-filter-chip" data-filter="shopping" onclick="toggleQuickFilter('shopping')">Shopping</button>
             </div>
         </div>
     </section>
@@ -1070,6 +1197,11 @@ Save
                 <div class="activity-tab" onclick="switchTab('gallery')">Gallery</div>
                 <div class="activity-tab" onclick="switchTab('reviews')">Reviews</div>
             </div>
+            <div class="modal-tab-indicators">
+                <div class="tab-indicator active" data-tab="overview"></div>
+                <div class="tab-indicator" data-tab="gallery"></div>
+                <div class="tab-indicator" data-tab="reviews"></div>
+            </div>
 
             <div class="activity-modal-body">
                 <!-- Overview Tab -->
@@ -1568,7 +1700,7 @@ Save
       <p>Open a couple of activities and we’ll keep them here for quick backtracking.</p>
     </div>
 
-    <div class="activity-grid" id="recentlyViewedGrid"></div>
+    <div class="recently-viewed-carousel" id="recentlyViewedGrid"></div>
   </div>
 </section>
 
@@ -1640,7 +1772,7 @@ Save
                     <li><a href="#hero">Home</a></li>
                     <li><a href="#activities">Featured Activities</a></li>
                     <li><a href="#all-activities">All Activities</a></li>
-                    <li><a href="popups.html">Pop-ups</a></li>
+                    <li><a href="popups.html">Pop-Ups</a></li>
                     <li><a href="#bookmarks">My Bookmarks</a></li>
                 </ul>
             </div>
@@ -1664,7 +1796,7 @@ Save
             <div class="footer-column">
                 <h4 class="footer-heading">Resources</h4>
                 <ul class="footer-links">
-                    <li><a href="situations.html">For who?</a>
+                    <li><a href="situations.html">Pick Your Vibe</a>
             <a href="about.html">About Us</a></li>
                     <li><a href="/contact.html">Contact</a></li>
                     <li><a href="/blog.html">Blog</a></li>
@@ -1692,7 +1824,7 @@ Save
                 </p>
                                 <p class="footer-promise">Wet London only lists places that still work when the weather doesn’t.</p>
 <p class="footer-tagline">
-                    Made with ☕ in London
+                    Made by Dave ☔
                 </p>
             </div>
         </div>
@@ -1832,9 +1964,6 @@ Save
       })();
     </script>
 
-<!-- Preact root for migrated components -->
-<div id="preact-root"></div>
-<script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
 <!-- VERSION: 2026-01-18 06:45 -->

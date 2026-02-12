@@ -10,6 +10,7 @@
   --color-text-secondary: #94a3b8;
   --color-text-accent: #666;
   --color-border: #334155;
+  --color-wet: #e5e5e5;
 
 
   --color-primary: #2563eb;
@@ -32,6 +33,9 @@
   --color-button-primary: #1a1a1a;
   --color-button-primary-hover: #333333;
   --color-button-primary-text: #ffffff;
+  --color-button-action-bg: rgba(77, 163, 255, 0.18);
+  --color-button-action-border: rgba(77, 163, 255, 0.45);
+  --color-button-action-hover-bg: rgba(77, 163, 255, 0.26);
 
   --radius-sm: 4px;
   --radius-md: 8px;

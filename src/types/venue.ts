@@ -28,6 +28,7 @@ export interface Venue {
   sponsored?: boolean;
   highlighted?: boolean;
   featured?: boolean;
+  spotlight?: boolean;
   affiliateLink?: string | null;
   prerequisites?: string[];
   openingHours?: Record<string, string> | null;

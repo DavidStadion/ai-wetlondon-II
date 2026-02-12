@@ -20,6 +20,7 @@ import {
   isCustomizeModalOpen,
 } from '@/signals/uiSignals';
 import { fetchVenues } from '@/utils/supabase';
+import { useImageLoader } from '@/hooks/useImageLoader';
 import type { Venue, CardVariant, RouteProps } from '@/types';
 
 import { Hero } from '@/components/Hero';
@@ -44,9 +45,9 @@ const PAGE_SIZE = 6;
 const displayedCount = signal(PAGE_SIZE);
 
 function getCardVariant(venue: Venue): CardVariant {
+  if (venue.spotlight) return 'spotlight';
   if (venue.featured) return 'featured';
   if (venue.sponsored) return 'sponsored';
-  if (venue.highlighted) return 'spotlight';
   return 'default';
 }
 
@@ -110,6 +111,12 @@ export function HomePage(_props: RouteProps) {
     loadVenues();
   }, []);
 
+  const selected = selectedVenue.value;
+  const { src: modalImageUrl } = useImageLoader(
+    selected?.name ?? '',
+    selected?.type ?? []
+  );
+
   const loading = isLoading.value;
   const errorMsg = error.value;
   const venueList = filteredVenues.value;
@@ -120,10 +127,11 @@ export function HomePage(_props: RouteProps) {
     displayedCount.value = PAGE_SIZE;
   }, [venueList]);
 
-  // Split featured vs regular venues
-  const highlightedVenues = venueList.filter((v) => v.highlighted);
-  const spotlightVenue = highlightedVenues[0] ?? null;
-  const featuredVenues = highlightedVenues.slice(1, 4);
+  // Split spotlight + featured venues (matching old version logic)
+  const spotlightVenue = venueList.find((v) => v.spotlight) ?? null;
+  const featuredVenues = venueList
+    .filter((v) => v.featured && v.name !== spotlightVenue?.name)
+    .slice(0, 6);
   const regularVenues = venueList;
 
   // Paginate regular venues
@@ -142,16 +150,18 @@ export function HomePage(_props: RouteProps) {
       <PopularCategories />
 
       {/* Featured Activities Section */}
-      {!loading && !errorMsg && spotlightVenue && !filtersActive && (
+      {!loading && !errorMsg && (spotlightVenue || featuredVenues.length > 0) && !filtersActive && (
         <section className={styles.featured}>
           <h2 className={styles.sectionTitle}>Featured Activities</h2>
-          <div className={styles.spotlightWrapper}>
-            <ActivityCard
-              venue={spotlightVenue}
-              variant="spotlightHero"
-              onClick={() => openActivityModal(spotlightVenue)}
-            />
-          </div>
+          {spotlightVenue && (
+            <div className={styles.spotlightWrapper}>
+              <ActivityCard
+                venue={spotlightVenue}
+                variant="spotlightHero"
+                onClick={() => openActivityModal(spotlightVenue)}
+              />
+            </div>
+          )}
           {featuredVenues.length > 0 && (
             <div className={styles.grid}>
               {featuredVenues.map((venue, index) => (
@@ -292,6 +302,7 @@ export function HomePage(_props: RouteProps) {
         venue={selectedVenue.value}
         isOpen={isActivityModalOpen.value}
         onClose={closeActivityModal}
+        imageUrl={modalImageUrl}
       />
       <CustomizeModal />
       <PrerequisitesModal />
