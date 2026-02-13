@@ -309,7 +309,7 @@ export function ReviewsTab({ venue }: ReviewsTabProps) {
             </p>
           )}
 
-          <Button type="submit" disabled={submitting}>
+          <Button variant="action" type="submit" disabled={submitting}>
             {submitting ? 'Submitting...' : 'Submit Review'}
           </Button>
         </form>
