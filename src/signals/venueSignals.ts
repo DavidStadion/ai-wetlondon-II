@@ -93,3 +93,7 @@ export const openNowCount = computed(() =>
 export const freeEntryCount = computed(() =>
   venues.value.filter((v) => v.price === 0).length
 );
+
+export const highlightedVenues = computed(() =>
+  venues.value.filter((v) => v.highlighted).slice(0, 3)
+);

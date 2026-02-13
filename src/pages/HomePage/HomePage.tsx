@@ -30,6 +30,7 @@ import { PopularCategories } from '@/components/PopularCategories';
 import { FilterChips } from '@/components/FilterChips';
 import { ActivityCard } from '@/components/ActivityCard';
 import { BookmarksSection } from '@/components/BookmarksSection';
+import { TopPicksSection } from '@/components/TopPicksSection';
 import { RecentlyViewedSection } from '@/components/RecentlyViewedSection';
 import { WeatherRecommendations } from '@/components/WeatherRecommendations';
 import { PopupsSection } from '@/components/PopupsSection';
@@ -303,6 +304,9 @@ export function HomePage(_props: RouteProps) {
             )}
           </>
         )}
+
+        {/* Dave and Kate's Top 3 */}
+        <TopPicksSection />
 
         {/* Bookmarks Section */}
         <BookmarksSection />

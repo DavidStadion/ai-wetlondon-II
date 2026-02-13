@@ -52,6 +52,12 @@ export function toggleBookmark(venueName: string): void {
   localStorage.setItem('bookmarks', JSON.stringify([...current]));
 }
 
+export function clearAllBookmarks(): void {
+  bookmarkedVenues.value = new Set();
+  localStorage.removeItem('bookmarks');
+  showToast('All bookmarks cleared', 'info');
+}
+
 export function loadBookmarks(): void {
   try {
     const saved = localStorage.getItem('bookmarks');

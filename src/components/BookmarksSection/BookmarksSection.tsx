@@ -1,7 +1,6 @@
 import { computed } from '@preact/signals';
-import { useState } from 'preact/hooks';
 import { ActivityCard } from '@/components/ActivityCard';
-import { bookmarkedVenues, selectedVenue, isActivityModalOpen } from '@/signals/uiSignals';
+import { bookmarkedVenues, clearAllBookmarks, selectedVenue, isActivityModalOpen } from '@/signals/uiSignals';
 import { venues } from '@/signals/venueSignals';
 import type { Venue } from '@/types';
 import styles from './BookmarksSection.module.css';
@@ -12,48 +11,42 @@ const bookmarkedVenuesList = computed(() => {
 });
 
 export function BookmarksSection() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const venuesList = bookmarkedVenuesList.value;
+  const count = venuesList.length;
 
   const handleCardClick = (venue: Venue) => {
     selectedVenue.value = venue;
     isActivityModalOpen.value = true;
   };
 
-  if (venuesList.length === 0) {
-    return (
-      <section className={styles.section}>
-        <h2 className={styles.title}>Your Bookmarks</h2>
-        <p className={styles.empty}>No bookmarks yet. Save activities to find them here.</p>
-      </section>
-    );
-  }
-
   return (
     <section className={styles.section}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Your Bookmarks ({venuesList.length})</h2>
-        <button
-          type="button"
-          className={styles.toggle}
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          aria-expanded={!isCollapsed}
-        >
-          {isCollapsed ? 'Show' : 'Hide'}
-        </button>
+        <div className={styles.headerLeft}>
+          <h2 className={styles.title}>My Bookmarks</h2>
+          <span className={styles.count}>
+            {count} bookmarked {count === 1 ? 'activity' : 'activities'}
+          </span>
+        </div>
+        {count > 0 && (
+          <button type="button" className={styles.clearBtn} onClick={clearAllBookmarks}>
+            Clear All Bookmarks
+          </button>
+        )}
       </div>
 
-      {!isCollapsed && (
-        <div className={styles.scrollContainer}>
-          <div className={styles.cards}>
-            {venuesList.map((venue, index) => (
-              <div key={`${venue.name}-${index}`} className={styles.cardWrapper}>
-                <ActivityCard venue={venue} onClick={() => handleCardClick(venue)} />
-              </div>
-            ))}
+      <div className={styles.grid}>
+        {count === 0 ? (
+          <div className={styles.emptyState}>
+            <h3 className={styles.emptyTitle}>No bookmarks yet</h3>
+            <p className={styles.emptyText}>Start bookmarking activities to see them here!</p>
           </div>
-        </div>
-      )}
+        ) : (
+          venuesList.map((venue) => (
+            <ActivityCard key={venue.name} venue={venue} onClick={() => handleCardClick(venue)} />
+          ))
+        )}
+      </div>
     </section>
   );
 }
