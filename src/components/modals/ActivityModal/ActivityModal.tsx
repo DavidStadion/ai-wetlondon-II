@@ -110,6 +110,13 @@ export function ActivityModal({
           {venue.location.charAt(0).toUpperCase() + venue.location.slice(1)}
         </span>
         <div className={styles.metaWetness}>
+          <span aria-hidden="true">
+            {venue.wetness === "dry"
+              ? "\uD83C\uDF02"
+              : venue.wetness === "slightly"
+                ? "\u2602\uFE0F"
+                : "\u2614\uFE0F"}
+          </span>
           <WetnessIndicator
             score={venue.wetnessScore}
             level={venue.wetness}
