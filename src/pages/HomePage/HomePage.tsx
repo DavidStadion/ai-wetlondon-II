@@ -44,7 +44,7 @@ import { BookingModal } from '@/components/modals/BookingModal';
 
 import styles from './HomePage.module.css';
 
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 18;
 const displayedCount = signal(PAGE_SIZE);
 
 function getCardVariant(venue: Venue): CardVariant {
@@ -193,12 +193,6 @@ export function HomePage(_props: RouteProps) {
 
       {/* Main Content - All Activities */}
       <section className={styles.content}>
-        {/* Bookmarks Section */}
-        <BookmarksSection />
-
-        {/* Recently Viewed Section */}
-        <RecentlyViewedSection />
-
         {/* All Activities Header */}
         <div className={styles.allActivitiesHeader}>
           <h2 className={styles.sectionTitle}>All Activities</h2>
@@ -309,6 +303,12 @@ export function HomePage(_props: RouteProps) {
             )}
           </>
         )}
+
+        {/* Bookmarks Section */}
+        <BookmarksSection />
+
+        {/* Recently Viewed Section */}
+        <RecentlyViewedSection />
       </section>
 
       {/* Modals */}
