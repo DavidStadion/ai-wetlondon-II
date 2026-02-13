@@ -9,10 +9,9 @@ import {
   resetPartnerFilters,
 } from '@/signals/partnerSignals';
 import { fetchPartners } from '@/utils/supabase';
-import type { Partner, PartnerType, PartnerLocation, RouteProps } from '@/types';
-import { PARTNER_TYPE_LABELS, PARTNER_LOCATION_LABELS } from '@/types/partner';
-import { Button } from '@/components/common/Button';
+import type { PartnerType, PartnerLocation, RouteProps } from '@/types';
 import { BackToTop } from '@/components/common/BackToTop';
+import { PartnerCard } from '@/components/PartnerCard';
 import styles from './PopupsPage.module.css';
 
 const LOCATION_FILTERS: Array<{ value: PartnerLocation | 'all'; label: string }> = [
@@ -33,47 +32,6 @@ const TYPE_FILTERS: Array<{ value: PartnerType | 'all'; label: string }> = [
   { value: 'art', label: 'Art' },
   { value: 'wellbeing', label: 'Wellbeing' },
 ];
-
-interface PartnerCardProps {
-  partner: Partner;
-}
-
-function PartnerCard({ partner }: PartnerCardProps) {
-  const imageUrl = partner.imageFilename
-    ? `assets/smallandmighty/${partner.imageFilename}`
-    : 'assets/smallandmighty/placeholder.svg';
-
-  const linkUrl = partner.affiliateLink || partner.websiteUrl || '#';
-
-  return (
-    <article className={styles.partnerCard}>
-      <div
-        className={styles.partnerImage}
-        style={{ backgroundImage: `url('${imageUrl}')` }}
-      >
-        <span className={styles.partnerBadge}>Pop-up</span>
-      </div>
-
-      <div className={styles.partnerContent}>
-        <div className={styles.partnerType}>{PARTNER_TYPE_LABELS[partner.type]}</div>
-        <h3 className={styles.partnerTitle}>{partner.name}</h3>
-        <div className={styles.partnerLocation}>
-          {PARTNER_LOCATION_LABELS[partner.location]} London
-        </div>
-        <p className={styles.partnerDescription}>{partner.description}</p>
-      </div>
-
-      <div className={styles.partnerFooter}>
-        <span className={`${styles.partnerPrice} ${partner.price === 0 ? styles.free : ''}`}>
-          {partner.priceDisplay}
-        </span>
-        <a href={linkUrl} target="_blank" rel="noopener noreferrer" className={styles.partnerBtn}>
-          Visit Website
-        </a>
-      </div>
-    </article>
-  );
-}
 
 export function PopupsPage(_props: RouteProps) {
   useEffect(() => {
@@ -180,12 +138,12 @@ export function PopupsPage(_props: RouteProps) {
         <div className={styles.submitCta}>
           <h3 className={styles.ctaTitle}>Are you a local London business?</h3>
           <p className={styles.ctaText}>Join our Pop-ups directory and reach thousands of Londoners looking for indoor activities.</p>
-          <Button
-            as="a"
+          <a
             href="mailto:partners@wetlondon.co.uk?subject=Pop-ups%20Partnership"
+            className={styles.ctaBtn}
           >
             Become a Partner
-          </Button>
+          </a>
         </div>
       </section>
 

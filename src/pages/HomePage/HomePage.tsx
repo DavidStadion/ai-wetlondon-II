@@ -19,7 +19,8 @@ import {
   isActivityModalOpen,
   isCustomizeModalOpen,
 } from '@/signals/uiSignals';
-import { fetchVenues } from '@/utils/supabase';
+import { partners } from '@/signals/partnerSignals';
+import { fetchVenues, fetchPartners } from '@/utils/supabase';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import type { Venue, CardVariant, RouteProps } from '@/types';
 
@@ -31,6 +32,7 @@ import { ActivityCard } from '@/components/ActivityCard';
 import { BookmarksSection } from '@/components/BookmarksSection';
 import { RecentlyViewedSection } from '@/components/RecentlyViewedSection';
 import { WeatherRecommendations } from '@/components/WeatherRecommendations';
+import { PopupsSection } from '@/components/PopupsSection';
 import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { Button } from '@/components/common/Button';
 
@@ -110,6 +112,7 @@ export function HomePage(_props: RouteProps) {
     }
 
     loadVenues();
+    fetchPartners().then((data) => { partners.value = data; }).catch(() => {});
   }, []);
 
   const selected = selectedVenue.value;
@@ -181,6 +184,11 @@ export function HomePage(_props: RouteProps) {
       {/* Weather Recommendations */}
       {!loading && !errorMsg && !filtersActive && (
         <WeatherRecommendations />
+      )}
+
+      {/* Pop-ups Section */}
+      {!loading && !errorMsg && !filtersActive && partners.value.length > 0 && (
+        <PopupsSection />
       )}
 
       {/* Main Content - All Activities */}
