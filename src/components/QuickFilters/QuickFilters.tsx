@@ -1,4 +1,4 @@
-import { openNow, toggleType, toggleDateFilter } from "@/signals/filterSignals";
+import { openNow, selectedTypes, isDateFilter, toggleType, toggleDateFilter } from "@/signals/filterSignals";
 import type { VenueType } from "@/types";
 import styles from "./QuickFilters.module.css";
 
@@ -17,6 +17,12 @@ const QUICK_FILTERS: QuickFilterDef[] = [
   { label: "Cinema", type: "venue", venueType: "cinema" },
   { label: "Dining", type: "venue", venueType: "dining" },
 ];
+
+function isActive(filter: QuickFilterDef): boolean {
+  if (filter.type === "openNow") return openNow.value;
+  if (filter.type === "date") return isDateFilter.value;
+  return filter.venueType ? selectedTypes.value.has(filter.venueType) : false;
+}
 
 function extraClass(filter: QuickFilterDef): string {
   if (filter.type === "openNow") return styles['open-now'];
@@ -42,7 +48,7 @@ export function QuickFilters() {
           <button
             key={filter.label}
             type="button"
-            className={`${styles.pill} ${extraClass(filter)}`}
+            className={`${styles.pill} ${extraClass(filter)} ${isActive(filter) ? styles.active : ''}`}
             onClick={() => handleClick(filter)}
           >
             {filter.label}

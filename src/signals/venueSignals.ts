@@ -84,6 +84,21 @@ export const filteredVenues = computed(() => {
 
 export const venueCount = computed(() => filteredVenues.value.length);
 
+export const sortedVenues = computed(() => {
+  const sort = sortOption.value;
+  return [...venues.value].sort((a, b) => {
+    switch (sort) {
+      case 'name-asc': return a.name.localeCompare(b.name);
+      case 'name-desc': return b.name.localeCompare(a.name);
+      case 'price-asc': return a.price - b.price;
+      case 'price-desc': return b.price - a.price;
+      case 'wetness-asc': return a.wetnessScore - b.wetnessScore;
+      case 'wetness-desc': return b.wetnessScore - a.wetnessScore;
+      default: return 0;
+    }
+  });
+});
+
 export const totalActivities = computed(() => venues.value.length);
 
 export const openNowCount = computed(() =>

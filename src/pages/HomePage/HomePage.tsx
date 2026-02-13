@@ -2,7 +2,7 @@ import { useEffect } from 'preact/hooks';
 import { signal } from '@preact/signals';
 import {
   venues,
-  filteredVenues,
+  sortedVenues,
   isLoading,
   error,
   totalActivities,
@@ -34,6 +34,7 @@ import { TopPicksSection } from '@/components/TopPicksSection';
 import { RecentlyViewedSection } from '@/components/RecentlyViewedSection';
 import { WeatherRecommendations } from '@/components/WeatherRecommendations';
 import { PopupsSection } from '@/components/PopupsSection';
+import { PersonalizedSection } from '@/components/PersonalizedSection';
 import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { Button } from '@/components/common/Button';
 
@@ -124,7 +125,7 @@ export function HomePage(_props: RouteProps) {
 
   const loading = isLoading.value;
   const errorMsg = error.value;
-  const venueList = filteredVenues.value;
+  const venueList = sortedVenues.value;
   const filtersActive = hasActiveFilters.value;
 
   // Reset pagination when filters change
@@ -151,11 +152,14 @@ export function HomePage(_props: RouteProps) {
       {/* Quick Filter Pills */}
       <QuickFilters />
 
+      {/* Personalized Selection Header */}
+      {filtersActive && <PersonalizedSection />}
+
       {/* Popular Categories */}
       <PopularCategories />
 
       {/* Featured Activities Section */}
-      {!loading && !errorMsg && (spotlightVenue || featuredVenues.length > 0) && !filtersActive && (
+      {!loading && !errorMsg && (spotlightVenue || featuredVenues.length > 0) && (
         <section className={styles.featured}>
           <h2 className={styles.sectionTitle}>Featured Activities</h2>
           {spotlightVenue && (
@@ -183,12 +187,12 @@ export function HomePage(_props: RouteProps) {
       )}
 
       {/* Weather Recommendations */}
-      {!loading && !errorMsg && !filtersActive && (
+      {!loading && !errorMsg && (
         <WeatherRecommendations />
       )}
 
       {/* Pop-ups Section */}
-      {!loading && !errorMsg && !filtersActive && partners.value.length > 0 && (
+      {!loading && !errorMsg && partners.value.length > 0 && (
         <PopupsSection />
       )}
 
