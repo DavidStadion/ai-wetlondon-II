@@ -1,0 +1,62 @@
+.section {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-top: 3px solid #dcdaf5;
+  border-bottom: 3px solid #dcdaf5;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--color-button-primary);
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  font-size: 0.9375rem;
+  color: var(--color-text-accent);
+  margin: 0 0 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .inner {
+    padding: 2rem 1rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .grid {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+
+  .grid > :global(*) {
+    flex: 0 0 260px;
+    scroll-snap-align: start;
+  }
+}

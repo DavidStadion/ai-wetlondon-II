@@ -30,6 +30,7 @@ import { FilterChips } from '@/components/FilterChips';
 import { ActivityCard } from '@/components/ActivityCard';
 import { BookmarksSection } from '@/components/BookmarksSection';
 import { RecentlyViewedSection } from '@/components/RecentlyViewedSection';
+import { WeatherRecommendations } from '@/components/WeatherRecommendations';
 import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { Button } from '@/components/common/Button';
 
@@ -175,6 +176,11 @@ export function HomePage(_props: RouteProps) {
             </div>
           )}
         </section>
+      )}
+
+      {/* Weather Recommendations */}
+      {!loading && !errorMsg && !filtersActive && (
+        <WeatherRecommendations />
       )}
 
       {/* Main Content - All Activities */}
