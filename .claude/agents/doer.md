@@ -38,8 +38,28 @@ You are a senior frontend developer specializing in:
 - **State:** `@preact/signals` — signals in `src/signals/`, never mutate during render
 - **Styling:** CSS Modules with co-located `.module.css` files, use CSS variables from `src/styles/global.css`
 - **Component pattern:** `Component.tsx` + `Component.module.css` + `index.ts` barrel export
-- **Types:** defined in `src/types/` (`venue.ts`, `event.ts`, `partner.ts`)
+- **Types:** defined in `src/types/` (`venue.ts`, `event.ts`, `partner.ts`, `filters.ts`, `router.ts`)
 - **Data:** Supabase client in `src/utils/supabase.ts`, DB fields are snake_case converted to camelCase via `convertVenue()`
+
+### Reuse Before Creating
+
+Before creating new UI, check existing common components in `src/components/common/`:
+- **Button** (variants: primary, secondary, ghost, danger, accent, action)
+- **Modal** (sizes: sm, md, lg)
+- **Tag** (interactive or display-only)
+- **Stars** (rating display, sizes: sm, lg)
+- **LoadingSpinner** (spinner + text label)
+- **FilterChipBar** (generic single-select chip bar)
+- **BackToTop**, **BookmarkIcon**, **Toast**, **WetnessIndicator**, **SkeletonLoader**
+
+Before writing utility functions, check existing utils:
+- `src/utils/venueInfo.ts` — venue display helpers (opening hours, transport, duration, accessibility, booking, etc.)
+- `src/utils/dateFormatters.ts` — `formatEventDate()`, `getDaysLeft()`
+- `src/utils/situationFilters.ts` — situation-based venue filtering and scoring
+- `src/utils/formatters.ts` — `formatPrice()`, `formatRating()`, `truncateText()`, `labelCategory()`
+- `src/utils/openingHours.ts` — `isVenueOpenNow()`
+
+Full props and token reference: `.claude/rules/component-reference.md`
 
 ### Output Format
 When complete, summarize:

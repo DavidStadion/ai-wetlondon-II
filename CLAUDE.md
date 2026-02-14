@@ -125,17 +125,46 @@ Preact + Vite SPA with serverless API functions.
 | `/admin` | `AdminPage` |
 
 ### Component Structure
-Co-located in `src/components/` — each directory contains:
-- `Component.tsx` — main component
-- `Component.module.css` — styles
-- `index.ts` — barrel export
+Co-located in `src/components/` — each directory contains `Component.tsx`, `Component.module.css`, and `index.ts` barrel export. Pages live in `src/pages/`.
 
-Pages live in `src/pages/`.
+**Common components** (`src/components/common/`) — reusable across pages:
+- **Button** — variants: primary, secondary, ghost, danger, accent, action; sizes: sm, md, lg; renders as `<button>` or `<a>`
+- **Modal** — accessible dialog with backdrop, Escape to close; sizes: sm, md, lg
+- **Tag** — interactive (selectable) or display-only; variants: default, category, display
+- **Stars** — star rating display (★/☆); sizes: sm, lg
+- **LoadingSpinner** — spinner with optional text label
+- **FilterChipBar** — horizontal single-select chip bar; generic `<T extends string>` for type safety
+- **BackToTop** — floating scroll-to-top button, appears after 500px scroll
+- **BookmarkIcon** — toggle bookmark with filled/outline states
+- **Toast** — auto-dismissing notification; types: success, error, info, warning
+- **WetnessIndicator** — progress bar showing wetness score 0-100%
+- **SkeletonLoader** — shimmer placeholder; variants: card, text, circle, button
 
-### Key Utilities
+**Domain components** (`src/components/`):
+- **ActivityCard** — venue card with image, types, wetness, price, bookmark
+- **EventCard** — event card with category badge, date, location, price
+- **PartnerCard** — partner/pop-up card with image, type, location
+- **ActivityModal** — venue detail modal with Overview, Gallery, Reviews tabs
+- **PartnerModal** — admin form modal for creating/editing partners
+
+See [Component Reference](.claude/rules/component-reference.md) for full props and usage.
+
+### Utilities
+- `src/utils/supabase.ts` — Supabase client, all data fetching functions
 - `src/utils/openingHours.ts` — `isVenueOpenNow()` returns true/false/null
-- `src/utils/formatters.ts` — display formatting helpers
+- `src/utils/formatters.ts` — `formatPrice()`, `formatRating()`, `truncateText()`, `labelCategory()`
+- `src/utils/venueInfo.ts` — venue display helpers: `formatOpeningHours()`, `getOpenStatus()`, `getTransportInfo()`, `getDuration()`, `getAccessibilityText()`, `getBookingText()`, `getWhatsIncluded()`, `getGoodToKnow()`, `getGoogleMapsUrl()`
+- `src/utils/dateFormatters.ts` — `formatEventDate()`, `getDaysLeft()`
+- `src/utils/situationFilters.ts` — `filterForSituation()`, `scoreVenue()`, `SITUATIONS`, `SITUATION_MAPPINGS`
 - `src/hooks/useImageLoader.ts` — signal-based image loading with localStorage cache
+- `src/hooks/useLocalStorage.ts` — localStorage read/write hook
+
+### CSS Design Tokens
+All design tokens live in `src/styles/global.css` as CSS custom properties. See [Component Reference](.claude/rules/component-reference.md#css-design-tokens) for the full token list.
+
+Key categories: colors (theme, status, card variants, footer, CTA), radii, shadows, typography scale, and global keyframes (`spin`, `shimmer`).
+
+Breakpoints: 480px (small mobile), 640px (mobile), 768px (tablet), 1024px (desktop).
 
 ### Venue Data Model
 ```typescript

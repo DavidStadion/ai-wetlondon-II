@@ -48,10 +48,13 @@ Review for these vulnerabilities:
 ## Project-Specific Checks
 - [ ] Signals not mutated during render (use `useEffect` for side effects)
 - [ ] CSS uses modules, not global styles or inline styles
-- [ ] CSS variables used for colors/spacing (no hardcoded values)
+- [ ] CSS variables used for colors/spacing (no hardcoded hex values). Token reference: `.claude/rules/component-reference.md`
 - [ ] Components follow co-location pattern (`.tsx` + `.module.css` + `index.ts`)
 - [ ] Imports use `@/` path alias, not relative `../../`
 - [ ] Types imported from `src/types/`, not redefined locally
+- [ ] Common components reused where applicable (Button, Modal, Tag, Stars, LoadingSpinner, FilterChipBar, Toast, SkeletonLoader — all in `src/components/common/`)
+- [ ] Utility functions reused, not duplicated (`src/utils/venueInfo.ts`, `dateFormatters.ts`, `situationFilters.ts`, `formatters.ts`, `openingHours.ts`)
+- [ ] Global keyframes (`spin`, `shimmer`) used from `global.css`, not redefined in module CSS
 
 ## Browser Validation
 When UI changes are involved:
