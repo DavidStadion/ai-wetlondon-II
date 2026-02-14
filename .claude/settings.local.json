@@ -33,7 +33,8 @@
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
       "mcp__plugin_playwright_playwright__browser_wait_for",
-      "mcp__plugin_playwright_playwright__browser_run_code"
+      "mcp__plugin_playwright_playwright__browser_run_code",
+      "Bash(find:*)"
     ]
   }
 }

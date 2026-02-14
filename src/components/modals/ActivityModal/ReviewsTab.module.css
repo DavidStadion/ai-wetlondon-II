@@ -36,17 +36,6 @@
   color: var(--color-text-secondary);
 }
 
-/* Stars */
-.starsLg {
-  font-size: 1.25rem;
-  color: #f59e0b;
-}
-
-.starsSm {
-  font-size: 0.875rem;
-  color: #f59e0b;
-}
-
 /* Sections */
 .section {
   margin-bottom: 1.5rem;
@@ -154,10 +143,6 @@
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
 }
 
 /* Review form */

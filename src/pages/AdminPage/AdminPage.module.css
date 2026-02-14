@@ -324,43 +324,6 @@
   background: var(--color-error-hover);
 }
 
-/* Modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modalContent {
-  background: var(--color-bg);
-  padding: 1.875rem;
-  border-radius: var(--radius-lg);
-  width: 90%;
-  max-width: 600px;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.modalTitle {
-  margin: 0 0 1.25rem;
-  font-size: 1.25rem;
-  color: var(--color-text);
-}
-
-.modalActions {
-  display: flex;
-  gap: 0.625rem;
-  justify-content: flex-end;
-  margin-top: 1.25rem;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
   .statsSmall {

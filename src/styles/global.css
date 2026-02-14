@@ -2,10 +2,12 @@
  * Preact App CSS Variables
  * Global scope - CSS variables cascade to all elements.
  */
+/* Breakpoints: 480px (small mobile), 640px (mobile), 768px (tablet), 1024px (desktop) */
 :root {
   /* Dark theme as default (matching original) */
   --color-bg: #0f172a;
   --color-bg-secondary: #1e293b;
+  --color-surface: #1e293b;
   --color-text: #f8fafc;
   --color-text-secondary: #94a3b8;
   --color-text-accent: #666;
@@ -23,7 +25,25 @@
 
   --color-accent: #dcdaf5;
   --color-accent-hover: #c9c6e8;
-  
+  --color-accent-text: #0f172a;
+
+  /* Status */
+  --color-status-open: #16a34a;
+  --color-status-closed: #dc2626;
+
+  /* Card variant borders */
+  --color-featured: #f59e0b;
+  --color-sponsored: #ffd700;
+  --color-partner: #6366f1;
+  --color-lucky: #667eea;
+
+  /* Footer palette */
+  --color-footer-accent: #6C63FF;
+  --color-footer-accent-hover: #5a52e0;
+
+  /* CTA */
+  --color-cta-bg: #ffffff;
+  --color-cta-text: #1a1a1a;
 
   /* Page accent colors */
   --color-partner-accent: #10b981;
@@ -50,6 +70,13 @@
   --wl-shadow-soft: 0 10px 28px rgba(0, 0, 0, 0.35);
 
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
 }
 
 /*
@@ -71,3 +98,6 @@ body {
   color: var(--color-text);
   line-height: 1.5;
 }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }

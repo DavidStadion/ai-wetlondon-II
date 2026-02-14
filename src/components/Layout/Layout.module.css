@@ -169,7 +169,7 @@
 }
 
 .footerSocial a:hover {
-  background: #6C63FF;
+  background: var(--color-footer-accent);
   color: #ffffff;
   transform: translateY(-2px);
 }
@@ -204,7 +204,7 @@
 }
 
 .footerLinks a:hover {
-  color: #6C63FF;
+  color: var(--color-footer-accent);
 }
 
 /* Newsletter Form */
@@ -230,12 +230,12 @@
 }
 
 .footerInput:focus {
-  border-color: #6C63FF;
+  border-color: var(--color-footer-accent);
 }
 
 .footerButton {
   padding: 12px 24px;
-  background: #6C63FF;
+  background: var(--color-footer-accent);
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -246,7 +246,7 @@
 }
 
 .footerButton:hover {
-  background: #5a52e0;
+  background: var(--color-footer-accent-hover);
   transform: translateY(-1px);
 }
 

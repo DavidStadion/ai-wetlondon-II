@@ -39,11 +39,6 @@
   animation: shimmer 1.5s infinite;
 }
 
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
 /* Open/Closed status badges */
 .statusOpen {
   position: absolute;
@@ -55,8 +50,8 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  background: #16a34a;
-  color: #ffffff;
+  background: var(--color-status-open);
+  color: var(--color-button-primary-text);
   z-index: 10;
 }
 
@@ -70,8 +65,8 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  background: #dc2626;
-  color: #ffffff;
+  background: var(--color-status-closed);
+  color: var(--color-button-primary-text);
   z-index: 10;
 }
 
@@ -104,26 +99,26 @@
 }
 
 .badge--featured {
-  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  background: linear-gradient(135deg, var(--color-featured) 0%, #fbbf24 100%);
   color: #1a1a1a;
   box-shadow: 0 2px 12px rgba(245, 158, 11, 0.5);
 }
 
 .badge--sponsored {
-  background: linear-gradient(135deg, #ffd700 0%, #f59e0b 100%);
+  background: linear-gradient(135deg, var(--color-sponsored) 0%, var(--color-featured) 100%);
   color: #1a1a1a;
   box-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
 }
 
 .badge--partner {
-  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  background: linear-gradient(135deg, var(--color-partner) 0%, #4f46e5 100%);
   color: #ffffff;
   box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4);
 }
 
 .badge--spotlight,
 .badge--spotlightHero {
-  background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+  background: linear-gradient(135deg, var(--color-featured) 0%, #fbbf24 100%);
   color: #1a1a1a;
   box-shadow: 0 2px 12px rgba(245, 158, 11, 0.5);
 }
@@ -197,9 +192,9 @@
   margin-top: auto;
   width: 100%;
   padding: 0.75rem;
-  background: #ffffff;
-  color: #1a1a1a;
-  border: 1px solid #1a1a1a;
+  background: var(--color-cta-bg);
+  color: var(--color-cta-text);
+  border: 1px solid var(--color-cta-text);
   border-radius: var(--radius-md);
   font-size: 0.9rem;
   font-weight: 500;
@@ -208,14 +203,14 @@
 }
 
 .cta:hover {
-  background: #1a1a1a;
-  color: #ffffff;
+  background: var(--color-cta-text);
+  color: var(--color-cta-bg);
 }
 
 /* ===== VARIANT: Featured ===== */
 .card--featured {
   background: #0f172a;
-  border: 2px solid #f59e0b;
+  border: 2px solid var(--color-featured);
   box-shadow: 0 0 24px rgba(245, 158, 11, 0.25), 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
@@ -238,7 +233,7 @@
 
 /* ===== VARIANT: Sponsored ===== */
 .card--sponsored {
-  border: 2px solid #ffd700;
+  border: 2px solid var(--color-sponsored);
   box-shadow: 0 4px 12px rgba(255, 215, 0, 0.15);
 }
 
@@ -261,7 +256,7 @@
 
 /* ===== VARIANT: Partner ===== */
 .card--partner {
-  border: 2px solid #6366f1;
+  border: 2px solid var(--color-partner);
 }
 
 .card--partner:hover {
@@ -271,7 +266,7 @@
 /* ===== VARIANT: Lucky ===== */
 .card--lucky {
   position: relative;
-  border: 2px solid #667eea;
+  border: 2px solid var(--color-lucky);
   /* Static gradient border - no animation to reduce GPU load */
   background: var(--color-bg);
 }
@@ -284,7 +279,7 @@
 /* ===== VARIANT: Spotlight ===== */
 .card--spotlight {
   background: #0f172a;
-  border: 2px solid #f59e0b;
+  border: 2px solid var(--color-featured);
   /* Static glow - no animation to reduce GPU load */
   box-shadow: 0 0 24px rgba(245, 158, 11, 0.25), 0 8px 32px rgba(0, 0, 0, 0.3);
 }
@@ -320,7 +315,7 @@
 .card--spotlightHero {
   flex-direction: row;
   background: #0f172a;
-  border: 2px solid #f59e0b;
+  border: 2px solid var(--color-featured);
   box-shadow: 0 0 24px rgba(245, 158, 11, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 

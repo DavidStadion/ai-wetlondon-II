@@ -8,78 +8,24 @@ import {
   loadRecentlyViewed,
 } from '@/signals/uiSignals';
 import { fetchVenues } from '@/utils/supabase';
-import type { Venue, VenueType, RouteProps } from '@/types';
+import type { Venue, RouteProps } from '@/types';
+import type { Situation } from '@/utils/situationFilters';
+import {
+  SITUATIONS,
+  filterForSituation,
+} from '@/utils/situationFilters';
 import { ActivityCard } from '@/components/ActivityCard';
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { Button } from '@/components/common/Button';
 import { BackToTop } from '@/components/common/BackToTop';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import styles from './SituationsPage.module.css';
-
-type Situation = 'solo' | 'couple' | 'date' | 'friends' | 'group' | 'work' | 'kids' | 'quiet' | 'chaotic';
-
-const SITUATIONS: Array<{ value: Situation; label: string }> = [
-  { value: 'solo', label: 'Solo' },
-  { value: 'couple', label: 'Couple' },
-  { value: 'date', label: 'Date' },
-  { value: 'friends', label: 'Friends' },
-  { value: 'group', label: 'Group' },
-  { value: 'work', label: 'Work' },
-  { value: 'kids', label: 'Kids' },
-  { value: 'quiet', label: 'Quiet' },
-  { value: 'chaotic', label: 'Chaotic' },
-];
-
-interface SituationMapping {
-  include: VenueType[];
-  exclude: VenueType[];
-}
-
-const SITUATION_MAPPINGS: Record<Situation, SituationMapping> = {
-  solo: { include: ['museums', 'galleries', 'historic', 'libraries', 'cafes'], exclude: ['bowling', 'club'] },
-  couple: { include: ['spa', 'theatre', 'cinema', 'food', 'bars', 'views', 'cocktails'], exclude: [] },
-  date: { include: ['spa', 'theatre', 'cinema', 'food', 'bars', 'cocktails', 'immersive'], exclude: ['kids'] },
-  friends: { include: ['games', 'bowling', 'escape', 'immersive', 'comedy', 'food', 'bars'], exclude: [] },
-  group: { include: ['games', 'bowling', 'escape', 'immersive', 'workshops', 'food'], exclude: [] },
-  work: { include: ['cafes', 'libraries', 'museums', 'galleries', 'coworking'], exclude: ['bowling', 'comedy'] },
-  kids: { include: ['kids', 'family', 'aquariums', 'science', 'museums', 'immersive'], exclude: ['cocktails', 'bars'] },
-  quiet: { include: ['museums', 'galleries', 'historic', 'libraries'], exclude: ['comedy', 'bowling', 'club'] },
-  chaotic: { include: ['comedy', 'immersive', 'games', 'bowling', 'escape', 'karaoke'], exclude: [] },
-};
 
 const PAGE_SIZE = 9;
 
 // Local signals for this page
 const currentSituation = signal<Situation | null>(null);
 const shownCount = signal<number>(PAGE_SIZE);
-
-function hasAnyType(venue: Venue, types: VenueType[]): boolean {
-  return types.some((t) => venue.type.includes(t));
-}
-
-function scoreVenue(venue: Venue, preferTypes: VenueType[]): number {
-  let s = 0;
-  if (typeof venue.rating === 'number') s += venue.rating;
-  if (typeof venue.wetnessScore === 'number') s += (100 - venue.wetnessScore) / 25;
-  if (preferTypes.length && hasAnyType(venue, preferTypes)) s += 2;
-  if (venue.price === 0 || venue.priceDisplay?.toUpperCase() === 'FREE') s += 0.5;
-  return s;
-}
-
-function filterForSituation(sit: Situation | null, venueList: Venue[]): Venue[] {
-  if (!sit) {
-    return venueList.slice().sort((a, b) => scoreVenue(b, []) - scoreVenue(a, []));
-  }
-
-  const mapping = SITUATION_MAPPINGS[sit];
-
-  const filtered = venueList.filter((v) => {
-    const includeOk = !mapping.include.length || hasAnyType(v, mapping.include);
-    const excludeOk = !mapping.exclude.length || !hasAnyType(v, mapping.exclude);
-    return includeOk && excludeOk;
-  });
-
-  return filtered.sort((a, b) => scoreVenue(b, mapping.include) - scoreVenue(a, mapping.include));
-}
 
 const filteredResults = computed(() => {
   return filterForSituation(currentSituation.value, venues.value);
@@ -203,12 +149,7 @@ export function SituationsPage(_props: RouteProps) {
             )}
           </div>
 
-          {loading && (
-            <div className={styles.loading}>
-              <div className={styles.spinner} />
-              <p>Loading activities...</p>
-            </div>
-          )}
+          {loading && <LoadingSpinner text="Loading activities..." />}
 
           {!loading && results.length === 0 && (
             <div className={styles.emptyState}>

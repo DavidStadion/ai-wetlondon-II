@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'preact/hooks';
 import type { Venue } from '@/types';
 import { Button } from '@/components/common/Button';
+import { Stars } from '@/components/common/Stars';
 import styles from './ReviewsTab.module.css';
 
 interface ReviewsTabProps {
@@ -31,15 +32,6 @@ interface PlaceDetails {
 
 const detailsCache = new Map<string, PlaceDetails>();
 const userReviewsCache = new Map<string, UserReview[]>();
-
-function Stars({ rating, size = 'sm' }: { rating: number; size?: 'sm' | 'lg' }) {
-  const className = size === 'lg' ? styles.starsLg : styles.starsSm;
-  return (
-    <span className={className} aria-label={`${rating} out of 5 stars`}>
-      {'★'.repeat(Math.round(rating))}{'☆'.repeat(5 - Math.round(rating))}
-    </span>
-  );
-}
 
 export function ReviewsTab({ venue }: ReviewsTabProps) {
   const [details, setDetails] = useState<PlaceDetails | null>(null);

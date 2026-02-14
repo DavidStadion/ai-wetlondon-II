@@ -11,6 +11,8 @@ import {
 import { fetchPartners } from '@/utils/supabase';
 import type { PartnerType, PartnerLocation, RouteProps } from '@/types';
 import { BackToTop } from '@/components/common/BackToTop';
+import { LoadingSpinner } from '@/components/common/LoadingSpinner';
+import { FilterChipBar } from '@/components/common/FilterChipBar';
 import { PartnerCard } from '@/components/PartnerCard';
 import styles from './PopupsPage.module.css';
 
@@ -68,42 +70,23 @@ export function PopupsPage(_props: RouteProps) {
         </p>
 
         {/* Location Filter */}
-        <div className={styles.filterBar}>
-          {LOCATION_FILTERS.map(({ value, label }) => (
-            <button
-              key={value}
-              type="button"
-              className={`${styles.filterChip} ${currentLocation === value ? styles.active : ''}`}
-              onClick={() => { locationFilter.value = value; }}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+        <FilterChipBar
+          options={LOCATION_FILTERS}
+          selected={currentLocation}
+          onSelect={(value) => { locationFilter.value = value; }}
+        />
 
         {/* Type Filter */}
-        <div className={styles.filterBar}>
-          {TYPE_FILTERS.map(({ value, label }) => (
-            <button
-              key={value}
-              type="button"
-              className={`${styles.filterChip} ${styles.typeFilter} ${currentType === value ? styles.active : ''}`}
-              onClick={() => { typeFilter.value = value; }}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
+        <FilterChipBar
+          options={TYPE_FILTERS}
+          selected={currentType}
+          onSelect={(value) => { typeFilter.value = value; }}
+        />
       </section>
 
       {/* Partners Container */}
       <section className={styles.container}>
-        {loading && (
-          <div className={styles.loading}>
-            <div className={styles.spinner} />
-            <p>Loading partners...</p>
-          </div>
-        )}
+        {loading && <LoadingSpinner text="Loading partners..." />}
 
         {!loading && errorMsg && (
           <div className={styles.noPartners}>
