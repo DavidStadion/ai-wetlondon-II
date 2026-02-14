@@ -70,7 +70,7 @@ export function AdminPage(_props: RouteProps) {
     try {
       const data = await fetchAllVenuesAdmin();
       adminVenues.value = data;
-    } catch (err) {
+    } catch {
       showAdminMessage('Failed to load venues', 'error');
     }
   }
@@ -79,7 +79,7 @@ export function AdminPage(_props: RouteProps) {
     try {
       const data = await fetchAllPartnersAdmin();
       adminPartners.value = data;
-    } catch (err) {
+    } catch {
       showAdminMessage('Failed to load partners', 'error');
     }
   }
@@ -96,7 +96,7 @@ export function AdminPage(_props: RouteProps) {
       await updateVenue(id, { [flag]: value });
       showAdminMessage(`${flag} status updated!`, 'success');
       loadVenues();
-    } catch (err) {
+    } catch {
       showAdminMessage(`Error updating ${flag}`, 'error');
     }
   }
@@ -108,7 +108,7 @@ export function AdminPage(_props: RouteProps) {
       await deleteVenueApi(id);
       showAdminMessage(`Deleted "${name}"`, 'success');
       loadVenues();
-    } catch (err) {
+    } catch {
       showAdminMessage('Error deleting venue', 'error');
     }
   }
@@ -127,7 +127,7 @@ export function AdminPage(_props: RouteProps) {
       await updatePartner(id, { [flag]: value });
       showAdminMessage(`${flag} status updated!`, 'success');
       loadPartners();
-    } catch (err) {
+    } catch {
       showAdminMessage(`Error updating ${flag}`, 'error');
     }
   }
@@ -139,7 +139,7 @@ export function AdminPage(_props: RouteProps) {
       await deletePartnerApi(id);
       showAdminMessage(`Deleted "${name}"`, 'success');
       loadPartners();
-    } catch (err) {
+    } catch {
       showAdminMessage('Error deleting partner', 'error');
     }
   }
@@ -191,7 +191,7 @@ export function AdminPage(_props: RouteProps) {
 
       closePartnerModal();
       loadPartners();
-    } catch (err) {
+    } catch {
       showAdminMessage('Error saving partner', 'error');
     }
   }
