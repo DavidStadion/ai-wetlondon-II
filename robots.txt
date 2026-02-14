@@ -1,0 +1,8 @@
+# Wet London - robots.txt
+# https://wetlondon.co.uk
+
+User-agent: *
+Allow: /
+
+# Allow sitemap
+Sitemap: https://wetlondon.co.uk/sitemap.xml

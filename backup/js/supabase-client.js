@@ -68,14 +68,24 @@ function convertVenue(dbVenue) {
     const cleanedTypes = rawTypes.map(normaliseCategory).filter(Boolean);
     const uniqueTypes = Array.from(new Set(cleanedTypes));
 
+    const price = parseFloat(dbVenue.price) || 0;
+
+    // Format price display - check if price_display is a proper formatted string (contains £ or text like FREE)
+    // If it's just a number, format it properly with £ symbol
+    let priceDisplay = dbVenue.price_display;
+    if (!priceDisplay || /^[\d.]+$/.test(String(priceDisplay).trim())) {
+        // price_display is missing or is just a raw number - format it
+        priceDisplay = price === 0 ? 'FREE' : `£${Math.round(price)}`;
+    }
+
     return {
         name: dbVenue.name,
         type: uniqueTypes,
         location: dbVenue.location,
         wetness: dbVenue.wetness,
         wetnessScore: dbVenue.wetness_score,
-        price: parseFloat(dbVenue.price) || 0,
-        priceDisplay: dbVenue.price_display,
+        price: price,
+        priceDisplay: priceDisplay,
         description: dbVenue.description,
         rating: parseFloat(dbVenue.rating) || 4.5,
         sponsored: dbVenue.sponsored || false,
