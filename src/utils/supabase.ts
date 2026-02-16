@@ -6,8 +6,12 @@ import type { Partner, PartnerType, PartnerLocation } from '../types/partner';
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  console.warn('Supabase credentials not configured. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.');
+export function hasSupabaseCredentials(): boolean {
+  return Boolean(SUPABASE_URL && SUPABASE_ANON_KEY);
+}
+
+if (!hasSupabaseCredentials()) {
+  console.error('❌ Supabase credentials missing! Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.');
 }
 
 export const supabase: SupabaseClient = createClient(

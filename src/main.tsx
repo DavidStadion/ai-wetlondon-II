@@ -8,9 +8,25 @@ import { PopupsPage } from '@/pages/PopupsPage';
 import { SituationsPage } from '@/pages/SituationsPage';
 import { AdminPage } from '@/pages/AdminPage';
 import { ToastContainer } from '@/components/common/Toast/ToastContainer';
+import { ConfigurationError } from '@/components/ConfigurationError';
+import { hasSupabaseCredentials } from '@/utils/supabase';
 import './styles/global.css';
 
 function App() {
+  // Check for required environment variables
+  if (!hasSupabaseCredentials()) {
+    return (
+      <ConfigurationError
+        title="Configuration Required"
+        message="The application is missing required database credentials and cannot start."
+        details={[
+          'VITE_SUPABASE_URL',
+          'VITE_SUPABASE_ANON_KEY'
+        ]}
+      />
+    );
+  }
+
   return (
     <>
       <Layout>
