@@ -4,8 +4,5 @@
 User-agent: *
 Allow: /
 
-# Block admin/management pages from indexing
-Disallow: /wl-manage-panel.html
-
 # Allow sitemap
 Sitemap: https://wetlondon.co.uk/sitemap.xml

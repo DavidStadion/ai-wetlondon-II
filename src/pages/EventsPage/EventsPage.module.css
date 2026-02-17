@@ -1,0 +1,119 @@
+.page {
+  padding-top: 80px; /* Account for fixed header */
+  padding-bottom: 3rem;
+}
+
+/* Hero */
+.hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+  text-align: center;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.02em;
+  margin: 0 0 0.75rem;
+  color: var(--color-text);
+}
+
+.tagline {
+  color: var(--color-text-secondary);
+  font-size: 1.1rem;
+  max-width: 60ch;
+  margin: 0 auto 1.5rem;
+}
+
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1.25rem 3rem;
+}
+
+/* Events Section */
+.eventsSection {
+  margin-bottom: 2.5rem;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.sectionBadge {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sectionBadge--ends-soon {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+}
+
+.sectionBadge--new {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+}
+
+/* Events Grid */
+.eventsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+/* No Events */
+.noEvents {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--color-text-secondary);
+}
+
+/* Submit CTA */
+.submitCta {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-xl);
+  text-align: center;
+}
+
+.ctaTitle {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  color: var(--color-text);
+}
+
+.ctaText {
+  color: var(--color-text-secondary);
+  margin: 0 0 1rem;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .eventsGrid {
+    grid-template-columns: 1fr;
+  }
+
+}

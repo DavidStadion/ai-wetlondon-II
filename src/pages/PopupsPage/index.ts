@@ -1,0 +1,1 @@
+export { PopupsPage } from './PopupsPage';

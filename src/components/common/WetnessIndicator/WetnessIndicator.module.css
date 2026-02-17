@@ -1,0 +1,39 @@
+.indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+.bar {
+  flex: 1;
+  min-width: 80px;
+  height: 4px;
+  background: var(--color-wet);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bar--sm {
+  height: 3px;
+}
+
+.fill {
+  height: 100%;
+  background: linear-gradient(90deg, #6C63FF 0%, #8B7CFF 50%, #9D8FFF 100%);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  min-width: 48px;
+  text-align: right;
+  letter-spacing: -0.01em;
+}
+
+.label--sm {
+  font-size: 0.75rem;
+  min-width: 40px;
+}

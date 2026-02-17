@@ -1,0 +1,113 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Size variants */
+.button--sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.button--md {
+  padding: 0.875rem 1.5rem;
+  font-size: 0.95rem;
+}
+
+.button--lg {
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+}
+
+/* Style variants */
+.button--primary {
+  background: var(--color-button-primary);
+  color: var(--color-button-primary-text);
+  border-color: var(--color-button-primary);
+}
+
+.button--primary:hover:not(:disabled) {
+  background: var(--color-button-primary-hover);
+  border-color: var(--color-button-primary-hover);
+}
+
+/* Secondary - Dark glass with blue border */
+.button--secondary {
+  background: rgba(15, 22, 36, 0.70);
+  color: var(--color-text);
+  border: 1px solid rgba(77, 163, 255, 0.55);
+}
+
+.button--secondary:hover:not(:disabled) {
+  background: rgba(77, 163, 255, 0.16);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.40);
+}
+
+.button--ghost {
+  background: transparent;
+  color: var(--color-text);
+  border-color: transparent;
+}
+
+.button--ghost:hover:not(:disabled) {
+  background: var(--color-bg-secondary);
+}
+
+.button--danger {
+  background: var(--color-error);
+  color: var(--color-button-primary-text);
+  border-color: var(--color-error);
+}
+
+.button--danger:hover:not(:disabled) {
+  background: var(--color-error-hover);
+  border-color: var(--color-error-hover);
+}
+
+/* Accent - Blue gradient */
+.button--accent {
+  background: linear-gradient(135deg, rgba(77, 163, 255, 1), rgba(124, 195, 255, 1));
+  color: #07101b;
+  border: none;
+  box-shadow: 0 12px 28px rgba(77, 163, 255, 0.25);
+}
+
+.button--accent:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 36px rgba(77, 163, 255, 0.32);
+}
+
+/* Action - Modal action buttons */
+.button--action {
+  padding: 0.95rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid var(--color-button-action-border);
+  background: var(--color-button-action-bg);
+  color: var(--color-text);
+}
+
+.button--action:hover:not(:disabled) {
+  background: var(--color-button-action-hover-bg);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

@@ -1,0 +1,6 @@
+{
+  "devCommand": "echo 'No dev server needed'",
+  "rewrites": [
+    { "source": "/((?!api/).*)", "destination": "/" }
+  ]
+}

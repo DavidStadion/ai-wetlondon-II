@@ -1,0 +1,141 @@
+.widget {
+  position: relative;
+  min-width: 320px;
+  padding: 0.9rem;
+  background: rgba(15, 22, 36, 0.92);
+  border-radius: 12px;
+  border: 1px solid var(--wl-border);
+  box-shadow: var(--wl-shadow-soft);
+}
+
+.widget--rainy {
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, rgba(37, 99, 235, 0.1) 100%);
+}
+
+.loadingContent {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.loadingText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.refresh {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.refresh:hover {
+  color: var(--color-text);
+  border-color: var(--color-text-secondary);
+}
+
+.refresh:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.refreshing {
+  animation: spin 1s linear infinite;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.temp {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.2;
+  margin-bottom: 0.25rem;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  text-transform: capitalize;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+  margin-bottom: 1rem;
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.value {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.message {
+  background: rgba(37, 99, 235, 0.1);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.updated {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.error {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
