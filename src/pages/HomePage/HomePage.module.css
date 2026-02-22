@@ -240,3 +240,16 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* Ad Banner */
+.adWrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+@media (max-width: 768px) {
+  .adWrapper {
+    padding: 0 1rem;
+  }
+}

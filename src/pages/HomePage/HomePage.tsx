@@ -37,6 +37,7 @@ import { PopupsSection } from '@/components/PopupsSection';
 import { PersonalizedSection } from '@/components/PersonalizedSection';
 import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { Button } from '@/components/common/Button';
+import { AdSlot } from '@/components/common/AdSlot';
 
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { CustomizeModal } from '@/components/modals/CustomizeModal';
@@ -184,6 +185,13 @@ export function HomePage(_props: RouteProps) {
             </div>
           )}
         </section>
+      )}
+
+      {/* Banner Ad */}
+      {!loading && !errorMsg && (
+        <div className={styles.adWrapper}>
+          <AdSlot slotId="PLACEHOLDER" format="horizontal" />
+        </div>
       )}
 
       {/* Weather Recommendations */}

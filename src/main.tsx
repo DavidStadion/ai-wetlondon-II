@@ -12,6 +12,36 @@ import { ConfigurationError } from '@/components/ConfigurationError';
 import { hasSupabaseCredentials } from '@/utils/supabase';
 import './styles/global.css';
 
+declare global {
+  interface Window {
+    dataLayer: unknown[];
+    gtag: (...args: unknown[]) => void;
+  }
+}
+
+const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
+
+function initGA() {
+  if (!GA_ID) return;
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+  document.head.appendChild(script);
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag(...args: unknown[]) {
+    window.dataLayer.push(args);
+  };
+  window.gtag('js', new Date());
+  window.gtag('config', GA_ID, { send_page_view: false });
+}
+
+function trackPageView(url: string) {
+  if (!GA_ID || !window.gtag) return;
+  window.gtag('event', 'page_view', { page_path: url });
+}
+
 function App() {
   // Check for required environment variables
   if (!hasSupabaseCredentials()) {
@@ -30,7 +60,7 @@ function App() {
   return (
     <>
       <Layout>
-        <Router>
+        <Router onChange={(e) => trackPageView(e.url)}>
           <HomePage path="/" />
           <AboutPage path="/about" />
           <EventsPage path="/events" />
@@ -43,6 +73,8 @@ function App() {
     </>
   );
 }
+
+initGA();
 
 const container = document.getElementById('preact-root');
 if (container) {
