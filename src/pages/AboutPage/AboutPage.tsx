@@ -73,7 +73,7 @@ export function AboutPage(_props: RouteProps) {
     <div className={styles.page}>
       {/* Hero */}
       <section className={styles.hero}>
-        <h1 className={styles.title}>About Wet London</h1>
+        <h1 className={styles.title}>About</h1>
         <p className={styles.intro}>
           Wet London was started by Kate and Dave, two Londoners who love exploring come rain or shine (mostly rain, let's be honest). We've lost count of the times we've been caught out by the weather. Umbrellas turning inside out, trainers that squelch for days, that classic "it'll clear up" optimism that never pays off. So we built this to help fellow Londoners keep adventuring, whatever the sky throws at us.
         </p>
