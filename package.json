@@ -10,6 +10,8 @@
     "dev": "vite",
     "dev:api": "node server.js",
     "dev:all": "node server.js & vite",
+    "snapshot": "node scripts/snapshot-supabase.mjs",
+    "prebuild": "node scripts/snapshot-supabase.mjs",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint src/",
