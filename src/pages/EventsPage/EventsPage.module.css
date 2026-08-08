@@ -1,119 +1,126 @@
 .page {
-  padding-top: 80px; /* Account for fixed header */
+  padding-top: var(--wl-header-h);
   padding-bottom: 3rem;
 }
 
-/* Hero */
+/* ---------- Hero ---------- */
 .hero {
-  max-width: 1200px;
+  max-width: var(--wl-maxw);
   margin: 0 auto;
-  padding: 2rem 1.25rem;
+  padding: 2.75rem var(--wl-gutter) 1.5rem;
   text-align: center;
 }
 
 .title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  letter-spacing: -0.02em;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+  letter-spacing: -0.025em;
+  line-height: 1;
   margin: 0 0 0.75rem;
   color: var(--color-text);
 }
 
 .tagline {
   color: var(--color-text-secondary);
-  font-size: 1.1rem;
-  max-width: 60ch;
-  margin: 0 auto 1.5rem;
-}
-
-
-/* Container */
-.container {
-  max-width: 1200px;
+  font-size: 1rem;
+  max-width: 56ch;
   margin: 0 auto;
-  padding: 1rem 1.25rem 3rem;
 }
 
-/* Events Section */
-.eventsSection {
-  margin-bottom: 2.5rem;
+/* ---------- Container ---------- */
+.container {
+  max-width: var(--wl-maxw);
+  margin: 0 auto;
+  padding: 1.5rem var(--wl-gutter) 3rem;
 }
+
+/* ---------- Sections ---------- */
+.eventsSection { padding-top: 2.5rem; }
 
 .sectionHeader {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  border-top: 2px solid var(--color-text);
+  padding-top: 0.9rem;
+  margin-bottom: 1.5rem;
 }
 
 .sectionTitle {
-  font-size: 1.25rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 3.4vw, 3.1rem);
   margin: 0;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
   color: var(--color-text);
 }
 
 .sectionBadge {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  color: #fff;
-  font-size: 0.7rem;
-  font-weight: 600;
-  padding: 0.25rem 0.5rem;
-  border-radius: var(--radius-sm);
+  font-size: 0.62rem;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.1em;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  background: var(--color-bg-secondary);
+  color: var(--color-text);
 }
 
-.sectionBadge--ends-soon {
-  background: linear-gradient(135deg, #f59e0b, #d97706);
-}
+.sectionBadge--ends-soon { background: var(--color-error); color: #fff; }
+.sectionBadge--live { background: var(--color-status-open); color: #fff; }
+.sectionBadge--new { background: var(--color-text); color: #fff; }
 
-.sectionBadge--new {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-}
-
-/* Events Grid */
+/* ---------- Grid ---------- */
 .eventsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--wl-gap);
+  row-gap: 2.25rem;
 }
 
-/* No Events */
 .noEvents {
   text-align: center;
   padding: 3rem 1rem;
   color: var(--color-text-secondary);
 }
 
-/* Submit CTA */
+/* ---------- Submit CTA ---------- */
 .submitCta {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: var(--color-bg);
-  border: 1px solid var(--color-primary);
-  border-radius: var(--radius-xl);
+  margin: 3.5rem auto 0;
+  padding: 2.5rem 2rem;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
   text-align: center;
 }
 
 .ctaTitle {
   margin: 0 0 0.5rem;
-  font-size: 1.25rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+  font-weight: 400;
+  letter-spacing: -0.015em;
   color: var(--color-text);
 }
 
 .ctaText {
+  margin: 0 auto 1.5rem;
+  font-size: 0.92rem;
   color: var(--color-text-secondary);
-  margin: 0 0 1rem;
+  max-width: 52ch;
 }
 
-/* Responsive */
-@media (max-width: 640px) {
-  .title {
-    font-size: 1.75rem;
-  }
+/* ---------- Responsive ---------- */
+@media (max-width: 1200px) { .eventsGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 900px)  { .eventsGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-  .eventsGrid {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 768px) {
+  .sectionHeader { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+}
 
+@media (max-width: 560px) {
+  .eventsGrid { grid-template-columns: 1fr; row-gap: 1.75rem; }
 }

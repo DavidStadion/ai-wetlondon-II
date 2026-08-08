@@ -62,6 +62,10 @@ export function ActivityCard({
 
   const wet = Math.max(0, Math.min(100, Math.round(venue.wetnessScore ?? 0)));
 
+  // Some rows carry out-of-range ratings (e.g. 45) — don't render a nonsense star score.
+  const hasValidRating =
+    typeof venue.rating === 'number' && venue.rating > 0 && venue.rating <= 5;
+
   const kicker = (
     <div className={styles.kicker}>
       <span className={styles.area}>{AREA_LABELS[venue.location]}</span>
@@ -135,7 +139,7 @@ export function ActivityCard({
           {showDescription && <p className={styles.description}>{venue.description}</p>}
           <div className={styles.metaRow}>
             <span className={styles.price}>{venue.priceDisplay}</span>
-            {typeof venue.rating === 'number' && venue.rating > 0 && (
+            {hasValidRating && (
               <>
                 <span className={styles.sep} aria-hidden="true" />
                 <span className={styles.rating}>★ {venue.rating.toFixed(1)}</span>
