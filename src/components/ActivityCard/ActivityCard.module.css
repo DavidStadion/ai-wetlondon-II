@@ -24,6 +24,9 @@
   background: var(--color-bg-secondary);
 }
 
+/* Portrait crop for taller editorial rails */
+.tall .image { aspect-ratio: 3 / 4; }
+
 .imagePlaceholder {
   width: 100%;
   height: 100%;

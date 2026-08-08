@@ -10,11 +10,11 @@ import {
 } from '@/signals/eventSignals';
 import { fetchEvents, sampleEvents } from '@/utils/supabase';
 import type { Event, EventCategory, RouteProps } from '@/types';
-import { Button } from '@/components/common/Button';
 import { BackToTop } from '@/components/common/BackToTop';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { FilterChipBar } from '@/components/common/FilterChipBar';
 import { EventCard } from '@/components/EventCard';
+import { PromoBand } from '@/components/common/PromoBand';
 import styles from './EventsPage.module.css';
 
 const FILTERS: Array<{ value: EventCategory | 'all'; label: string }> = [
@@ -127,18 +127,16 @@ export function EventsPage(_props: RouteProps) {
           </div>
         )}
 
-        {/* Submit Event CTA */}
-        <div className={styles.submitCta}>
-          <h3 className={styles.ctaTitle}>Know an event we should feature?</h3>
-          <p className={styles.ctaText}>Help fellow Londoners discover amazing indoor experiences during rainy days.</p>
-          <Button
-            as="a"
-            href="mailto:hello@wetlondon.co.uk?subject=Event Suggestion"
-          >
-            Suggest an Event
-          </Button>
-        </div>
       </section>
+
+      <PromoBand
+        title="Know an event we should"
+        titleAccent="feature?"
+        body="Help fellow Londoners find the good stuff when the weather turns."
+        ctaLabel="Suggest an event"
+        ctaHref="mailto:hello@wetlondon.co.uk?subject=Event Suggestion"
+        tone="soft"
+      />
 
       <BackToTop />
     </div>

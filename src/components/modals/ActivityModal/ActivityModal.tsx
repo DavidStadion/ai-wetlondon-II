@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from "preact/hooks";
 import type { Venue } from "@/types";
 import { Modal } from "@/components/common/Modal";
-import { Button } from "@/components/common/Button";
-import { WetnessIndicator } from "@/components/common/WetnessIndicator";
 import {
   bookmarkedVenues,
   toggleBookmark,
@@ -11,6 +9,7 @@ import {
 import { OverviewTab } from "./OverviewTab";
 import { GalleryTab } from "./GalleryTab";
 import { ReviewsTab } from "./ReviewsTab";
+import { RelatedVenues } from "./RelatedVenues";
 import styles from "./ActivityModal.module.css";
 
 export interface ActivityModalProps {
@@ -89,116 +88,148 @@ export function ActivityModal({
     const nextIndex = (currentIndex + delta + TABS.length) % TABS.length;
     setActiveTab(TABS[nextIndex].id);
 
-    // Focus the new tab button
     const buttons = tabsRef.current?.querySelectorAll("button");
     (buttons?.[nextIndex] as HTMLButtonElement)?.focus();
   };
 
+  const wet = Math.max(0, Math.min(100, Math.round(venue.wetnessScore ?? 0)));
+  const hasValidRating =
+    typeof venue.rating === "number" && venue.rating > 0 && venue.rating <= 5;
+  const isFree = venue.price === 0;
+
+  // The booking CTA is the commercial surface — always give it somewhere to go.
+  const bookingUrl =
+    venue.affiliateLink ||
+    `https://www.google.com/search?q=${encodeURIComponent(`${venue.name} London tickets`)}`;
+  const bookingLabel = isFree ? "Plan your visit" : "Book tickets";
+
+  const wetnessWord =
+    venue.wetness === "dry"
+      ? "Stays dry"
+      : venue.wetness === "slightly"
+        ? "Mostly dry"
+        : "Some exposure";
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title={venue.name} size="lg">
-      {/* Meta info */}
-      <div className={styles.meta}>
-        <span className={styles.rating}>
-          <span className={styles.ratingStars}>
-            {"★".repeat(Math.round(venue.rating))}
-            {"☆".repeat(5 - Math.round(venue.rating))}
+    <Modal isOpen={isOpen} onClose={onClose} title={venue.name} size="xl" hideHeader flush>
+      {/* Image-led header */}
+      <div className={styles.hero}>
+        <div
+          className={styles.heroImage}
+          style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : undefined}
+          aria-hidden="true"
+        />
+        <span className={styles.heroWet}>
+          <span className={styles.heroWetMeter}>
+            <i style={{ width: `${Math.max(5, wet)}%` }} />
           </span>
-          <span>{venue.rating.toFixed(1)}</span>
+          {wet}% WET
         </span>
-        <span className={styles.metaTag}>{venue.priceDisplay}</span>
-        <span className={styles.metaTag}>
-          {venue.location.charAt(0).toUpperCase() + venue.location.slice(1)}
-        </span>
-        <div className={styles.metaWetness}>
-          <span aria-hidden="true">
-            {venue.wetness === "dry"
-              ? "\uD83C\uDF02"
-              : venue.wetness === "slightly"
-                ? "\u2602\uFE0F"
-                : "\u2614\uFE0F"}
-          </span>
-          <WetnessIndicator
-            score={venue.wetnessScore}
-            level={venue.wetness}
-            size="md"
-          />
+        <div className={styles.heroText}>
+          <div className={styles.heroKicker}>
+            <span>
+              {venue.location.charAt(0).toUpperCase() + venue.location.slice(1)}
+            </span>
+            {venue.type[0] && (
+              <>
+                <span className={styles.dot} aria-hidden="true" />
+                <span>{venue.type[0]}</span>
+              </>
+            )}
+          </div>
+          <h2 className={styles.heroTitle}>{venue.name}</h2>
         </div>
       </div>
 
-      {/* Actions */}
-      <div className={styles.actions}>
-        <Button
-          variant="action"
-          size="sm"
-          onClick={() => {
-            if (venue.affiliateLink) {
-              window.open(venue.affiliateLink, "_blank", "noopener,noreferrer");
-            }
-          }}
-        >
-          <span aria-hidden="true" style={{ marginRight: "0.25rem" }}>
-            &#x1F3AB;
-          </span>
-          Book Tickets
-        </Button>
-        <Button variant="action" size="sm" onClick={handleToggleBookmark}>
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            style={{ marginRight: "0.25rem" }}
+      {/* Sticky action bar — booking is the primary action */}
+      <div className={styles.actionBar}>
+        <div className={styles.facts}>
+          <span className={styles.price}>{venue.priceDisplay}</span>
+          {hasValidRating && (
+            <>
+              <span className={styles.dot} aria-hidden="true" />
+              <span className={styles.fact}>{"★"} {venue.rating.toFixed(1)}</span>
+            </>
+          )}
+          <span className={styles.dot} aria-hidden="true" />
+          <span className={styles.fact}>{wetnessWord}</span>
+        </div>
+
+        <div className={styles.actions}>
+          <a
+            className={styles.bookBtn}
+            href={bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer sponsored"
           >
-            <path
-              d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"
-              fill={isBookmarked ? "currentColor" : "none"}
+            {bookingLabel}
+            <span aria-hidden="true" className={styles.bookArrow}>
+              {"→"}
+            </span>
+          </a>
+
+          <button
+            type="button"
+            className={`${styles.iconBtn} ${isBookmarked ? styles.iconBtnOn : ""}`}
+            onClick={handleToggleBookmark}
+            aria-pressed={isBookmarked}
+          >
+            <svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"
+                fill={isBookmarked ? "currentColor" : "none"}
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linejoin="round"
+              />
+            </svg>
+            {isBookmarked ? "Saved" : "Save"}
+          </button>
+
+          <button type="button" className={styles.iconBtn} onClick={handleShare}>
+            <svg
+              width="17"
+              height="17"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              fill="none"
               stroke="currentColor"
               stroke-width="2"
+              stroke-linecap="round"
               stroke-linejoin="round"
-            />
-          </svg>
-          {isBookmarked ? "Saved" : "Save"}
-        </Button>
-        <Button variant="action" size="sm" onClick={handleShare}>
-          <span aria-hidden="true" style={{ marginRight: "0.25rem" }}>
-            &#x1F4E4;
-          </span>
-          Share
-        </Button>
+            >
+              <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
+              <path d="M12 16V4M8 8l4-4 4 4" />
+            </svg>
+            Share
+          </button>
+        </div>
       </div>
 
       {/* Tabs */}
-      <div
-        ref={tabsRef}
-        className={styles.tabs}
-        role="tablist"
-        aria-label="Activity details"
-      >
-        {TABS.map((tab) => (
-          <button
-            key={tab.id}
-            role="tab"
-            id={`tab-${tab.id}`}
-            aria-selected={activeTab === tab.id}
-            aria-controls={`tabpanel-${tab.id}`}
-            tabIndex={activeTab === tab.id ? 0 : -1}
-            className={`${styles.tab} ${activeTab === tab.id ? styles["tab--active"] : ""}`}
-            onClick={() => setActiveTab(tab.id)}
-            onKeyDown={handleKeyDown}
-          >
-            {tab.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Tab indicators */}
-      <div className={styles.tabIndicators} aria-hidden="true">
-        {TABS.map((tab) => (
-          <span
-            key={tab.id}
-            className={`${styles.tabDot} ${activeTab === tab.id ? styles["tabDot--active"] : ""}`}
-          />
-        ))}
+      <div className={styles.tabsWrap}>
+        <div
+          ref={tabsRef}
+          className={styles.tabs}
+          role="tablist"
+          aria-label="Activity details"
+        >
+          {TABS.map((tab) => (
+            <button
+              key={tab.id}
+              role="tab"
+              id={`tab-${tab.id}`}
+              aria-selected={activeTab === tab.id}
+              aria-controls={`tabpanel-${tab.id}`}
+              tabIndex={activeTab === tab.id ? 0 : -1}
+              className={`${styles.tab} ${activeTab === tab.id ? styles["tab--active"] : ""}`}
+              onClick={() => setActiveTab(tab.id)}
+              onKeyDown={handleKeyDown}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Tab content */}
@@ -216,6 +247,9 @@ export function ActivityModal({
         )}
         {activeTab === "reviews" && <ReviewsTab venue={venue} />}
       </div>
+
+      {/* Related activities */}
+      <RelatedVenues venue={venue} />
     </Modal>
   );
 }

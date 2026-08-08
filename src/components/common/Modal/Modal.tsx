@@ -8,10 +8,22 @@ export interface ModalProps {
   onClose: () => void;
   title: string;
   children: ComponentChildren;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Hide the default title bar so the content can lead (e.g. a full-bleed image). */
+  hideHeader?: boolean;
+  /** Remove the content padding so children can bleed to the edges. */
+  flush?: boolean;
 }
 
-export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalProps) {
+export function Modal({
+  isOpen,
+  onClose,
+  title,
+  children,
+  size = 'md',
+  hideHeader = false,
+  flush = false,
+}: ModalProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const titleId = `modal-title-${title.replace(/\s+/g, '-').toLowerCase()}`;
 
@@ -57,18 +69,29 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
         aria-labelledby={titleId}
         tabIndex={-1}
       >
-        <div className={styles.header}>
-          <h2 id={titleId} className={styles.title}>{title}</h2>
+        {hideHeader ? (
           <button
             type="button"
-            className={styles.closeButton}
+            className={styles.closeFloating}
             onClick={onClose}
-            aria-label="Close modal"
+            aria-label="Close"
           >
             &times;
           </button>
-        </div>
-        <div className={styles.content}>
+        ) : (
+          <div className={styles.header}>
+            <h2 id={titleId} className={styles.title}>{title}</h2>
+            <button
+              type="button"
+              className={styles.closeButton}
+              onClick={onClose}
+              aria-label="Close modal"
+            >
+              &times;
+            </button>
+          </div>
+        )}
+        <div className={`${styles.content} ${flush ? styles.contentFlush : ''}`}>
           {children}
         </div>
       </div>

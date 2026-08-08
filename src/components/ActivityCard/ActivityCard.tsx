@@ -15,6 +15,8 @@ export interface ActivityCardProps {
   size?: 'md' | 'lg';
   /** Show the one-line description under the headline. */
   showDescription?: boolean;
+  /** Portrait image crop — used for taller, more editorial rails. */
+  tall?: boolean;
 }
 
 const VARIANT_BADGES: Partial<Record<CardVariant, string>> = {
@@ -44,6 +46,7 @@ export function ActivityCard({
   layout = 'stacked',
   size = 'md',
   showDescription = false,
+  tall = false,
 }: ActivityCardProps) {
   const isBookmarked = bookmarkedVenues.value.has(venue.name);
   const badgeText = VARIANT_BADGES[variant];
@@ -55,6 +58,7 @@ export function ActivityCard({
     styles.card,
     isOverlay ? styles.overlay : styles.stacked,
     isOverlay && size === 'lg' && styles.overlayLg,
+    tall && styles.tall,
     variant !== 'default' && styles[`card--${variant}`],
   ].filter(Boolean).join(' ');
 

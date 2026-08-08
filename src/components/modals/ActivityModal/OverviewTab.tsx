@@ -10,33 +10,16 @@ import {
   getWhatsIncluded,
   getGoodToKnow,
 } from "@/utils/venueInfo";
-import { Button } from "@/components/common/Button";
 import { Tag } from "@/components/common/Tag";
 import styles from "./OverviewTab.module.css";
 
 interface OverviewTabProps {
   venue: Venue;
+  /** Accepted for call-site compatibility; the modal header renders the image. */
   imageUrl?: string;
 }
 
-export function OverviewTab({ venue, imageUrl }: OverviewTabProps) {
-  const heroStyle = imageUrl
-    ? { backgroundImage: `url(${imageUrl})` }
-    : undefined;
-
-  const handleBookClick = () => {
-    if (venue.affiliateLink) {
-      window.open(venue.affiliateLink, "_blank", "noopener,noreferrer");
-    } else {
-      const query = encodeURIComponent(`${venue.name} London tickets`);
-      window.open(
-        `https://www.google.com/search?q=${query}`,
-        "_blank",
-        "noopener,noreferrer",
-      );
-    }
-  };
-
+export function OverviewTab({ venue }: OverviewTabProps) {
   const openStatus = getOpenStatus(venue.openingHours);
   const transport = getTransportInfo(venue.description);
   const duration = getDuration(venue.type, venue.prerequisites);
@@ -46,13 +29,7 @@ export function OverviewTab({ venue, imageUrl }: OverviewTabProps) {
 
   return (
     <div>
-      <div
-        className={styles.hero}
-        style={heroStyle}
-        role="img"
-        aria-label={venue.name}
-      />
-
+      {/* The modal header already leads with the image — no need to repeat it here. */}
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>About</h3>
         <p className={styles.description}>{venue.description}</p>
@@ -169,18 +146,8 @@ export function OverviewTab({ venue, imageUrl }: OverviewTabProps) {
         </section>
       )}
 
+      {/* Booking lives in the sticky action bar above — this is just directions. */}
       <div className={styles.ctaSection}>
-        <Button
-          variant="action"
-          onClick={handleBookClick}
-          className={styles.ctaButton}
-        >
-          <span aria-hidden="true" style={{ marginRight: "0.25rem" }}>
-            &#x1F3AB;
-          </span>
-          {venue.affiliateLink ? "Book Tickets" : "Find Tickets"}
-        </Button>
-
         <a
           href={getGoogleMapsUrl(venue.name, venue.location)}
           target="_blank"

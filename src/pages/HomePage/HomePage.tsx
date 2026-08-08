@@ -39,6 +39,7 @@ import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { Button } from '@/components/common/Button';
 import { AdSlot } from '@/components/common/AdSlot';
 import { Carousel } from '@/components/common/Carousel';
+import { PromoBand } from '@/components/common/PromoBand';
 
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { CustomizeModal } from '@/components/modals/CustomizeModal';
@@ -135,6 +136,21 @@ export function HomePage(_props: RouteProps) {
     displayedCount.value = PAGE_SIZE;
   }, [venueList]);
 
+  // Deep links like /#activities land before the venues render, so the browser's
+  // own jump finds nothing. Scroll once the content is actually on the page.
+  useEffect(() => {
+    if (loading) return;
+    const { hash } = window.location;
+    if (!hash || hash.length < 2) return;
+
+    const target = document.getElementById(hash.slice(1));
+    if (target) {
+      requestAnimationFrame(() => {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }, [loading]);
+
   // Split spotlight + featured venues (matching old version logic)
   const spotlightVenue = venueList.find((v) => v.spotlight) ?? null;
   const featuredVenues = venueList
@@ -210,12 +226,23 @@ export function HomePage(_props: RouteProps) {
               <ActivityCard
                 key={`rail-${venue.name}-${index}`}
                 venue={venue}
+                tall
                 onClick={() => openActivityModal(venue)}
               />
             ))}
           </Carousel>
         </section>
       )}
+
+      {/* Promo — the club / rainy day alerts */}
+      <PromoBand
+        title="Never get caught out"
+        titleAccent="again."
+        body="We'll tell you when it's about to chuck it down — and exactly where to hide. One email, every Friday."
+        ctaLabel="Join the club"
+        ctaHref="/#join"
+        tone="bold"
+      />
 
       {/* Popular Categories */}
       <PopularCategories />

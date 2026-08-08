@@ -20,7 +20,7 @@ export function BookmarksSection() {
   };
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="bookmarks">
       <div className={styles.header}>
         <div className={styles.headerLeft}>
           <h2 className={styles.title}>My Bookmarks</h2>

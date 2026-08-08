@@ -1,0 +1,115 @@
+.section {
+  background: var(--color-bg-secondary);
+  padding: 2rem 2rem 2.25rem;
+  margin-top: 0.5rem;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-align: center;
+  margin: 0 0 1.5rem;
+  color: var(--color-text);
+}
+
+.title em { font-style: italic; }
+
+.rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 3 * 0.75rem) / 4.3);
+  gap: 0.75rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  padding-bottom: 0.25rem;
+}
+
+.rail::-webkit-scrollbar { display: none; }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  scroll-snap-align: start;
+  min-width: 0;
+  font-family: var(--font-sans);
+}
+
+.image {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: #ddd center / cover no-repeat;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .image { transform: scale(1.03); }
+
+.wet {
+  position: absolute;
+  top: 0.4rem;
+  left: 0.4rem;
+  padding: 0.18rem 0.42rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-text);
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.kicker {
+  display: block;
+  margin-top: 0.55rem;
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-wet);
+}
+
+.name {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+  line-height: 1.24;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.price {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.74rem;
+  font-weight: 800;
+  color: var(--color-text-secondary);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+@media (max-width: 900px) {
+  .rail { grid-auto-columns: calc((100% - 2 * 0.75rem) / 3.3); }
+}
+
+@media (max-width: 640px) {
+  .section { padding: 1.5rem 1.25rem 1.75rem; }
+  .rail { grid-auto-columns: 46%; }
+}
