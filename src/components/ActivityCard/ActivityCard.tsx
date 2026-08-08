@@ -9,6 +9,12 @@ export interface ActivityCardProps {
   venue: Venue;
   variant?: CardVariant;
   onClick?: () => void;
+  /** 'overlay' puts the headline on the image (editorial hero style). */
+  layout?: 'stacked' | 'overlay';
+  /** Overlay sizing: 'lg' for the lead mosaic tile. */
+  size?: 'md' | 'lg';
+  /** Show the one-line description under the headline. */
+  showDescription?: boolean;
 }
 
 const VARIANT_BADGES: Partial<Record<CardVariant, string>> = {
@@ -31,22 +37,81 @@ function formatType(type: VenueType): string {
   return type.charAt(0).toUpperCase() + type.slice(1);
 }
 
-export function ActivityCard({ venue, variant = 'default', onClick }: ActivityCardProps) {
+export function ActivityCard({
+  venue,
+  variant = 'default',
+  onClick,
+  layout = 'stacked',
+  size = 'md',
+  showDescription = false,
+}: ActivityCardProps) {
   const isBookmarked = bookmarkedVenues.value.has(venue.name);
   const badgeText = VARIANT_BADGES[variant];
   const { src: imageSrc, isLoading: imageLoading } = useImageLoader(venue.name, venue.type);
   const openStatus = isVenueOpenNow(venue.openingHours);
+  const isOverlay = layout === 'overlay';
 
   const cardClasses = [
     styles.card,
+    isOverlay ? styles.overlay : styles.stacked,
+    isOverlay && size === 'lg' && styles.overlayLg,
     variant !== 'default' && styles[`card--${variant}`],
   ].filter(Boolean).join(' ');
 
-  const handleBookmarkToggle = () => {
-    toggleBookmark(venue.name);
-  };
+  const handleBookmarkToggle = () => toggleBookmark(venue.name);
 
   const wet = Math.max(0, Math.min(100, Math.round(venue.wetnessScore ?? 0)));
+
+  const kicker = (
+    <div className={styles.kicker}>
+      <span className={styles.area}>{AREA_LABELS[venue.location]}</span>
+      {venue.type[0] && (
+        <>
+          <span className={styles.sep} aria-hidden="true" />
+          <span>{formatType(venue.type[0])}</span>
+        </>
+      )}
+    </div>
+  );
+
+  const media = (
+    <div className={styles.image}>
+      <div
+        className={styles.imagePlaceholder}
+        style={{ backgroundImage: `url(${imageSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        aria-hidden="true"
+      />
+      {imageLoading && <div className={styles.imageShimmer} />}
+
+      <span className={styles.wetBadge} title={`Wetness score: ${wet} out of 100`}>
+        <span className={styles.wetMeter}><i style={{ width: `${Math.max(5, wet)}%` }} /></span>
+        {wet}% WET
+      </span>
+
+      {badgeText && (
+        <span className={`${styles.badge} ${styles[`badge--${variant}`] ?? ''}`}>{badgeText}</span>
+      )}
+
+      {openStatus === true && <span className={styles.statusOpen}>OPEN NOW</span>}
+      {openStatus === false && <span className={styles.statusClosed}>CLOSED</span>}
+
+      <span className={styles.bookmarkWrap} onClick={(e) => e.stopPropagation()}>
+        <BookmarkIcon
+          isBookmarked={isBookmarked}
+          onToggle={handleBookmarkToggle}
+          size={20}
+          className={styles.bookmark}
+        />
+      </span>
+
+      {isOverlay && (
+        <div className={styles.overlayContent}>
+          {kicker}
+          <h3 className={styles.name}>{venue.name}</h3>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <article
@@ -61,68 +126,24 @@ export function ActivityCard({ venue, variant = 'default', onClick }: ActivityCa
         }
       }}
     >
-      <div className={styles.image}>
-        <div
-          className={styles.imagePlaceholder}
-          style={{ backgroundImage: `url(${imageSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-          aria-hidden="true"
-        />
-        {imageLoading && <div className={styles.imageShimmer} />}
+      {media}
 
-        {/* Signature wetness badge */}
-        <span className={styles.wetBadge} title={`Wetness score: ${wet} out of 100`}>
-          <span className={styles.wetMeter}><i style={{ width: `${Math.max(5, wet)}%` }} /></span>
-          {wet}% WET
-        </span>
-
-        {badgeText && (
-          <span className={`${styles.badge} ${styles[`badge--${variant}`]}`}>
-            {badgeText}
-          </span>
-        )}
-
-        {openStatus === true && (
-          <span className={styles.statusOpen}>OPEN NOW</span>
-        )}
-        {openStatus === false && (
-          <span className={styles.statusClosed}>CLOSED</span>
-        )}
-
-        <span className={styles.bookmarkWrap} onClick={(e) => e.stopPropagation()}>
-          <BookmarkIcon
-            isBookmarked={isBookmarked}
-            onToggle={handleBookmarkToggle}
-            size={20}
-            className={styles.bookmark}
-          />
-        </span>
-      </div>
-
-      <div className={styles.content}>
-        <div className={styles.kicker}>
-          <span className={styles.area}>{AREA_LABELS[venue.location]}</span>
-          {venue.type[0] && (
-            <>
-              <span className={styles.sep} aria-hidden="true" />
-              <span>{formatType(venue.type[0])}</span>
-            </>
-          )}
+      {!isOverlay && (
+        <div className={styles.content}>
+          {kicker}
+          <h3 className={styles.name}>{venue.name}</h3>
+          {showDescription && <p className={styles.description}>{venue.description}</p>}
+          <div className={styles.metaRow}>
+            <span className={styles.price}>{venue.priceDisplay}</span>
+            {typeof venue.rating === 'number' && venue.rating > 0 && (
+              <>
+                <span className={styles.sep} aria-hidden="true" />
+                <span className={styles.rating}>★ {venue.rating.toFixed(1)}</span>
+              </>
+            )}
+          </div>
         </div>
-
-        <h3 className={styles.name}>{venue.name}</h3>
-
-        <p className={styles.description}>{venue.description}</p>
-
-        <div className={styles.metaRow}>
-          <span className={styles.price}>{venue.priceDisplay}</span>
-          {typeof venue.rating === 'number' && venue.rating > 0 && (
-            <>
-              <span className={styles.sep} aria-hidden="true" />
-              <span className={styles.rating}>★ {venue.rating.toFixed(1)}</span>
-            </>
-          )}
-        </div>
-      </div>
+      )}
     </article>
   );
 }

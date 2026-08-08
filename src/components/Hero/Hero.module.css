@@ -1,7 +1,7 @@
 .hero {
   position: relative;
-  margin-top: 66px;
-  padding: 4rem 1.5rem 1.5rem;
+  margin-top: var(--wl-header-h);
+  padding: 3.25rem var(--wl-gutter) 1.25rem;
   text-align: center;
   background: transparent;
 }
@@ -86,8 +86,7 @@
 /* Mobile Styles */
 @media (max-width: 768px) {
   .hero {
-    margin-top: 60px;
-    padding: 2.75rem 1.25rem 1rem;
+    padding: 2.25rem var(--wl-gutter) 1rem;
   }
 
   .actions {

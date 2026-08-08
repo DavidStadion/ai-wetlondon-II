@@ -1,6 +1,7 @@
 import { computed } from '@preact/signals';
 import { useState } from 'preact/hooks';
 import { ActivityCard } from '@/components/ActivityCard';
+import { Carousel } from '@/components/common/Carousel';
 import { recentlyViewed, selectedVenue, isActivityModalOpen } from '@/signals/uiSignals';
 import { venues } from '@/signals/venueSignals';
 import type { Venue } from '@/types';
@@ -45,15 +46,15 @@ export function RecentlyViewedSection() {
       </div>
 
       {!isCollapsed && (
-        <div className={styles.scrollContainer}>
-          <div className={styles.cards}>
-            {venuesList.map((venue, index) => (
-              <div key={`${venue.name}-${index}`} className={styles.cardWrapper}>
-                <ActivityCard venue={venue} onClick={() => handleCardClick(venue)} />
-              </div>
-            ))}
-          </div>
-        </div>
+        <Carousel perView={4} ariaLabel="Recently viewed activities">
+          {venuesList.map((venue, index) => (
+            <ActivityCard
+              key={`${venue.name}-${index}`}
+              venue={venue}
+              onClick={() => handleCardClick(venue)}
+            />
+          ))}
+        </Carousel>
       )}
     </section>
   );

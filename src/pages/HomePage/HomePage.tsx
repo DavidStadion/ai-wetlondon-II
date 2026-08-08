@@ -38,6 +38,7 @@ import { PersonalizedSection } from '@/components/PersonalizedSection';
 import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { Button } from '@/components/common/Button';
 import { AdSlot } from '@/components/common/AdSlot';
+import { Carousel } from '@/components/common/Carousel';
 
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { CustomizeModal } from '@/components/modals/CustomizeModal';
@@ -137,9 +138,22 @@ export function HomePage(_props: RouteProps) {
   // Split spotlight + featured venues (matching old version logic)
   const spotlightVenue = venueList.find((v) => v.spotlight) ?? null;
   const featuredVenues = venueList
-    .filter((v) => v.featured && v.name !== spotlightVenue?.name)
-    .slice(0, 6);
+    .filter((v) => v.featured && v.name !== spotlightVenue?.name);
   const regularVenues = venueList;
+
+  // Editorial mosaic: one lead tile + two stacked; the rest fill the rail
+  const mosaicPool = [spotlightVenue, ...featuredVenues].filter(Boolean) as Venue[];
+  const mosaicLead = mosaicPool[0] ?? null;
+  const mosaicSide = mosaicPool.slice(1, 3);
+
+  // Rail: remaining featured, topped up with the best-rated dry venues so it never looks sparse
+  const shown = new Set([...mosaicPool.slice(0, 3)].map((v) => v.name));
+  const railExtras = [...venueList]
+    .filter((v) => !shown.has(v.name))
+    .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || a.wetnessScore - b.wetnessScore);
+  const featuredRail = [...mosaicPool.slice(3), ...railExtras]
+    .filter((v, i, arr) => arr.findIndex((x) => x.name === v.name) === i)
+    .slice(0, 10);
 
   // Paginate regular venues
   const visibleRegular = regularVenues.slice(0, displayedCount.value);
@@ -156,36 +170,55 @@ export function HomePage(_props: RouteProps) {
       {/* Personalized Selection Header */}
       {filtersActive && <PersonalizedSection />}
 
-      {/* Popular Categories */}
-      <PopularCategories />
-
-      {/* Featured Activities Section */}
-      {!loading && !errorMsg && (spotlightVenue || featuredVenues.length > 0) && (
-        <section className={styles.featured}>
-          <h2 className={styles.sectionTitle}>Featured Activities</h2>
-          {spotlightVenue && (
-            <div className={styles.spotlightWrapper}>
+      {/* Featured — editorial mosaic (lead tile + two stacked) */}
+      {!loading && !errorMsg && mosaicLead && (
+        <section className={styles.mosaicSection} id="activities">
+          <div className={styles.mosaic}>
+            <div className={styles.mosaicLead}>
               <ActivityCard
-                venue={spotlightVenue}
-                variant="spotlightHero"
-                onClick={() => openActivityModal(spotlightVenue)}
+                venue={mosaicLead}
+                variant={mosaicLead.spotlight ? 'spotlight' : 'featured'}
+                layout="overlay"
+                size="lg"
+                onClick={() => openActivityModal(mosaicLead)}
               />
             </div>
-          )}
-          {featuredVenues.length > 0 && (
-            <div className={styles.grid}>
-              {featuredVenues.map((venue, index) => (
+            <div className={styles.mosaicStack}>
+              {mosaicSide.map((venue, index) => (
                 <ActivityCard
-                  key={`featured-${venue.name}-${index}`}
+                  key={`mosaic-${venue.name}-${index}`}
                   venue={venue}
                   variant="featured"
+                  layout="overlay"
                   onClick={() => openActivityModal(venue)}
                 />
               ))}
             </div>
-          )}
+          </div>
         </section>
       )}
+
+      {/* Featured rail */}
+      {!loading && !errorMsg && featuredRail.length > 0 && (
+        <section className={styles.railSection}>
+          <div className={styles.sectionHead}>
+            <h2 className={styles.sectionTitle}>Featured Activities</h2>
+            <a className={styles.sectionLink} href="/#all-activities">See all</a>
+          </div>
+          <Carousel perView={4} ariaLabel="Featured activities">
+            {featuredRail.map((venue, index) => (
+              <ActivityCard
+                key={`rail-${venue.name}-${index}`}
+                venue={venue}
+                onClick={() => openActivityModal(venue)}
+              />
+            ))}
+          </Carousel>
+        </section>
+      )}
+
+      {/* Popular Categories */}
+      <PopularCategories />
 
       {/* Banner Ad */}
       {!loading && !errorMsg && (
@@ -205,13 +238,13 @@ export function HomePage(_props: RouteProps) {
       )}
 
       {/* Main Content - All Activities */}
-      <section className={styles.content}>
+      <section className={styles.content} id="all-activities">
         {/* All Activities Header */}
-        <div className={styles.allActivitiesHeader}>
+        <div className={styles.sectionHead}>
           <h2 className={styles.sectionTitle}>All Activities</h2>
           {!loading && (
             <p className={styles.subtitle}>
-              Explore all {totalActivities.value}+ indoor activities across London
+              {totalActivities.value} places across London
             </p>
           )}
         </div>

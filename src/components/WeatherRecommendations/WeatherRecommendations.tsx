@@ -1,5 +1,6 @@
 import { computed } from '@preact/signals';
 import { ActivityCard } from '@/components/ActivityCard';
+import { Carousel } from '@/components/common/Carousel';
 import { weatherState } from '@/signals/weatherSignals';
 import { venues } from '@/signals/venueSignals';
 import { selectedVenue, isActivityModalOpen } from '@/signals/uiSignals';
@@ -79,9 +80,11 @@ export function WeatherRecommendations() {
   return (
     <section className={styles.section}>
       <div className={styles.inner}>
-        <h2 className={styles.title}>{data.title}</h2>
-        <p className={styles.subtitle}>{data.subtitle}</p>
-        <div className={styles.grid}>
+        <div className={styles.head}>
+          <h2 className={styles.title}>{data.title}</h2>
+          <p className={styles.subtitle}>{data.subtitle}</p>
+        </div>
+        <Carousel perView={4} ariaLabel={data.title}>
           {data.venues.map((venue, index) => (
             <ActivityCard
               key={`weather-${venue.name}-${index}`}
@@ -89,7 +92,7 @@ export function WeatherRecommendations() {
               onClick={() => handleCardClick(venue)}
             />
           ))}
-        </div>
+        </Carousel>
       </div>
     </section>
   );

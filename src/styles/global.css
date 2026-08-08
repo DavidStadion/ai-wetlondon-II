@@ -79,6 +79,16 @@
   --text-lg: 1.125rem;
   --text-xl: 1.5rem;
   --text-2xl: 2rem;
+
+  /* Layout — edge-to-edge with thin gutters (London The Inside rhythm) */
+  --wl-maxw: 1760px;
+  --wl-gutter: clamp(14px, 2.4vw, 40px);
+  --wl-gap: clamp(10px, 0.9vw, 14px);
+  --wl-header-h: 108px;
+}
+
+@media (max-width: 768px) {
+  :root { --wl-header-h: 60px; }
 }
 
 /*
