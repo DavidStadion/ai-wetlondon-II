@@ -2,7 +2,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: radial-gradient(1200px 700px at 20% 0%, rgba(77,163,255,0.12), transparent 55%), radial-gradient(900px 500px at 90% 10%, rgba(124,195,255,0.08), transparent 55%), var(--wl-bg);
+  background: var(--color-bg);
 }
 
 /* Header */
@@ -14,18 +14,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.25rem 3rem;
-  background: rgba(11, 15, 23, 0.78);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1rem 3rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .logo {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 900;
   color: var(--color-text);
   text-decoration: none;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.04em;
 }
 
 .logo:hover {
@@ -110,7 +110,7 @@
 
 /* Footer */
 .footer {
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  background: #0c0c0d;
   color: #ffffff;
   margin-top: 80px;
   padding: 60px 0 0 0;
@@ -136,8 +136,10 @@
 }
 
 .footerLogo {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-family: var(--font-sans);
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
   color: #ffffff;
   margin-bottom: 12px;
 }

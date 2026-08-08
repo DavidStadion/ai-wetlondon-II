@@ -4,11 +4,15 @@
 
 /* Section titles */
 .sectionTitle {
-  font-size: 1.75rem;
-  margin-bottom: 2.5rem;
-  font-weight: 600;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 2rem;
+  font-weight: 400;
   letter-spacing: -0.02em;
+  line-height: 1;
   color: var(--color-text);
+  border-top: 2px solid var(--color-text);
+  padding-top: 1rem;
 }
 
 .subtitle {

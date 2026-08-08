@@ -12,15 +12,9 @@ interface HeroProps {
 export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
   return (
     <section className={styles.hero} id="hero">
-      {/* Rain Animation */}
-      <div className={styles.rain}>
-        {Array.from({ length: 20 }, (_, i) => (
-          <div key={i} className={styles.rainDrop} />
-        ))}
-      </div>
-
-      {/* Weather Widget - positioned absolutely */}
-      <div className={styles.weatherWrapper}>
+      {/* WeatherWidget stays mounted to fetch live conditions (drives the chip),
+          but is visually hidden — the chip below is the editorial presentation. */}
+      <div className={styles.weatherWrapper} aria-hidden="true">
         <WeatherWidget />
       </div>
 
@@ -33,7 +27,7 @@ export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
         )}
         <h1 className={styles.title}>Wet London.</h1>
         <p className={styles.tagline}>
-          London ideas for when the weather is awful and your motivation is worse.
+          London ideas for when the weather is awful and your <em>motivation is worse.</em>
         </p>
 
         <div className={styles.searchSection}>
@@ -42,10 +36,10 @@ export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
 
         <div className={styles.actions}>
           <Button onClick={onCustomize} variant="accent" size="lg">
-            Customize Your Experience
+            Customize your experience
           </Button>
           <Button onClick={onFeelingLucky} variant="secondary" size="lg">
-            🎲 I'm Feeling Lucky
+            🎲 I'm feeling lucky
           </Button>
         </div>
       </div>

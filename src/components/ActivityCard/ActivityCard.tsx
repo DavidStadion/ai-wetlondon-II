@@ -1,6 +1,5 @@
 import type { Venue, CardVariant, VenueType, AreaType } from '@/types/venue';
 import { BookmarkIcon } from '@/components/common/BookmarkIcon';
-import { WetnessIndicator } from '@/components/common/WetnessIndicator';
 import { bookmarkedVenues, toggleBookmark } from '@/signals/uiSignals';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import { isVenueOpenNow } from '@/utils/openingHours';
@@ -47,8 +46,21 @@ export function ActivityCard({ venue, variant = 'default', onClick }: ActivityCa
     toggleBookmark(venue.name);
   };
 
+  const wet = Math.max(0, Math.min(100, Math.round(venue.wetnessScore ?? 0)));
+
   return (
-    <article className={cardClasses}>
+    <article
+      className={cardClasses}
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
+    >
       <div className={styles.image}>
         <div
           className={styles.imagePlaceholder}
@@ -56,6 +68,12 @@ export function ActivityCard({ venue, variant = 'default', onClick }: ActivityCa
           aria-hidden="true"
         />
         {imageLoading && <div className={styles.imageShimmer} />}
+
+        {/* Signature wetness badge */}
+        <span className={styles.wetBadge} title={`Wetness score: ${wet} out of 100`}>
+          <span className={styles.wetMeter}><i style={{ width: `${Math.max(5, wet)}%` }} /></span>
+          {wet}% WET
+        </span>
 
         {badgeText && (
           <span className={`${styles.badge} ${styles[`badge--${variant}`]}`}>
@@ -70,38 +88,40 @@ export function ActivityCard({ venue, variant = 'default', onClick }: ActivityCa
           <span className={styles.statusClosed}>CLOSED</span>
         )}
 
-        <BookmarkIcon
-          isBookmarked={isBookmarked}
-          onToggle={handleBookmarkToggle}
-          size={20}
-          className={styles.bookmark}
-        />
+        <span className={styles.bookmarkWrap} onClick={(e) => e.stopPropagation()}>
+          <BookmarkIcon
+            isBookmarked={isBookmarked}
+            onToggle={handleBookmarkToggle}
+            size={20}
+            className={styles.bookmark}
+          />
+        </span>
       </div>
 
       <div className={styles.content}>
-        <h3 className={styles.name}>{venue.name}</h3>
-
-        <div className={styles.tags}>
-          <span className={styles.tag}>{AREA_LABELS[venue.location]}</span>
-          {venue.type.slice(0, 2).map((t) => (
-            <span key={t} className={styles.tag}>{formatType(t)}</span>
-          ))}
+        <div className={styles.kicker}>
+          <span className={styles.area}>{AREA_LABELS[venue.location]}</span>
+          {venue.type[0] && (
+            <>
+              <span className={styles.sep} aria-hidden="true" />
+              <span>{formatType(venue.type[0])}</span>
+            </>
+          )}
         </div>
+
+        <h3 className={styles.name}>{venue.name}</h3>
 
         <p className={styles.description}>{venue.description}</p>
 
-        <div className={styles.wetnessRow}>
-          <WetnessIndicator
-            score={venue.wetnessScore}
-            level={venue.wetness}
-            size="sm"
-          />
+        <div className={styles.metaRow}>
+          <span className={styles.price}>{venue.priceDisplay}</span>
+          {typeof venue.rating === 'number' && venue.rating > 0 && (
+            <>
+              <span className={styles.sep} aria-hidden="true" />
+              <span className={styles.rating}>★ {venue.rating.toFixed(1)}</span>
+            </>
+          )}
         </div>
-        <span className={styles.price}>{venue.priceDisplay}</span>
-
-        <button type="button" className={styles.cta} onClick={onClick}>
-          View Details
-        </button>
       </div>
     </article>
   );
