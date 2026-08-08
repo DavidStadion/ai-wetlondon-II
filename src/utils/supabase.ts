@@ -19,6 +19,21 @@ export const supabase: SupabaseClient = createClient(
   SUPABASE_ANON_KEY
 );
 
+/**
+ * Load a build-time snapshot (public/data/<name>.json) as a fallback for when
+ * Supabase is unreachable (e.g. free-tier auto-pause). Returns null if the
+ * snapshot is missing — e.g. in local dev, where no snapshot is generated.
+ */
+async function loadSnapshot<T>(name: string): Promise<T[] | null> {
+  try {
+    const res = await fetch(`/data/${name}.json`, { cache: 'no-store' });
+    if (!res.ok) return null;
+    return (await res.json()) as T[];
+  } catch {
+    return null;
+  }
+}
+
 /** Database venue record (snake_case fields) */
 export interface DbVenue {
   id?: number;
@@ -80,20 +95,23 @@ export function convertVenue(dbVenue: DbVenue): Venue {
  * Fetch all venues from Supabase database.
  */
 export async function fetchVenues(): Promise<Venue[]> {
-  const { data, error } = await supabase
-    .from('venues')
-    .select('*')
-    .order('name', { ascending: true });
+  try {
+    const { data, error } = await supabase
+      .from('venues')
+      .select('*')
+      .order('name', { ascending: true });
 
-  if (error) {
-    throw error;
+    if (error) throw error;
+
+    return (data ?? []).map((row) => convertVenue(row as DbVenue));
+  } catch (err) {
+    const snap = await loadSnapshot<DbVenue>('venues');
+    if (snap && snap.length > 0) {
+      console.warn('[venues] Supabase unavailable — serving build snapshot.', err);
+      return snap.map((row) => convertVenue(row));
+    }
+    throw err;
   }
-
-  if (!data || data.length === 0) {
-    return [];
-  }
-
-  return data.map((row) => convertVenue(row as DbVenue));
 }
 
 function normaliseCategory(raw: unknown): VenueType | null {
@@ -154,15 +172,23 @@ export function convertEvent(db: DbEvent): Event {
 }
 
 export async function fetchEvents(): Promise<Event[]> {
-  const { data, error } = await supabase
-    .from('events')
-    .select('*')
-    .order('end_date', { ascending: true });
+  try {
+    const { data, error } = await supabase
+      .from('events')
+      .select('*')
+      .order('end_date', { ascending: true });
 
-  if (error) throw error;
-  if (!data || data.length === 0) return [];
+    if (error) throw error;
 
-  return data.map((row) => convertEvent(row as DbEvent));
+    return (data ?? []).map((row) => convertEvent(row as DbEvent));
+  } catch (err) {
+    const snap = await loadSnapshot<DbEvent>('events');
+    if (snap && snap.length > 0) {
+      console.warn('[events] Supabase unavailable — serving build snapshot.', err);
+      return snap.map((row) => convertEvent(row));
+    }
+    throw err;
+  }
 }
 
 // Sample events fallback
@@ -284,17 +310,28 @@ export function convertPartner(db: DbPartner): Partner {
 }
 
 export async function fetchPartners(): Promise<Partner[]> {
-  const { data, error } = await supabase
-    .from('small_mighty_partners')
-    .select('*')
-    .eq('active', true)
-    .order('featured', { ascending: false })
-    .order('name');
+  try {
+    const { data, error } = await supabase
+      .from('small_mighty_partners')
+      .select('*')
+      .eq('active', true)
+      .order('featured', { ascending: false })
+      .order('name');
 
-  if (error) throw error;
-  if (!data || data.length === 0) return [];
+    if (error) throw error;
 
-  return data.map((row) => convertPartner(row as DbPartner));
+    return (data ?? []).map((row) => convertPartner(row as DbPartner));
+  } catch (err) {
+    const snap = await loadSnapshot<DbPartner>('small_mighty_partners');
+    if (snap && snap.length > 0) {
+      console.warn('[partners] Supabase unavailable — serving build snapshot.', err);
+      return snap
+        .filter((p) => p.active)
+        .sort((a, b) => Number(b.featured) - Number(a.featured) || a.name.localeCompare(b.name))
+        .map((row) => convertPartner(row));
+    }
+    throw err;
+  }
 }
 
 // ==========================================

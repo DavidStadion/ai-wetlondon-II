@@ -7,3 +7,6 @@ dist
 .vercel
 .playwright-mcp
 .vite
+
+# Build-time Supabase snapshot (regenerated on every build)
+public/data
