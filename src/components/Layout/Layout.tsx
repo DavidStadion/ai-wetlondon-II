@@ -22,6 +22,17 @@ function closeNav() {
   isNavOpen.value = false;
 }
 
+/** Send the user to the hero search field wherever they are on the page. */
+function focusSearch() {
+  const input = document.querySelector<HTMLInputElement>('input[aria-label="Search activities"]');
+  if (!input) {
+    window.location.href = '/';
+    return;
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  input.focus({ preventScroll: true });
+}
+
 interface NavLinkProps {
   href: string;
   children: ComponentChildren;
@@ -63,20 +74,27 @@ export function Layout({ children }: LayoutProps) {
   return (
     <div className={styles.layout}>
       <header className={styles.header}>
-        {/* Mascot / mark — far left */}
+        {/* Mascot — a little rain cloud that walks and drips */}
         <Link href="/" className={styles.mark} aria-label="Wet London home">
-          <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
-            <path
-              d="M25 13.5A8.5 8.5 0 0 0 9.2 10.4 6.5 6.5 0 0 0 10 23.3h14a5.2 5.2 0 0 0 1-10.3Z"
-              fill="currentColor"
-            />
-            <path
-              d="M12 25.5 10.5 29M17 25.5 15.5 29M22 25.5 20.5 29"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              fill="none"
-            />
+          <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+            <g className={styles.markBody}>
+              <path
+                d="M17 31c-5 0-9-4-9-9s4-9 9-9c1.7-6 7.2-10 13.4-10 6.3 0 11.6 4.2 13.2 10.2.9-.2 1.8-.3 2.7-.3 5.4 0 9.7 4.4 9.7 9.8S51.7 32 46.3 32H17Z"
+                fill="currentColor"
+              />
+            </g>
+            <g stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" fill="none">
+              <path className={styles.markLegA} d="M25 33v13" />
+              <path className={styles.markLegB} d="M40 33v13" />
+            </g>
+            <g fill="currentColor">
+              <ellipse className={styles.markLegA} cx="22.5" cy="47.5" rx="6.5" ry="3.2" />
+              <ellipse className={styles.markLegB} cx="43.5" cy="47.5" rx="6.5" ry="3.2" />
+            </g>
+            <g fill="currentColor" className={styles.markDrops}>
+              <circle className={styles.markDrop1} cx="32" cy="36" r="2" />
+              <circle className={styles.markDrop2} cx="32" cy="36" r="2" />
+            </g>
           </svg>
         </Link>
 
@@ -98,6 +116,18 @@ export function Layout({ children }: LayoutProps) {
 
         {/* Right actions */}
         <div className={styles.headerRight}>
+          <button
+            type="button"
+            className={styles.iconBtn}
+            aria-label="Search activities"
+            onClick={focusSearch}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="1.9" />
+              <path d="m16.5 16.5 4 4" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
+            </svg>
+          </button>
+
           <a href="/#bookmarks" className={styles.iconBtn} aria-label="My bookmarks">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path
@@ -109,7 +139,21 @@ export function Layout({ children }: LayoutProps) {
               />
             </svg>
           </a>
-          <a href="/situations" className={styles.joinBtn}>Pick your vibe</a>
+
+          <Link href="/situations" className={styles.iconBtn} aria-label="Your preferences">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="8.5" r="3.8" fill="none" stroke="currentColor" strokeWidth="1.8" />
+              <path
+                d="M4.8 20a7.2 7.2 0 0 1 14.4 0"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+            </svg>
+          </Link>
+
+          <a href="/#join" className={styles.joinBtn}>Join The Club</a>
         </div>
 
         <button
@@ -166,7 +210,7 @@ export function Layout({ children }: LayoutProps) {
               </ul>
             </div>
 
-            <div className={styles.footerNewsletterCol}>
+            <div className={styles.footerNewsletterCol} id="join">
               <h4 className={styles.footerHeading}>Rainy day alerts</h4>
               <p className={styles.footerDescription}>
                 We'll tell you when it's about to chuck it down — and where to hide.

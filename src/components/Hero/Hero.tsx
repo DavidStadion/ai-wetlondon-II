@@ -25,10 +25,12 @@ export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
             <span>{weatherMessage.value}</span>
           </div>
         )}
-        <h1 className={styles.title}>Wet London.</h1>
-        <p className={styles.tagline}>
-          London ideas for when the weather is awful and your <em>motivation is worse.</em>
-        </p>
+        {/* The wordmark lives in the header — no need to repeat it here. */}
+        <h1 className={styles.tagline}>
+          London ideas for when the weather is awful{' '}
+          <br />
+          and your <em>motivation is worse.</em>
+        </h1>
 
         <div className={styles.searchSection}>
           <SearchBar />

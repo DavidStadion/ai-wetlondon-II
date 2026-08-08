@@ -40,8 +40,11 @@
   animation: shimmer 1.5s infinite;
 }
 
-/* ---------- Overlay layout (headline on image) ---------- */
-.overlay .image { aspect-ratio: 4 / 3; height: 100%; }
+/* ---------- Overlay layout (headline on image) ----------
+   No aspect-ratio here: the mosaic gives these cards a definite height, and an
+   aspect-ratio would derive width from that height and overflow the column. */
+.overlay { height: 100%; }
+.overlay .image { width: 100%; height: 100%; aspect-ratio: auto; }
 
 .overlay .image::after {
   content: '';
@@ -67,8 +70,7 @@
 .overlay .kicker { color: rgba(255, 255, 255, 0.9); }
 .overlay .area { color: #fff; }
 
-.overlayLg .image { aspect-ratio: 4 / 5; }
-.overlayLg .name { font-size: clamp(1.85rem, 3.3vw, 3.4rem); }
+.overlayLg .name { font-size: clamp(1.75rem, 2.9vw, 3rem); }
 
 /* ---------- Badges / controls ---------- */
 .wetBadge {
@@ -198,6 +200,7 @@
   flex: 0 0 auto;
 }
 
+/* Hero / mosaic cards carry the editorial serif … */
 .name {
   margin: 0;
   font-family: var(--font-serif);
@@ -207,6 +210,15 @@
   line-height: 1.02;
   color: var(--color-text);
   text-wrap: balance;
+}
+
+/* … while browsable grid/carousel cards use bold grotesk, as the reference does. */
+.stacked .name {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  line-height: 1.22;
 }
 
 .description {
@@ -245,6 +257,5 @@
   .card--spotlightHero .content { width: 100%; }
   .card--spotlightHero .content { padding-top: 0.8rem; }
 
-  .name { font-size: 1.3rem; }
-  .overlayLg .image { aspect-ratio: 3 / 4; }
+  .stacked .name { font-size: 1rem; }
 }
