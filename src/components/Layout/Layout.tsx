@@ -1,9 +1,9 @@
 import { signal, computed } from '@preact/signals';
 import { useEffect, useRef } from 'preact/hooks';
 import type { ComponentChildren, JSX } from 'preact';
-import { Link as RouterLink, useRouter } from 'preact-router';
+import { Link as RouterLink } from 'preact-router';
 import { createPortal } from 'preact/compat';
-import { bookmarkedVenues } from '@/signals/uiSignals';
+import { bookmarkedVenues, currentPath } from '@/signals/uiSignals';
 import { isConsentSettingsOpen } from '@/utils/consent';
 import { WeatherStrip } from '@/components/WeatherStrip';
 import styles from './Layout.module.css';
@@ -110,12 +110,11 @@ interface NavLinkProps {
 }
 
 function NavLink({ href, children }: NavLinkProps) {
-  const [router] = useRouter();
-  const currentPath = router.path || '/';
+  const path = currentPath.value;
 
   // Hash links are scroll anchors, not separate pages — never mark active
   const isHashLink = href.includes('#');
-  const isActive = isHashLink ? false : currentPath === href;
+  const isActive = isHashLink ? false : path === href;
 
   if (isHashLink) {
     const targetId = href.slice(href.indexOf('#') + 1);
@@ -124,7 +123,7 @@ function NavLink({ href, children }: NavLinkProps) {
     // native jump is abrupt. Scroll it ourselves; otherwise let the link navigate.
     const handleHashClick = (e: MouseEvent) => {
       closeNav();
-      if (currentPath !== '/') return;
+      if (path !== '/') return;
 
       const target = document.getElementById(targetId);
       if (!target) return;
@@ -204,13 +203,11 @@ function MobileDrawer() {
 
 export function Layout({ children }: LayoutProps) {
   const headerRef = useRef<HTMLElement>(null);
-  const [router] = useRouter();
-
   useHeaderAutoHide();
   useHeaderHeight(headerRef);
 
   // The conditions strip belongs to the landing page, not every route
-  const isHome = (router.path || '/') === '/';
+  const isHome = currentPath.value === '/';
 
   return (
     <div className={styles.layout}>
