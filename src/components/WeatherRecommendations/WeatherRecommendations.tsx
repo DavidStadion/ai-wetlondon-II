@@ -1,7 +1,7 @@
 import { computed } from '@preact/signals';
 import { ActivityCard } from '@/components/ActivityCard';
 import { Carousel } from '@/components/common/Carousel';
-import { weatherState } from '@/signals/weatherSignals';
+import { weatherState, weatherMood } from '@/signals/weatherSignals';
 import { venues } from '@/signals/venueSignals';
 import { selectedVenue, isActivityModalOpen } from '@/signals/uiSignals';
 import type { Venue, VenueType } from '@/types';
@@ -14,39 +14,39 @@ interface WeatherConfig {
 }
 
 const COZY_TYPES: VenueType[] = ['dining', 'cinema', 'wellness', 'cafes', 'spa'];
-const LIGHT_TYPES: VenueType[] = ['galleries', 'shopping', 'exhibitions', 'museums'];
+/** Reliably cool and usually air-conditioned. */
+const COOL_TYPES: VenueType[] = ['museums', 'galleries', 'cinema', 'libraries', 'shopping', 'wellness'];
 
-function getWeatherConfig(isRaining: boolean, temp: number): WeatherConfig {
-  if (isRaining) {
+function getWeatherConfig(mood: string | null, temp: number): WeatherConfig {
+  if (mood === 'heat') {
     return {
-      title: 'Perfect for Rainy Weather',
-      subtitle: 'Stay completely dry at these venues',
+      title: temp >= 30 ? 'Escape the heat' : 'Cool, dark and quiet',
+      subtitle: 'Air-conditioned, shaded, and blissfully out of the sun',
+      // A 0% wetness score means fully indoors — which is also fully shaded
+      filter: (v) => v.wetnessScore <= 15 && v.type.some((t) => COOL_TYPES.includes(t)),
+    };
+  }
+
+  if (mood === 'rain' || mood === 'storm') {
+    return {
+      title: 'Stay completely dry',
+      subtitle: "Not a drop on you between the station and the door",
       filter: (v) => v.wetness === 'dry',
     };
   }
 
-  if (temp < 10) {
+  if (mood === 'freezing' || mood === 'snow') {
     return {
-      title: 'Cozy Indoor Escapes',
-      subtitle: 'Warm up at these comfortable venues',
+      title: 'Somewhere warm',
+      subtitle: 'Thaw out properly',
       filter: (v) => v.wetness === 'dry' && v.type.some((t) => COZY_TYPES.includes(t)),
     };
   }
 
-  if (temp > 20) {
-    return {
-      title: 'Light & Bright Activities',
-      subtitle: 'Cool indoor spaces to enjoy today',
-      filter: (v) =>
-        (v.wetness === 'dry' || v.wetness === 'slightly') &&
-        v.type.some((t) => LIGHT_TYPES.includes(t)),
-    };
-  }
-
   return {
-    title: 'Top Indoor Attractions',
-    subtitle: 'Highest rated indoor activities',
-    filter: (v) => v.rating >= 4.5,
+    title: 'Top indoor picks',
+    subtitle: 'The highest rated places to be inside',
+    filter: (v) => v.rating >= 4.5 && v.rating <= 5,
   };
 }
 
@@ -55,11 +55,11 @@ const weatherRecommendations = computed(() => {
   const allVenues = venues.value;
   if (!weather || allVenues.length === 0) return null;
 
-  const config = getWeatherConfig(weather.isRaining, weather.temp);
+  const config = getWeatherConfig(weatherMood.value, weather.temp);
   let filtered = allVenues.filter(config.filter);
 
-  // Cold weather fallback: widen to all dry venues if too few results
-  if (weather.temp < 10 && !weather.isRaining && filtered.length < 3) {
+  // Whatever the weather, never show a thin rail — widen to anywhere indoors
+  if (filtered.length < 4) {
     filtered = allVenues.filter((v) => v.wetness === 'dry');
   }
 

@@ -8,33 +8,68 @@ export interface WeatherState {
 
 export const weatherState = signal<WeatherState | null>(null);
 
-export const weatherMessage = computed<string | null>(() => {
+/**
+ * What kind of day is it working against?
+ *
+ * The site is named for rain, but the useful idea is broader: London weather
+ * being against you. A heatwave sends people indoors exactly like a downpour
+ * does, and the venue data already supports it — a 0% wetness score means fully
+ * indoors, which is also fully shaded.
+ */
+export type WeatherMood = 'storm' | 'rain' | 'snow' | 'fog' | 'freezing' | 'heat' | 'fine' | 'dull';
+
+export const weatherMood = computed<WeatherMood | null>(() => {
   const w = weatherState.value;
   if (!w) return null;
 
-  const { weatherCode, isRaining, temp } = w;
+  const { weatherCode: code, isRaining, temp } = w;
 
-  if (weatherCode >= 80) return 'Storm brewing! Stay cosy indoors';
-  if (isRaining || weatherCode >= 50) return 'Perfect day to explore indoors!';
-  if (weatherCode >= 70) return 'Snow day! Warm up inside';
-  if (weatherCode >= 40) return 'Foggy out there. Find something indoors';
-  if (temp < 5) return 'Freezing out! Warm up with indoor fun';
-  if (weatherCode <= 3 && temp > 18) return 'Nice day but we have indoor ideas too';
-  if (weatherCode <= 3) return 'Clouds rolling in. Plan your indoor escape';
+  // Specific codes first — the previous ordering made the snow branch unreachable
+  if (code >= 95) return 'storm';
+  if (code >= 71 && code <= 77) return 'snow';
+  if (code >= 80) return 'rain';          // heavy showers
+  if (isRaining || (code >= 51 && code <= 67)) return 'rain';
+  if (code >= 45 && code <= 48) return 'fog';
 
-  return 'Check out what\'s on indoors today';
+  if (temp <= 4) return 'freezing';
+  if (temp >= 26) return 'heat';
+  if (code <= 3 && temp >= 18) return 'fine';
+  return 'dull';
+});
+
+export const weatherMessage = computed<string | null>(() => {
+  const w = weatherState.value;
+  const mood = weatherMood.value;
+  if (!w || !mood) return null;
+
+  const temp = Math.round(w.temp);
+
+  switch (mood) {
+    case 'storm': return 'Wild out there. Get somewhere with a roof';
+    case 'rain': return "It's chucking it down. Perfect timing";
+    case 'snow': return 'Snow day. Somewhere warm, then';
+    case 'fog': return "Can't see a thing. Try indoors";
+    case 'freezing': return `${temp}° and biting. Warm up inside`;
+    case 'heat': return temp >= 30
+      ? `${temp}° out there. Get in the shade`
+      : `${temp}° and climbing. Somewhere cool?`;
+    case 'fine': return 'Lovely out — but we know some good indoor ones';
+    default: return 'Grey one. Plenty to do inside';
+  }
 });
 
 export const weatherIcon = computed<string | null>(() => {
-  const w = weatherState.value;
-  if (!w) return null;
+  const mood = weatherMood.value;
+  if (!mood) return null;
 
-  const code = w.weatherCode;
-  if (code === 0) return '\u2600\ufe0f';
-  if (code <= 3) return '\u26c5';
-  if (code <= 49) return '\ud83c\udf2b\ufe0f';
-  if (code <= 69) return '\ud83c\udf27\ufe0f';
-  if (code <= 79) return '\u2744\ufe0f';
-  if (code <= 99) return '\u26a1';
-  return '\u2601\ufe0f';
+  switch (mood) {
+    case 'storm': return '⚡';
+    case 'rain': return '🌧️';
+    case 'snow': return '❄️';
+    case 'fog': return '🌫️';
+    case 'freezing': return '🥶';
+    case 'heat': return '🔥';
+    case 'fine': return '☀️';
+    default: return '⛅';
+  }
 });
