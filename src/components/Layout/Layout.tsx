@@ -1,4 +1,5 @@
 import { signal, computed } from '@preact/signals';
+import { useEffect } from 'preact/hooks';
 import type { ComponentChildren, JSX } from 'preact';
 import { Link as RouterLink, useRouter } from 'preact-router';
 import { bookmarkedVenues } from '@/signals/uiSignals';
@@ -16,6 +17,40 @@ interface LayoutProps {
 }
 
 export const isNavOpen = signal(false);
+
+/** Header retracts as you read down and returns the moment you scroll back up. */
+const isHeaderHidden = signal(false);
+
+function useHeaderAutoHide() {
+  useEffect(() => {
+    let lastY = window.scrollY;
+    let ticking = false;
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        const delta = y - lastY;
+
+        // Ignore rubber-banding and tiny jitters; never hide near the top or
+        // while the mobile drawer is open.
+        if (y < 120 || isNavOpen.value) {
+          isHeaderHidden.value = false;
+        } else if (Math.abs(delta) > 6) {
+          isHeaderHidden.value = delta > 0;
+        }
+
+        lastY = y;
+        ticking = false;
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+}
 
 function toggleNav() {
   isNavOpen.value = !isNavOpen.value;
@@ -85,11 +120,13 @@ function NavLink({ href, children }: NavLinkProps) {
 }
 
 export function Layout({ children }: LayoutProps) {
+  useHeaderAutoHide();
+
   return (
     <div className={styles.layout}>
       <a className="wl-skip-link" href="#main">Skip to content</a>
 
-      <header className={styles.header}>
+      <header className={`${styles.header} ${isHeaderHidden.value ? styles.headerHidden : ''}`}>
         {/* Mascot — a little rain cloud that walks and drips */}
         <Link href="/" className={styles.mark} aria-label="Wet London home">
           <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
