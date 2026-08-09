@@ -1,6 +1,6 @@
 import { useState, useEffect } from "preact/hooks";
 import { SkeletonLoader } from "@/components/common/SkeletonLoader";
-import { weatherState } from "@/signals/weatherSignals";
+import { weatherState, weatherMessage } from "@/signals/weatherSignals";
 import styles from "./WeatherWidget.module.css";
 
 interface WeatherData {
@@ -150,7 +150,7 @@ export function WeatherWidget() {
           {getWeatherIcon(weather.weatherCode)}
         </span>
         <div className={styles.info}>
-          <span className={styles.temp}>{weather.temp}°C</span>
+          <span className={styles.temp}>{weather.temp}<sup>°C</sup></span>
           <span className={styles.description}>{weather.description}</span>
         </div>
       </div>
@@ -172,9 +172,7 @@ export function WeatherWidget() {
         </div>
       </div>
 
-      <div className={styles.message}>
-        {getWeatherMessage(weather.isRaining, weather.temp)}
-      </div>
+      <div className={styles.message}>{weatherMessage.value}</div>
 
       {lastUpdated && (
         <div className={styles.updated}>Updated: {formatTime(lastUpdated)}</div>
