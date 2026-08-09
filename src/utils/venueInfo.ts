@@ -78,35 +78,35 @@ export function getDuration(
   prerequisites?: string[],
 ): string {
   if (prerequisites?.includes('full day'))
-    return '\u23F0 Full day experience (4+ hours recommended)';
+    return 'Full day experience (4+ hours recommended)';
   if (prerequisites?.includes('half day'))
-    return '\u23F0 Half day visit (2-3 hours typical)';
+    return 'Half day visit (2-3 hours typical)';
   if (prerequisites?.includes('under 1 hour'))
-    return '\u23F0 Quick visit (under 1 hour)';
+    return 'Quick visit (under 1 hour)';
 
   if (types.includes('museums') || types.includes('historic'))
-    return '\u23F0 2-4 hours recommended to fully explore';
+    return '2-4 hours recommended to fully explore';
   if (types.includes('galleries'))
-    return '\u23F0 1-3 hours depending on exhibitions';
+    return '1-3 hours depending on exhibitions';
   if (
     types.includes('theatre') ||
     types.includes('music') ||
     types.includes('comedy')
   )
-    return '\u23F0 2-3 hours including intervals';
+    return '2-3 hours including intervals';
   if (types.includes('dining'))
-    return '\u23F0 1-2 hours for a leisurely meal';
+    return '1-2 hours for a leisurely meal';
   if (types.includes('cinema'))
-    return '\u23F0 2-3 hours including previews';
+    return '2-3 hours including previews';
   if (types.includes('wellness'))
-    return '\u23F0 1-3 hours depending on treatment';
-  if (types.includes('shopping')) return '\u23F0 1-3 hours for browsing';
+    return '1-3 hours depending on treatment';
+  if (types.includes('shopping')) return '1-3 hours for browsing';
   if (types.includes('gaming') || types.includes('entertainment'))
-    return '\u23F0 1-2 hours typical session';
+    return '1-2 hours typical session';
   if (types.includes('workshops'))
-    return '\u23F0 2-4 hours including instruction';
+    return '2-4 hours including instruction';
 
-  return '\u23F0 1-3 hours typical visit';
+  return '1-3 hours typical visit';
 }
 
 export function getAccessibilityText(
@@ -116,11 +116,11 @@ export function getAccessibilityText(
   const parts: string[] = [];
 
   if (prerequisites?.includes('wheelchair accessible'))
-    parts.push('\u267F Wheelchair accessible');
+    parts.push('Wheelchair accessible');
   if (prerequisites?.includes('step-free'))
-    parts.push('\u2713 Step-free access');
+    parts.push('Step-free access');
   if (prerequisites?.includes('lift access'))
-    parts.push('\uD83D\uDED7 Lift available');
+    parts.push('Lift available');
 
   if (parts.length === 0) {
     parts.push('Please contact venue for accessibility information');
@@ -138,24 +138,24 @@ export function getBookingText(
   price?: number,
 ): string {
   if (prerequisites?.includes('booking required'))
-    return '\uD83D\uDCC5 Advance booking required - book online or by phone';
+    return 'Advance booking required - book online or by phone';
   if (prerequisites?.includes('walk-ins welcome'))
-    return '\uD83D\uDEB6 Walk-ins welcome - no booking needed';
+    return 'Walk-ins welcome - no booking needed';
 
   if (
     types.includes('theatre') ||
     types.includes('music') ||
     types.includes('comedy')
   )
-    return '\uD83C\uDFAB Tickets required - book in advance for best seats';
+    return 'Tickets required - book in advance for best seats';
   if (types.includes('dining') && (price ?? 0) >= 30)
-    return '\uD83C\uDF7D\uFE0F Booking recommended, especially for dinner service';
+    return 'Booking recommended, especially for dinner service';
   if (types.includes('wellness'))
-    return '\uD83D\uDCDE Advance booking required for treatments';
+    return 'Advance booking required for treatments';
   if (price === 0)
-    return '\uD83C\uDFAB Free entry - walk-ins welcome during opening hours';
+    return 'Free entry - walk-ins welcome during opening hours';
 
-  return '\uD83C\uDFAB Check availability online or contact venue';
+  return 'Check availability online or contact venue';
 }
 
 export function getWhatsIncluded(
@@ -264,50 +264,50 @@ export function getGoodToKnow(venue: Venue): string[] {
   const tips: string[] = [];
 
   if (venue.wetness === 'dry')
-    tips.push('\u2728 Direct tube access - stay completely dry!');
+    tips.push('Direct tube access - stay completely dry!');
   else if (venue.wetness === 'slightly')
     tips.push(
-      '\u2602\uFE0F 5-10 minute walk from station - bring an umbrella on rainy days',
+      '5-10 minute walk from station - bring an umbrella on rainy days',
     );
   else if (venue.wetness === 'wet')
-    tips.push('\u2614 10+ minute walk - dress for the weather');
+    tips.push('10+ minute walk - dress for the weather');
 
   if (venue.prerequisites?.includes('booking required'))
-    tips.push('\uD83D\uDCC5 Book ahead to guarantee entry');
+    tips.push('Book ahead to guarantee entry');
   else if (venue.prerequisites?.includes('walk-ins welcome'))
-    tips.push('\uD83D\uDEB6 Walk-ins welcome - no booking needed');
+    tips.push('Walk-ins welcome - no booking needed');
 
-  if (venue.price === 0) tips.push('\uD83C\uDFAB Free entry - donations welcome');
-  else if (venue.price < 15) tips.push('\uD83D\uDCB7 Great value for money');
+  if (venue.price === 0) tips.push('Free entry - donations welcome');
+  else if (venue.price < 15) tips.push('Great value for money');
   else if (venue.price >= 50)
-    tips.push('\uD83D\uDC8E Premium experience - worth the splurge');
+    tips.push('Premium experience - worth the splurge');
 
   if (venue.prerequisites?.includes('child-friendly'))
-    tips.push('\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67\u200D\uD83D\uDC66 Great for families and children');
+    tips.push('Great for families and children');
   if (venue.prerequisites?.includes('photography allowed'))
-    tips.push('\uD83D\uDCF8 Photography permitted - capture the memories!');
+    tips.push('Photography permitted - capture the memories!');
   if (venue.type.includes('museums') || venue.type.includes('galleries'))
-    tips.push('\uD83C\uDFA8 Allow 2-3 hours to fully explore');
+    tips.push('Allow 2-3 hours to fully explore');
   if (venue.type.includes('dining'))
     tips.push(
-      '\uD83C\uDF7D\uFE0F Consider booking for busy periods (lunch & dinner)',
+      'Consider booking for busy periods (lunch & dinner)',
     );
   if (
     venue.type.includes('theatre') ||
     venue.type.includes('music') ||
     venue.type.includes('comedy')
   )
-    tips.push('\uD83C\uDFAD Check show times and book tickets in advance');
+    tips.push('Check show times and book tickets in advance');
   if (venue.type.includes('wellness'))
-    tips.push('\uD83D\uDC86 Arrive 10-15 minutes early to relax and prepare');
+    tips.push('Arrive 10-15 minutes early to relax and prepare');
   if (venue.type.includes('nightlife'))
-    tips.push('\uD83C\uDF19 Check opening hours - may vary by day of week');
+    tips.push('Check opening hours - may vary by day of week');
 
   if (tips.length === 0) {
     tips.push(
-      '\uD83C\uDF27\uFE0F Perfect rainy day activity',
-      '\uD83D\uDE87 Easily accessible by London Underground',
-      '\u23F0 Check opening times before visiting',
+      'Perfect rainy day activity',
+      'Easily accessible by London Underground',
+      'Check opening times before visiting',
     );
   }
 

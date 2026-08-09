@@ -30,8 +30,8 @@
 /* Info grid */
 .infoGrid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
 }
 
 @media (min-width: 640px) {
@@ -41,9 +41,15 @@
 }
 
 .infoItem {
-  display: flex;
-  gap: 0.75rem;
+  display: block;
+  padding: 1.1rem 0;
+  border-top: 1px solid rgba(12, 12, 13, 0.12);
 }
+
+/* First item in each column sits flush with the heading above */
+.infoItem:nth-child(-n + 2) { border-top: none; padding-top: 0; }
+
+.infoItem:nth-child(odd) { padding-right: 2rem; }
 
 .infoIcon {
   flex-shrink: 0;
@@ -240,4 +246,71 @@
 .searchVenueBtn:hover {
   background: var(--color-primary);
   color: #fff;
+}
+
+
+/* Editorial label/value pairs, matching the section heads elsewhere */
+.infoContent h4 {
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-text-secondary);
+  margin: 0 0 0.4rem;
+}
+
+.infoContent p {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--color-text);
+  margin: 0;
+  white-space: pre-line;
+}
+
+.sectionTitle {
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-text-secondary);
+  margin: 0 0 0.75rem;
+}
+
+.bulletList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.bulletList li {
+  position: relative;
+  padding-left: 1.1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.bulletList li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-wet);
+}
+
+.section { margin-bottom: 1.75rem; }
+.section:last-of-type { margin-bottom: 0; }
+
+@media (max-width: 700px) {
+  .infoGrid { grid-template-columns: 1fr; }
+  .infoItem:nth-child(-n + 2) { border-top: 1px solid rgba(12, 12, 13, 0.12); padding-top: 1.1rem; }
+  .infoItem:first-child { border-top: none; padding-top: 0; }
+  .infoItem:nth-child(odd) { padding-right: 0; }
 }

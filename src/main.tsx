@@ -20,7 +20,7 @@ import { AdminPage } from '@/pages/AdminPage';
 import { ToastContainer } from '@/components/common/Toast/ToastContainer';
 import { ConfigurationError } from '@/components/ConfigurationError';
 import { hasSupabaseCredentials } from '@/utils/supabase';
-import { loadBookmarks, loadRecentlyViewed } from '@/signals/uiSignals';
+import { loadBookmarks, loadRecentlyViewed, isActivityModalOpen } from '@/signals/uiSignals';
 import './styles/global.css';
 
 declare global {
@@ -71,7 +71,13 @@ function App() {
   return (
     <>
       <Layout>
-        <Router onChange={(e) => trackPageView(e.url)}>
+        <Router
+          onChange={(e) => {
+            // A modal left open would otherwise persist across the route change
+            isActivityModalOpen.value = false;
+            trackPageView(e.url);
+          }}
+        >
           <HomePage path="/" />
           <AboutPage path="/about" />
           <EventsPage path="/events" />

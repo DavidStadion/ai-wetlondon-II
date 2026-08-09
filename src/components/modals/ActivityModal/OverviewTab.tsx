@@ -42,9 +42,6 @@ export function OverviewTab({ venue, hideAbout = false }: OverviewTabProps) {
       <section className={styles.section}>
         <div className={styles.infoGrid}>
           <div className={styles.infoItem}>
-            <div className={styles.infoIcon} aria-hidden="true">
-              &#x1F687;
-            </div>
             <div className={styles.infoContent}>
               <h4>Getting There</h4>
               <p>
@@ -55,18 +52,12 @@ export function OverviewTab({ venue, hideAbout = false }: OverviewTabProps) {
             </div>
           </div>
           <div className={styles.infoItem}>
-            <div className={styles.infoIcon} aria-hidden="true">
-              &#x23F0;
-            </div>
             <div className={styles.infoContent}>
               <h4>Duration</h4>
               <p>{duration}</p>
             </div>
           </div>
           <div className={styles.infoItem}>
-            <div className={styles.infoIcon} aria-hidden="true">
-              &#x267F;
-            </div>
             <div className={styles.infoContent}>
               <h4>Accessibility</h4>
               <p>
@@ -75,18 +66,12 @@ export function OverviewTab({ venue, hideAbout = false }: OverviewTabProps) {
             </div>
           </div>
           <div className={styles.infoItem}>
-            <div className={styles.infoIcon} aria-hidden="true">
-              &#x1F3AB;
-            </div>
             <div className={styles.infoContent}>
               <h4>Booking</h4>
               <p>{booking}</p>
             </div>
           </div>
           <div className={styles.infoItem}>
-            <div className={styles.infoIcon} aria-hidden="true">
-              &#x1F552;
-            </div>
             <div className={styles.infoContent}>
               <h4>Opening Hours</h4>
               <p>
@@ -129,9 +114,6 @@ export function OverviewTab({ venue, hideAbout = false }: OverviewTabProps) {
       {!venue.openingHours &&
         !(Array.isArray(venue.prerequisites) && venue.prerequisites.length) && (
           <div className={styles.planningTip}>
-            <span className={styles.planningTipIcon} aria-hidden="true">
-              &#x2139;&#xFE0F;
-            </span>
             <p>
               We recommend checking the venue's website for the latest opening
               hours and accessibility information before visiting.
@@ -158,7 +140,6 @@ export function OverviewTab({ venue, hideAbout = false }: OverviewTabProps) {
           rel="noopener noreferrer"
           className={styles.mapLink}
         >
-          <span aria-hidden="true">&#x1F4CD;</span>
           View on Google Maps
         </a>
       </div>
@@ -167,7 +148,6 @@ export function OverviewTab({ venue, hideAbout = false }: OverviewTabProps) {
 
       <div className={styles.needMoreInfo}>
         <h3 className={styles.needMoreTitle}>
-          <span aria-hidden="true">&#x1F4DE;</span>
           Need More Information?
         </h3>
         <p className={styles.needMoreText}>
@@ -186,7 +166,6 @@ export function OverviewTab({ venue, hideAbout = false }: OverviewTabProps) {
             );
           }}
         >
-          <span aria-hidden="true">&#x1F50D;</span>
           Search "{venue.name}" Online
         </button>
       </div>
