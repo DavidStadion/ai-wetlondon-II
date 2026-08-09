@@ -1,6 +1,5 @@
 import { useState } from 'preact/hooks';
 import { venues } from '@/signals/venueSignals';
-import { setTypeFilter } from '@/signals/filterSignals';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import type { Venue, VenueType } from '@/types';
 import styles from './PopularCategories.module.css';
@@ -40,11 +39,7 @@ function CategoryTile({ category, count, sample }: TileProps) {
   const { src } = useImageLoader(sample?.name ?? category.name, sample?.type ?? []);
 
   return (
-    <button
-      type="button"
-      className={styles.tile}
-      onClick={() => setTypeFilter(category.id)}
-    >
+    <a className={styles.tile} href={`/category/${category.id}`}>
       <span
         className={styles.tileImage}
         style={{ backgroundImage: `url(${src})` }}
@@ -54,7 +49,7 @@ function CategoryTile({ category, count, sample }: TileProps) {
         <span className={styles.tileName}>{category.name}</span>
         <span className={styles.tileCount}>{count} places</span>
       </span>
-    </button>
+    </a>
   );
 }
 

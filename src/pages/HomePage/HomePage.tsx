@@ -3,6 +3,8 @@ import { signal } from '@preact/signals';
 import {
   venues,
   sortedVenues,
+  filteredVenues,
+  venueCount,
   isLoading,
   error,
   totalActivities,
@@ -31,7 +33,6 @@ import { TopPicksSection } from '@/components/TopPicksSection';
 import { RecentlyViewedSection } from '@/components/RecentlyViewedSection';
 import { WeatherRecommendations } from '@/components/WeatherRecommendations';
 import { PopupsSection } from '@/components/PopupsSection';
-import { PersonalizedSection } from '@/components/PersonalizedSection';
 import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { Button } from '@/components/common/Button';
 import { AdSlot } from '@/components/common/AdSlot';
@@ -112,13 +113,14 @@ export function HomePage(_props: RouteProps) {
 
   const loading = isLoading.value;
   const errorMsg = error.value;
-  const venueList = sortedVenues.value;
+  const venueList = sortedVenues.value;        // editorial rails — always the full set
+  const results = filteredVenues.value;        // All Activities — respects the filters
   const filtersActive = hasActiveFilters.value;
 
   // Reset pagination when filters change
   useEffect(() => {
     displayedCount.value = PAGE_SIZE;
-  }, [venueList]);
+  }, [results]);
 
   // Deep links like /#activities land before the venues render, so the browser's
   // own jump finds nothing. Scroll once the content is actually on the page.
@@ -139,7 +141,7 @@ export function HomePage(_props: RouteProps) {
   const spotlightVenue = venueList.find((v) => v.spotlight) ?? null;
   const featuredVenues = venueList
     .filter((v) => v.featured && v.name !== spotlightVenue?.name);
-  const regularVenues = venueList;
+  const regularVenues = results;
 
   // Editorial mosaic: one lead tile + two stacked; the rest fill the rail
   const mosaicPool = [spotlightVenue, ...featuredVenues].filter(Boolean) as Venue[];
@@ -168,8 +170,6 @@ export function HomePage(_props: RouteProps) {
       <QuickFilters />
 
       {/* Personalized Selection Header */}
-      {filtersActive && <PersonalizedSection />}
-
       {/* Featured — editorial mosaic (lead tile + two stacked) */}
       {!loading && !errorMsg && mosaicLead && (
         <section className={styles.mosaicSection} id="activities">
@@ -255,7 +255,9 @@ export function HomePage(_props: RouteProps) {
           <h2 className={styles.sectionTitle}>All Activities</h2>
           {!loading && (
             <p className={styles.subtitle}>
-              {totalActivities.value} places across London
+              {filtersActive
+                ? `${venueCount.value} of ${totalActivities.value} places match`
+                : `${totalActivities.value} places across London`}
             </p>
           )}
         </div>

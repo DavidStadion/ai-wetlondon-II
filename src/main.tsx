@@ -7,6 +7,7 @@ import { EventsPage } from '@/pages/EventsPage';
 import { PopupsPage } from '@/pages/PopupsPage';
 import { SituationsPage } from '@/pages/SituationsPage';
 import { SavedPage } from '@/pages/SavedPage';
+import { CategoryPage } from '@/pages/CategoryPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { PrivacyPage } from '@/pages/PrivacyPage';
 import { CookiesPage } from '@/pages/CookiesPage';
@@ -75,6 +76,7 @@ function App() {
           <PopupsPage path="/popups" />
           <SituationsPage path="/situations" />
           <SavedPage path="/saved" />
+          <CategoryPage path="/category/:type" />
           <PrivacyPage path="/privacy" />
           <CookiesPage path="/cookies" />
           <TermsPage path="/terms" />
