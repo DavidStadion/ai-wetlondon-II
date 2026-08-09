@@ -277,8 +277,18 @@
   /* The bookmark icon carries the meaning on a phone; the aria-label still
      spells it out for screen readers. */
   .saveLabel { display: none; }
-  .saveBtn { padding: 0.5rem; border-radius: 50%; }
-  .saveBtn svg { width: 16px; height: 16px; }
+
+  .saveBtn {
+    width: 40px;
+    height: 40px;
+    min-height: 40px;   /* beats the global 44px rule, which squashed the circle */
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+    gap: 0;
+  }
+
+  .saveBtn svg { width: 17px; height: 17px; }
 
   .card--spotlightHero { flex-direction: column; gap: 0; align-items: stretch; }
   .card--spotlightHero .image,
