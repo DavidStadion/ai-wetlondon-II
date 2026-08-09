@@ -87,6 +87,8 @@ function NavLink({ href, children }: NavLinkProps) {
 export function Layout({ children }: LayoutProps) {
   return (
     <div className={styles.layout}>
+      <a className="wl-skip-link" href="#main">Skip to content</a>
+
       <header className={styles.header}>
         {/* Mascot — a little rain cloud that walks and drips */}
         <Link href="/" className={styles.mark} aria-label="Wet London home">
@@ -208,7 +210,7 @@ export function Layout({ children }: LayoutProps) {
         onClick={closeNav}
       />
 
-      <main className={styles.main}>
+      <main className={styles.main} id="main" tabIndex={-1}>
         {children}
       </main>
 

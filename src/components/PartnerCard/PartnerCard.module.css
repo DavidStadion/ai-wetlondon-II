@@ -112,3 +112,12 @@
   outline: 2px solid var(--color-primary);
   outline-offset: 3px;
 }
+
+
+/* On the inverted pop-ups band, flip the card text to read on ink */
+:global(.popupsInverted) .partnerTitle { color: #fff; }
+:global(.popupsInverted) .partnerLocation,
+:global(.popupsInverted) .partnerDescription { color: rgba(255, 255, 255, 0.7); }
+:global(.popupsInverted) .partnerPrice { color: #fff; }
+:global(.popupsInverted) .partnerBtn { color: #fff; }
+:global(.popupsInverted) .partnerBtn:hover { color: #9fb0ff; }

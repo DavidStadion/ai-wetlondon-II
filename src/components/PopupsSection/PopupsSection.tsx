@@ -8,7 +8,7 @@ export function PopupsSection() {
   if (topPartners.length === 0) return null;
 
   return (
-    <section className={styles.section}>
+    <section className={`${styles.section} popupsInverted`}>
       <div className={styles.inner}>
         <div className={styles.header}>
           <h2 className={styles.title}>Pop-ups</h2>
