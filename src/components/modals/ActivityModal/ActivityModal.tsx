@@ -5,6 +5,9 @@ import {
   bookmarkedVenues,
   toggleBookmark,
   addToRecentlyViewed,
+  luckyDeck,
+  luckyIndex,
+  stepLucky,
 } from "@/signals/uiSignals";
 import { OverviewTab } from "./OverviewTab";
 import { GalleryTab } from "./GalleryTab";
@@ -103,6 +106,8 @@ export function ActivityModal({
     `https://www.google.com/search?q=${encodeURIComponent(`${venue.name} London tickets`)}`;
   const bookingLabel = isFree ? "Plan your visit" : "Book tickets";
 
+  const isLucky = luckyDeck.value.length > 1;
+
   const wetnessWord =
     venue.wetness === "dry"
       ? "Stays dry"
@@ -114,6 +119,33 @@ export function ActivityModal({
     <Modal isOpen={isOpen} onClose={onClose} title={venue.name} size="xl" hideHeader flush>
       {/* Image-led header */}
       <div className={styles.hero}>
+        {isLucky && (
+          <>
+            <button
+              type="button"
+              className={`${styles.luckyArrow} ${styles.luckyPrev}`}
+              onClick={() => stepLucky(-1)}
+              aria-label="Previous suggestion"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              className={`${styles.luckyArrow} ${styles.luckyNext}`}
+              onClick={() => stepLucky(1)}
+              aria-label="Next suggestion"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </button>
+            <span className={styles.luckyCount}>
+              {luckyIndex.value + 1} of {luckyDeck.value.length} lucky picks
+            </span>
+          </>
+        )}
         <div
           className={styles.heroImage}
           style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : undefined}

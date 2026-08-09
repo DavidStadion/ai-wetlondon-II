@@ -120,7 +120,7 @@ export function Layout({ children }: LayoutProps) {
             id="siteNav"
           >
             <NavLink href="/#activities">Featured</NavLink>
-            <NavLink href="/#all-activities">All Activities</NavLink>
+            <NavLink href="/all-activities">All Activities</NavLink>
             <NavLink href="/events">What's On</NavLink>
             <NavLink href="/popups">Pop-Ups</NavLink>
             <NavLink href="/situations">Pick Your Vibe</NavLink>

@@ -82,7 +82,7 @@ export function SavedPage(_props: RouteProps) {
               We'll keep it here on this device.
             </p>
             <div className={styles.emptyActions}>
-              <Button as="a" href="/#all-activities" variant="accent">Browse all activities</Button>
+              <Button as="a" href="/all-activities" variant="accent">Browse all activities</Button>
               <Button as="a" href="/situations" variant="secondary">Pick your vibe</Button>
             </div>
           </div>

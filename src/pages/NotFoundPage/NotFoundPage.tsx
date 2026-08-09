@@ -15,7 +15,7 @@ export function NotFoundPage(_props: RouteProps) {
         </p>
         <div className={styles.actions}>
           <Button as="a" href="/" variant="accent">Back to Wet London</Button>
-          <Button as="a" href="/#all-activities" variant="secondary">Browse all activities</Button>
+          <Button as="a" href="/all-activities" variant="secondary">Browse all activities</Button>
         </div>
       </div>
     </div>

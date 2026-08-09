@@ -8,6 +8,7 @@ import { PopupsPage } from '@/pages/PopupsPage';
 import { SituationsPage } from '@/pages/SituationsPage';
 import { SavedPage } from '@/pages/SavedPage';
 import { CategoryPage } from '@/pages/CategoryPage';
+import { AllActivitiesPage } from '@/pages/AllActivitiesPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { PrivacyPage } from '@/pages/PrivacyPage';
 import { CookiesPage } from '@/pages/CookiesPage';
@@ -77,6 +78,7 @@ function App() {
           <SituationsPage path="/situations" />
           <SavedPage path="/saved" />
           <CategoryPage path="/category/:type" />
+          <AllActivitiesPage path="/all-activities" />
           <PrivacyPage path="/privacy" />
           <CookiesPage path="/cookies" />
           <TermsPage path="/terms" />

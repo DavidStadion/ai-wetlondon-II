@@ -97,7 +97,7 @@ export function CategoryPage({ type }: CategoryRouteProps) {
           <h1 className={styles.title}>Category not found</h1>
           <p className={styles.tagline}>We don't have a category by that name.</p>
           <div className={styles.heroActions}>
-            <Button as="a" href="/#all-activities" variant="accent">Browse all activities</Button>
+            <Button as="a" href="/all-activities" variant="accent">Browse all activities</Button>
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@ export function CategoryPage({ type }: CategoryRouteProps) {
   return (
     <div className={styles.page}>
       <header className={styles.hero}>
-        <a className={styles.crumb} href="/#all-activities">All activities</a>
+        <a className={styles.crumb} href="/all-activities">All activities</a>
         <h1 className={styles.title}>{category.label}</h1>
         <p className={styles.tagline}>{category.blurb}</p>
       </header>
@@ -146,7 +146,7 @@ export function CategoryPage({ type }: CategoryRouteProps) {
           <div className={styles.empty}>
             <h2 className={styles.emptyTitle}>Nothing here yet</h2>
             <p className={styles.emptyText}>We haven't listed anything in {category.label} so far.</p>
-            <Button as="a" href="/#all-activities" variant="accent">Browse everything</Button>
+            <Button as="a" href="/all-activities" variant="accent">Browse everything</Button>
           </div>
         )}
 

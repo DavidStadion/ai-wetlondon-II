@@ -18,6 +18,8 @@ import {
   selectedVenue,
   isActivityModalOpen,
   isCustomizeModalOpen,
+  luckyDeck,
+  luckyIndex,
 } from '@/signals/uiSignals';
 import { partners } from '@/signals/partnerSignals';
 import { fetchVenues, fetchPartners } from '@/utils/supabase';
@@ -38,7 +40,6 @@ import { Button } from '@/components/common/Button';
 import { AdSlot } from '@/components/common/AdSlot';
 import { Carousel } from '@/components/common/Carousel';
 import { PromoBand } from '@/components/common/PromoBand';
-import { FilterBar } from '@/components/FilterBar';
 
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { CustomizeModal } from '@/components/modals/CustomizeModal';
@@ -48,8 +49,7 @@ import { BookingModal } from '@/components/modals/BookingModal';
 
 import styles from './HomePage.module.css';
 
-const PAGE_SIZE = 18;
-const displayedCount = signal(PAGE_SIZE);
+const PREVIEW_COUNT = 8;   // the homepage signposts; /all-activities is the destination
 
 function getCardVariant(venue: Venue): CardVariant {
   if (venue.spotlight) return 'spotlight';
@@ -65,6 +65,7 @@ function openActivityModal(venue: Venue) {
 
 function closeActivityModal() {
   isActivityModalOpen.value = false;
+  luckyDeck.value = [];
 }
 
 function openCustomizeModal() {
@@ -72,15 +73,14 @@ function openCustomizeModal() {
 }
 
 function handleFeelingLucky() {
-  const venueList = venues.value;
-  if (venueList.length > 0) {
-    const randomIndex = Math.floor(Math.random() * venueList.length);
-    openActivityModal(venueList[randomIndex]);
-  }
-}
+  const pool = venues.value;
+  if (pool.length === 0) return;
 
-function handleLoadMore() {
-  displayedCount.value += PAGE_SIZE;
+  // Shuffle a run of picks so the arrows have somewhere to go
+  const deck = [...pool].sort(() => Math.random() - 0.5).slice(0, 12);
+  luckyDeck.value = deck;
+  luckyIndex.value = 0;
+  openActivityModal(deck[0]);
 }
 
 export function HomePage(_props: RouteProps) {
@@ -117,10 +117,6 @@ export function HomePage(_props: RouteProps) {
   const results = filteredVenues.value;        // All Activities — respects the filters
   const filtersActive = hasActiveFilters.value;
 
-  // Reset pagination when filters change
-  useEffect(() => {
-    displayedCount.value = PAGE_SIZE;
-  }, [results]);
 
   // Deep links like /#activities land before the venues render, so the browser's
   // own jump finds nothing. Scroll once the content is actually on the page.
@@ -157,9 +153,8 @@ export function HomePage(_props: RouteProps) {
     .filter((v, i, arr) => arr.findIndex((x) => x.name === v.name) === i)
     .slice(0, 10);
 
-  // Paginate regular venues
-  const visibleRegular = regularVenues.slice(0, displayedCount.value);
-  const hasMore = regularVenues.length > displayedCount.value;
+  // Homepage shows a taste; /all-activities is the full catalogue
+  const previewVenues = regularVenues.slice(0, PREVIEW_COUNT);
 
   return (
     <div className={styles.page}>
@@ -169,7 +164,19 @@ export function HomePage(_props: RouteProps) {
       {/* Quick Filter Pills */}
       <QuickFilters />
 
-      {/* Personalized Selection Header */}
+      {/* Hold the mosaic's space while data loads so nothing below shifts */}
+      {loading && (
+        <section className={styles.mosaicSection} aria-hidden="true">
+          <div className={styles.mosaicSkeleton}>
+            <div className={styles.skeletonTile} />
+            <div className={styles.mosaicSkeletonStack}>
+              <div className={styles.skeletonTile} />
+              <div className={styles.skeletonTile} />
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Featured — editorial mosaic (lead tile + two stacked) */}
       {!loading && !errorMsg && mosaicLead && (
         <section className={styles.mosaicSection} id="activities">
@@ -203,7 +210,7 @@ export function HomePage(_props: RouteProps) {
         <section className={styles.railSection}>
           <div className={styles.sectionHead}>
             <h2 className={styles.sectionTitle}>Featured Activities</h2>
-            <a className={styles.sectionLink} href="/#all-activities">See all</a>
+            <a className={styles.sectionLink} href="/all-activities">See all</a>
           </div>
           <Carousel perView={4} ariaLabel="Featured activities">
             {featuredRail.map((venue, index) => (
@@ -280,9 +287,6 @@ export function HomePage(_props: RouteProps) {
           </div>
         )}
 
-        {/* Filters live with the results they act on */}
-        <FilterBar />
-
         
 
         {/* Loading State */}
@@ -324,10 +328,10 @@ export function HomePage(_props: RouteProps) {
         )}
 
         {/* Activity Grid (regular venues, paginated) */}
-        {!loading && !errorMsg && visibleRegular.length > 0 && (
+        {!loading && !errorMsg && previewVenues.length > 0 && (
           <>
             <div className={styles.grid}>
-              {visibleRegular.map((venue, index) => (
+              {previewVenues.map((venue, index) => (
                 <ActivityCard
                   key={`${venue.name}-${index}`}
                   venue={venue}
@@ -337,11 +341,11 @@ export function HomePage(_props: RouteProps) {
               ))}
             </div>
 
-            {hasMore && (
+            {regularVenues.length > PREVIEW_COUNT && (
               <div className={styles.loadMoreWrapper}>
-                <button type="button" className={styles.loadMore} onClick={handleLoadMore}>
-                  Load More ({regularVenues.length - displayedCount.value} remaining)
-                </button>
+                <a className={styles.loadMore} href="/all-activities">
+                  View all {regularVenues.length} activities
+                </a>
               </div>
             )}
           </>
