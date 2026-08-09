@@ -82,8 +82,6 @@ export function CategoryPage({ type }: CategoryRouteProps) {
         path: `/category/${slug}`,
       });
     }
-    return resetPageMeta;
-
     async function load() {
       if (venues.value.length > 0) return;
       isLoading.value = true;
@@ -96,6 +94,9 @@ export function CategoryPage({ type }: CategoryRouteProps) {
       }
     }
     load();
+
+    // Cleanup must be the last statement — anything after it is unreachable.
+    return resetPageMeta;
   }, [slug]);
 
   const selected = selectedVenue.value;
