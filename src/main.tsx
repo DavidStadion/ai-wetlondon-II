@@ -8,6 +8,11 @@ import { PopupsPage } from '@/pages/PopupsPage';
 import { SituationsPage } from '@/pages/SituationsPage';
 import { SavedPage } from '@/pages/SavedPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
+import { PrivacyPage } from '@/pages/PrivacyPage';
+import { CookiesPage } from '@/pages/CookiesPage';
+import { TermsPage } from '@/pages/TermsPage';
+import { AffiliatePage } from '@/pages/AffiliatePage';
+import { ContactPage } from '@/pages/ContactPage';
 import { AdminPage } from '@/pages/AdminPage';
 import { ToastContainer } from '@/components/common/Toast/ToastContainer';
 import { ConfigurationError } from '@/components/ConfigurationError';
@@ -70,6 +75,11 @@ function App() {
           <PopupsPage path="/popups" />
           <SituationsPage path="/situations" />
           <SavedPage path="/saved" />
+          <PrivacyPage path="/privacy" />
+          <CookiesPage path="/cookies" />
+          <TermsPage path="/terms" />
+          <AffiliatePage path="/affiliate" />
+          <ContactPage path="/contact" />
           <AdminPage path="/admin" />
           {/* Catch-all: without this, unknown routes render a blank page */}
           <NotFoundPage default />

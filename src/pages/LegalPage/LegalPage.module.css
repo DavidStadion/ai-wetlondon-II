@@ -1,0 +1,144 @@
+.page {
+  padding-top: var(--wl-header-h);
+  padding-bottom: 4rem;
+}
+
+.hero {
+  max-width: var(--wl-maxw);
+  margin: 0 auto;
+  padding: 2.75rem var(--wl-gutter) 0;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+  letter-spacing: -0.025em;
+  line-height: 1;
+  margin: 0 0 0.9rem;
+  color: var(--color-text);
+  max-width: 18ch;
+}
+
+.intro {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 62ch;
+  margin: 0 0 1rem;
+}
+
+.updated {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-secondary);
+  margin: 0;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-text);
+}
+
+/* Measure kept near 70 characters for comfortable reading */
+.body {
+  max-width: 78ch;
+  margin: 0 auto;
+  padding: 2.25rem var(--wl-gutter) 0;
+  color: var(--color-text);
+}
+
+.body h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 2.5rem 0 0.85rem;
+}
+
+.body h2:first-child { margin-top: 0; }
+
+.body h3 {
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin: 1.75rem 0 0.5rem;
+}
+
+.body p,
+.body li {
+  font-size: 0.98rem;
+  line-height: 1.68;
+  color: var(--color-text-secondary);
+}
+
+.body p { margin: 0 0 1rem; }
+
+.body ul {
+  margin: 0 0 1.25rem;
+  padding-left: 1.1rem;
+}
+
+.body li { margin-bottom: 0.5rem; }
+
+.body strong { color: var(--color-text); font-weight: 700; }
+
+.body a {
+  color: var(--color-wet);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
+}
+
+.body th,
+.body td {
+  text-align: left;
+  padding: 0.7rem 0.8rem 0.7rem 0;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+  color: var(--color-text-secondary);
+}
+
+.body th {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+/* Wide tables scroll inside their own container */
+.tableWrap {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.tableWrap table { margin-bottom: 0; }
+
+/* Marks copy the owner still needs to supply */
+.todo {
+  background: #fff3cd;
+  color: #6b4e00;
+  padding: 0.08em 0.35em;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 0.92em;
+}
+
+.callout {
+  background: var(--color-bg-secondary);
+  border-left: 3px solid var(--color-wet);
+  border-radius: var(--radius-sm);
+  padding: 1.1rem 1.25rem;
+  margin: 0 0 1.5rem;
+}
+
+.callout p { margin: 0; }
