@@ -28,6 +28,7 @@ import type { Venue, CardVariant, RouteProps } from '@/types';
 
 import { Hero } from '@/components/Hero';
 import { PopularCategories } from '@/components/PopularCategories';
+import { CollectionsRail } from '@/components/CollectionsRail';
 import { ActivityCard } from '@/components/ActivityCard';
 import { BookmarksSection } from '@/components/BookmarksSection';
 import { TopPicksSection } from '@/components/TopPicksSection';
@@ -230,6 +231,9 @@ export function HomePage(_props: RouteProps) {
         ctaHref="/#join"
         tone="bold"
       />
+
+      {/* Editorial collections — angles rather than categories */}
+      <CollectionsRail />
 
       {/* Popular Categories */}
       <PopularCategories />

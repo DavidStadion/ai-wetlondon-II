@@ -139,6 +139,39 @@ export function AboutPage(_props: RouteProps) {
       </section>
 
       {/* FAQ */}
+      <section className={styles.section} aria-label="How the wetness score works">
+        <h2 className={styles.sectionTitle}>What the wetness score means</h2>
+        <div className={styles.grid}>
+          <div className={styles.card}>
+            <h3 className={styles.cardTitle}>0–10% · Bone dry</h3>
+            <p className={styles.cardText}>
+              Door to door under cover. Straight off the tube or a few steps from it,
+              and everything you came for is inside.
+            </p>
+          </div>
+          <div className={styles.card}>
+            <h3 className={styles.cardTitle}>10–40% · Mostly dry</h3>
+            <p className={styles.cardText}>
+              A short dash — five or ten minutes from a station, or a courtyard between
+              buildings. A coat will do it.
+            </p>
+          </div>
+          <div className={styles.card}>
+            <h3 className={styles.cardTitle}>40%+ · Bring a brolly</h3>
+            <p className={styles.cardText}>
+              A proper walk at either end, or part of the visit is genuinely outside.
+              Worth it, but know before you go.
+            </p>
+          </div>
+        </div>
+        <p className={styles.intro} style={{ marginTop: '1.5rem' }}>
+          It's our judgement, not a measurement — we weigh up how far you'll walk from
+          transport, how much of the visit is under cover, and how exposed the way in
+          is. If we've got one wrong, tell us and we'll change it.
+        </p>
+      </section>
+
+
       <section className={styles.section} aria-label="FAQ">
         <h2 className={styles.sectionTitle}>FAQ</h2>
         <div className={styles.faqGrid}>

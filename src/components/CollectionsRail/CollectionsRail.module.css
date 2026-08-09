@@ -1,0 +1,105 @@
+.section {
+  max-width: var(--wl-maxw);
+  margin: 0 auto;
+  padding: 3rem var(--wl-gutter) 0;
+}
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem;
+  border-top: 2px solid var(--color-text);
+  padding-top: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.heading {
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 3.4vw, 3.1rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.link {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.link::after { content: ' →'; }
+.link:hover { text-decoration: underline; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--wl-gap);
+}
+
+.tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  background: var(--color-bg-secondary);
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease;
+}
+
+.tile:hover .image { transform: scale(1.05); }
+
+.tile::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.1) 65%);
+}
+
+.body {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem;
+}
+
+.count {
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  opacity: 0.85;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.15rem, 1.6vw, 1.7rem);
+  line-height: 1.02;
+  letter-spacing: -0.018em;
+}
+
+.title em { font-style: italic; }
+
+.tile:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 480px) { .grid { grid-template-columns: 1fr; } .tile { aspect-ratio: 16 / 10; } }

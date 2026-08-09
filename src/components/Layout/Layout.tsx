@@ -161,6 +161,7 @@ export function Layout({ children }: LayoutProps) {
           >
             <NavLink href="/#activities">Featured</NavLink>
             <NavLink href="/all-activities">All Activities</NavLink>
+            <NavLink href="/collections">Collections</NavLink>
             <NavLink href="/events">What's On</NavLink>
             <NavLink href="/popups">Pop-Ups</NavLink>
             <NavLink href="/situations">Pick Your Vibe</NavLink>
@@ -262,6 +263,7 @@ export function Layout({ children }: LayoutProps) {
                 <li><Link href="/situations">Pick Your Vibe</Link></li>
                 <li><Link href="/events">What's On</Link></li>
                 <li><Link href="/popups">Pop-Ups</Link></li>
+                <li><Link href="/collections">Collections</Link></li>
                 <li><Link href="/saved">Saved places</Link></li>
                 <li><Link href="/contact">Contact</Link></li>
               </ul>

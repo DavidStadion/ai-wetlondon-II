@@ -3,6 +3,7 @@ import { venues, isLoading } from '@/signals/venueSignals';
 import { bookmarkedVenues, toggleBookmark, addToRecentlyViewed } from '@/signals/uiSignals';
 import { fetchVenues } from '@/utils/supabase';
 import { findVenueBySlug } from '@/utils/slug';
+import { trackBookingClick } from '@/utils/consent';
 import { setPageMeta, resetPageMeta } from '@/utils/meta';
 import { isVenueOpenNow } from '@/utils/openingHours';
 import { useImageLoader } from '@/hooks/useImageLoader';
@@ -159,6 +160,13 @@ export function VenuePage({ slug }: VenueRouteProps) {
               href={bookingUrl}
               target="_blank"
               rel="noopener noreferrer sponsored"
+            onClick={() =>
+              trackBookingClick({
+                venue: venue.name,
+                isAffiliate: Boolean(venue.affiliateLink),
+                price: venue.price,
+              })
+            }
             >
               {isFree ? 'Plan your visit' : 'Book tickets'}
               <span aria-hidden="true">{'→'}</span>
