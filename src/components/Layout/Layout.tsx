@@ -2,6 +2,7 @@ import { signal, computed } from '@preact/signals';
 import { useEffect } from 'preact/hooks';
 import type { ComponentChildren, JSX } from 'preact';
 import { Link as RouterLink, useRouter } from 'preact-router';
+import { createPortal } from 'preact/compat';
 import { bookmarkedVenues } from '@/signals/uiSignals';
 import { isConsentSettingsOpen } from '@/utils/consent';
 import styles from './Layout.module.css';
@@ -72,6 +73,17 @@ function focusSearch() {
   input.focus({ preventScroll: true });
 }
 
+const NAV_LINKS: Array<{ href: string; label: string }> = [
+  { href: '/#activities', label: 'Featured' },
+  { href: '/all-activities', label: 'All Activities' },
+  { href: '/collections', label: 'Collections' },
+  { href: '/events', label: "What's On" },
+  { href: '/popups', label: 'Pop-Ups' },
+  { href: '/situations', label: 'Pick Your Vibe' },
+  { href: '/saved', label: 'Saved' },
+  { href: '/about', label: 'About' },
+];
+
 interface NavLinkProps {
   href: string;
   children: ComponentChildren;
@@ -120,6 +132,56 @@ function NavLink({ href, children }: NavLinkProps) {
   );
 }
 
+/**
+ * Rendered through a portal: the header carries a transform for the auto-hide,
+ * and a transformed ancestor makes position:fixed resolve against it rather
+ * than the viewport — which broke the drawer entirely.
+ */
+function MobileDrawer() {
+  const open = isNavOpen.value;
+
+  // Stop the page scrolling behind the open drawer
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = previous; };
+  }, [open]);
+
+  // Escape closes it
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') closeNav(); };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  return createPortal(
+    <>
+      <div
+        className={`${styles.navScrim} ${open ? styles.navScrimActive : ''}`}
+        aria-hidden="true"
+        onClick={closeNav}
+      />
+      <nav
+        className={`${styles.drawer} ${open ? styles.drawerOpen : ''}`}
+        id="mobileNav"
+        aria-label="Main navigation"
+        aria-hidden={!open}
+      >
+        <button type="button" className={styles.drawerClose} onClick={closeNav} aria-label="Close navigation">
+          &times;
+        </button>
+        {NAV_LINKS.map((l) => (
+          <NavLink key={l.href} href={l.href}>{l.label}</NavLink>
+        ))}
+        <a className={styles.drawerCta} href="/#join" onClick={closeNav}>Join The Club</a>
+      </nav>
+    </>,
+    document.body,
+  );
+}
+
 export function Layout({ children }: LayoutProps) {
   useHeaderAutoHide();
 
@@ -155,18 +217,10 @@ export function Layout({ children }: LayoutProps) {
         {/* Centred wordmark + nav row */}
         <div className={styles.headerCenter}>
           <Link href="/" className={styles.wordmark}>Wet London</Link>
-          <nav
-            className={`${styles.nav} ${isNavOpen.value ? styles.navOpen : ''}`}
-            id="siteNav"
-          >
-            <NavLink href="/#activities">Featured</NavLink>
-            <NavLink href="/all-activities">All Activities</NavLink>
-            <NavLink href="/collections">Collections</NavLink>
-            <NavLink href="/events">What's On</NavLink>
-            <NavLink href="/popups">Pop-Ups</NavLink>
-            <NavLink href="/situations">Pick Your Vibe</NavLink>
-            <NavLink href="/saved">Saved</NavLink>
-            <NavLink href="/about">About</NavLink>
+          <nav className={styles.nav} id="siteNav">
+            {NAV_LINKS.map((l) => (
+              <NavLink key={l.href} href={l.href}>{l.label}</NavLink>
+            ))}
           </nav>
         </div>
 
@@ -228,7 +282,7 @@ export function Layout({ children }: LayoutProps) {
           type="button"
           aria-label={isNavOpen.value ? 'Close navigation' : 'Open navigation'}
           aria-expanded={isNavOpen.value}
-          aria-controls="siteNav"
+          aria-controls="mobileNav"
           onClick={toggleNav}
         >
           <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -243,11 +297,7 @@ export function Layout({ children }: LayoutProps) {
         </button>
       </header>
 
-      <div
-        className={`${styles.navScrim} ${isNavOpen.value ? styles.navScrimActive : ''}`}
-        aria-hidden="true"
-        onClick={closeNav}
-      />
+      <MobileDrawer />
 
       <main className={styles.main} id="main" tabIndex={-1}>
         {children}

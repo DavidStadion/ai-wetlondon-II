@@ -79,18 +79,21 @@
 .message {
   font-family: var(--font-serif);
   font-size: clamp(1.05rem, 2vw, 1.5rem);
-  line-height: 1.15;
+  line-height: 1.2;
   letter-spacing: -0.015em;
   color: var(--color-text);
-  text-align: right;
-  max-width: 24ch;
+  text-align: left;
+  max-width: 22ch;
   justify-self: end;
+  /* Clear of the refresh control, which used to sit on top of the text */
+  padding-right: 2.5rem;
 }
 
 .refresh {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+  top: 50%;
+  right: 0.9rem;
+  transform: translateY(-50%);
   width: 28px;
   height: 28px;
   border: none;
@@ -103,7 +106,7 @@
 }
 
 .refresh:hover { background: rgba(12, 12, 13, 0.12); color: var(--color-text); }
-.refreshing { animation: spin 0.8s linear infinite; }
+.refreshing { animation: spin 0.8s linear infinite; transform-origin: center; }
 
 .refresh:focus-visible {
   outline: 2px solid var(--color-primary);
@@ -132,8 +135,8 @@
     text-align: center;
   }
   .main { justify-content: center; }
-  .message { text-align: center; justify-self: center; max-width: 30ch; }
-  .refresh { top: 0.5rem; right: 0.5rem; }
+  .message { text-align: center; justify-self: center; max-width: 30ch; padding-right: 0; }
+  .refresh { top: 0.5rem; right: 0.5rem; transform: none; }
 }
 
 @media (max-width: 520px) {
