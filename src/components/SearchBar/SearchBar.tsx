@@ -69,7 +69,7 @@ export function SearchBar() {
         ref={inputRef}
         type="text"
         className={styles.input}
-        placeholder="Search activities, venues, or categories..."
+        placeholder="Search places, areas or categories"
         defaultValue={keywords.value}
         onInput={handleInput}
         aria-label="Search activities"
