@@ -85,6 +85,8 @@
   --wl-maxw: 1760px;
   --wl-gutter: clamp(14px, 2.4vw, 40px);
   --wl-gap: clamp(10px, 0.9vw, 14px);
+  /* Fallback only — Layout measures the real header and overwrites this,
+     since its height varies by route and by wrapping. */
   --wl-header-h: 108px;
 }
 
@@ -150,11 +152,7 @@ body {
 }
 
 
-/* Comfortable tap targets on touch devices */
-@media (max-width: 768px) {
-  button,
-  a[role="button"],
-  input[type="checkbox"] {
-    min-height: 44px;
-  }
-}
+/* Tap targets are set on the components themselves.
+   A blanket min-height was tried here and removed: chaining :not() to spare
+   the icon buttons pushed the selector to 0-4-1 specificity, which beat their
+   own class rules and stretched every circular control into an ellipse. */

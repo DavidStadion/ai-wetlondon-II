@@ -66,6 +66,7 @@
 /* Floating close for header-less modals (content leads with an image) */
 .closeFloating {
   position: absolute;
+  flex: 0 0 auto;
   top: calc(1rem + env(safe-area-inset-top, 0px));
   right: 1rem;
   z-index: 20;
@@ -73,6 +74,7 @@
   place-items: center;
   width: 40px;
   height: 40px;
+  min-height: 40px;
   padding: 0;
   border: none;
   border-radius: 50%;
@@ -148,8 +150,11 @@
 @media (max-width: 640px) {
   .backdrop { padding: 0; align-items: flex-end; }
   .modal {
-    max-height: calc(94vh - env(safe-area-inset-top, 0px));
-    margin-top: env(safe-area-inset-top, 0px);
+    /* dvh accounts for browser chrome; env() is 0 on Android, so the sheet
+       needs a real gap of its own rather than relying on safe-area insets. */
+    max-height: 86vh;
+    max-height: 86dvh;
+    margin-top: calc(3rem + env(safe-area-inset-top, 0px));
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   }
   .header { padding: 1.5rem 1.25rem 0.75rem; }
