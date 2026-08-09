@@ -1,391 +1,283 @@
-/* ActivityCard */
+/* ActivityCard — editorial, image-led */
 .card {
   display: flex;
   flex-direction: column;
-  background: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background: transparent;
+  border: none;
+  cursor: pointer;
   height: 100%;
+  outline: none;
 }
 
-.card:hover {
-  border-color: var(--color-text-secondary);
+.card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-md);
 }
 
-/* Image container */
+/* ---------- Media ---------- */
 .image {
   position: relative;
-  height: 200px;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--radius-md);
   overflow: hidden;
+  background: var(--color-bg-secondary);
 }
+
+/* Portrait crop for taller editorial rails */
+.tall .image { aspect-ratio: 3 / 4; }
 
 .imagePlaceholder {
   width: 100%;
   height: 100%;
   background: var(--color-bg-secondary);
-  transition: transform 0.3s ease;
+  transition: transform 0.6s ease;
 }
 
-.card:hover .imagePlaceholder {
-  transform: scale(1.04);
-}
+.card:hover .imagePlaceholder { transform: scale(1.04); }
 
 .imageShimmer {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.04) 50%, transparent 100%);
   animation: shimmer 1.5s infinite;
 }
 
-/* Open/Closed status badges */
-.statusOpen {
+/* ---------- Overlay layout (headline on image) ----------
+   No aspect-ratio here: the mosaic gives these cards a definite height, and an
+   aspect-ratio would derive width from that height and overflow the column. */
+.overlay { height: 100%; }
+.overlay .image { width: 100%; height: 100%; aspect-ratio: auto; }
+
+.overlay .image::after {
+  content: '';
   position: absolute;
-  bottom: 0.75rem;
-  left: 0.75rem;
-  padding: 0.25rem 0.625rem;
-  border-radius: 20px;
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  background: var(--color-status-open);
-  color: var(--color-button-primary-text);
-  z-index: 10;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.05) 62%);
+  z-index: 2;
 }
 
+.overlayContent {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 4;
+  padding: clamp(1rem, 2vw, 1.75rem);
+  color: #fff;
+}
+
+.overlay .name {
+  color: #fff;
+  font-size: clamp(1.4rem, 2.3vw, 2.35rem);
+}
+
+.overlay .kicker { color: rgba(255, 255, 255, 0.9); }
+.overlay .area { color: #fff; }
+
+.overlayLg .name { font-size: clamp(1.75rem, 2.9vw, 3rem); }
+
+/* ---------- Badges / controls ---------- */
+.wetBadge {
+  position: absolute;
+  top: 0.7rem;
+  left: 0.7rem;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.32rem 0.58rem 0.32rem 0.46rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-text);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  box-shadow: var(--shadow-sm);
+}
+
+.wetMeter {
+  position: relative;
+  width: 28px;
+  height: 5px;
+  border-radius: 3px;
+  background: #e2e2e2;
+  overflow: hidden;
+}
+
+.wetMeter i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--color-wet);
+  border-radius: 3px;
+}
+
+.statusOpen,
 .statusClosed {
   position: absolute;
-  bottom: 0.75rem;
-  left: 0.75rem;
-  padding: 0.25rem 0.625rem;
-  border-radius: 20px;
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  background: var(--color-status-closed);
-  color: var(--color-button-primary-text);
-  z-index: 10;
-}
-
-/* Bookmark positioning */
-.bookmark {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    z-index: 10;
-    border-radius: 50%;
-    padding: 0.25rem;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
-}
-
-/* Variant badge */
-.badge {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  padding: 0.45rem 0.9rem;
+  bottom: 0.7rem;
+  left: 0.7rem;
+  padding: 0.22rem 0.6rem;
   border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-size: 0.6rem;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  z-index: 12;
-  box-shadow: 0 2px 12px rgba(245, 158, 11, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.badge--featured {
-  background: linear-gradient(135deg, var(--color-featured) 0%, #fbbf24 100%);
-  color: #1a1a1a;
-  box-shadow: 0 2px 12px rgba(245, 158, 11, 0.5);
-}
-
-.badge--sponsored {
-  background: linear-gradient(135deg, var(--color-sponsored) 0%, var(--color-featured) 100%);
-  color: #1a1a1a;
-  box-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
-}
-
-.badge--partner {
-  background: linear-gradient(135deg, var(--color-partner) 0%, #4f46e5 100%);
   color: #ffffff;
-  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.4);
+  z-index: 6;
 }
 
-.badge--spotlight,
-.badge--spotlightHero {
-  background: linear-gradient(135deg, var(--color-featured) 0%, #fbbf24 100%);
-  color: #1a1a1a;
-  box-shadow: 0 2px 12px rgba(245, 158, 11, 0.5);
+.statusOpen { background: var(--color-status-open); }
+.statusClosed { background: var(--color-status-closed); }
+
+/* Explicit save affordance, bottom-right of the image */
+.saveBtn {
+  position: absolute;
+  bottom: 0.7rem;
+  right: 0.7rem;
+  z-index: 8;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.38rem 0.7rem;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s, color 0.15s, transform 0.15s;
 }
 
-/* Content area */
+.saveBtn:hover { background: #fff; transform: translateY(-1px); }
+
+.saveBtnOn {
+  background: var(--color-text);
+  color: #fff;
+}
+
+.saveBtnOn:hover { background: #000; }
+
+.saveBtn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.badge {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  z-index: 6;
+  background: var(--color-text);
+  color: #ffffff;
+}
+
+.badge--sponsored { background: var(--color-sponsored); color: #1a1a1a; }
+.badge--partner { background: var(--color-partner); color: #ffffff; }
+
+/* Overlay cards: the headline owns the bottom, so move the chrome to the top.
+   Open/closed is suppressed here — the detail panel carries it. */
+.overlay .saveBtn { top: 0.7rem; bottom: auto; right: 0.7rem; }
+.overlay .badge { top: 3.05rem; right: auto; left: 0.7rem; }
+.overlay .statusOpen,
+.overlay .statusClosed { display: none; }
+
+
+/* ---------- Stacked content ---------- */
 .content {
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 1.25rem;
+  padding: 0.8rem 0.1rem 0;
 }
 
-.name {
-  margin: 0 0 0.75rem;
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.3;
-  color: var(--color-text);
-}
-
-/* Tags row */
-.tags {
+.kicker {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;
-  margin-bottom: 0.75rem;
-}
-
-.tag {
-  padding: 0.2rem 0.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: 50px;
-  font-size: 0.7rem;
-  font-weight: 500;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.68rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  background: var(--color-bg-secondary);
+  letter-spacing: 0.12em;
   color: var(--color-text-secondary);
+  margin-bottom: 0.45rem;
 }
 
-/* Description */
+.area { color: var(--color-wet); }
+
+.sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.55;
+  display: inline-block;
+  flex: 0 0 auto;
+}
+
+/* Hero / mosaic cards carry the editorial serif … */
+.name {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.35rem, 1.65vw, 1.85rem);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.02;
+  color: var(--color-text);
+  text-wrap: balance;
+}
+
+/* … while browsable grid/carousel cards use bold grotesk, as the reference does. */
+.stacked .name {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  line-height: 1.22;
+}
+
 .description {
-  flex: 1 1 auto;
-  min-height: 2.4em;
-  margin: 0 0 1rem;
-  font-size: 0.875rem;
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
   line-height: 1.5;
   color: var(--color-text-secondary);
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* Wetness + Price */
-.wetnessRow {
-  margin-bottom: 0.5rem;
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
 }
 
-.price {
-  display: block;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: 1rem;
-}
+.price { font-weight: 800; color: var(--color-text); }
+.rating { font-weight: 600; }
 
-/* CTA Button */
-.cta {
-  margin-top: auto;
-  width: 100%;
-  padding: 0.75rem;
-  background: var(--color-cta-bg);
-  color: var(--color-cta-text);
-  border: 1px solid var(--color-cta-text);
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
+/* ---------- Spotlight hero (wide horizontal) ---------- */
+.card--spotlightHero { flex-direction: row; gap: 1.75rem; align-items: center; }
+.card--spotlightHero .image { width: 55%; aspect-ratio: 16 / 10; flex-shrink: 0; }
+.card--spotlightHero .content { width: 45%; padding-top: 0; }
+.card--spotlightHero .name { font-size: clamp(2rem, 3vw, 2.9rem); }
 
-.cta:hover {
-  background: var(--color-cta-text);
-  color: var(--color-cta-bg);
-}
-
-/* ===== VARIANT: Featured ===== */
-.card--featured {
-  background: #0f172a;
-  border: 2px solid var(--color-featured);
-  box-shadow: 0 0 24px rgba(245, 158, 11, 0.25), 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.card--featured .name,
-.card--featured .price {
-  color: #ffffff;
-}
-
-.card--featured .description {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.card--featured .tag {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.9);
-}
-
-
-
-/* ===== VARIANT: Sponsored ===== */
-.card--sponsored {
-  border: 2px solid var(--color-sponsored);
-  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.15);
-}
-
-.card--sponsored:hover {
-  border-color: #ffa500;
-  box-shadow: 0 8px 24px rgba(255, 215, 0, 0.25);
-  transform: translateY(-4px);
-}
-
-.card--sponsored .cta {
-  background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
-  color: #1a1a1a;
-  border: none;
-  font-weight: 600;
-}
-
-.card--sponsored .cta:hover {
-  background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
-}
-
-/* ===== VARIANT: Partner ===== */
-.card--partner {
-  border: 2px solid var(--color-partner);
-}
-
-.card--partner:hover {
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
-}
-
-/* ===== VARIANT: Lucky ===== */
-.card--lucky {
-  position: relative;
-  border: 2px solid var(--color-lucky);
-  /* Static gradient border - no animation to reduce GPU load */
-  background: var(--color-bg);
-}
-
-.card--lucky:hover {
-  border-color: #764ba2;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
-}
-
-/* ===== VARIANT: Spotlight ===== */
-.card--spotlight {
-  background: #0f172a;
-  border: 2px solid var(--color-featured);
-  /* Static glow - no animation to reduce GPU load */
-  box-shadow: 0 0 24px rgba(245, 158, 11, 0.25), 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.card--spotlight .name,
-.card--spotlight .price {
-  color: #ffffff;
-}
-
-.card--spotlight .description {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.card--spotlight .tag {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.card--spotlight .cta {
-  background: transparent;
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.card--spotlight .cta:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
-  color: #ffffff;
-}
-
-/* ===== VARIANT: Spotlight Hero (horizontal layout) ===== */
-.card--spotlightHero {
-  flex-direction: row;
-  background: #0f172a;
-  border: 2px solid var(--color-featured);
-  box-shadow: 0 0 24px rgba(245, 158, 11, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.card--spotlightHero .image {
-  width: 50%;
-  height: auto;
-  min-height: 380px;
-  flex-shrink: 0;
-}
-
-.card--spotlightHero .content {
-  width: 50%;
-}
-
-.card--spotlightHero .name,
-.card--spotlightHero .price {
-  color: #ffffff;
-}
-
-.card--spotlightHero .description {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.card--spotlightHero .tag {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.9);
-}
-
-/* Mobile adjustments */
+/* ---------- Responsive ---------- */
 @media (max-width: 768px) {
-  .card--spotlightHero {
-    flex-direction: column;
-  }
+  .card--spotlightHero { flex-direction: column; gap: 0; align-items: stretch; }
+  .card--spotlightHero .image,
+  .card--spotlightHero .content { width: 100%; }
+  .card--spotlightHero .content { padding-top: 0.8rem; }
 
-  .card--spotlightHero .image {
-    width: 100%;
-    min-height: 180px;
-  }
-
-  .card--spotlightHero .content {
-    width: 100%;
-  }
-
-  .image {
-    height: 140px;
-  }
-
-  .content {
-    padding: 1rem;
-  }
-
-  .name {
-    font-size: 1rem;
-  }
-
-  .description {
-    -webkit-line-clamp: 2;
-    margin-bottom: 0.75rem;
-  }
-
-  .tags {
-    display: none;
-  }
-
-  .cta {
-    display: none;
-  }
-
-  .bookmark {
-    display: none;
-  }
+  .stacked .name { font-size: 1rem; }
 }

@@ -14,6 +14,7 @@ import { BackToTop } from '@/components/common/BackToTop';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { FilterChipBar } from '@/components/common/FilterChipBar';
 import { PartnerCard } from '@/components/PartnerCard';
+import { PromoBand } from '@/components/common/PromoBand';
 import styles from './PopupsPage.module.css';
 
 const LOCATION_FILTERS: Array<{ value: PartnerLocation | 'all'; label: string }> = [
@@ -93,7 +94,7 @@ export function PopupsPage(_props: RouteProps) {
             <h3>Coming Soon</h3>
             <p>We're building our network of local London businesses. Check back soon!</p>
             <p>
-              <a href="mailto:partners@wetlondon.co.uk" className={styles.link}>
+              <a href="mailto:wetlondonofficial@gmail.com" className={styles.link}>
                 Interested in being featured?
               </a>
             </p>
@@ -118,17 +119,16 @@ export function PopupsPage(_props: RouteProps) {
         )}
 
         {/* Become a Partner CTA */}
-        <div className={styles.submitCta}>
-          <h3 className={styles.ctaTitle}>Are you a local London business?</h3>
-          <p className={styles.ctaText}>Join our Pop-ups directory and reach thousands of Londoners looking for indoor activities.</p>
-          <a
-            href="mailto:partners@wetlondon.co.uk?subject=Pop-ups%20Partnership"
-            className={styles.ctaBtn}
-          >
-            Become a Partner
-          </a>
-        </div>
       </section>
+
+      <PromoBand
+        title="Are you a local London"
+        titleAccent="business?"
+        body="Join the Pop-ups directory and reach thousands of Londoners hunting for something to do indoors."
+        ctaLabel="Become a partner"
+        ctaHref="mailto:wetlondonofficial@gmail.com?subject=Pop-ups%20Partnership"
+        tone="bold"
+      />
 
       <BackToTop />
     </div>

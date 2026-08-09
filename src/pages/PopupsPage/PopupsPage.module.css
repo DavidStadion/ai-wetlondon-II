@@ -1,19 +1,22 @@
 .page {
-  padding-top: 80px; /* Account for fixed header */
+  padding-top: var(--wl-header-h);
   padding-bottom: 3rem;
 }
 
 /* Hero */
 .hero {
-  max-width: 1200px;
+  max-width: var(--wl-maxw);
   margin: 0 auto;
-  padding: 2rem 1.25rem;
+  padding: 2.75rem var(--wl-gutter) 1.5rem;
   text-align: center;
 }
 
 .title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  letter-spacing: -0.02em;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(3rem, 7.5vw, 6.5rem);
+  letter-spacing: -0.025em;
+  line-height: 1;
   margin: 0 0 0.75rem;
   color: var(--color-text);
 }
@@ -28,17 +31,22 @@
 
 /* Container */
 .container {
-  max-width: 1200px;
+  max-width: var(--wl-maxw);
   margin: 0 auto;
-  padding: 1rem 1.25rem 3rem;
+  padding: 1rem var(--wl-gutter) 3rem;
 }
 
 /* Partners Grid */
 .partnersGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--wl-gap);
+  row-gap: 2.25rem;
 }
+
+@media (max-width: 1200px) { .partnersGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 900px)  { .partnersGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px)  { .partnersGrid { grid-template-columns: 1fr; row-gap: 1.75rem; } }
 
 
 /* No Partners */
@@ -68,9 +76,9 @@
   max-width: 800px;
   margin: 2rem auto;
   padding: 2.5rem 2rem;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, rgba(15, 22, 36, 0.95) 40%, rgba(15, 22, 36, 0.95) 60%, rgba(16, 185, 129, 0.12) 100%);
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-radius: var(--radius-xl);
+  background: var(--color-bg-secondary);
+  border: none;
+  border-radius: var(--radius-md);
   text-align: center;
 }
 

@@ -1,36 +1,40 @@
+/* Rendered inside HomePage .content, which already supplies max-width + gutters */
 .section {
-  margin-top: 4rem;
-  padding-top: 3rem;
-  border-top: 1px solid var(--color-border);
+  padding: 3rem 0 0;
 }
 
 .title {
-  font-size: 1.75rem;
-  font-weight: 600;
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 3.4vw, 3.1rem);
+  margin: 0;
+  font-weight: 400;
   letter-spacing: -0.02em;
+  line-height: 1;
   color: var(--color-text);
+  border-top: 2px solid var(--color-text);
+  padding-top: 0.9rem;
 }
 
 .subtitle {
-  font-size: 1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: var(--color-text-secondary);
-  margin: 0.5rem 0 2rem;
+  margin: 0.5rem 0 1.5rem;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--wl-gap);
 }
 
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-@media (max-width: 640px) {
-  .grid {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 560px) {
+  .section { padding-top: 2.25rem; }
+  .grid { grid-template-columns: 1fr; row-gap: 1.75rem; }
 }

@@ -1,96 +1,60 @@
-# Wet London Product Backlog
+# Wet London — Backlog
 
-Last updated: 2026-01-05
-
----
-
-## Feature Enhancements
-
-### 1. Wetness as a First Class System
-- [ ] Introduce a Wetness Score system (0-100 scale)
-  - [ ] Add `wetnessScore` attribute to each activity
-    - 0 = completely dry, direct indoor access
-    - 100 = mostly outdoors
-  - [ ] Derive score from attributes:
-    - Walking distance from transport
-    - Outdoor elements
-    - Covered vs uncovered access
-  - [ ] Display wetness score on activity cards
-    - Small horizontal bar indicator
-    - Label format: "0% wet", "15% wet", "40% wet"
-  - [ ] Add filtering by maximum wetness
-  - [ ] Add sorting by driest first
-  - [ ] Keep UI subtle and consistent with editorial London feel
-
-**Goal**: Standardize how exposed an activity is to rain without overwhelming the card design.
+Living list. Newest work at the top of each section.
 
 ---
 
-### 2. "I'm Feeling Lucky" as a Delightful Moment
-- [ ] Improve "I'm Feeling Lucky" to feel intentional, not random
-  - [ ] Select 1 primary activity + up to 3 alternates
-  - [ ] Add human language explanations
-    - Example: "Picked because it's dry, nearby, and open right now"
-  - [ ] Add instant reroll functionality
-  - [ ] Add ability to save results
-  - [ ] Display primary activity larger than alternates
-  - [ ] Add playful but restrained reveal animation
+## Blocking launch
 
-**Goal**: Create a moment of trust and delight, not surprise for its own sake.
+- [ ] **Delete 27 duplicate venues.** 303 rows hold 276 unique names. The anon key
+      can't do it (RLS restricts DELETE to authenticated users and PostgREST
+      returns `200 []`, so it looks like it worked). Run the SQL in the Supabase
+      SQL editor, or delete via `/admin` while signed in.
+      Backup: `backup/venues-duplicates-*.json`, SQL in the dedupe script output.
+      - Check **British Library** (keeper says `north`, it's central/St Pancras)
+      - Check **Flight Club** — may be two genuine branches, not a duplicate
+- [ ] **Cookie consent banner.** The privacy and cookie policies state consent as
+      the legal basis for analytics and advertising cookies, but no consent
+      mechanism exists. Either add a CMP (Google's own is simplest alongside
+      AdSense) or correct the policies. Required for UK/EU compliance with
+      AdSense running.
+- [ ] **Fill in the policy TODOs** — legal entity name and address, privacy
+      contact address, GA4 retention period, jurisdiction. All marked with
+      yellow highlights on the pages so they can't ship unnoticed.
+- [ ] **Confirm `hello@` and `partners@wetlondon.co.uk` exist and are monitored.**
+      Both are referenced across the site.
 
----
+## Data quality
 
-### 3. Activity Detail Modal Simplification
-- [ ] Refactor activity detail modal to reduce cognitive load
-  - [ ] Default view shows only Overview content
-  - [ ] Lazy load Gallery, Video, Reviews, Social on tab click
-  - [ ] Mobile optimizations:
-    - Convert tabs into swipeable vertical stack
-    - Allow swipe down to dismiss
-  - [ ] Prioritize key information:
-    - Description
-    - Wetness
-    - Price
-    - Opening status
+- [ ] **41 venues have no opening hours** (13.5%), so they can never appear under
+      "Open now" and show no hours on their page. Backfill from Google Places.
+- [ ] **Queer Britain Museum has `rating: 45`** — should be 4.5. The UI now hides
+      out-of-range ratings, but the underlying row is still wrong.
+- [ ] **Partner pop-up images are missing.** The database references
+      `bread-ahead.jpg` etc. but only `placeholder.svg` was ever committed.
+      Either supply the images or fall back to Places photos, as events now do.
 
-**Goal**: Optimize for quick decision making, not browsing depth.
+## Product
 
----
+- [ ] **Wire up the newsletter.** The footer form did nothing at all
+      (`preventDefault` and no handler), so it now points at an email address
+      instead. Connect Buttondown/Mailchimp and restore a real form.
+- [ ] **Protect `/admin`.** It renders and fetches before asking for a login.
+      Gate the route on the session instead.
+- [ ] Prerender or server-render for SEO. Meta tags are now set per route, but
+      they're applied client-side, so crawlers that don't execute JavaScript
+      see the defaults.
+- [ ] Lazy-load the Gallery and Reviews sections — they fetch Places data on
+      page load even if never scrolled to.
+- [ ] Swipe-to-dismiss on the activity modal on mobile.
+- [ ] Sitemap is generated at build time. Submit it in Google Search Console
+      once live.
 
-### 4. Orientation and Navigation Improvements
-- [ ] Improve navigation clarity on long scrolling pages
-  - [ ] Add floating action button after scrolling
-    - Text: "Plan for this weather"
-  - [ ] Display current filter state as sticky chip bar
-    - Make chips removable inline
-  - [ ] Add subtle scroll progress indicator for mobile
+## Nice to have
 
-**Goal**: Help users understand where they are and what is shaping results without feeling heavy.
-
----
-
-### 5. Performance and Polish Pass
-- [ ] Performance and UX polish improvements
-  - [ ] Replace heavy DOM-based rain animation with efficient approach
-  - [ ] Add skeleton loaders for:
-    - Activity grids
-    - Generated results
-  - [ ] Ensure consistent motion timing for all state changes
-  - [ ] Improve empty states with friendly, contextual copy
-    - Tone: helpful, calm, slightly witty
-
-**Goal**: Focus on perceived performance and product maturity rather than adding new features.
-
----
-
-## Completed Features
-- [x] Initial product launch
-- [x] Basic filtering system
-- [x] Activity cards and detail views
-
----
-
-## Notes
-- Maintain editorial London feel throughout
-- Prioritize mobile experience
-- Focus on trust, clarity, and delight
+- [ ] Editorial collections ("Brilliant when it's chucking it down", "Under £20")
+      as curated, shareable pages — the strongest remaining brand idea.
+- [ ] Weather-reactive homepage copy — the hero adapts, but collections and
+      rails could reorder by current conditions too.
+- [ ] Real venue photography to replace Google Places where it matters most
+      (the mosaic and category tiles lean hard on image quality).

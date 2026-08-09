@@ -6,10 +6,23 @@ import { AboutPage } from '@/pages/AboutPage';
 import { EventsPage } from '@/pages/EventsPage';
 import { PopupsPage } from '@/pages/PopupsPage';
 import { SituationsPage } from '@/pages/SituationsPage';
+import { SavedPage } from '@/pages/SavedPage';
+import { CategoryPage } from '@/pages/CategoryPage';
+import { AllActivitiesPage } from '@/pages/AllActivitiesPage';
+import { VenuePage } from '@/pages/VenuePage';
+import { NotFoundPage } from '@/pages/NotFoundPage';
+import { PrivacyPage } from '@/pages/PrivacyPage';
+import { CookiesPage } from '@/pages/CookiesPage';
+import { TermsPage } from '@/pages/TermsPage';
+import { AffiliatePage } from '@/pages/AffiliatePage';
+import { ContactPage } from '@/pages/ContactPage';
 import { AdminPage } from '@/pages/AdminPage';
 import { ToastContainer } from '@/components/common/Toast/ToastContainer';
 import { ConfigurationError } from '@/components/ConfigurationError';
 import { hasSupabaseCredentials } from '@/utils/supabase';
+import { loadBookmarks, loadRecentlyViewed, isActivityModalOpen } from '@/signals/uiSignals';
+import { CookieConsent } from '@/components/CookieConsent';
+import { initConsentMode, restoreConsent, trackPageView } from '@/utils/consent';
 import './styles/global.css';
 
 declare global {
@@ -19,28 +32,6 @@ declare global {
   }
 }
 
-const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
-
-function initGA() {
-  if (!GA_ID) return;
-
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
-  document.head.appendChild(script);
-
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag(...args: unknown[]) {
-    window.dataLayer.push(args);
-  };
-  window.gtag('js', new Date());
-  window.gtag('config', GA_ID, { send_page_view: false });
-}
-
-function trackPageView(url: string) {
-  if (!GA_ID || !window.gtag) return;
-  window.gtag('event', 'page_view', { page_path: url });
-}
 
 function App() {
   // Check for required environment variables
@@ -60,21 +51,46 @@ function App() {
   return (
     <>
       <Layout>
-        <Router onChange={(e) => trackPageView(e.url)}>
+        <Router
+          onChange={(e) => {
+            // A modal left open would otherwise persist across the route change
+            isActivityModalOpen.value = false;
+            trackPageView(e.url);
+          }}
+        >
           <HomePage path="/" />
           <AboutPage path="/about" />
           <EventsPage path="/events" />
           <PopupsPage path="/popups" />
           <SituationsPage path="/situations" />
+          <SavedPage path="/saved" />
+          <CategoryPage path="/category/:type" />
+          <AllActivitiesPage path="/all-activities" />
+          <VenuePage path="/venue/:slug" />
+          <PrivacyPage path="/privacy" />
+          <CookiesPage path="/cookies" />
+          <TermsPage path="/terms" />
+          <AffiliatePage path="/affiliate" />
+          <ContactPage path="/contact" />
           <AdminPage path="/admin" />
+          {/* Catch-all: without this, unknown routes render a blank page */}
+          <NotFoundPage default />
         </Router>
       </Layout>
       <ToastContainer />
+      <CookieConsent />
     </>
   );
 }
 
-initGA();
+
+// Consent mode must be set before any Google tag can load.
+initConsentMode();
+restoreConsent();
+
+// Saved places drive the header count on every page, not just the homepage.
+loadBookmarks();
+loadRecentlyViewed();
 
 const container = document.getElementById('preact-root');
 if (container) {

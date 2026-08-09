@@ -1,39 +1,25 @@
 import { Modal } from '@/components/common/Modal';
-import { Tag } from '@/components/common/Tag';
 import { Button } from '@/components/common/Button';
-import { isCustomizeModalOpen, isPrerequisitesModalOpen } from '@/signals/uiSignals';
+import { isCustomizeModalOpen } from '@/signals/uiSignals';
+import { venueCount } from '@/signals/venueSignals';
 import {
   keywords,
   selectedTypes,
   selectedAreas,
   wetnessLevel,
-  maxWetnessScore,
+  maxPrice,
   openNow,
+  constraints,
   toggleType,
   toggleArea,
+  toggleConstraint,
   clearAllFilters,
   hasActiveFilters,
 } from '@/signals/filterSignals';
 import type { VenueType, AreaType, WetnessLevel } from '@/types';
 import styles from './CustomizeModal.module.css';
 
-interface TypeOption {
-  value: VenueType;
-  label: string;
-}
-
-interface AreaOption {
-  value: AreaType | 'all';
-  label: string;
-}
-
-interface WetnessOption {
-  value: WetnessLevel | 'any';
-  label: string;
-  description: string;
-}
-
-const TYPE_OPTIONS: TypeOption[] = [
+const TYPE_OPTIONS: Array<{ value: VenueType; label: string }> = [
   { value: 'museums', label: 'Museums' },
   { value: 'galleries', label: 'Galleries' },
   { value: 'theatre', label: 'Theatre' },
@@ -54,194 +40,207 @@ const TYPE_OPTIONS: TypeOption[] = [
   { value: 'libraries', label: 'Libraries' },
 ];
 
-const AREA_OPTIONS: AreaOption[] = [
+const AREA_OPTIONS: Array<{ value: AreaType | 'all'; label: string }> = [
   { value: 'all', label: 'All London' },
+  { value: 'central', label: 'Central' },
   { value: 'north', label: 'North' },
   { value: 'south', label: 'South' },
   { value: 'east', label: 'East' },
   { value: 'west', label: 'West' },
-  { value: 'central', label: 'Central' },
 ];
 
-const WETNESS_OPTIONS: WetnessOption[] = [
-  { value: 'any', label: "I don't mind", description: 'Happy to experience any venue regardless of weather exposure.' },
-  { value: 'dry', label: 'Not at all (Completely Dry)', description: 'Direct tube/station access. Entire experience is fully covered and indoor.' },
-  { value: 'slightly', label: 'Slightly Wet', description: '5-10 min walk from station. Some outdoor elements but mostly covered.' },
-  { value: 'wet', label: 'Prepared to Get Wet', description: 'Longer journey (10+ mins). Significant outdoor portions of the experience.' },
+const WETNESS_OPTIONS: Array<{ value: WetnessLevel | 'any'; label: string; description: string }> = [
+  { value: 'any', label: "Don't mind", description: 'Show me everything' },
+  { value: 'dry', label: 'Bone dry', description: 'Door-to-door under cover' },
+  { value: 'slightly', label: 'A short dash', description: '5–10 minutes from a station' },
+  { value: 'wet', label: 'Happy to get wet', description: 'Outdoor stretches are fine' },
+];
+
+const PRICE_OPTIONS: Array<{ value: number | null; label: string }> = [
+  { value: null, label: 'Any price' },
+  { value: 0, label: 'Free' },
+  { value: 10, label: 'Under £10' },
+  { value: 20, label: 'Under £20' },
+];
+
+/** The things that decide whether somewhere actually works for someone. */
+const NEEDS: Array<{ title: string; note?: string; items: string[] }> = [
+  {
+    title: 'Access & mobility',
+    items: ['Wheelchair accessible', 'Step-free', 'Lift access', 'Seating available', 'Avoid stairs', 'Low-impact'],
+  },
+  {
+    title: 'Sensory & comfort',
+    note: 'Useful if crowds, noise or bright lights are a problem',
+    items: ['Quiet environment', 'Avoid crowds', 'No flashing lights', 'No loud music', 'Well-lit spaces', 'Climate controlled'],
+  },
+  {
+    title: 'Neurodiverse',
+    items: ['Low sensory', 'Quiet hours', 'Predictable layouts'],
+  },
+  {
+    title: 'With children',
+    items: ['Child-friendly', 'Pushchair-friendly', 'Family tickets', 'Quiet spaces', 'Interactive exhibits'],
+  },
+  {
+    title: 'Dietary',
+    items: ['Vegan options', 'Vegetarian', 'Gluten-free', 'Halal', 'Kosher', 'Dairy-free', 'Nut-free'],
+  },
 ];
 
 export function CustomizeModal() {
   const isOpen = isCustomizeModalOpen.value;
-
-  const handleClose = () => {
-    isCustomizeModalOpen.value = false;
-  };
-
-  const handleAreaToggle = (area: AreaType | 'all') => {
-    if (area === 'all') {
-      selectedAreas.value = new Set();
-    } else {
-      toggleArea(area);
-    }
-  };
-
-  const handleWetnessSelect = (level: WetnessLevel | 'any') => {
-    wetnessLevel.value = level === 'any' ? null : level;
-  };
-
-  const handleSliderChange = (e: Event) => {
-    const target = e.target as HTMLInputElement;
-    maxWetnessScore.value = parseInt(target.value, 10);
-  };
-
-  const handleOpenNowToggle = () => {
-    openNow.value = !openNow.value;
-  };
-
-  const handleOpenPrerequisites = () => {
-    isPrerequisitesModalOpen.value = true;
-  };
-
-  const handleClearAll = () => {
-    clearAllFilters();
-  };
-
-  const handlePreferencesInput = (e: Event) => {
-    const target = e.target as HTMLInputElement;
-    keywords.value = target.value;
-  };
+  const handleClose = () => { isCustomizeModalOpen.value = false; };
 
   const isAllAreas = selectedAreas.value.size === 0;
   const currentWetness = wetnessLevel.value ?? 'any';
-  const activeFilterCount = countActiveFilters();
-
-  function countActiveFilters(): number {
-    let count = 0;
-    if (keywords.value.trim()) count++;
-    count += selectedTypes.value.size;
-    count += selectedAreas.value.size;
-    if (wetnessLevel.value !== null) count++;
-    if (maxWetnessScore.value < 100) count++;
-    if (openNow.value) count++;
-    return count;
-  }
+  const selectedNeeds = constraints.value;
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Customize Your Experience" size="lg">
+    <Modal isOpen={isOpen} onClose={handleClose} title="Customise your experience" size="lg">
       <div className={styles.form}>
-        {/* Preferences text input */}
-        <div className={styles.section}>
-          <label className={styles.label} htmlFor="preferences">
-            What are you looking to do?
-          </label>
+        <p className={styles.intro}>
+          Tell us what matters and we'll only show places that fit.
+        </p>
+
+        {/* What matters most — accessibility and comfort lead, rather than hiding
+            behind a button that opened a second modal on top of this one. */}
+        <section className={`${styles.section} ${styles.needsSection}`}>
+          <div className={styles.sectionHead}>
+            <h3 className={styles.heading}>Anything we should know?</h3>
+            {selectedNeeds.size > 0 && (
+              <span className={styles.badge}>{selectedNeeds.size} selected</span>
+            )}
+          </div>
+          <p className={styles.hint}>
+            These make the difference between a place working and being a wasted trip.
+          </p>
+
+          <div className={styles.needsGrid}>
+            {NEEDS.map((group) => (
+              <div key={group.title} className={styles.needGroup}>
+                <span className={styles.needTitle}>{group.title}</span>
+                {group.note && <span className={styles.needNote}>{group.note}</span>}
+                <div className={styles.chips}>
+                  {group.items.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      className={`${styles.chip} ${selectedNeeds.has(item) ? styles.chipOn : ''}`}
+                      aria-pressed={selectedNeeds.has(item)}
+                      onClick={() => toggleConstraint(item)}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <h3 className={styles.heading}>What are you after?</h3>
           <input
             type="text"
-            id="preferences"
             className={styles.input}
-            placeholder="E.g., I want to learn about history, see contemporary art, try new foods..."
+            placeholder="Somewhere warm, a bit of history, decent coffee…"
             value={keywords.value}
-            onInput={handlePreferencesInput}
+            onInput={(e) => { keywords.value = (e.target as HTMLInputElement).value; }}
           />
-        </div>
-
-        {/* Activity Types */}
-        <div className={styles.section}>
-          <span className={styles.label}>Activity Types</span>
-          <div className={styles.tagGrid}>
-            {TYPE_OPTIONS.map((type) => (
-              <Tag
-                key={type.value}
-                label={type.label}
-                selected={selectedTypes.value.has(type.value)}
-                onClick={() => toggleType(type.value)}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* London Area */}
-        <div className={styles.section}>
-          <span className={styles.label}>London Area</span>
-          <div className={styles.areaGrid}>
-            {AREA_OPTIONS.map((area) => (
-              <Tag
-                key={area.value}
-                label={area.label}
-                selected={area.value === 'all' ? isAllAreas : selectedAreas.value.has(area.value as AreaType)}
-                onClick={() => handleAreaToggle(area.value)}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Wetness Preference */}
-        <div className={styles.section}>
-          <span className={styles.label}>How wet are you prepared to get?</span>
-          <div className={styles.wetnessOptions}>
-            {WETNESS_OPTIONS.map((option) => (
+          <div className={styles.chips}>
+            {TYPE_OPTIONS.map((t) => (
               <button
-                key={option.value}
+                key={t.value}
                 type="button"
-                className={`${styles.wetnessOption} ${currentWetness === option.value ? styles['wetnessOption--selected'] : ''}`}
-                onClick={() => handleWetnessSelect(option.value)}
+                className={`${styles.chip} ${selectedTypes.value.has(t.value) ? styles.chipOn : ''}`}
+                aria-pressed={selectedTypes.value.has(t.value)}
+                onClick={() => toggleType(t.value)}
               >
-                <strong>{option.label}</strong>
-                <span>{option.description}</span>
+                {t.label}
               </button>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* Wetness Slider */}
-        <div className={styles.section}>
-          <label className={styles.label} htmlFor="wetness-slider">Maximum Wetness Tolerance</label>
-          <div className={styles.sliderContainer}>
-            <input
-              type="range"
-              id="wetness-slider"
-              className={styles.slider}
-              min="0"
-              max="100"
-              step="5"
-              value={maxWetnessScore.value}
-              onInput={handleSliderChange}
-            />
-            <div className={styles.sliderLabels}>
-              <span>Completely Dry</span>
-              <span className={styles.sliderValue}>{maxWetnessScore.value}%</span>
-              <span>Mostly Outdoors</span>
+        <div className={styles.twoUp}>
+          <section className={styles.section}>
+            <h3 className={styles.heading}>Where</h3>
+            <div className={styles.chips}>
+              {AREA_OPTIONS.map((a) => (
+                <button
+                  key={a.value}
+                  type="button"
+                  className={`${styles.chip} ${
+                    a.value === 'all' ? (isAllAreas ? styles.chipOn : '') :
+                    selectedAreas.value.has(a.value as AreaType) ? styles.chipOn : ''
+                  }`}
+                  onClick={() => {
+                    if (a.value === 'all') selectedAreas.value = new Set();
+                    else toggleArea(a.value as AreaType);
+                  }}
+                >
+                  {a.label}
+                </button>
+              ))}
             </div>
-          </div>
-          <p className={styles.hint}>Slide to filter activities by maximum rain exposure</p>
+          </section>
+
+          <section className={styles.section}>
+            <h3 className={styles.heading}>Budget</h3>
+            <div className={styles.chips}>
+              {PRICE_OPTIONS.map((p) => (
+                <button
+                  key={String(p.value)}
+                  type="button"
+                  className={`${styles.chip} ${maxPrice.value === p.value ? styles.chipOn : ''}`}
+                  onClick={() => { maxPrice.value = p.value; }}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+          </section>
         </div>
 
-        {/* Open Now */}
-        <div className={styles.section}>
-          <label className={styles.checkboxLabel}>
+        <section className={styles.section}>
+          <h3 className={styles.heading}>How wet are you prepared to get?</h3>
+          <div className={styles.wetnessGrid}>
+            {WETNESS_OPTIONS.map((o) => (
+              <button
+                key={o.value}
+                type="button"
+                className={`${styles.wetOption} ${currentWetness === o.value ? styles.wetOptionOn : ''}`}
+                onClick={() => { wetnessLevel.value = o.value === 'any' ? null : o.value; }}
+              >
+                <strong>{o.label}</strong>
+                <span>{o.description}</span>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.section}>
+          <label className={styles.toggleRow}>
             <input
               type="checkbox"
               checked={openNow.value}
-              onChange={handleOpenNowToggle}
-              className={styles.checkbox}
+              onChange={() => { openNow.value = !openNow.value; }}
             />
-            <span>Show only venues open now</span>
+            <span>
+              <strong>Open right now</strong>
+              <span className={styles.hint}>Hide anywhere that's currently closed</span>
+            </span>
           </label>
-          <p className={styles.hint}>Filter out venues that are currently closed</p>
-        </div>
-
-        {/* Prerequisites Button */}
-        <button type="button" className={styles.prerequisitesBtn} onClick={handleOpenPrerequisites}>
-          + Add constraints like accessibility, budget, or dietary needs...
-        </button>
+        </section>
       </div>
 
-      {/* Footer */}
       <div className={styles.footer}>
-        <Button variant="ghost" onClick={handleClearAll} disabled={!hasActiveFilters.value}>
-          Clear All
+        <Button variant="ghost" onClick={clearAllFilters} disabled={!hasActiveFilters.value}>
+          Clear all
         </Button>
-        <Button onClick={handleClose}>
-          Done {activeFilterCount > 0 && `(${activeFilterCount})`}
+        <Button variant="accent" onClick={handleClose}>
+          Show {venueCount.value} {venueCount.value === 1 ? 'place' : 'places'}
         </Button>
       </div>
     </Modal>

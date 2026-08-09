@@ -12,6 +12,18 @@ export const isPrerequisitesModalOpen = signal<boolean>(false);
 // Currently selected venue for detail view
 export const selectedVenue = signal<Venue | null>(null);
 
+/** A shuffled run of "feeling lucky" picks so the modal can cycle through them. */
+export const luckyDeck = signal<Venue[]>([]);
+export const luckyIndex = signal<number>(0);
+
+export function stepLucky(delta: number): void {
+  const deck = luckyDeck.value;
+  if (deck.length === 0) return;
+  const next = (luckyIndex.value + delta + deck.length) % deck.length;
+  luckyIndex.value = next;
+  selectedVenue.value = deck[next];
+}
+
 // Toast notifications
 export interface Toast {
   id: string;

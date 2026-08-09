@@ -20,10 +20,10 @@ export function BookmarksSection() {
   };
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} id="bookmarks">
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <h2 className={styles.title}>My Bookmarks</h2>
+          <h2 className={styles.title}>Saved places</h2>
           <span className={styles.count}>
             {count} bookmarked {count === 1 ? 'activity' : 'activities'}
           </span>

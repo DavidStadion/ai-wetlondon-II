@@ -47,16 +47,15 @@
   border-color: var(--color-button-primary-hover);
 }
 
-/* Secondary - Dark glass with blue border */
+/* Secondary - Clean outline */
 .button--secondary {
-  background: rgba(15, 22, 36, 0.70);
+  background: var(--color-bg);
   color: var(--color-text);
-  border: 1px solid rgba(77, 163, 255, 0.55);
+  border: 1.5px solid var(--color-text);
 }
 
 .button--secondary:hover:not(:disabled) {
-  background: rgba(77, 163, 255, 0.16);
-  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.40);
+  background: var(--color-bg-secondary);
 }
 
 .button--ghost {
@@ -80,17 +79,16 @@
   border-color: var(--color-error-hover);
 }
 
-/* Accent - Blue gradient */
+/* Accent - Ink fill (primary action) */
 .button--accent {
-  background: linear-gradient(135deg, rgba(77, 163, 255, 1), rgba(124, 195, 255, 1));
-  color: #07101b;
-  border: none;
-  box-shadow: 0 12px 28px rgba(77, 163, 255, 0.25);
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  border: 1.5px solid var(--color-accent);
 }
 
 .button--accent:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 16px 36px rgba(77, 163, 255, 0.32);
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
 }
 
 /* Action - Modal action buttons */

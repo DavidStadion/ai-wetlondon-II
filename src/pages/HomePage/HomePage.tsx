@@ -3,14 +3,14 @@ import { signal } from '@preact/signals';
 import {
   venues,
   sortedVenues,
+  filteredVenues,
+  venueCount,
   isLoading,
   error,
   totalActivities,
   openNowCount,
   freeEntryCount,
-  sortOption,
 } from '@/signals/venueSignals';
-import type { SortOption } from '@/signals/venueSignals';
 import { hasActiveFilters, clearAllFilters } from '@/signals/filterSignals';
 import {
   loadBookmarks,
@@ -18,6 +18,8 @@ import {
   selectedVenue,
   isActivityModalOpen,
   isCustomizeModalOpen,
+  luckyDeck,
+  luckyIndex,
 } from '@/signals/uiSignals';
 import { partners } from '@/signals/partnerSignals';
 import { fetchVenues, fetchPartners } from '@/utils/supabase';
@@ -25,19 +27,18 @@ import { useImageLoader } from '@/hooks/useImageLoader';
 import type { Venue, CardVariant, RouteProps } from '@/types';
 
 import { Hero } from '@/components/Hero';
-import { QuickFilters } from '@/components/QuickFilters';
 import { PopularCategories } from '@/components/PopularCategories';
-import { FilterChips } from '@/components/FilterChips';
 import { ActivityCard } from '@/components/ActivityCard';
 import { BookmarksSection } from '@/components/BookmarksSection';
 import { TopPicksSection } from '@/components/TopPicksSection';
 import { RecentlyViewedSection } from '@/components/RecentlyViewedSection';
 import { WeatherRecommendations } from '@/components/WeatherRecommendations';
 import { PopupsSection } from '@/components/PopupsSection';
-import { PersonalizedSection } from '@/components/PersonalizedSection';
 import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { Button } from '@/components/common/Button';
 import { AdSlot } from '@/components/common/AdSlot';
+import { Carousel } from '@/components/common/Carousel';
+import { PromoBand } from '@/components/common/PromoBand';
 
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { CustomizeModal } from '@/components/modals/CustomizeModal';
@@ -47,8 +48,7 @@ import { BookingModal } from '@/components/modals/BookingModal';
 
 import styles from './HomePage.module.css';
 
-const PAGE_SIZE = 18;
-const displayedCount = signal(PAGE_SIZE);
+const PREVIEW_COUNT = 8;   // the homepage signposts; /all-activities is the destination
 
 function getCardVariant(venue: Venue): CardVariant {
   if (venue.spotlight) return 'spotlight';
@@ -64,6 +64,7 @@ function openActivityModal(venue: Venue) {
 
 function closeActivityModal() {
   isActivityModalOpen.value = false;
+  luckyDeck.value = [];
 }
 
 function openCustomizeModal() {
@@ -71,30 +72,15 @@ function openCustomizeModal() {
 }
 
 function handleFeelingLucky() {
-  const venueList = venues.value;
-  if (venueList.length > 0) {
-    const randomIndex = Math.floor(Math.random() * venueList.length);
-    openActivityModal(venueList[randomIndex]);
-  }
-}
+  const pool = venues.value;
+  if (pool.length === 0) return;
 
-function handleLoadMore() {
-  displayedCount.value += PAGE_SIZE;
+  // Shuffle a run of picks so the arrows have somewhere to go
+  const deck = [...pool].sort(() => Math.random() - 0.5).slice(0, 12);
+  luckyDeck.value = deck;
+  luckyIndex.value = 0;
+  openActivityModal(deck[0]);
 }
-
-function handleSortChange(e: Event) {
-  sortOption.value = (e.target as HTMLSelectElement).value as SortOption;
-  displayedCount.value = PAGE_SIZE;
-}
-
-const SORT_OPTIONS: { value: SortOption; label: string }[] = [
-  { value: 'name-asc', label: 'Name (A-Z)' },
-  { value: 'name-desc', label: 'Name (Z-A)' },
-  { value: 'price-asc', label: 'Price (Low-High)' },
-  { value: 'price-desc', label: 'Price (High-Low)' },
-  { value: 'wetness-asc', label: 'Wetness (Driest)' },
-  { value: 'wetness-desc', label: 'Wetness (Wettest)' },
-];
 
 export function HomePage(_props: RouteProps) {
   useEffect(() => {
@@ -126,66 +112,127 @@ export function HomePage(_props: RouteProps) {
 
   const loading = isLoading.value;
   const errorMsg = error.value;
-  const venueList = sortedVenues.value;
+  const venueList = sortedVenues.value;        // editorial rails — always the full set
+  const results = filteredVenues.value;        // All Activities — respects the filters
   const filtersActive = hasActiveFilters.value;
 
-  // Reset pagination when filters change
+
+  // Deep links like /#activities land before the venues render, so the browser's
+  // own jump finds nothing. Scroll once the content is actually on the page.
   useEffect(() => {
-    displayedCount.value = PAGE_SIZE;
-  }, [venueList]);
+    if (loading) return;
+    const { hash } = window.location;
+    if (!hash || hash.length < 2) return;
+
+    const target = document.getElementById(hash.slice(1));
+    if (target) {
+      requestAnimationFrame(() => {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }, [loading]);
 
   // Split spotlight + featured venues (matching old version logic)
   const spotlightVenue = venueList.find((v) => v.spotlight) ?? null;
   const featuredVenues = venueList
-    .filter((v) => v.featured && v.name !== spotlightVenue?.name)
-    .slice(0, 6);
-  const regularVenues = venueList;
+    .filter((v) => v.featured && v.name !== spotlightVenue?.name);
+  const regularVenues = results;
 
-  // Paginate regular venues
-  const visibleRegular = regularVenues.slice(0, displayedCount.value);
-  const hasMore = regularVenues.length > displayedCount.value;
+  // Editorial mosaic: one lead tile + two stacked; the rest fill the rail
+  const mosaicPool = [spotlightVenue, ...featuredVenues].filter(Boolean) as Venue[];
+  const mosaicLead = mosaicPool[0] ?? null;
+  const mosaicSide = mosaicPool.slice(1, 3);
+
+  // Rail: remaining featured, topped up with the best-rated dry venues so it never looks sparse
+  const shown = new Set([...mosaicPool.slice(0, 3)].map((v) => v.name));
+  const railExtras = [...venueList]
+    .filter((v) => !shown.has(v.name))
+    .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0) || a.wetnessScore - b.wetnessScore);
+  const featuredRail = [...mosaicPool.slice(3), ...railExtras]
+    .filter((v, i, arr) => arr.findIndex((x) => x.name === v.name) === i)
+    .slice(0, 10);
+
+  // Homepage shows a taste; /all-activities is the full catalogue
+  const previewVenues = regularVenues.slice(0, PREVIEW_COUNT);
 
   return (
     <div className={styles.page}>
       {/* Hero Section */}
       <Hero onCustomize={openCustomizeModal} onFeelingLucky={handleFeelingLucky} />
 
-      {/* Quick Filter Pills */}
-      <QuickFilters />
+      {/* Hold the mosaic's space while data loads so nothing below shifts */}
+      {loading && (
+        <section className={styles.mosaicSection} aria-hidden="true">
+          <div className={styles.mosaicSkeleton}>
+            <div className={styles.skeletonTile} />
+            <div className={styles.mosaicSkeletonStack}>
+              <div className={styles.skeletonTile} />
+              <div className={styles.skeletonTile} />
+            </div>
+          </div>
+        </section>
+      )}
 
-      {/* Personalized Selection Header */}
-      {filtersActive && <PersonalizedSection />}
-
-      {/* Popular Categories */}
-      <PopularCategories />
-
-      {/* Featured Activities Section */}
-      {!loading && !errorMsg && (spotlightVenue || featuredVenues.length > 0) && (
-        <section className={styles.featured}>
-          <h2 className={styles.sectionTitle}>Featured Activities</h2>
-          {spotlightVenue && (
-            <div className={styles.spotlightWrapper}>
+      {/* Featured — editorial mosaic (lead tile + two stacked) */}
+      {!loading && !errorMsg && mosaicLead && (
+        <section className={styles.mosaicSection} id="activities">
+          <div className={styles.mosaic}>
+            <div className={styles.mosaicLead}>
               <ActivityCard
-                venue={spotlightVenue}
-                variant="spotlightHero"
-                onClick={() => openActivityModal(spotlightVenue)}
+                venue={mosaicLead}
+                variant={mosaicLead.spotlight ? 'spotlight' : 'featured'}
+                layout="overlay"
+                size="lg"
+                onClick={() => openActivityModal(mosaicLead)}
               />
             </div>
-          )}
-          {featuredVenues.length > 0 && (
-            <div className={styles.grid}>
-              {featuredVenues.map((venue, index) => (
+            <div className={styles.mosaicStack}>
+              {mosaicSide.map((venue, index) => (
                 <ActivityCard
-                  key={`featured-${venue.name}-${index}`}
+                  key={`mosaic-${venue.name}-${index}`}
                   venue={venue}
                   variant="featured"
+                  layout="overlay"
                   onClick={() => openActivityModal(venue)}
                 />
               ))}
             </div>
-          )}
+          </div>
         </section>
       )}
+
+      {/* Featured rail */}
+      {!loading && !errorMsg && featuredRail.length > 0 && (
+        <section className={styles.railSection}>
+          <div className={styles.sectionHead}>
+            <h2 className={styles.sectionTitle}>Featured Activities</h2>
+            <a className={styles.sectionLink} href="/all-activities">See all</a>
+          </div>
+          <Carousel perView={4} ariaLabel="Featured activities">
+            {featuredRail.map((venue, index) => (
+              <ActivityCard
+                key={`rail-${venue.name}-${index}`}
+                venue={venue}
+                tall
+                onClick={() => openActivityModal(venue)}
+              />
+            ))}
+          </Carousel>
+        </section>
+      )}
+
+      {/* Promo — the club / rainy day alerts */}
+      <PromoBand
+        title="Never get caught out"
+        titleAccent="again."
+        body="We'll tell you when it's about to chuck it down — and exactly where to hide. One email, every Friday."
+        ctaLabel="Join the club"
+        ctaHref="/#join"
+        tone="bold"
+      />
+
+      {/* Popular Categories */}
+      <PopularCategories />
 
       {/* Banner Ad */}
       {!loading && !errorMsg && (
@@ -205,13 +252,15 @@ export function HomePage(_props: RouteProps) {
       )}
 
       {/* Main Content - All Activities */}
-      <section className={styles.content}>
+      <section className={styles.content} id="all-activities">
         {/* All Activities Header */}
-        <div className={styles.allActivitiesHeader}>
+        <div className={styles.sectionHead}>
           <h2 className={styles.sectionTitle}>All Activities</h2>
           {!loading && (
             <p className={styles.subtitle}>
-              Explore all {totalActivities.value}+ indoor activities across London
+              {filtersActive
+                ? `${venueCount.value} of ${totalActivities.value} places match`
+                : `${totalActivities.value} places across London`}
             </p>
           )}
         </div>
@@ -234,26 +283,7 @@ export function HomePage(_props: RouteProps) {
           </div>
         )}
 
-        {/* Filter Chips */}
-        <FilterChips />
-
-        {/* Sort Bar */}
-        {!loading && !errorMsg && venueList.length > 0 && (
-          <div className={styles.sortBar}>
-            <label className={styles.sortLabel}>
-              Sort by:
-              <select
-                className={styles.sortSelect}
-                value={sortOption.value}
-                onChange={handleSortChange}
-              >
-                {SORT_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                ))}
-              </select>
-            </label>
-          </div>
-        )}
+        
 
         {/* Loading State */}
         {loading && (
@@ -294,10 +324,10 @@ export function HomePage(_props: RouteProps) {
         )}
 
         {/* Activity Grid (regular venues, paginated) */}
-        {!loading && !errorMsg && visibleRegular.length > 0 && (
+        {!loading && !errorMsg && previewVenues.length > 0 && (
           <>
             <div className={styles.grid}>
-              {visibleRegular.map((venue, index) => (
+              {previewVenues.map((venue, index) => (
                 <ActivityCard
                   key={`${venue.name}-${index}`}
                   venue={venue}
@@ -307,11 +337,11 @@ export function HomePage(_props: RouteProps) {
               ))}
             </div>
 
-            {hasMore && (
+            {regularVenues.length > PREVIEW_COUNT && (
               <div className={styles.loadMoreWrapper}>
-                <button type="button" className={styles.loadMore} onClick={handleLoadMore}>
-                  Load More ({regularVenues.length - displayedCount.value} remaining)
-                </button>
+                <a className={styles.loadMore} href="/all-activities">
+                  View all {regularVenues.length} activities
+                </a>
               </div>
             )}
           </>

@@ -1,5 +1,6 @@
 import { formatEventDate, getDaysLeft } from '@/utils/dateFormatters';
 import { EVENT_CATEGORY_LABELS } from '@/types/event';
+import { useImageLoader } from '@/hooks/useImageLoader';
 import type { Event } from '@/types';
 import styles from './EventCard.module.css';
 
@@ -10,6 +11,10 @@ export interface EventCardProps {
 
 export function EventCard({ event, badgeType }: EventCardProps) {
   const daysLeft = getDaysLeft(event.endDate);
+
+  // Most events have no image of their own — fall back to a photo of the venue.
+  const { src: venuePhoto } = useImageLoader(event.venue, []);
+  const imageSrc = event.imageUrl || venuePhoto;
 
   let badgeText = '';
   if (badgeType === 'ends-soon' && daysLeft <= 14) {
@@ -24,7 +29,7 @@ export function EventCard({ event, badgeType }: EventCardProps) {
     <article className={styles.eventCard}>
       <div
         className={styles.eventImage}
-        style={event.imageUrl ? { backgroundImage: `url('${event.imageUrl}')` } : undefined}
+        style={imageSrc ? { backgroundImage: `url('${imageSrc}')` } : undefined}
       >
         {badgeText && (
           <span className={`${styles.eventBadge} ${styles[`eventBadge--${badgeType}`]}`}>

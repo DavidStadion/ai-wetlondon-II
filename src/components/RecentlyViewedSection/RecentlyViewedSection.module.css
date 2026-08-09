@@ -1,87 +1,56 @@
+/* Rendered inside HomePage .content, which already supplies max-width + gutters */
 .section {
-  margin-bottom: 2rem;
+  padding: 3rem 0 0;
 }
 
 .header {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 1rem;
+  gap: 1.25rem;
+  border-top: 2px solid var(--color-text);
+  padding-top: 0.9rem;
+  margin-bottom: 1.5rem;
 }
 
 .title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 3.4vw, 3.1rem);
   margin: 0;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
   color: var(--color-text);
+  border-top: 2px solid var(--color-text);
+  padding-top: 0.9rem;
 }
+
+/* When the title sits inside .header the rule is already there */
+.header .title { border-top: none; padding-top: 0; }
 
 .toggle {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-bg);
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
 }
 
-.toggle:hover {
-  background: var(--color-bg-secondary);
-  border-color: var(--color-text-secondary);
-}
-
-.toggle:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
-}
+.toggle:hover { color: var(--color-text); text-decoration: underline; }
 
 .empty {
-  margin: 0;
-  padding: 1.5rem;
-  background: var(--color-bg-secondary);
-  border-radius: var(--radius-md);
+  font-size: 0.9rem;
   color: var(--color-text-secondary);
-  font-size: 0.875rem;
-  text-align: center;
-}
-
-.scrollContainer {
-  overflow-x: auto;
-  margin: 0 -1rem;
-  padding: 0 1rem;
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-border) transparent;
-}
-
-.scrollContainer::-webkit-scrollbar {
-  height: 6px;
-}
-
-.scrollContainer::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.scrollContainer::-webkit-scrollbar-thumb {
-  background: var(--color-border);
-  border-radius: 3px;
-}
-
-.cards {
-  display: flex;
-  gap: 1rem;
-  padding-bottom: 0.5rem;
-  scroll-snap-type: x mandatory;
-}
-
-.cardWrapper {
-  flex: 0 0 280px;
-  scroll-snap-align: start;
+  margin: 0.75rem 0 0;
 }
 
 @media (max-width: 768px) {
-  .cardWrapper {
-    flex: 0 0 240px;
-  }
+  .section { padding-top: 2.25rem; }
+  .header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
 }

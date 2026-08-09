@@ -43,8 +43,25 @@ export function SearchBar() {
 
   const hasValue = keywords.value.length > 0;
 
+  // Results live on /all-activities now, so searching has to take you there.
+  const goToResults = useCallback(() => {
+    const value = inputRef.current?.value ?? '';
+    if (timeoutRef.current !== null) {
+      clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    }
+    keywords.value = value;
+    if (window.location.pathname !== '/all-activities') {
+      window.location.href = '/all-activities';
+    }
+  }, []);
+
   return (
-    <div className={styles.container}>
+    <form
+      className={styles.container}
+      onSubmit={(e) => { e.preventDefault(); goToResults(); }}
+      role="search"
+    >
       <span className={styles.icon} aria-hidden="true">
         🔍
       </span>
@@ -78,6 +95,7 @@ export function SearchBar() {
           </svg>
         </button>
       )}
-    </div>
+      <button type="submit" className={styles.submit}>Search</button>
+    </form>
   );
 }
