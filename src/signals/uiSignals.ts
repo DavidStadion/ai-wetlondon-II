@@ -10,6 +10,11 @@ export const isBookingModalOpen = signal<boolean>(false);
 export const isPrerequisitesModalOpen = signal<boolean>(false);
 
 // Currently selected venue for detail view
+/** Current route path. Layout sits outside <Router>, so it can't use useRouter. */
+export const currentPath = signal<string>(
+  typeof window !== 'undefined' ? window.location.pathname : '/',
+);
+
 export const selectedVenue = signal<Venue | null>(null);
 
 /** A shuffled run of "feeling lucky" picks so the modal can cycle through them. */

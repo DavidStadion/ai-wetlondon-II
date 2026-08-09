@@ -21,7 +21,7 @@ import { AdminPage } from '@/pages/AdminPage';
 import { ToastContainer } from '@/components/common/Toast/ToastContainer';
 import { ConfigurationError } from '@/components/ConfigurationError';
 import { hasSupabaseCredentials } from '@/utils/supabase';
-import { loadBookmarks, loadRecentlyViewed, isActivityModalOpen } from '@/signals/uiSignals';
+import { loadBookmarks, loadRecentlyViewed, isActivityModalOpen, currentPath } from '@/signals/uiSignals';
 import { CookieConsent } from '@/components/CookieConsent';
 import { initConsentMode, restoreConsent, trackPageView } from '@/utils/consent';
 import './styles/global.css';
@@ -56,6 +56,7 @@ function App() {
           onChange={(e) => {
             // A modal left open would otherwise persist across the route change
             isActivityModalOpen.value = false;
+            currentPath.value = window.location.pathname;
             trackPageView(e.url);
           }}
         >
