@@ -112,7 +112,7 @@ interface NavLinkProps {
 function NavLink({ href, children }: NavLinkProps) {
   const path = currentPath.value;
 
-  // Hash links are scroll anchors, not separate pages — never mark active
+  // Hash links are scroll anchors, not separate pages, never mark active
   const isHashLink = href.includes('#');
   const isActive = isHashLink ? false : path === href;
 
@@ -154,7 +154,7 @@ function NavLink({ href, children }: NavLinkProps) {
 /**
  * Rendered through a portal: the header carries a transform for the auto-hide,
  * and a transformed ancestor makes position:fixed resolve against it rather
- * than the viewport — which broke the drawer entirely.
+ * than the viewport, which broke the drawer entirely.
  */
 function MobileDrawer() {
   const open = isNavOpen.value;
@@ -215,7 +215,7 @@ export function Layout({ children }: LayoutProps) {
 
       <header ref={headerRef} className={`${styles.header} ${isHeaderHidden.value ? styles.headerHidden : ''}`}>
         <div className={styles.headerBar}>
-        {/* Mascot — a little rain cloud that walks and drips */}
+        {/* Mascot, a little rain cloud that walks and drips */}
         <Link href="/" className={styles.mark} aria-label="Wet London home">
           <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
             <g className={styles.markBody}>
@@ -368,7 +368,7 @@ export function Layout({ children }: LayoutProps) {
             <div className={styles.footerNewsletterCol} id="join">
               <h4 className={styles.footerHeading}>Rainy day alerts</h4>
               <p className={styles.footerDescription}>
-                We'll tell you when it's about to chuck it down — and where to hide.
+                We'll tell you when it's about to chuck it down, and where to hide.
               </p>
               {/* No mailing list provider is connected yet, so we say so rather
                   than pretending to collect addresses. Wire up and restore. */}

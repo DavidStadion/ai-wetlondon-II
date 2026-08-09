@@ -6,7 +6,7 @@
 const SITE = 'https://wetlondon.co.uk';
 const DEFAULT_TITLE = 'Wet London - Best Indoor Activities in London When It Rains';
 const DEFAULT_DESC =
-  'Discover indoor activities in London for rainy days. Museums, galleries, cinemas, restaurants and more — all rated by how dry you will stay.';
+  'Discover indoor activities in London for rainy days. Museums, galleries, cinemas, restaurants and more, all rated by how dry you will stay.';
 
 function setTag(selector: string, attr: string, value: string) {
   const el = document.head.querySelector(selector);

@@ -6,7 +6,7 @@ export function TermsPage(_props: RouteProps) {
   return (
     <LegalPage
       title="Terms & Conditions"
-      intro="The terms you agree to by using Wet London. Nothing surprising — mostly that we're a free guide, not a booking agent."
+      intro="The terms you agree to by using Wet London. Nothing surprising, mostly that we're a free guide, not a booking agent."
       updated="9 August 2026"
     >
       <div className={styles.callout}>
@@ -14,7 +14,7 @@ export function TermsPage(_props: RouteProps) {
           <span className={styles.todo}>
             TODO: have a solicitor review before publishing
           </span>{' '}
-          — this is a plain-English draft based on how the site works, not legal advice.
+          This is a plain-English draft based on how the site works, not legal advice.
         </p>
       </div>
 
@@ -50,7 +50,7 @@ export function TermsPage(_props: RouteProps) {
       <h2>Wetness scores</h2>
       <p>
         The wetness score is our own editorial judgement of how exposed to the weather
-        a visit is likely to be. It's a guide, not a guarantee — treat it as an opinion
+        a visit is likely to be. It's a guide, not a guarantee, so treat it as an opinion
         rather than a measurement.
       </p>
 
@@ -64,7 +64,7 @@ export function TermsPage(_props: RouteProps) {
       <p>
         You keep ownership of what you write, but grant us a non-exclusive, royalty-free
         licence to display it on the site. We may edit or remove reviews at our
-        discretion — for example if they're spam or abusive.
+        discretion, for example if they're spam or abusive.
       </p>
 
       <h2>Acceptable use</h2>
@@ -78,14 +78,14 @@ export function TermsPage(_props: RouteProps) {
       <p>
         The site links to venues, ticket providers and advertisers. We don't control
         those sites and aren't responsible for their content, prices or policies. Some
-        links earn us a commission — see our{' '}
+        links earn us a commission. See our{' '}
         <a href="/affiliate">Affiliate Disclosure</a>.
       </p>
 
       <h2>Liability</h2>
       <p>
         The site is provided free, “as is”. To the extent permitted by law we're not
-        liable for loss arising from relying on the information here — for example a
+        liable for loss arising from relying on the information here, for example a
         wasted journey because a venue's hours had changed. Nothing here limits
         liability for death or personal injury caused by negligence, for fraud, or for
         anything else that can't lawfully be excluded.

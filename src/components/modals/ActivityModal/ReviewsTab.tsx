@@ -173,7 +173,7 @@ export function ReviewsTab({ venue }: ReviewsTabProps) {
       {/* Rating summary */}
       <div className={styles.summary}>
         <div className={styles.ratingBlock}>
-          <span className={styles.ratingValue}>{displayRating?.toFixed(1) ?? '—'}</span>
+          <span className={styles.ratingValue}>{displayRating?.toFixed(1) ?? 'Not rated'}</span>
           <div className={styles.ratingMeta}>
             <Stars rating={displayRating ?? 0} size="lg" />
             {displayCount > 0 && (

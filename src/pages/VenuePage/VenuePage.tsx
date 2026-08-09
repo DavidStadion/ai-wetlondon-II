@@ -46,7 +46,7 @@ export function VenuePage({ slug }: VenueRouteProps) {
     if (venue) {
       addToRecentlyViewed(venue.name);
       setPageMeta({
-        title: `${venue.name} — Wet London`,
+        title: `${venue.name} | Wet London`,
         description: `${venue.description} ${venue.priceDisplay} · ${venue.location} London · rated ${Math.round(venue.wetnessScore)}% wet by Wet London.`.slice(0, 300),
         path: `/venue/${slug}`,
       });
@@ -184,7 +184,7 @@ export function VenuePage({ slug }: VenueRouteProps) {
         </div>
       </header>
 
-      {/* Standfirst — the description, set as editorial copy */}
+      {/* Standfirst, the description, set as editorial copy */}
       <div className={styles.standfirstWrap}>
         <p className={styles.standfirst}>{venue.description}</p>
       </div>

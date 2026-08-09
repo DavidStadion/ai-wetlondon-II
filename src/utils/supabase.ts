@@ -22,7 +22,7 @@ export const supabase: SupabaseClient = createClient(
 /**
  * Load a build-time snapshot (public/data/<name>.json) as a fallback for when
  * Supabase is unreachable (e.g. free-tier auto-pause). Returns null if the
- * snapshot is missing — e.g. in local dev, where no snapshot is generated.
+ * snapshot is missing, e.g. in local dev, where no snapshot is generated.
  */
 async function loadSnapshot<T>(name: string): Promise<T[] | null> {
   try {
@@ -107,7 +107,7 @@ export async function fetchVenues(): Promise<Venue[]> {
   } catch (err) {
     const snap = await loadSnapshot<DbVenue>('venues');
     if (snap && snap.length > 0) {
-      console.warn('[venues] Supabase unavailable — serving build snapshot.', err);
+      console.warn('[venues] Supabase unavailable, serving build snapshot.', err);
       return snap.map((row) => convertVenue(row));
     }
     throw err;
@@ -184,7 +184,7 @@ export async function fetchEvents(): Promise<Event[]> {
   } catch (err) {
     const snap = await loadSnapshot<DbEvent>('events');
     if (snap && snap.length > 0) {
-      console.warn('[events] Supabase unavailable — serving build snapshot.', err);
+      console.warn('[events] Supabase unavailable, serving build snapshot.', err);
       return snap.map((row) => convertEvent(row));
     }
     throw err;
@@ -324,7 +324,7 @@ export async function fetchPartners(): Promise<Partner[]> {
   } catch (err) {
     const snap = await loadSnapshot<DbPartner>('small_mighty_partners');
     if (snap && snap.length > 0) {
-      console.warn('[partners] Supabase unavailable — serving build snapshot.', err);
+      console.warn('[partners] Supabase unavailable, serving build snapshot.', err);
       return snap
         .filter((p) => p.active)
         .sort((a, b) => Number(b.featured) - Number(a.featured) || a.name.localeCompare(b.name))

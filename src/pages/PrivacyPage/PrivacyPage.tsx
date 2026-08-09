@@ -45,7 +45,7 @@ export function PrivacyPage(_props: RouteProps) {
         type</strong>, your <strong>star rating</strong>, your <strong>review
         text</strong>, and which venue it relates to. Please note that reviews are
         published on the site, so don't include anything you wouldn't want shown
-        publicly. You can use a nickname — we don't verify names.
+        publicly. You can use a nickname, as we don't verify names.
       </p>
 
       <h3>Information stored only on your device</h3>
@@ -87,17 +87,17 @@ export function PrivacyPage(_props: RouteProps) {
             <tr>
               <td>Reviews you submit</td>
               <td>To show other visitors what a place is like</td>
-              <td>Consent — you choose to submit it</td>
+              <td>Consent, you choose to submit it</td>
             </tr>
             <tr>
               <td>Analytics cookies</td>
               <td>To see which pages are used and improve them</td>
-              <td>Consent — via the cookie banner</td>
+              <td>Consent, via the cookie banner</td>
             </tr>
             <tr>
               <td>Advertising cookies</td>
               <td>To fund the site through advertising</td>
-              <td>Consent — via the cookie banner</td>
+              <td>Consent, via the cookie banner</td>
             </tr>
             <tr>
               <td>Server and security logs</td>
@@ -158,7 +158,7 @@ export function PrivacyPage(_props: RouteProps) {
       <h2>Advertising</h2>
       <p>
         This site is funded partly by advertising through Google AdSense and partly by
-        affiliate links — see our <a href="/affiliate">Affiliate Disclosure</a>. Google
+        affiliate links. See our <a href="/affiliate">Affiliate Disclosure</a>. Google
         and its partners may use cookies to show adverts based on your prior visits to
         this and other sites. You can control this at{' '}
         <a href="https://myadcenter.google.com" target="_blank" rel="noopener noreferrer">
@@ -172,9 +172,9 @@ export function PrivacyPage(_props: RouteProps) {
 
       <h2>How long we keep things</h2>
       <ul>
-        <li><strong>Reviews</strong> — kept while they're useful and relevant, or until you ask us to remove them.</li>
-        <li><strong>Saved places and recently viewed</strong> — on your device until you clear them; we hold no copy.</li>
-        <li><strong>Analytics</strong> — retained according to the Google Analytics retention setting, currently <span className={styles.todo}>TODO: confirm your GA4 retention period</span>.</li>
+        <li><strong>Reviews</strong>: kept while they're useful and relevant, or until you ask us to remove them.</li>
+        <li><strong>Saved places and recently viewed</strong>: on your device until you clear them; we hold no copy.</li>
+        <li><strong>Analytics</strong>: retained according to the Google Analytics retention setting, currently <span className={styles.todo}>TODO: confirm your GA4 retention period</span>.</li>
       </ul>
 
       <h2>Your rights</h2>
@@ -183,7 +183,7 @@ export function PrivacyPage(_props: RouteProps) {
         information, correct it, delete it, restrict how we use it, or object to our
         using it. You can also withdraw cookie consent at any time. To exercise any of
         these, email{' '}
-        <a href="mailto:wetlondonofficial@gmail.com">wetlondonofficial@gmail.com</a> — please
+        <a href="mailto:wetlondonofficial@gmail.com">wetlondonofficial@gmail.com</a>. Please
         tell us the display name and roughly when you posted, so we can find the right
         review.
       </p>

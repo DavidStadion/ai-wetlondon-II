@@ -12,7 +12,7 @@ export interface EventCardProps {
 export function EventCard({ event, badgeType }: EventCardProps) {
   const daysLeft = getDaysLeft(event.endDate);
 
-  // Most events have no image of their own — fall back to a photo of the venue.
+  // Most events have no image of their own, fall back to a photo of the venue.
   const { src: venuePhoto } = useImageLoader(event.venue, []);
   const imageSrc = event.imageUrl || venuePhoto;
 

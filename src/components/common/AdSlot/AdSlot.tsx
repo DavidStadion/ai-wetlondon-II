@@ -24,7 +24,7 @@ export function AdSlot({ slotId, format = 'auto', layout, className }: AdSlotPro
       (window.adsbygoogle = window.adsbygoogle || []).push({});
       pushed.current = true;
     } catch {
-      // AdSense not loaded — fail silently
+      // AdSense not loaded, fail silently
     }
   }, []);
 

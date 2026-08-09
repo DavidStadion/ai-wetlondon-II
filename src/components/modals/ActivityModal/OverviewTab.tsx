@@ -31,7 +31,7 @@ export function OverviewTab({ venue, hideAbout = false }: OverviewTabProps) {
 
   return (
     <div>
-      {/* The modal header already leads with the image — no need to repeat it here. */}
+      {/* The modal header already leads with the image, no need to repeat it here. */}
       {!hideAbout && (
         <section className={styles.section}>
           <h3 className={styles.sectionTitle}>About</h3>
@@ -132,7 +132,7 @@ export function OverviewTab({ venue, hideAbout = false }: OverviewTabProps) {
         </section>
       )}
 
-      {/* Booking lives in the sticky action bar above — this is just directions. */}
+      {/* Booking lives in the sticky action bar above, this is just directions. */}
       <div className={styles.ctaSection}>
         <a
           href={getGoogleMapsUrl(venue.name, venue.location)}

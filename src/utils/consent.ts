@@ -5,7 +5,7 @@ import { signal } from '@preact/signals';
  *
  * Nothing that sets analytics or advertising cookies may run before the user
  * chooses. Consent Mode is initialised to "denied" as early as possible, and
- * gtag/AdSense are only loaded once consent is granted — so the banner really
+ * gtag/AdSense are only loaded once consent is granted, so the banner really
  * gates them rather than just appearing to.
  */
 const STORAGE_KEY = 'wl_cookie_consent';
@@ -99,7 +99,7 @@ export function saveConsent(analytics: ConsentChoice, ads: ConsentChoice): void 
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch {
-    // Private browsing — honour the choice for this session only
+    // Private browsing, honour the choice for this session only
   }
   consentState.value = state;
   isConsentBannerOpen.value = false;
@@ -141,7 +141,7 @@ export function trackPageView(url: string): void {
 
 
 /**
- * Booking clicks are the commercial signal — without this there's no way to
+ * Booking clicks are the commercial signal, without this there's no way to
  * know which venues actually earn. Only fires with analytics consent.
  */
 export function trackBookingClick(details: {

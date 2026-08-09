@@ -14,12 +14,12 @@ export interface ActivityCardProps {
   size?: 'md' | 'lg';
   /** Show the one-line description under the headline. */
   showDescription?: boolean;
-  /** Portrait image crop — used for taller, more editorial rails. */
+  /** Portrait image crop, used for taller, more editorial rails. */
   tall?: boolean;
 }
 
 /**
- * Editorial flags (Featured, Spotlight) are hidden for now — they added noise
+ * Editorial flags (Featured, Spotlight) are hidden for now, they added noise
  * without telling the reader much. Sponsored and Partner stay: the affiliate
  * disclosure commits to labelling paid placements on the card itself.
  */
@@ -67,7 +67,7 @@ export function ActivityCard({
 
   const wet = Math.max(0, Math.min(100, Math.round(venue.wetnessScore ?? 0)));
 
-  // Some rows carry out-of-range ratings (e.g. 45) — don't render a nonsense star score.
+  // Some rows carry out-of-range ratings (e.g. 45), don't render a nonsense star score.
   const hasValidRating =
     typeof venue.rating === 'number' && venue.rating > 0 && venue.rating <= 5;
 

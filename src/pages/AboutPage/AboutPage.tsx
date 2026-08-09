@@ -152,7 +152,7 @@ export function AboutPage(_props: RouteProps) {
           <div className={styles.card}>
             <h3 className={styles.cardTitle}>10–40% · Mostly dry</h3>
             <p className={styles.cardText}>
-              A short dash — five or ten minutes from a station, or a courtyard between
+              A short dash. Five or ten minutes from a station, or a courtyard between
               buildings. A coat will do it.
             </p>
           </div>
@@ -165,7 +165,7 @@ export function AboutPage(_props: RouteProps) {
           </div>
         </div>
         <p className={styles.intro} style={{ marginTop: '1.5rem' }}>
-          It's our judgement, not a measurement — we weigh up how far you'll walk from
+          It's our judgement, not a measurement. We weigh up how far you'll walk from
           transport, how much of the visit is under cover, and how exposed the way in
           is. If we've got one wrong, tell us and we'll change it.
         </p>

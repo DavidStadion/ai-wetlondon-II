@@ -13,7 +13,7 @@ export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
     <section className={styles.hero} id="hero">
       <RainCanvas />
       <div className={styles.heroContent}>
-        {/* The wordmark lives in the header — no need to repeat it here. */}
+        {/* The wordmark lives in the header, no need to repeat it here. */}
         <h1 className={styles.tagline}>
           London ideas for when the weather is awful and your{' '}
           <em>motivation is worse.</em>

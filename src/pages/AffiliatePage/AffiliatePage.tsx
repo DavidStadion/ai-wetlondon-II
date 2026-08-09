@@ -49,7 +49,7 @@ export function AffiliatePage(_props: RouteProps) {
       <p>
         Prices, opening hours and availability come from a mix of our own research and
         the Google Places API, and they change often. Always check the venue's own site
-        before travelling — see our <a href="/terms">Terms &amp; Conditions</a>.
+        before travelling. See our <a href="/terms">Terms &amp; Conditions</a>.
       </p>
 
       <h2>Questions</h2>

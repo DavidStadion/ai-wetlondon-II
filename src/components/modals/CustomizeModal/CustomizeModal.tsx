@@ -103,7 +103,7 @@ export function CustomizeModal() {
           Tell us what matters and we'll only show places that fit.
         </p>
 
-        {/* What matters most — accessibility and comfort lead, rather than hiding
+        {/* What matters most, accessibility and comfort lead, rather than hiding
             behind a button that opened a second modal on top of this one. */}
         <section className={`${styles.section} ${styles.needsSection}`}>
           <div className={styles.sectionHead}>

@@ -67,13 +67,13 @@
 
 .overlay .name {
   color: #fff;
-  font-size: clamp(1.4rem, 2.3vw, 2.35rem);
+  font-size: clamp(1.7rem, 2.8vw, 2.9rem);
 }
 
 .overlay .kicker { color: rgba(255, 255, 255, 0.9); }
 .overlay .area { color: #fff; }
 
-.overlayLg .name { font-size: clamp(1.75rem, 2.9vw, 3rem); }
+.overlayLg .name { font-size: clamp(2.15rem, 3.6vw, 3.7rem); }
 
 /* ---------- Badges / controls ---------- */
 .wetBadge {
@@ -226,7 +226,7 @@
 .name {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(1.35rem, 1.65vw, 1.85rem);
+  font-size: clamp(1.6rem, 2vw, 2.25rem);
   font-weight: 400;
   letter-spacing: -0.015em;
   line-height: 1.02;
@@ -237,7 +237,7 @@
 /* … while browsable grid/carousel cards use bold grotesk, as the reference does. */
 .stacked .name {
   font-family: var(--font-sans);
-  font-size: 1.05rem;
+  font-size: 1.22rem;
   font-weight: 700;
   letter-spacing: -0.012em;
   line-height: 1.22;
@@ -270,7 +270,7 @@
 .card--spotlightHero { flex-direction: row; gap: 1.75rem; align-items: center; }
 .card--spotlightHero .image { width: 55%; aspect-ratio: 16 / 10; flex-shrink: 0; }
 .card--spotlightHero .content { width: 45%; padding-top: 0; }
-.card--spotlightHero .name { font-size: clamp(2rem, 3vw, 2.9rem); }
+.card--spotlightHero .name { font-size: clamp(2.4rem, 3.7vw, 3.5rem); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
@@ -295,5 +295,5 @@
   .card--spotlightHero .content { width: 100%; }
   .card--spotlightHero .content { padding-top: 0.8rem; }
 
-  .stacked .name { font-size: 1.15rem; }
+  .stacked .name { font-size: 1.3rem; }
 }
