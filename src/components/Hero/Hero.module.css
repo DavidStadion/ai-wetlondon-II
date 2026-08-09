@@ -1,5 +1,6 @@
 .hero {
   position: relative;
+  overflow: hidden;
   margin-top: var(--wl-header-h);
   padding: 3.25rem var(--wl-gutter) 1.25rem;
   text-align: center;
@@ -97,6 +98,8 @@
 
 /* Weather band sits below the hero copy, full container width */
 .weatherBand {
+  position: relative;
+  z-index: 2;
   max-width: var(--wl-maxw);
   margin: clamp(2rem, 4vw, 3rem) auto 0;
 }

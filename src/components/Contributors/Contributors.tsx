@@ -21,11 +21,6 @@ export const CONTRIBUTORS: Contributor[] = [
     role: 'Founder & editor',
     note: 'Started Wet London after one too many soakings. Writes most of the listings.',
   },
-  {
-    name: 'Kate',
-    role: 'Editor',
-    note: 'Second opinion on everything, and the reason the family listings are any good.',
-  },
 ];
 
 function initials(name: string): string {

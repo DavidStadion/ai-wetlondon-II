@@ -37,25 +37,80 @@ export const weatherMood = computed<WeatherMood | null>(() => {
   return 'dull';
 });
 
+/**
+ * Several lines per mood, picked once per page load. The tone is dry and a bit
+ * self-aware — on a genuinely lovely day the site should admit it has nothing
+ * to offer rather than pretend otherwise.
+ */
+const LINES: Record<WeatherMood, string[]> = {
+  storm: [
+    'Wild out there. Get somewhere with a roof',
+    'Genuinely grim. Come inside',
+    'Nature having a moment. Sit this one out',
+  ],
+  rain: [
+    "It's chucking it down. Perfect timing",
+    'Absolutely biblical. You’re welcome',
+    'Rain. This is our moment',
+    'Finally, weather we can work with',
+    'Wet one. Funnily enough, we have thoughts',
+  ],
+  snow: [
+    'Snow day. Somewhere warm, then',
+    'London has completely stopped. Might as well go somewhere',
+    'Two flakes and chaos. Standard',
+  ],
+  fog: [
+    "Can't see a thing. Try indoors",
+    'Proper pea-souper. Atmospheric, but cold',
+    'Visibility: poor. Ambitions: indoors',
+  ],
+  freezing: [
+    'Biting out there. Warm up inside',
+    'Baltic. Find a radiator with a gift shop',
+    'Too cold to be brave about it',
+  ],
+  heat: [
+    'Get in the shade',
+    'Frankly, too hot. Inside?',
+    'London was not built for this. Find air conditioning',
+    'Somewhere cool, before you melt',
+  ],
+  fine: [
+    'Beautiful day. What is the point of us?',
+    'Gorgeous out. Go on, we’ll wait here',
+    'Genuinely lovely. Our whole business model, ruined',
+    'No notes on this weather. Outside, honestly',
+    'Sunny. Awkward, for a site called Wet London',
+  ],
+  dull: [
+    'Grey one. Plenty to do inside',
+    'Classic London nothing-weather',
+    'Neither one thing nor the other. Inside, then',
+    'Overcast and undecided. We can help with that',
+  ],
+};
+
+// Stable for the life of the page, so the line doesn't flicker on re-render
+const pick = Math.random();
+
+function lineFor(mood: WeatherMood): string {
+  const options = LINES[mood];
+  return options[Math.floor(pick * options.length)];
+}
+
 export const weatherMessage = computed<string | null>(() => {
   const w = weatherState.value;
   const mood = weatherMood.value;
   if (!w || !mood) return null;
 
   const temp = Math.round(w.temp);
+  const line = lineFor(mood);
 
-  switch (mood) {
-    case 'storm': return 'Wild out there. Get somewhere with a roof';
-    case 'rain': return "It's chucking it down. Perfect timing";
-    case 'snow': return 'Snow day. Somewhere warm, then';
-    case 'fog': return "Can't see a thing. Try indoors";
-    case 'freezing': return `${temp}° and biting. Warm up inside`;
-    case 'heat': return temp >= 30
-      ? `${temp}° out there. Get in the shade`
-      : `${temp}° and climbing. Somewhere cool?`;
-    case 'fine': return 'Lovely out — but we know some good indoor ones';
-    default: return 'Grey one. Plenty to do inside';
-  }
+  // Temperature leads when it's the story
+  if (mood === 'heat') return `${temp}° out there. ${line}`;
+  if (mood === 'freezing') return `${temp}° and ${line.charAt(0).toLowerCase()}${line.slice(1)}`;
+  return line;
 });
 
 export const weatherIcon = computed<string | null>(() => {
