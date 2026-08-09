@@ -19,7 +19,7 @@ export function TopPicksSection() {
 
   return (
     <section className={styles.section}>
-      <h2 className={styles.title}>Dave and Kate's Top 3.</h2>
+      <h2 className={styles.title}>Dave's Top 3.</h2>
       <p className={styles.subtitle}>Three venues I'm backing right now</p>
       <div className={styles.grid}>
         {picks.map((venue) => (

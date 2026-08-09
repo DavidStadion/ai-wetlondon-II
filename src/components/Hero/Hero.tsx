@@ -1,3 +1,4 @@
+import { RainCanvas } from '@/components/RainCanvas';
 import { SearchBar } from '@/components/SearchBar';
 import { WeatherWidget } from '@/components/WeatherWidget';
 import { Button } from '@/components/common/Button';
@@ -11,6 +12,7 @@ interface HeroProps {
 export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
   return (
     <section className={styles.hero} id="hero">
+      <RainCanvas />
       <div className={styles.heroContent}>
         {/* The wordmark lives in the header — no need to repeat it here. */}
         <h1 className={styles.tagline}>

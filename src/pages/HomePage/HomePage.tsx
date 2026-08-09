@@ -351,7 +351,7 @@ export function HomePage(_props: RouteProps) {
           </>
         )}
 
-        {/* Dave and Kate's Top 3 */}
+        {/* Dave's Top 3 */}
         <TopPicksSection />
 
         {/* Bookmarks Section */}
