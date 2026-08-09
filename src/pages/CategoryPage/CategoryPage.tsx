@@ -4,6 +4,7 @@ import { venues, isLoading, sortOption } from '@/signals/venueSignals';
 import type { SortOption } from '@/signals/venueSignals';
 import { selectedVenue, isActivityModalOpen } from '@/signals/uiSignals';
 import { fetchVenues } from '@/utils/supabase';
+import { setPageMeta, resetPageMeta } from '@/utils/meta';
 import { ActivityCard } from '@/components/ActivityCard';
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { Button } from '@/components/common/Button';
@@ -72,6 +73,16 @@ export function CategoryPage({ type }: CategoryRouteProps) {
   useEffect(() => {
     shown.value = PAGE_SIZE;
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+
+    const c = CATEGORIES[slug];
+    if (c) {
+      setPageMeta({
+        title: `${c.label} in London when it rains — Wet London`,
+        description: `${c.blurb} Every ${c.label.toLowerCase()} listing on Wet London, rated by how dry you will stay.`,
+        path: `/category/${slug}`,
+      });
+    }
+    return resetPageMeta;
 
     async function load() {
       if (venues.value.length > 0) return;

@@ -244,17 +244,11 @@ export function Layout({ children }: LayoutProps) {
               <p className={styles.footerDescription}>
                 We'll tell you when it's about to chuck it down — and where to hide.
               </p>
-              <form className={styles.footerNewsletter} onSubmit={(e) => e.preventDefault()}>
-                <input
-                  type="email"
-                  className={styles.footerInput}
-                  placeholder="your@email.com"
-                  aria-label="Email address"
-                />
-                <button type="submit" className={styles.footerButton}>
-                  Subscribe
-                </button>
-              </form>
+              {/* No mailing list provider is connected yet, so we say so rather
+                  than pretending to collect addresses. Wire up and restore. */}
+              <a className={styles.footerButton} href="mailto:hello@wetlondon.co.uk?subject=Rainy%20day%20alerts">
+                Email us to be added
+              </a>
             </div>
 
             <div className={styles.footerSocial}>

@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect } from 'preact/hooks';
 import { venues, isLoading } from '@/signals/venueSignals';
 import { bookmarkedVenues, toggleBookmark, addToRecentlyViewed } from '@/signals/uiSignals';
 import { fetchVenues } from '@/utils/supabase';
 import { findVenueBySlug } from '@/utils/slug';
+import { setPageMeta, resetPageMeta } from '@/utils/meta';
+import { isVenueOpenNow } from '@/utils/openingHours';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import { OverviewTab } from '@/components/modals/ActivityModal/OverviewTab';
 import { GalleryTab } from '@/components/modals/ActivityModal/GalleryTab';
@@ -14,24 +16,13 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import type { RouteProps } from '@/types';
 import styles from './VenuePage.module.css';
 
-type TabId = 'overview' | 'gallery' | 'reviews';
-
-const TABS: Array<{ id: TabId; label: string }> = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'gallery', label: 'Gallery' },
-  { id: 'reviews', label: 'Reviews' },
-];
-
 interface VenueRouteProps extends RouteProps {
   slug?: string;
 }
 
 export function VenuePage({ slug }: VenueRouteProps) {
-  const [tab, setTab] = useState<TabId>('overview');
-
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
-    setTab('overview');
 
     async function load() {
       if (venues.value.length > 0) return;
@@ -53,11 +44,13 @@ export function VenuePage({ slug }: VenueRouteProps) {
   useEffect(() => {
     if (venue) {
       addToRecentlyViewed(venue.name);
-      document.title = `${venue.name} — Wet London`;
+      setPageMeta({
+        title: `${venue.name} — Wet London`,
+        description: `${venue.description} ${venue.priceDisplay} · ${venue.location} London · rated ${Math.round(venue.wetnessScore)}% wet by Wet London.`.slice(0, 300),
+        path: `/venue/${slug}`,
+      });
     }
-    return () => {
-      document.title = 'Wet London - Best Indoor Activities in London When It Rains';
-    };
+    return resetPageMeta;
   }, [venue?.name]);
 
   if (isLoading.value) {
@@ -85,6 +78,7 @@ export function VenuePage({ slug }: VenueRouteProps) {
   const hasValidRating =
     typeof venue.rating === 'number' && venue.rating > 0 && venue.rating <= 5;
   const isFree = venue.price === 0;
+  const openStatus = isVenueOpenNow(venue.openingHours);
 
   const bookingUrl =
     venue.affiliateLink ||
@@ -101,22 +95,22 @@ export function VenuePage({ slug }: VenueRouteProps) {
     }
   };
 
+  const area = venue.location.charAt(0).toUpperCase() + venue.location.slice(1);
+
   return (
-    <div className={styles.page}>
-      <header className={styles.hero}>
-        <div
-          className={styles.heroImage}
-          style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : undefined}
-          aria-hidden="true"
-        />
-        <span className={styles.heroWet}>
-          <span className={styles.heroWetMeter}><i style={{ width: `${Math.max(5, wet)}%` }} /></span>
-          {wet}% WET
-        </span>
-        <div className={styles.heroText}>
-          <a className={styles.crumb} href="/all-activities">All activities</a>
+    <article className={styles.page}>
+      {/* Tinted masthead: title first, then a contained image */}
+      <header className={styles.masthead}>
+        <div className={styles.mastheadInner}>
+          <div className={styles.crumbRow}>
+            <a className={styles.crumb} href="/all-activities">All activities</a>
+            <a className={styles.crumbAlt} href={`/category/${venue.type[0] ?? ''}`}>
+              More {venue.type[0] ?? 'places'}
+            </a>
+          </div>
+
           <div className={styles.kicker}>
-            <span>{venue.location.charAt(0).toUpperCase() + venue.location.slice(1)}</span>
+            <span>{area}</span>
             {venue.type[0] && (
               <>
                 <span className={styles.dot} aria-hidden="true" />
@@ -124,13 +118,10 @@ export function VenuePage({ slug }: VenueRouteProps) {
               </>
             )}
           </div>
-          <h1 className={styles.title}>{venue.name}</h1>
-        </div>
-      </header>
 
-      <div className={styles.actionBar}>
-        <div className={styles.inner}>
-          <div className={styles.facts}>
+          <h1 className={styles.title}>{venue.name}</h1>
+
+          <div className={styles.metaRow}>
             <span className={styles.price}>{venue.priceDisplay}</span>
             {hasValidRating && (
               <>
@@ -138,7 +129,30 @@ export function VenuePage({ slug }: VenueRouteProps) {
                 <span>{'★'} {venue.rating.toFixed(1)}</span>
               </>
             )}
+            <span className={styles.dot} aria-hidden="true" />
+            <span className={styles.wetInline}>
+              <span className={styles.wetMeter}><i style={{ width: `${Math.max(5, wet)}%` }} /></span>
+              {wet}% wet
+            </span>
+            {openStatus !== null && (
+              <>
+                <span className={styles.dot} aria-hidden="true" />
+                <span className={openStatus ? styles.open : styles.closed}>
+                  {openStatus ? 'Open now' : 'Closed now'}
+                </span>
+              </>
+            )}
           </div>
+
+          <figure className={styles.figure}>
+            <div
+              className={styles.image}
+              style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : undefined}
+              role="img"
+              aria-label={venue.name}
+            />
+          </figure>
+
           <div className={styles.actions}>
             <a
               className={styles.bookBtn}
@@ -155,42 +169,39 @@ export function VenuePage({ slug }: VenueRouteProps) {
               onClick={() => toggleBookmark(venue.name)}
               aria-pressed={isBookmarked}
             >
-              {isBookmarked ? 'Saved' : 'Save'}
+              {isBookmarked ? 'Saved' : 'Save it'}
             </button>
             <button type="button" className={styles.iconBtn} onClick={handleShare}>Share</button>
           </div>
         </div>
+      </header>
+
+      {/* Standfirst — the description, set as editorial copy */}
+      <div className={styles.standfirstWrap}>
+        <p className={styles.standfirst}>{venue.description}</p>
       </div>
 
-      <div className={styles.tabsWrap}>
-        <div className={styles.inner}>
-          <div className={styles.tabs} role="tablist" aria-label="Venue details">
-            {TABS.map((t) => (
-              <button
-                key={t.id}
-                role="tab"
-                aria-selected={tab === t.id}
-                className={`${styles.tab} ${tab === t.id ? styles.tabActive : ''}`}
-                onClick={() => setTab(t.id)}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
+      {/* The practical detail, in its own tinted panel */}
+      <section className={styles.infoWrap} aria-label="Visiting information">
+        <div className={styles.infoPanel}>
+          <h2 className={styles.panelHeading}>Know before you go</h2>
+          <OverviewTab venue={venue} hideAbout />
         </div>
-      </div>
+      </section>
 
-      <div className={styles.body}>
-        <div className={styles.inner}>
-          {tab === 'overview' && <OverviewTab venue={venue} />}
-          {tab === 'gallery' && <GalleryTab venueName={venue.name} imageUrl={imageUrl} />}
-          {tab === 'reviews' && <ReviewsTab venue={venue} />}
-        </div>
-      </div>
+      <section className={styles.section} aria-label="Gallery">
+        <h2 className={styles.sectionHeading}>Gallery</h2>
+        <GalleryTab venueName={venue.name} imageUrl={imageUrl} />
+      </section>
+
+      <section className={styles.section} aria-label="Reviews">
+        <h2 className={styles.sectionHeading}>Reviews</h2>
+        <ReviewsTab venue={venue} />
+      </section>
 
       <RelatedVenues venue={venue} />
 
       <BackToTop />
-    </div>
+    </article>
   );
 }

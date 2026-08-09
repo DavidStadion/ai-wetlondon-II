@@ -17,9 +17,11 @@ interface OverviewTabProps {
   venue: Venue;
   /** Accepted for call-site compatibility; the modal header renders the image. */
   imageUrl?: string;
+  /** The venue page shows the description as a standfirst, so skip it here. */
+  hideAbout?: boolean;
 }
 
-export function OverviewTab({ venue }: OverviewTabProps) {
+export function OverviewTab({ venue, hideAbout = false }: OverviewTabProps) {
   const openStatus = getOpenStatus(venue.openingHours);
   const transport = getTransportInfo(venue.description);
   const duration = getDuration(venue.type, venue.prerequisites);
@@ -30,10 +32,12 @@ export function OverviewTab({ venue }: OverviewTabProps) {
   return (
     <div>
       {/* The modal header already leads with the image — no need to repeat it here. */}
-      <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>About</h3>
-        <p className={styles.description}>{venue.description}</p>
-      </section>
+      {!hideAbout && (
+        <section className={styles.section}>
+          <h3 className={styles.sectionTitle}>About</h3>
+          <p className={styles.description}>{venue.description}</p>
+        </section>
+      )}
 
       <section className={styles.section}>
         <div className={styles.infoGrid}>
