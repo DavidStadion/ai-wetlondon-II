@@ -129,6 +129,7 @@
 }
 
 .iconBtn {
+  position: relative;
   width: 34px;
   height: 34px;
   display: grid;
@@ -144,6 +145,24 @@
 
 .iconBtn:hover { background: var(--color-bg-secondary); }
 .iconBtn svg { width: 19px; height: 19px; }
+
+/* Saved-count badge */
+.badgeCount {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--color-wet);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 800;
+  line-height: 16px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
 
 .iconBtn:focus-visible,
 .joinBtn:focus-visible {

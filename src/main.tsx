@@ -6,10 +6,13 @@ import { AboutPage } from '@/pages/AboutPage';
 import { EventsPage } from '@/pages/EventsPage';
 import { PopupsPage } from '@/pages/PopupsPage';
 import { SituationsPage } from '@/pages/SituationsPage';
+import { SavedPage } from '@/pages/SavedPage';
+import { NotFoundPage } from '@/pages/NotFoundPage';
 import { AdminPage } from '@/pages/AdminPage';
 import { ToastContainer } from '@/components/common/Toast/ToastContainer';
 import { ConfigurationError } from '@/components/ConfigurationError';
 import { hasSupabaseCredentials } from '@/utils/supabase';
+import { loadBookmarks, loadRecentlyViewed } from '@/signals/uiSignals';
 import './styles/global.css';
 
 declare global {
@@ -66,7 +69,10 @@ function App() {
           <EventsPage path="/events" />
           <PopupsPage path="/popups" />
           <SituationsPage path="/situations" />
+          <SavedPage path="/saved" />
           <AdminPage path="/admin" />
+          {/* Catch-all: without this, unknown routes render a blank page */}
+          <NotFoundPage default />
         </Router>
       </Layout>
       <ToastContainer />
@@ -75,6 +81,10 @@ function App() {
 }
 
 initGA();
+
+// Saved places drive the header count on every page, not just the homepage.
+loadBookmarks();
+loadRecentlyViewed();
 
 const container = document.getElementById('preact-root');
 if (container) {

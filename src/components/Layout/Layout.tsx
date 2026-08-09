@@ -1,7 +1,10 @@
-import { signal } from '@preact/signals';
+import { signal, computed } from '@preact/signals';
 import type { ComponentChildren, JSX } from 'preact';
 import { Link as RouterLink, useRouter } from 'preact-router';
+import { bookmarkedVenues } from '@/signals/uiSignals';
 import styles from './Layout.module.css';
+
+const savedCount = computed(() => bookmarkedVenues.value.size);
 
 // Typed wrapper for preact-router Link to fix href type issue
 function Link(props: JSX.HTMLAttributes<HTMLAnchorElement> & { href: string }) {
@@ -110,6 +113,7 @@ export function Layout({ children }: LayoutProps) {
             <NavLink href="/events">What's On</NavLink>
             <NavLink href="/popups">Pop-Ups</NavLink>
             <NavLink href="/situations">Pick Your Vibe</NavLink>
+            <NavLink href="/saved">Saved</NavLink>
             <NavLink href="/about">About</NavLink>
           </nav>
         </div>
@@ -128,17 +132,28 @@ export function Layout({ children }: LayoutProps) {
             </svg>
           </button>
 
-          <a href="/#bookmarks" className={styles.iconBtn} aria-label="My bookmarks">
+          <Link
+            href="/saved"
+            className={styles.iconBtn}
+            aria-label={
+              savedCount.value > 0
+                ? `Saved places (${savedCount.value})`
+                : 'Saved places'
+            }
+          >
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
               <path
                 d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"
-                fill="none"
+                fill={savedCount.value > 0 ? 'currentColor' : 'none'}
                 stroke="currentColor"
                 strokeWidth="1.8"
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+            {savedCount.value > 0 && (
+              <span className={styles.badgeCount}>{savedCount.value}</span>
+            )}
+          </Link>
 
           <Link href="/situations" className={styles.iconBtn} aria-label="Your preferences">
             <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -196,6 +211,7 @@ export function Layout({ children }: LayoutProps) {
                 <li><Link href="/situations">Pick Your Vibe</Link></li>
                 <li><Link href="/events">What's On</Link></li>
                 <li><Link href="/popups">Pop-Ups</Link></li>
+                <li><Link href="/saved">Saved places</Link></li>
                 <li><Link href="/contact">Contact</Link></li>
               </ul>
             </div>

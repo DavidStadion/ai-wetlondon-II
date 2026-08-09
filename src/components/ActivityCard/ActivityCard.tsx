@@ -1,5 +1,4 @@
 import type { Venue, CardVariant, VenueType, AreaType } from '@/types/venue';
-import { BookmarkIcon } from '@/components/common/BookmarkIcon';
 import { bookmarkedVenues, toggleBookmark } from '@/signals/uiSignals';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import { isVenueOpenNow } from '@/utils/openingHours';
@@ -103,14 +102,27 @@ export function ActivityCard({
       {openStatus === true && <span className={styles.statusOpen}>OPEN NOW</span>}
       {openStatus === false && <span className={styles.statusClosed}>CLOSED</span>}
 
-      <span className={styles.bookmarkWrap} onClick={(e) => e.stopPropagation()}>
-        <BookmarkIcon
-          isBookmarked={isBookmarked}
-          onToggle={handleBookmarkToggle}
-          size={20}
-          className={styles.bookmark}
-        />
-      </span>
+      <button
+        type="button"
+        className={`${styles.saveBtn} ${isBookmarked ? styles.saveBtnOn : ''}`}
+        aria-pressed={isBookmarked}
+        aria-label={isBookmarked ? `Remove ${venue.name} from saved` : `Save ${venue.name}`}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleBookmarkToggle();
+        }}
+      >
+        <svg width="13" height="13" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"
+            fill={isBookmarked ? 'currentColor' : 'none'}
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linejoin="round"
+          />
+        </svg>
+        {isBookmarked ? 'Saved' : 'Save it'}
+      </button>
 
       {isOverlay && (
         <div className={styles.overlayContent}>

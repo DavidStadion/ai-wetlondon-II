@@ -128,32 +128,45 @@
 .statusOpen { background: var(--color-status-open); }
 .statusClosed { background: var(--color-status-closed); }
 
-/* Overlay cards: keep the bottom clear for the headline */
-.overlay .statusOpen,
-.overlay .statusClosed {
-  bottom: auto;
-  top: 0.7rem;
-  left: auto;
-  right: 3.2rem;
-}
-
-.bookmarkWrap {
+/* Explicit save affordance, bottom-right of the image */
+.saveBtn {
   position: absolute;
-  top: 0.55rem;
-  right: 0.55rem;
-  z-index: 6;
+  bottom: 0.7rem;
+  right: 0.7rem;
+  z-index: 8;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.38rem 0.7rem;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background 0.15s, color 0.15s, transform 0.15s;
 }
 
-.bookmark {
-  border-radius: 50%;
-  padding: 0.25rem;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: var(--shadow-sm);
+.saveBtn:hover { background: #fff; transform: translateY(-1px); }
+
+.saveBtnOn {
+  background: var(--color-text);
+  color: #fff;
+}
+
+.saveBtnOn:hover { background: #000; }
+
+.saveBtn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .badge {
   position: absolute;
-  bottom: 0.7rem;
+  top: 0.7rem;
   right: 0.7rem;
   padding: 0.28rem 0.65rem;
   border-radius: 999px;
@@ -169,7 +182,13 @@
 .badge--sponsored { background: var(--color-sponsored); color: #1a1a1a; }
 .badge--partner { background: var(--color-partner); color: #ffffff; }
 
-.overlay .badge { bottom: auto; top: 0.7rem; left: auto; right: 3.2rem; }
+/* Overlay cards: the headline owns the bottom, so move the chrome to the top.
+   Open/closed is suppressed here — the detail panel carries it. */
+.overlay .saveBtn { top: 0.7rem; bottom: auto; right: 0.7rem; }
+.overlay .badge { top: 3.05rem; right: auto; left: 0.7rem; }
+.overlay .statusOpen,
+.overlay .statusClosed { display: none; }
+
 
 /* ---------- Stacked content ---------- */
 .content {
