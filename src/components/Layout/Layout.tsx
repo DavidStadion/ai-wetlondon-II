@@ -1,5 +1,5 @@
 import { signal, computed } from '@preact/signals';
-import { useEffect } from 'preact/hooks';
+import { useEffect, useRef } from 'preact/hooks';
 import type { ComponentChildren, JSX } from 'preact';
 import { Link as RouterLink, useRouter } from 'preact-router';
 import { createPortal } from 'preact/compat';
@@ -23,6 +23,25 @@ export const isNavOpen = signal(false);
 
 /** Header retracts as you read down and returns the moment you scroll back up. */
 const isHeaderHidden = signal(false);
+
+function useHeaderHeight(ref: { current: HTMLElement | null }) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const apply = () => {
+      document.documentElement.style.setProperty(
+        '--wl-header-h',
+        `${Math.round(el.getBoundingClientRect().height)}px`,
+      );
+    };
+
+    apply();
+    const ro = new ResizeObserver(apply);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [ref]);
+}
 
 function useHeaderAutoHide() {
   useEffect(() => {
@@ -184,13 +203,20 @@ function MobileDrawer() {
 }
 
 export function Layout({ children }: LayoutProps) {
+  const headerRef = useRef<HTMLElement>(null);
+  const [router] = useRouter();
+
   useHeaderAutoHide();
+  useHeaderHeight(headerRef);
+
+  // The conditions strip belongs to the landing page, not every route
+  const isHome = (router.path || '/') === '/';
 
   return (
     <div className={styles.layout}>
       <a className="wl-skip-link" href="#main">Skip to content</a>
 
-      <header className={`${styles.header} ${isHeaderHidden.value ? styles.headerHidden : ''}`}>
+      <header ref={headerRef} className={`${styles.header} ${isHeaderHidden.value ? styles.headerHidden : ''}`}>
         <div className={styles.headerBar}>
         {/* Mascot — a little rain cloud that walks and drips */}
         <Link href="/" className={styles.mark} aria-label="Wet London home">
@@ -299,7 +325,7 @@ export function Layout({ children }: LayoutProps) {
         </button>
         </div>
 
-        <WeatherStrip />
+        {isHome && <WeatherStrip />}
       </header>
 
       <MobileDrawer />

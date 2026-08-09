@@ -83,7 +83,7 @@
 @media (max-width: 768px) {
   .hero {
     /* More sky above the headline on a phone, so the rain reads */
-    padding: 240px var(--wl-gutter) 1rem;
+    padding: 160px var(--wl-gutter) 1rem;
   }
 
   .actions { gap: 0.5rem; }
