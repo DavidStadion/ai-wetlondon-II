@@ -13,8 +13,8 @@ export function ContactPage(_props: RouteProps) {
       <p>
         Know somewhere brilliant that stays dry? Send it over with a link and a line on
         why it's worth the trip.{' '}
-        <a href="mailto:hello@wetlondon.co.uk?subject=Place%20suggestion">
-          hello@wetlondon.co.uk
+        <a href="mailto:wetlondonofficial@gmail.com?subject=Place%20suggestion">
+          wetlondonofficial@gmail.com
         </a>
       </p>
 
@@ -22,8 +22,8 @@ export function ContactPage(_props: RouteProps) {
       <p>
         Opening hours changed, price out of date, or a place closed for good? Tell us
         which venue and what's wrong and we'll fix it.{' '}
-        <a href="mailto:hello@wetlondon.co.uk?subject=Listing%20correction">
-          hello@wetlondon.co.uk
+        <a href="mailto:wetlondonofficial@gmail.com?subject=Listing%20correction">
+          wetlondonofficial@gmail.com
         </a>
       </p>
 
@@ -31,8 +31,8 @@ export function ContactPage(_props: RouteProps) {
       <p>
         Running a workshop, class or pop-up you'd like listed? See{' '}
         <a href="/popups">Pop-Ups</a> or email{' '}
-        <a href="mailto:partners@wetlondon.co.uk?subject=Partnership">
-          partners@wetlondon.co.uk
+        <a href="mailto:wetlondonofficial@gmail.com?subject=Partnership">
+          wetlondonofficial@gmail.com
         </a>
         .
       </p>
@@ -41,17 +41,10 @@ export function ContactPage(_props: RouteProps) {
       <p>
         To request a copy of your information, or ask us to remove a review you posted,
         see the <a href="/privacy">Privacy Policy</a> and email{' '}
-        <span className={styles.todo}>TODO: your privacy contact email</span>.
+        <a href="mailto:wetlondonofficial@gmail.com">wetlondonofficial@gmail.com</a>.
       </p>
 
-      <div className={styles.callout}>
-        <p>
-          <span className={styles.todo}>
-            TODO: confirm these mailboxes exist and are monitored
-          </span>{' '}
-          — hello@ and partners@wetlondon.co.uk are referenced across the site.
-        </p>
-      </div>
+
     </LegalPage>
   );
 }

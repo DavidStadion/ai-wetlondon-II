@@ -94,7 +94,7 @@ export function PopupsPage(_props: RouteProps) {
             <h3>Coming Soon</h3>
             <p>We're building our network of local London businesses. Check back soon!</p>
             <p>
-              <a href="mailto:partners@wetlondon.co.uk" className={styles.link}>
+              <a href="mailto:wetlondonofficial@gmail.com" className={styles.link}>
                 Interested in being featured?
               </a>
             </p>
@@ -126,7 +126,7 @@ export function PopupsPage(_props: RouteProps) {
         titleAccent="business?"
         body="Join the Pop-ups directory and reach thousands of Londoners hunting for something to do indoors."
         ctaLabel="Become a partner"
-        ctaHref="mailto:partners@wetlondon.co.uk?subject=Pop-ups%20Partnership"
+        ctaHref="mailto:wetlondonofficial@gmail.com?subject=Pop-ups%20Partnership"
         tone="bold"
       />
 

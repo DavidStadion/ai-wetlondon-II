@@ -134,7 +134,7 @@ export function EventsPage(_props: RouteProps) {
         titleAccent="feature?"
         body="Help fellow Londoners find the good stuff when the weather turns."
         ctaLabel="Suggest an event"
-        ctaHref="mailto:hello@wetlondon.co.uk?subject=Event Suggestion"
+        ctaHref="mailto:wetlondonofficial@gmail.com?subject=Event Suggestion"
         tone="soft"
       />
 

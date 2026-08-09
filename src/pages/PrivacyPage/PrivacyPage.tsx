@@ -27,13 +27,13 @@ export function PrivacyPage(_props: RouteProps) {
         Wet London (“we”, “us”) runs the website at wetlondon.co.uk, a free guide to
         indoor things to do in London. For data protection purposes the data
         controller is{' '}
-        <span className={styles.todo}>TODO: your name or registered company name</span>
+        David Hampshire
         {', '}
         <span className={styles.todo}>TODO: your registered address</span>.
       </p>
       <p>
         If you have any question about this policy or about your information, email us
-        at <span className={styles.todo}>TODO: your privacy contact email</span>.
+        at <a href="mailto:wetlondonofficial@gmail.com">wetlondonofficial@gmail.com</a>.
       </p>
 
       <h2>What we collect</h2>
@@ -183,7 +183,7 @@ export function PrivacyPage(_props: RouteProps) {
         information, correct it, delete it, restrict how we use it, or object to our
         using it. You can also withdraw cookie consent at any time. To exercise any of
         these, email{' '}
-        <span className={styles.todo}>TODO: your privacy contact email</span> — please
+        <a href="mailto:wetlondonofficial@gmail.com">wetlondonofficial@gmail.com</a> — please
         tell us the display name and roughly when you posted, so we can find the right
         review.
       </p>

@@ -94,11 +94,10 @@ export function CookiesPage(_props: RouteProps) {
 
       <div className={styles.callout}>
         <p>
-          <span className={styles.todo}>
-            TODO: confirm a consent banner is live before publishing
-          </span>{' '}
-          — UK/EU rules require consent <em>before</em> analytics and advertising
-          cookies are set, plus a way to withdraw it later.
+          Analytics and advertising cookies are only set after you accept them. Until
+          then Google Consent Mode holds them in a denied state and neither script is
+          loaded at all. You can change your mind at any time via{' '}
+          <strong>Cookie settings</strong> in the footer.
         </p>
       </div>
 

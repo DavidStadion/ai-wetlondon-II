@@ -55,7 +55,7 @@ export function AffiliatePage(_props: RouteProps) {
       <h2>Questions</h2>
       <p>
         If you'd like to know whether a particular link is an affiliate link, just ask:{' '}
-        <span className={styles.todo}>TODO: your contact email</span>.
+        <a href="mailto:wetlondonofficial@gmail.com">wetlondonofficial@gmail.com</a>.
       </p>
     </LegalPage>
   );

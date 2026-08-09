@@ -3,6 +3,7 @@ import { useEffect } from 'preact/hooks';
 import type { ComponentChildren, JSX } from 'preact';
 import { Link as RouterLink, useRouter } from 'preact-router';
 import { bookmarkedVenues } from '@/signals/uiSignals';
+import { isConsentSettingsOpen } from '@/utils/consent';
 import styles from './Layout.module.css';
 
 const savedCount = computed(() => bookmarkedVenues.value.size);
@@ -272,6 +273,14 @@ export function Layout({ children }: LayoutProps) {
                 <li><Link href="/privacy">Privacy Policy</Link></li>
                 <li><Link href="/terms">Terms &amp; Conditions</Link></li>
                 <li><Link href="/cookies">Cookie Policy</Link></li>
+                <li>
+                  <a
+                    href="#cookie-settings"
+                    onClick={(e) => { e.preventDefault(); isConsentSettingsOpen.value = true; }}
+                  >
+                    Cookie settings
+                  </a>
+                </li>
                 <li><Link href="/affiliate">Affiliate Disclosure</Link></li>
               </ul>
             </div>
@@ -283,7 +292,7 @@ export function Layout({ children }: LayoutProps) {
               </p>
               {/* No mailing list provider is connected yet, so we say so rather
                   than pretending to collect addresses. Wire up and restore. */}
-              <a className={styles.footerButton} href="mailto:hello@wetlondon.co.uk?subject=Rainy%20day%20alerts">
+              <a className={styles.footerButton} href="mailto:wetlondonofficial@gmail.com?subject=Rainy%20day%20alerts">
                 Email us to be added
               </a>
             </div>

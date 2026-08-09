@@ -21,7 +21,7 @@ export function TermsPage(_props: RouteProps) {
       <h2>Who we are</h2>
       <p>
         Wet London is operated by{' '}
-        <span className={styles.todo}>TODO: your name or registered company name</span>.
+        David Hampshire.
         By using the site you accept these terms. If you don't agree with them, please
         don't use the site.
       </p>
@@ -107,7 +107,7 @@ export function TermsPage(_props: RouteProps) {
       <h2>Law</h2>
       <p>
         These terms are governed by the laws of{' '}
-        <span className={styles.todo}>TODO: England and Wales, or your jurisdiction</span>,
+        England and Wales,
         and its courts have exclusive jurisdiction.
       </p>
 
