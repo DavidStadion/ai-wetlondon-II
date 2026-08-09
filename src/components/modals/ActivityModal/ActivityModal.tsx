@@ -103,7 +103,7 @@ export function ActivityModal({
     typeof venue.rating === "number" && venue.rating > 0 && venue.rating <= 5;
   const isFree = venue.price === 0;
 
-  // The booking CTA is the commercial surface — always give it somewhere to go.
+  // The booking CTA is the commercial surface, always give it somewhere to go.
   const bookingUrl =
     venue.affiliateLink ||
     `https://www.google.com/search?q=${encodeURIComponent(`${venue.name} London tickets`)}`;
@@ -176,7 +176,7 @@ export function ActivityModal({
         </div>
       </div>
 
-      {/* Sticky action bar — booking is the primary action */}
+      {/* Sticky action bar, booking is the primary action */}
       <div className={styles.actionBar}>
         <div className={styles.facts}>
           <span className={styles.price}>{venue.priceDisplay}</span>

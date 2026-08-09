@@ -113,8 +113,8 @@ export function HomePage(_props: RouteProps) {
 
   const loading = isLoading.value;
   const errorMsg = error.value;
-  const venueList = sortedVenues.value;        // editorial rails — always the full set
-  const results = filteredVenues.value;        // All Activities — respects the filters
+  const venueList = sortedVenues.value;        // editorial rails, always the full set
+  const results = filteredVenues.value;        // All Activities, respects the filters
   const filtersActive = hasActiveFilters.value;
 
 
@@ -174,7 +174,7 @@ export function HomePage(_props: RouteProps) {
         </section>
       )}
 
-      {/* Featured — editorial mosaic (lead tile + two stacked) */}
+      {/* Featured, editorial mosaic (lead tile + two stacked) */}
       {!loading && !errorMsg && mosaicLead && (
         <section className={styles.mosaicSection} id="activities">
           <div className={styles.mosaic}>
@@ -222,17 +222,17 @@ export function HomePage(_props: RouteProps) {
         </section>
       )}
 
-      {/* Promo — the club / rainy day alerts */}
+      {/* Promo, the club / rainy day alerts */}
       <PromoBand
         title="Never get caught out"
         titleAccent="again."
-        body="We'll tell you when it's about to chuck it down — and exactly where to hide. One email, every Friday."
+        body="We'll tell you when it's about to chuck it down, and exactly where to hide. One email, every Friday."
         ctaLabel="Join the club"
         ctaHref="/#join"
         tone="bold"
       />
 
-      {/* Editorial collections — angles rather than categories */}
+      {/* Editorial collections, angles rather than categories */}
       <CollectionsRail />
 
       {/* Popular Categories */}

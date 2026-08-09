@@ -12,7 +12,7 @@ const AREA_LABELS: Record<AreaType, string> = {
   south: 'South',
 };
 
-/** Score by shared type, then same area, then rating — closest matches first. */
+/** Score by shared type, then same area, then rating, closest matches first. */
 function relatedTo(current: Venue, all: Venue[]): Venue[] {
   const types = new Set(current.type);
 

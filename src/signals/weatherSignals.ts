@@ -15,7 +15,7 @@ export const weatherState = signal<WeatherState | null>(null);
  *
  * The site is named for rain, but the useful idea is broader: London weather
  * being against you. A heatwave sends people indoors exactly like a downpour
- * does, and the venue data already supports it — a 0% wetness score means fully
+ * does, and the venue data already supports it, a 0% wetness score means fully
  * indoors, which is also fully shaded.
  */
 export type WeatherMood = 'storm' | 'rain' | 'snow' | 'fog' | 'freezing' | 'heat' | 'fine' | 'dull';
@@ -26,7 +26,7 @@ export const weatherMood = computed<WeatherMood | null>(() => {
 
   const { weatherCode: code, isRaining, temp } = w;
 
-  // Specific codes first — the previous ordering made the snow branch unreachable
+  // Specific codes first, the previous ordering made the snow branch unreachable
   if (code >= 95) return 'storm';
   if (code >= 71 && code <= 77) return 'snow';
   if (code >= 80) return 'rain';          // heavy showers
@@ -41,7 +41,7 @@ export const weatherMood = computed<WeatherMood | null>(() => {
 
 /**
  * Several lines per mood, picked once per page load. The tone is dry and a bit
- * self-aware — on a genuinely lovely day the site should admit it has nothing
+ * self-aware, on a genuinely lovely day the site should admit it has nothing
  * to offer rather than pretend otherwise.
  */
 const LINES: Record<WeatherMood, string[]> = {

@@ -12,7 +12,7 @@ const API_URL =
  * header's hide-on-scroll, so it reads as a notice rather than another block
  * competing with the hero.
  *
- * Fixed London coordinates — the site never asks for the visitor's location.
+ * Fixed London coordinates, the site never asks for the visitor's location.
  */
 export function WeatherStrip() {
   useEffect(() => {
@@ -31,7 +31,7 @@ export function WeatherStrip() {
           isRaining: current.weather_code >= 50 || current.precipitation > 0,
         };
       } catch {
-        // No weather is fine — the strip simply doesn't render
+        // No weather is fine, the strip simply doesn't render
       }
     }
 

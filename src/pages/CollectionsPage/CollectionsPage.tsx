@@ -17,7 +17,7 @@ import styles from './CollectionsPage.module.css';
 const PAGE_SIZE = 24;
 const shown = signal(PAGE_SIZE);
 
-/** Card for the index — leads with a photo from the collection itself. */
+/** Card for the index, leads with a photo from the collection itself. */
 function CollectionCard({ slug, title, titleAccent, teaser, lead, count }: {
   slug: string; title: string; titleAccent?: string; teaser: string;
   lead: Venue | undefined; count: number;
@@ -65,7 +65,7 @@ export function CollectionsPage(_props: RouteProps) {
 
   useEffect(() => {
     setPageMeta({
-      title: 'Collections — Wet London',
+      title: 'Collections | Wet London',
       description:
         'Curated ways into London indoors: brilliant when it’s chucking it down, under a tenner, somewhere genuinely weird, and more.',
       path: '/collections',
@@ -80,7 +80,7 @@ export function CollectionsPage(_props: RouteProps) {
       <header className={styles.hero}>
         <h1 className={styles.title}>Collections</h1>
         <p className={styles.tagline}>
-          Not categories — angles. The same London, sorted by the kind of day you're
+          Not categories, angles. The same London, sorted by the kind of day you're
           actually having.
         </p>
       </header>
@@ -127,7 +127,7 @@ export function CollectionPage({ slug }: CollectionRouteProps) {
   useEffect(() => {
     if (collection) {
       setPageMeta({
-        title: `${collection.title} ${collection.titleAccent ?? ''} — Wet London`.replace(/\s+/g, ' '),
+        title: `${collection.title} ${collection.titleAccent ?? ''} | Wet London`.replace(/\s+/g, ' '),
         description: collection.blurb,
         path: `/collection/${slug}`,
       });

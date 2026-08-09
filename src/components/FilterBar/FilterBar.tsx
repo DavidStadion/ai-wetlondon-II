@@ -37,15 +37,15 @@ const WETNESS: Array<{ value: number; label: string }> = [
 ];
 
 const SORTS: Array<{ value: SortOption; label: string }> = [
-  { value: 'name-asc', label: 'Name (A–Z)' },
+  { value: 'name-asc', label: 'Name (A to Z)' },
   { value: 'rating-desc', label: 'Top rated' },
   { value: 'wetness-asc', label: 'Driest first' },
   { value: 'price-asc', label: 'Cheapest first' },
   { value: 'price-desc', label: 'Priciest first' },
-  { value: 'name-desc', label: 'Name (Z–A)' },
+  { value: 'name-desc', label: 'Name (Z to A)' },
 ];
 
-/** Curated labels — friendlier than the raw type keys in the database. */
+/** Curated labels, friendlier than the raw type keys in the database. */
 const ACTIVITY_TYPES: Array<{ value: VenueType; label: string }> = [
   { value: 'museums', label: 'Museums' },
   { value: 'galleries', label: 'Galleries' },

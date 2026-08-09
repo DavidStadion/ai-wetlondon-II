@@ -56,11 +56,11 @@ export function CookiesPage(_props: RouteProps) {
         </table>
       </div>
       <p>
-        We can't read any of these — they're only used by the site running in your own
+        We can't read any of these. They're only used by the site running in your own
         browser.
       </p>
 
-      <h3>Analytics — Google Analytics 4</h3>
+      <h3>Analytics: Google Analytics 4</h3>
       <p>
         Sets cookies such as <code>_ga</code> and <code>_ga_*</code> to count visits
         and understand which pages people find useful. These typically last up to two
@@ -74,7 +74,7 @@ export function CookiesPage(_props: RouteProps) {
         </a>.
       </p>
 
-      <h3>Advertising — Google AdSense</h3>
+      <h3>Advertising: Google AdSense</h3>
       <p>
         Google and its partners set cookies to serve adverts and limit how often you
         see the same one. Depending on your choices these may be used to personalise
@@ -88,7 +88,7 @@ export function CookiesPage(_props: RouteProps) {
       <p>
         You can change or withdraw your consent at any time using the cookie settings
         link, and you can block or delete cookies in your browser settings. Blocking
-        everything won't break the site — saved places will still work, because those
+        everything won't break the site. Saved places will still work, because those
         live in local storage rather than cookies.
       </p>
 

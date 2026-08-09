@@ -145,7 +145,7 @@ export function AllActivitiesPage(_props: RouteProps) {
           <div className={styles.empty}>
             <h2 className={styles.emptyTitle}>Nothing matches that</h2>
             <p className={styles.emptyText}>
-              Try loosening a filter — or clear them and start again.
+              Try loosening a filter, or clear them and start again.
             </p>
             <Button onClick={clearAllFilters} variant="accent">Clear all filters</Button>
           </div>
@@ -170,7 +170,7 @@ export function AllActivitiesPage(_props: RouteProps) {
                 <PromoBand
                   title="Never get caught out"
                   titleAccent="again."
-                  body="We'll tell you when it's about to chuck it down — and exactly where to hide."
+                  body="We'll tell you when it's about to chuck it down, and exactly where to hide."
                   ctaLabel="Join the club"
                   ctaHref="/#join"
                   tone={blockIndex === 0 ? 'bold' : 'soft'}

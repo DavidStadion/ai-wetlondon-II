@@ -22,7 +22,7 @@ function getWeatherConfig(mood: string | null, temp: number): WeatherConfig {
     return {
       title: temp >= 30 ? 'Escape the heat' : 'Cool, dark and quiet',
       subtitle: 'Air-conditioned, shaded, and blissfully out of the sun',
-      // A 0% wetness score means fully indoors — which is also fully shaded
+      // A 0% wetness score means fully indoors, which is also fully shaded
       filter: (v) => v.wetnessScore <= 15 && v.type.some((t) => COOL_TYPES.includes(t)),
     };
   }
@@ -58,7 +58,7 @@ const weatherRecommendations = computed(() => {
   const config = getWeatherConfig(weatherMood.value, weather.temp);
   let filtered = allVenues.filter(config.filter);
 
-  // Whatever the weather, never show a thin rail — widen to anywhere indoors
+  // Whatever the weather, never show a thin rail, widen to anywhere indoors
   if (filtered.length < 4) {
     filtered = allVenues.filter((v) => v.wetness === 'dry');
   }

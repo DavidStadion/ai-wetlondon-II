@@ -1,7 +1,7 @@
 import type { Venue } from '@/types';
 
 /**
- * Editorial collections — curated angles on the same venue list.
+ * Editorial collections, curated angles on the same venue list.
  *
  * Each is a predicate rather than a stored list, so they stay correct as venues
  * are added or edited, and they need no database change to ship.
@@ -34,7 +34,7 @@ export const COLLECTIONS: Collection[] = [
     titleAccent: 'chucking it down',
     teaser: 'Door to door without a drop on you',
     blurb:
-      'The places that work hardest on the worst days — straight off the tube, fully covered, and good enough to make you glad it rained.',
+      'The places that work hardest on the worst days. Straight off the tube, fully covered, and good enough to make you glad it rained.',
     match: (v) => v.wetnessScore <= 5,
     score: (v) => rating(v) + (v.wetnessScore === 0 ? 0.5 : 0),
   },
@@ -90,7 +90,7 @@ export const COLLECTIONS: Collection[] = [
     titleAccent: 'the kids',
     teaser: 'Indoors, and they’ll actually enjoy it',
     blurb:
-      'Places that can absorb a small person for a couple of hours without anyone melting down — including you.',
+      'Places that can absorb a small person for a couple of hours without anyone melting down, including you.',
     match: (v) =>
       v.wetnessScore <= 30 &&
       (has(v, 'family', 'kids', 'museums', 'science', 'aquariums', 'gaming') ||
@@ -116,7 +116,7 @@ export const COLLECTIONS: Collection[] = [
     titleAccent: 'out of the sun',
     teaser: 'For when London is boiling',
     blurb:
-      'It isn’t always the rain. When the city hits thirty degrees these are the coolest rooms in London — shaded, indoors and usually air-conditioned.',
+      'It isn’t always the rain. When the city hits thirty degrees these are the coolest rooms in London: shaded, indoors and usually air-conditioned.',
     match: (v) =>
       v.wetnessScore <= 15 &&
       has(v, 'museums', 'galleries', 'cinema', 'libraries', 'shopping', 'wellness'),

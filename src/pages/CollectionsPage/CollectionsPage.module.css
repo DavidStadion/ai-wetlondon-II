@@ -82,7 +82,7 @@
 }
 
 .cardCount {
-  font-size: 0.62rem;
+  font-size: 0.72rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.14em;
@@ -92,7 +92,7 @@
 .cardTitle {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(1.5rem, 2.8vw, 2.5rem);
+  font-size: clamp(1.9rem, 3.4vw, 3.1rem);
   line-height: 1.02;
   letter-spacing: -0.02em;
   text-wrap: balance;
@@ -101,7 +101,7 @@
 .cardTitle em { font-style: italic; }
 
 .cardTeaser {
-  font-size: 0.85rem;
+  font-size: 1.02rem;
   opacity: 0.82;
   margin-top: 0.15rem;
 }

@@ -12,7 +12,7 @@ export interface Contributor {
 }
 
 /**
- * The people behind the listings. Deliberately small and honest for now —
+ * The people behind the listings. Deliberately small and honest for now ,
  * the layout takes more without changing.
  */
 export const CONTRIBUTORS: Contributor[] = [

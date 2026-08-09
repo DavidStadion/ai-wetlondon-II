@@ -33,7 +33,7 @@ export const CATEGORIES: Record<string, { type: VenueType; label: string; blurb:
   gaming: { type: 'gaming', label: 'Gaming', blurb: 'Arcades, VR, bowling and board games.' },
   workshops: { type: 'workshops', label: 'Classes & Workshops', blurb: 'Make something with your hands while it pours outside.' },
   historic: { type: 'historic', label: 'Historic Sites', blurb: 'Centuries of London, mercifully under cover.' },
-  markets: { type: 'markets', label: 'Markets', blurb: 'Covered markets — browsing without the drenching.' },
+  markets: { type: 'markets', label: 'Markets', blurb: 'Covered markets. Browsing without the drenching.' },
   sports: { type: 'sports', label: 'Sports & Fitness', blurb: 'Climb, swim, skate and sweat indoors.' },
   exhibitions: { type: 'exhibitions', label: 'Exhibitions', blurb: 'Shows worth catching before they close.' },
   libraries: { type: 'libraries', label: 'Libraries', blurb: 'Quiet, free, and among the driest places in London.' },
@@ -43,7 +43,7 @@ const SORTS: Array<{ value: SortOption; label: string }> = [
   { value: 'rating-desc', label: 'Top rated' },
   { value: 'wetness-asc', label: 'Driest first' },
   { value: 'price-asc', label: 'Cheapest first' },
-  { value: 'name-asc', label: 'Name (A–Z)' },
+  { value: 'name-asc', label: 'Name (A to Z)' },
 ];
 
 function sortVenues(list: Venue[], sort: SortOption): Venue[] {
@@ -77,7 +77,7 @@ export function CategoryPage({ type }: CategoryRouteProps) {
     const c = CATEGORIES[slug];
     if (c) {
       setPageMeta({
-        title: `${c.label} in London when it rains — Wet London`,
+        title: `${c.label} in London when it rains | Wet London`,
         description: `${c.blurb} Every ${c.label.toLowerCase()} listing on Wet London, rated by how dry you will stay.`,
         path: `/category/${slug}`,
       });
@@ -95,7 +95,7 @@ export function CategoryPage({ type }: CategoryRouteProps) {
     }
     load();
 
-    // Cleanup must be the last statement — anything after it is unreachable.
+    // Cleanup must be the last statement, anything after it is unreachable.
     return resetPageMeta;
   }, [slug]);
 

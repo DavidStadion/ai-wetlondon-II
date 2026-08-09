@@ -5,7 +5,7 @@ import styles from './RainCanvas.module.css';
 /**
  * Ambient rain behind the hero.
  *
- * Canvas rather than a few hundred DOM nodes — the original implementation was
+ * Canvas rather than a few hundred DOM nodes, the original implementation was
  * flagged as heavy in the backlog. One element, one rAF loop, no layout work.
  * Density follows the real weather, the pointer nudges the wind, and it doesn't
  * run at all for anyone who prefers reduced motion.
@@ -27,7 +27,7 @@ const DENSITY: Record<string, number> = {
   fog: 0.3,
   freezing: 0.35,
   dull: 0.45,
-  heat: 0.18,   // barely there — a wink rather than a downpour
+  heat: 0.18,   // barely there, a wink rather than a downpour
   fine: 0.22,
 };
 
