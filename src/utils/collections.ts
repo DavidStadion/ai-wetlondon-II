@@ -1,0 +1,134 @@
+import type { Venue } from '@/types';
+
+/**
+ * Editorial collections — curated angles on the same venue list.
+ *
+ * Each is a predicate rather than a stored list, so they stay correct as venues
+ * are added or edited, and they need no database change to ship.
+ */
+export interface Collection {
+  slug: string;
+  title: string;
+  /** Trailing words set in italic on the page. */
+  titleAccent?: string;
+  blurb: string;
+  /** One line for the card. */
+  teaser: string;
+  match: (v: Venue) => boolean;
+  /** Higher first. Defaults to rating. */
+  score?: (v: Venue) => number;
+}
+
+const has = (v: Venue, ...types: string[]) =>
+  v.type.some((t) => types.includes(t.toLowerCase()));
+
+const rating = (v: Venue) =>
+  typeof v.rating === 'number' && v.rating > 0 && v.rating <= 5 ? v.rating : 0;
+
+const text = (v: Venue) => `${v.name} ${v.description}`.toLowerCase();
+
+export const COLLECTIONS: Collection[] = [
+  {
+    slug: 'chucking-it-down',
+    title: 'Brilliant when it’s',
+    titleAccent: 'chucking it down',
+    teaser: 'Door to door without a drop on you',
+    blurb:
+      'The places that work hardest on the worst days — straight off the tube, fully covered, and good enough to make you glad it rained.',
+    match: (v) => v.wetnessScore <= 5,
+    score: (v) => rating(v) + (v.wetnessScore === 0 ? 0.5 : 0),
+  },
+  {
+    slug: 'under-a-tenner',
+    title: 'Brilliant London for',
+    titleAccent: 'under a tenner',
+    teaser: 'A proper day out, barely any money',
+    blurb:
+      'London gets an expensive reputation it only half deserves. Everything here costs a tenner or less, and plenty of it costs nothing at all.',
+    match: (v) => v.price <= 10,
+    score: (v) => rating(v) + (v.price === 0 ? 0.4 : 0),
+  },
+  {
+    slug: 'completely-free',
+    title: 'Costs absolutely',
+    titleAccent: 'nothing',
+    teaser: 'Free, and not in a disappointing way',
+    blurb:
+      'World-class museums, strange little collections and some of the best buildings in the city. None of it will cost you a penny.',
+    match: (v) => v.price === 0,
+    score: rating,
+  },
+  {
+    slug: 'somewhere-weird',
+    title: 'Somewhere genuinely',
+    titleAccent: 'weird',
+    teaser: 'The ones you leave with a story',
+    blurb:
+      'Neon warehouses, surgical theatres, houses frozen in another century. London is much stranger than it lets on.',
+    match: (v) =>
+      has(v, 'historic', 'immersive', 'entertainment') ||
+      /neon|junkyard|illusion|dungeon|catacomb|crypt|secret|hidden|curiosit|oddit|taxiderm|surgic|mithra|vault|tunnel/.test(
+        text(v),
+      ),
+    score: rating,
+  },
+  {
+    slug: 'date-night',
+    title: 'Date night that isn’t',
+    titleAccent: 'just the pub',
+    teaser: 'Somewhere you’ll both remember',
+    blurb:
+      'Low lighting, something to talk about, and a walk home that doesn’t involve a downpour. No pressure.',
+    match: (v) =>
+      v.wetnessScore <= 30 &&
+      has(v, 'cinema', 'theatre', 'dining', 'wellness', 'galleries', 'music', 'immersive'),
+    score: rating,
+  },
+  {
+    slug: 'with-little-ones',
+    title: 'Somewhere to take',
+    titleAccent: 'the kids',
+    teaser: 'Indoors, and they’ll actually enjoy it',
+    blurb:
+      'Places that can absorb a small person for a couple of hours without anyone melting down — including you.',
+    match: (v) =>
+      v.wetnessScore <= 30 &&
+      (has(v, 'family', 'kids', 'museums', 'science', 'aquariums', 'gaming') ||
+        /children|famil|kids|interactive|dinosaur|aquarium/.test(text(v))),
+    score: (v) => rating(v) + (v.price === 0 ? 0.3 : 0),
+  },
+  {
+    slug: 'quiet-please',
+    title: 'Quiet, calm and',
+    titleAccent: 'nearly empty',
+    teaser: 'For when London is too much',
+    blurb:
+      'Reading rooms, small collections and places most people walk past. Low noise, low crowds, no one hurrying you along.',
+    match: (v) =>
+      has(v, 'libraries', 'galleries', 'historic', 'museums') &&
+      v.wetnessScore <= 20 &&
+      !/arcade|bowling|karaoke|club|party/.test(text(v)),
+    score: rating,
+  },
+  {
+    slug: 'escape-the-heat',
+    title: 'Cool, dark and',
+    titleAccent: 'out of the sun',
+    teaser: 'For when London is boiling',
+    blurb:
+      'It isn’t always the rain. When the city hits thirty degrees these are the coolest rooms in London — shaded, indoors and usually air-conditioned.',
+    match: (v) =>
+      v.wetnessScore <= 15 &&
+      has(v, 'museums', 'galleries', 'cinema', 'libraries', 'shopping', 'wellness'),
+    score: rating,
+  },
+];
+
+export function getCollection(slug: string): Collection | undefined {
+  return COLLECTIONS.find((c) => c.slug === slug);
+}
+
+export function venuesFor(collection: Collection, venues: Venue[]): Venue[] {
+  const scorer = collection.score ?? rating;
+  return venues.filter(collection.match).sort((a, b) => scorer(b) - scorer(a));
+}

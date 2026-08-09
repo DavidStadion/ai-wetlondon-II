@@ -138,3 +138,22 @@ export function trackPageView(url: string): void {
   if (consentState.value?.analytics !== 'granted') return;
   gtag('event', 'page_view', { page_path: url });
 }
+
+
+/**
+ * Booking clicks are the commercial signal — without this there's no way to
+ * know which venues actually earn. Only fires with analytics consent.
+ */
+export function trackBookingClick(details: {
+  venue: string;
+  isAffiliate: boolean;
+  price: number;
+}): void {
+  if (consentState.value?.analytics !== 'granted') return;
+  gtag('event', 'booking_click', {
+    venue_name: details.venue,
+    link_type: details.isAffiliate ? 'affiliate' : 'search_fallback',
+    value: details.price,
+    currency: 'GBP',
+  });
+}

@@ -1,0 +1,205 @@
+.page {
+  padding-top: var(--wl-header-h);
+  padding-bottom: 3rem;
+  min-height: 70vh;
+}
+
+.hero {
+  max-width: var(--wl-maxw);
+  margin: 0 auto;
+  padding: 2.75rem var(--wl-gutter) 1rem;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(3rem, 7.5vw, 6.5rem);
+  letter-spacing: -0.025em;
+  line-height: 1;
+  margin: 0 0 0.75rem;
+  color: var(--color-text);
+}
+
+.tagline {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  max-width: 52ch;
+  margin: 0 auto;
+}
+
+.heroActions { display: flex; justify-content: center; margin-top: 1.5rem; }
+
+.container {
+  max-width: var(--wl-maxw);
+  margin: 0 auto;
+  padding: 2rem var(--wl-gutter) 0;
+}
+
+/* ---------- Index grid ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--wl-gap);
+}
+
+.card {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  background: var(--color-bg-secondary);
+}
+
+.cardImage {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease;
+}
+
+.card:hover .cardImage { transform: scale(1.04); }
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.1) 68%);
+}
+
+.cardBody {
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.cardCount {
+  font-size: 0.62rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  opacity: 0.85;
+}
+
+.cardTitle {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 2.8vw, 2.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.cardTitle em { font-style: italic; }
+
+.cardTeaser {
+  font-size: 0.85rem;
+  opacity: 0.82;
+  margin-top: 0.15rem;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* ---------- Single collection ---------- */
+.collectionHero {
+  background: var(--color-sand);
+  padding: clamp(2.5rem, 5vw, 4rem) var(--wl-gutter);
+}
+
+.collectionHeroInner {
+  max-width: 1040px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.crumb {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  margin-bottom: 1.25rem;
+}
+
+.crumb::before { content: '← '; }
+.crumb:hover { color: var(--color-text); text-decoration: underline; }
+
+.collectionTitle {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  margin: 0 auto;
+  max-width: 16ch;
+  color: var(--color-text);
+  text-wrap: balance;
+}
+
+.collectionTitle em { font-style: italic; }
+
+.blurb {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 56ch;
+  margin: 1.25rem auto 0;
+}
+
+.count {
+  display: inline-block;
+  margin-top: 1.25rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--color-text-secondary);
+}
+
+.venueGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--wl-gap);
+  row-gap: 2.25rem;
+}
+
+.loadMoreWrap { display: flex; justify-content: center; margin-top: 2.5rem; }
+
+.loadMore {
+  padding: 0.9rem 2.25rem;
+  background: var(--color-text);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.loadMore:hover { opacity: 0.85; }
+
+@media (max-width: 1200px) { .venueGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .venueGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .venueGrid { grid-template-columns: 1fr; row-gap: 1.75rem; }
+  .card { aspect-ratio: 4 / 3; }
+}

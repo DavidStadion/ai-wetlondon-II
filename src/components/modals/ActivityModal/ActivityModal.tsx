@@ -14,6 +14,7 @@ import { GalleryTab } from "./GalleryTab";
 import { ReviewsTab } from "./ReviewsTab";
 import { RelatedVenues } from "./RelatedVenues";
 import { venueUrl } from "@/utils/slug";
+import { trackBookingClick } from "@/utils/consent";
 import styles from "./ActivityModal.module.css";
 
 export interface ActivityModalProps {
@@ -195,6 +196,13 @@ export function ActivityModal({
             href={bookingUrl}
             target="_blank"
             rel="noopener noreferrer sponsored"
+            onClick={() =>
+              trackBookingClick({
+                venue: venue.name,
+                isAffiliate: Boolean(venue.affiliateLink),
+                price: venue.price,
+              })
+            }
           >
             {bookingLabel}
             <span aria-hidden="true" className={styles.bookArrow}>

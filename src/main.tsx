@@ -10,6 +10,7 @@ import { SavedPage } from '@/pages/SavedPage';
 import { CategoryPage } from '@/pages/CategoryPage';
 import { AllActivitiesPage } from '@/pages/AllActivitiesPage';
 import { VenuePage } from '@/pages/VenuePage';
+import { CollectionsPage, CollectionPage } from '@/pages/CollectionsPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { PrivacyPage } from '@/pages/PrivacyPage';
 import { CookiesPage } from '@/pages/CookiesPage';
@@ -67,6 +68,8 @@ function App() {
           <CategoryPage path="/category/:type" />
           <AllActivitiesPage path="/all-activities" />
           <VenuePage path="/venue/:slug" />
+          <CollectionsPage path="/collections" />
+          <CollectionPage path="/collection/:slug" />
           <PrivacyPage path="/privacy" />
           <CookiesPage path="/cookies" />
           <TermsPage path="/terms" />

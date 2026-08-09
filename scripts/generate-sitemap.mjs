@@ -13,6 +13,7 @@ const SITE = 'https://wetlondon.co.uk';
 const STATIC_PATHS = [
   ['/', '1.0', 'daily'],
   ['/all-activities', '0.9', 'daily'],
+  ['/collections', '0.8', 'weekly'],
   ['/events', '0.8', 'daily'],
   ['/popups', '0.7', 'weekly'],
   ['/situations', '0.7', 'weekly'],
@@ -23,6 +24,11 @@ const STATIC_PATHS = [
   ['/terms', '0.2', 'yearly'],
   ['/cookies', '0.2', 'yearly'],
   ['/affiliate', '0.2', 'yearly'],
+];
+
+const COLLECTION_SLUGS = [
+  'chucking-it-down', 'under-a-tenner', 'completely-free', 'somewhere-weird',
+  'date-night', 'with-little-ones', 'quiet-please', 'escape-the-heat',
 ];
 
 const CATEGORY_SLUGS = [
@@ -47,6 +53,10 @@ const urls = [];
 
 for (const [path, priority, freq] of STATIC_PATHS) {
   urls.push({ loc: `${SITE}${path}`, priority, freq });
+}
+
+for (const slug of COLLECTION_SLUGS) {
+  urls.push({ loc: `${SITE}/collection/${slug}`, priority: '0.8', freq: 'weekly' });
 }
 
 for (const slug of CATEGORY_SLUGS) {

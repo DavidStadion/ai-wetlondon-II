@@ -93,3 +93,10 @@
     width: 100%;
   }
 }
+
+
+/* Weather band sits below the hero copy, full container width */
+.weatherBand {
+  max-width: var(--wl-maxw);
+  margin: clamp(2rem, 4vw, 3rem) auto 0;
+}
