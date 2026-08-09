@@ -409,15 +409,12 @@
 
   .navToggle { display: grid; place-items: center; }
 
-
-
-
-
+  /* The inline nav is desktop only — on mobile it lives in the drawer */
+  .nav { display: none; }
 
   .footerTop { grid-template-columns: 1fr; gap: 1.75rem; }
   .footerBottom { flex-direction: column; align-items: flex-start; }
 }
-
 
 /* ============ MOBILE DRAWER (portalled to body) ============ */
 .drawer {

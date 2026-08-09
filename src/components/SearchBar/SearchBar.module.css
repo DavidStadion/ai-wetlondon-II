@@ -85,3 +85,16 @@
 @media (max-width: 520px) {
   .submit { padding: 0.7rem 1rem; font-size: 0.8rem; }
 }
+
+
+/* The Search button eats the field on small screens — give the input room
+   and let the placeholder truncate gracefully rather than mid-word */
+@media (max-width: 520px) {
+  .input {
+    padding-right: 6.25rem;
+    padding-left: 2.75rem;
+    text-overflow: ellipsis;
+  }
+
+  .clearButton { right: 5.6rem; }
+}
