@@ -18,7 +18,7 @@
    "…the weather is awful", line two takes the rest. Two lines, not four. */
 .tagline {
   font-family: var(--font-serif);
-  font-size: clamp(1.6rem, 3.4vw, 2.9rem);
+  font-size: clamp(2rem, 7.5vw, 2.9rem);
   color: var(--color-text);
   margin: 1.1rem auto 0;
   max-width: 20em;
@@ -31,7 +31,7 @@
 
 /* Narrow viewports: drop the hard break and let it wrap naturally */
 @media (max-width: 760px) {
-  .tagline { max-width: 16em; }
+  .tagline { max-width: 13em; line-height: 1.02; }
   .tagline br { display: none; }
 }
 
