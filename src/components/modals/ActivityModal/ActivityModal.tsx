@@ -13,6 +13,7 @@ import { OverviewTab } from "./OverviewTab";
 import { GalleryTab } from "./GalleryTab";
 import { ReviewsTab } from "./ReviewsTab";
 import { RelatedVenues } from "./RelatedVenues";
+import { venueUrl } from "@/utils/slug";
 import styles from "./ActivityModal.module.css";
 
 export interface ActivityModalProps {
@@ -65,10 +66,11 @@ export function ActivityModal({
   };
 
   const handleShare = async () => {
+    // Share the venue's own page, not whichever list the user happens to be on
     const shareData = {
       title: venue.name,
       text: `Check out ${venue.name} on Wet London`,
-      url: window.location.href,
+      url: `${window.location.origin}${venueUrl(venue)}`,
     };
 
     if (navigator.share) {
@@ -78,7 +80,7 @@ export function ActivityModal({
         // User cancelled or error
       }
     } else {
-      await navigator.clipboard.writeText(window.location.href);
+      await navigator.clipboard.writeText(shareData.url);
     }
   };
 
@@ -217,6 +219,8 @@ export function ActivityModal({
             </svg>
             {isBookmarked ? "Saved" : "Save"}
           </button>
+
+          <a className={styles.iconBtn} href={venueUrl(venue)}>Full page</a>
 
           <button type="button" className={styles.iconBtn} onClick={handleShare}>
             <svg

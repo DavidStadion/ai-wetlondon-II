@@ -11,11 +11,12 @@
     "dev:api": "node server.js",
     "dev:all": "node server.js & vite",
     "snapshot": "node scripts/snapshot-supabase.mjs",
-    "prebuild": "node scripts/snapshot-supabase.mjs",
+    "prebuild": "node scripts/snapshot-supabase.mjs && node scripts/generate-sitemap.mjs",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint src/",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "sitemap": "node scripts/generate-sitemap.mjs"
   },
   "repository": {
     "type": "git",

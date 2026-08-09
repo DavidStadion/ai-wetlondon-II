@@ -27,7 +27,6 @@ import { useImageLoader } from '@/hooks/useImageLoader';
 import type { Venue, CardVariant, RouteProps } from '@/types';
 
 import { Hero } from '@/components/Hero';
-import { QuickFilters } from '@/components/QuickFilters';
 import { PopularCategories } from '@/components/PopularCategories';
 import { ActivityCard } from '@/components/ActivityCard';
 import { BookmarksSection } from '@/components/BookmarksSection';
@@ -160,9 +159,6 @@ export function HomePage(_props: RouteProps) {
     <div className={styles.page}>
       {/* Hero Section */}
       <Hero onCustomize={openCustomizeModal} onFeelingLucky={handleFeelingLucky} />
-
-      {/* Quick Filter Pills */}
-      <QuickFilters />
 
       {/* Hold the mosaic's space while data loads so nothing below shifts */}
       {loading && (

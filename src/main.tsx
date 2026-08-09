@@ -9,6 +9,7 @@ import { SituationsPage } from '@/pages/SituationsPage';
 import { SavedPage } from '@/pages/SavedPage';
 import { CategoryPage } from '@/pages/CategoryPage';
 import { AllActivitiesPage } from '@/pages/AllActivitiesPage';
+import { VenuePage } from '@/pages/VenuePage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { PrivacyPage } from '@/pages/PrivacyPage';
 import { CookiesPage } from '@/pages/CookiesPage';
@@ -79,6 +80,7 @@ function App() {
           <SavedPage path="/saved" />
           <CategoryPage path="/category/:type" />
           <AllActivitiesPage path="/all-activities" />
+          <VenuePage path="/venue/:slug" />
           <PrivacyPage path="/privacy" />
           <CookiesPage path="/cookies" />
           <TermsPage path="/terms" />
