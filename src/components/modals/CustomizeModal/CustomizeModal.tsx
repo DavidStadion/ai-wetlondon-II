@@ -127,7 +127,7 @@ export function CustomizeModal() {
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} title="Customize Your Experience" size="lg">
+    <Modal isOpen={isOpen} onClose={handleClose} title="Customise your experience" size="lg">
       <div className={styles.form}>
         {/* Preferences text input */}
         <div className={styles.section}>

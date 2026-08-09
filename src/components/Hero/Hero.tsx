@@ -38,7 +38,7 @@ export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
 
         <div className={styles.actions}>
           <Button onClick={onCustomize} variant="accent" size="lg">
-            Customize your experience
+            Customise your experience
           </Button>
           <Button onClick={onFeelingLucky} variant="secondary" size="lg">
             🎲 I'm feeling lucky

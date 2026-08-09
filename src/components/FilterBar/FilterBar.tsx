@@ -45,22 +45,38 @@ const SORTS: Array<{ value: SortOption; label: string }> = [
   { value: 'name-desc', label: 'Name (Z–A)' },
 ];
 
-/** Categories present in the data, most common first — no hardcoded guesses. */
-const categories = computed<Array<{ value: VenueType; label: string; count: number }>>(() => {
+/** Curated labels — friendlier than the raw type keys in the database. */
+const ACTIVITY_TYPES: Array<{ value: VenueType; label: string }> = [
+  { value: 'museums', label: 'Museums' },
+  { value: 'galleries', label: 'Galleries' },
+  { value: 'theatre', label: 'Theatre' },
+  { value: 'dining', label: 'Dining' },
+  { value: 'entertainment', label: 'Entertainment' },
+  { value: 'shopping', label: 'Shopping' },
+  { value: 'wellness', label: 'Wellness & Spa' },
+  { value: 'nightlife', label: 'Nightlife' },
+  { value: 'music', label: 'Music Venues' },
+  { value: 'comedy', label: 'Comedy Clubs' },
+  { value: 'cinema', label: 'Cinemas' },
+  { value: 'gaming', label: 'Gaming' },
+  { value: 'workshops', label: 'Classes & Workshops' },
+  { value: 'historic', label: 'Historic Sites' },
+  { value: 'markets', label: 'Markets' },
+  { value: 'sports', label: 'Sports & Fitness' },
+  { value: 'exhibitions', label: 'Exhibitions' },
+  { value: 'libraries', label: 'Libraries' },
+];
+
+/** Counts come from the live data, so an empty category simply disappears. */
+const categories = computed(() => {
   const counts = new Map<string, number>();
   venues.value.forEach((v) => {
     v.type.forEach((t) => counts.set(t, (counts.get(t) ?? 0) + 1));
   });
 
-  return [...counts.entries()]
-    .filter(([, n]) => n >= 3)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 14)
-    .map(([value, count]) => ({
-      value: value as VenueType,
-      label: value.charAt(0).toUpperCase() + value.slice(1),
-      count,
-    }));
+  return ACTIVITY_TYPES
+    .map((t) => ({ ...t, count: counts.get(t.value) ?? 0 }))
+    .filter((t) => t.count > 0);
 });
 
 export function FilterBar() {
@@ -72,7 +88,7 @@ export function FilterBar() {
   return (
     <section className={styles.bar} aria-label="Filter activities">
       <div className={styles.head}>
-        <h2 className={styles.title}>Filter by category</h2>
+        <h3 className={styles.title}>Filter by category</h3>
         <div className={styles.sortWrap}>
           <label className={styles.sortLabel} htmlFor="sortBy">Sort by</label>
           <select

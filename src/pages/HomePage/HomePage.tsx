@@ -25,7 +25,6 @@ import type { Venue, CardVariant, RouteProps } from '@/types';
 import { Hero } from '@/components/Hero';
 import { QuickFilters } from '@/components/QuickFilters';
 import { PopularCategories } from '@/components/PopularCategories';
-import { FilterChips } from '@/components/FilterChips';
 import { ActivityCard } from '@/components/ActivityCard';
 import { BookmarksSection } from '@/components/BookmarksSection';
 import { TopPicksSection } from '@/components/TopPicksSection';
@@ -169,9 +168,6 @@ export function HomePage(_props: RouteProps) {
       <QuickFilters />
 
       {/* Personalized Selection Header */}
-      {/* Filters are always visible rather than hidden behind a modal */}
-      <FilterBar />
-
       {filtersActive && <PersonalizedSection />}
 
       {/* Featured — editorial mosaic (lead tile + two stacked) */}
@@ -282,8 +278,8 @@ export function HomePage(_props: RouteProps) {
           </div>
         )}
 
-        {/* Filter Chips */}
-        <FilterChips />
+        {/* Filters live with the results they act on */}
+        <FilterBar />
 
         
 

@@ -38,7 +38,7 @@ export function PersonalizedSection() {
     <div ref={sectionRef} className={styles.section}>
       <div className={styles.header}>
         <div className={styles.headerLeft}>
-          <h2 className={styles.title}>Your Personalized Selection</h2>
+          <h2 className={styles.title}>Your personalised selection</h2>
           <span className={styles.count}>
             {count} {count === 1 ? 'activity' : 'activities'} found
           </span>

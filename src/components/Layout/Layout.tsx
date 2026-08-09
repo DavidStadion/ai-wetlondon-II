@@ -50,13 +50,24 @@ function NavLink({ href, children }: NavLinkProps) {
   const isActive = isHashLink ? false : currentPath === href;
 
   if (isHashLink) {
-    // Hash links need regular anchor for scroll behavior
+    const targetId = href.slice(href.indexOf('#') + 1);
+
+    // On the homepage the browser won't re-jump to a hash it's already on, and a
+    // native jump is abrupt. Scroll it ourselves; otherwise let the link navigate.
+    const handleHashClick = (e: MouseEvent) => {
+      closeNav();
+      if (currentPath !== '/') return;
+
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      e.preventDefault();
+      history.replaceState(null, '', `/#${targetId}`);
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
     return (
-      <a
-        href={href}
-        aria-current={isActive ? 'page' : undefined}
-        onClick={closeNav}
-      >
+      <a href={href} onClick={handleHashClick}>
         {children}
       </a>
     );
