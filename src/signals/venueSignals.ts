@@ -9,13 +9,20 @@ import {
   maxWetnessScore,
   openNow,
   constraints,
+  maxPrice,
 } from './filterSignals';
+
+/** Ratings outside 0-5 are data errors; treat them as unrated when sorting. */
+function validRating(v: Venue): number {
+  const r = v.rating;
+  return typeof r === 'number' && r > 0 && r <= 5 ? r : 0;
+}
 
 export const venues = signal<Venue[]>([]);
 export const isLoading = signal<boolean>(true);
 export const error = signal<string | null>(null);
 
-export type SortOption = 'name-asc' | 'name-desc' | 'price-asc' | 'price-desc' | 'wetness-asc' | 'wetness-desc';
+export type SortOption = 'name-asc' | 'name-desc' | 'price-asc' | 'price-desc' | 'wetness-asc' | 'wetness-desc' | 'rating-desc';
 export const sortOption = signal<SortOption>('name-asc');
 
 export const filteredVenues = computed(() => {
@@ -53,6 +60,11 @@ export const filteredVenues = computed(() => {
     result = result.filter((v) => v.wetnessScore <= maxWetnessScore.value);
   }
 
+  // Filter by max price
+  if (maxPrice.value !== null) {
+    result = result.filter((v) => v.price <= (maxPrice.value as number));
+  }
+
   // Filter by open now
   if (openNow.value) {
     result = result.filter((v) => isVenueOpenNow(v.openingHours) === true);
@@ -75,6 +87,7 @@ export const filteredVenues = computed(() => {
       case 'price-desc': return b.price - a.price;
       case 'wetness-asc': return a.wetnessScore - b.wetnessScore;
       case 'wetness-desc': return b.wetnessScore - a.wetnessScore;
+      case 'rating-desc': return (validRating(b) - validRating(a));
       default: return 0;
     }
   });
@@ -94,6 +107,7 @@ export const sortedVenues = computed(() => {
       case 'price-desc': return b.price - a.price;
       case 'wetness-asc': return a.wetnessScore - b.wetnessScore;
       case 'wetness-desc': return b.wetnessScore - a.wetnessScore;
+      case 'rating-desc': return (validRating(b) - validRating(a));
       default: return 0;
     }
   });

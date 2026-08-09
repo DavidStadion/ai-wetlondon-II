@@ -6,14 +6,16 @@
 }
 
 /* ============ HEADER (London-The-Inside rhythm) ============ */
+/* Three columns with equal 1fr sides so the wordmark is optically centred,
+   regardless of the mascot being narrower than the action cluster. */
 .header {
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 100;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
+  align-items: start;
   gap: 1rem;
   padding: 0.85rem var(--wl-gutter) 0.7rem;
   background: rgba(255, 255, 255, 0.92);
@@ -22,7 +24,7 @@
 }
 
 .mark {
-  flex: 0 0 auto;
+  justify-self: start;
   width: 50px;
   height: 50px;
   color: var(--color-text);
@@ -71,7 +73,6 @@
 }
 
 .headerCenter {
-  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -121,7 +122,7 @@
 }
 
 .headerRight {
-  flex: 0 0 auto;
+  justify-self: end;
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -375,7 +376,9 @@
 }
 
 @media (max-width: 768px) {
+  /* headerRight is hidden here, so the toggle becomes the third column */
   .header {
+    grid-template-columns: auto 1fr auto;
     align-items: center;
     padding: 0.6rem var(--wl-gutter);
   }
@@ -387,6 +390,8 @@
     flex-direction: row;
     padding-left: 0.6rem;
   }
+
+  .navToggle { justify-self: end; }
 
   .wordmark { font-size: 1.2rem; }
 

@@ -8,9 +8,7 @@ import {
   totalActivities,
   openNowCount,
   freeEntryCount,
-  sortOption,
 } from '@/signals/venueSignals';
-import type { SortOption } from '@/signals/venueSignals';
 import { hasActiveFilters, clearAllFilters } from '@/signals/filterSignals';
 import {
   loadBookmarks,
@@ -40,6 +38,7 @@ import { Button } from '@/components/common/Button';
 import { AdSlot } from '@/components/common/AdSlot';
 import { Carousel } from '@/components/common/Carousel';
 import { PromoBand } from '@/components/common/PromoBand';
+import { FilterBar } from '@/components/FilterBar';
 
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { CustomizeModal } from '@/components/modals/CustomizeModal';
@@ -83,20 +82,6 @@ function handleFeelingLucky() {
 function handleLoadMore() {
   displayedCount.value += PAGE_SIZE;
 }
-
-function handleSortChange(e: Event) {
-  sortOption.value = (e.target as HTMLSelectElement).value as SortOption;
-  displayedCount.value = PAGE_SIZE;
-}
-
-const SORT_OPTIONS: { value: SortOption; label: string }[] = [
-  { value: 'name-asc', label: 'Name (A-Z)' },
-  { value: 'name-desc', label: 'Name (Z-A)' },
-  { value: 'price-asc', label: 'Price (Low-High)' },
-  { value: 'price-desc', label: 'Price (High-Low)' },
-  { value: 'wetness-asc', label: 'Wetness (Driest)' },
-  { value: 'wetness-desc', label: 'Wetness (Wettest)' },
-];
 
 export function HomePage(_props: RouteProps) {
   useEffect(() => {
@@ -184,6 +169,9 @@ export function HomePage(_props: RouteProps) {
       <QuickFilters />
 
       {/* Personalized Selection Header */}
+      {/* Filters are always visible rather than hidden behind a modal */}
+      <FilterBar />
+
       {filtersActive && <PersonalizedSection />}
 
       {/* Featured — editorial mosaic (lead tile + two stacked) */}
@@ -297,23 +285,7 @@ export function HomePage(_props: RouteProps) {
         {/* Filter Chips */}
         <FilterChips />
 
-        {/* Sort Bar */}
-        {!loading && !errorMsg && venueList.length > 0 && (
-          <div className={styles.sortBar}>
-            <label className={styles.sortLabel}>
-              Sort by:
-              <select
-                className={styles.sortSelect}
-                value={sortOption.value}
-                onChange={handleSortChange}
-              >
-                {SORT_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
-                ))}
-              </select>
-            </label>
-          </div>
-        )}
+        
 
         {/* Loading State */}
         {loading && (

@@ -7,6 +7,7 @@ export const selectedAreas = signal<Set<AreaType>>(new Set());
 export const wetnessLevel = signal<WetnessLevel | null>(null);
 export const maxWetnessScore = signal<number>(100);
 export const openNow = signal<boolean>(false);
+export const maxPrice = signal<number | null>(null);   // null = any price
 export const constraints = signal<Set<string>>(new Set());
 
 export const filterCounts = computed(() => ({
@@ -18,6 +19,7 @@ export const filterCounts = computed(() => ({
 }));
 
 export const hasActiveFilters = computed(() => {
+  if (maxPrice.value !== null) return true;
   const counts = filterCounts.value;
   return (
     counts.types > 0 ||
@@ -30,6 +32,7 @@ export const hasActiveFilters = computed(() => {
 });
 
 export function clearAllFilters(): void {
+  maxPrice.value = null;
   keywords.value = '';
   selectedTypes.value = new Set();
   selectedAreas.value = new Set();
