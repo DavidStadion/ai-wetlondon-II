@@ -121,7 +121,7 @@ export function ActivityCard({
             stroke-linejoin="round"
           />
         </svg>
-        {isBookmarked ? 'Saved' : 'Save it'}
+        <span className={styles.saveLabel}>{isBookmarked ? 'Saved' : 'Save it'}</span>
       </button>
 
       {isOverlay && (
