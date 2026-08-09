@@ -22,7 +22,7 @@
 
 .heroWet {
   position: absolute;
-  top: 1rem;
+  top: calc(1rem + env(safe-area-inset-top, 0px));
   left: 1rem;
   z-index: 3;
   display: inline-flex;
@@ -291,7 +291,7 @@
 
 .luckyCount {
   position: absolute;
-  top: 1rem;
+  top: calc(1rem + env(safe-area-inset-top, 0px));
   left: 50%;
   transform: translateX(-50%);
   z-index: 6;

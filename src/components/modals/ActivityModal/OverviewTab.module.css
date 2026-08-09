@@ -317,3 +317,14 @@
   .infoItem:first-child { border-top: none; padding-top: 0; }
   .infoItem:nth-child(odd) { padding-right: 0; }
 }
+
+
+/* The intro is the first thing read about a place — give it editorial weight
+   rather than letting it sit as small grey body copy. */
+.description {
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 4.5vw, 1.6rem);
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--color-text);
+}

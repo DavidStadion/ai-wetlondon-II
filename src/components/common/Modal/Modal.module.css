@@ -66,7 +66,7 @@
 /* Floating close for header-less modals (content leads with an image) */
 .closeFloating {
   position: absolute;
-  top: 1rem;
+  top: calc(1rem + env(safe-area-inset-top, 0px));
   right: 1rem;
   z-index: 20;
   display: grid;
@@ -147,7 +147,11 @@
 
 @media (max-width: 640px) {
   .backdrop { padding: 0; align-items: flex-end; }
-  .modal { max-height: 94vh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+  .modal {
+    max-height: calc(94vh - env(safe-area-inset-top, 0px));
+    margin-top: env(safe-area-inset-top, 0px);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
   .header { padding: 1.5rem 1.25rem 0.75rem; }
   .content { padding: 0 1.25rem 1.5rem; }
   .contentFlush { padding: 0; }
