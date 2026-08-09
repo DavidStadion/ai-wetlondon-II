@@ -211,7 +211,7 @@
 @media (max-width: 900px) {
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .mosaic { grid-template-columns: 1fr; height: auto; }
-  .mosaicLead { aspect-ratio: 4 / 3; }
+  .mosaicLead { aspect-ratio: 4 / 5; }
   .mosaicStack { grid-template-rows: auto auto; }
   .mosaicStack > * { aspect-ratio: 16 / 9; }
 }
@@ -270,6 +270,6 @@
 
 @media (max-width: 900px) {
   .mosaicSkeleton { grid-template-columns: 1fr; height: auto; }
-  .mosaicSkeleton > * { aspect-ratio: 4 / 3; }
+  .mosaicSkeleton > * { aspect-ratio: 4 / 5; }
   .mosaicSkeletonStack > * { aspect-ratio: 16 / 9; }
 }

@@ -18,12 +18,14 @@ export interface ActivityCardProps {
   tall?: boolean;
 }
 
+/**
+ * Editorial flags (Featured, Spotlight) are hidden for now — they added noise
+ * without telling the reader much. Sponsored and Partner stay: the affiliate
+ * disclosure commits to labelling paid placements on the card itself.
+ */
 const VARIANT_BADGES: Partial<Record<CardVariant, string>> = {
-  featured: 'FEATURED',
   sponsored: 'SPONSORED',
   partner: 'PARTNER',
-  spotlight: 'SPOTLIGHT',
-  spotlightHero: 'SPOTLIGHT',
 };
 
 const AREA_LABELS: Record<AreaType, string> = {
