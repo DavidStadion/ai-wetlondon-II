@@ -16,9 +16,8 @@ export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
       <div className={styles.heroContent}>
         {/* The wordmark lives in the header — no need to repeat it here. */}
         <h1 className={styles.tagline}>
-          London ideas for when the weather is awful{' '}
-          <br />
-          and your <em>motivation is worse.</em>
+          London ideas for when the weather is awful and your{' '}
+          <em>motivation is worse.</em>
         </h1>
 
         <div className={styles.searchSection}>

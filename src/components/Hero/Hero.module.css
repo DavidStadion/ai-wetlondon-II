@@ -18,21 +18,21 @@
    "…the weather is awful", line two takes the rest. Two lines, not four. */
 .tagline {
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 7.5vw, 2.9rem);
+  font-size: clamp(2.4rem, 8.5vw, 5.25rem);
   color: var(--color-text);
   margin: 1.1rem auto 0;
-  max-width: 20em;
+  max-width: 15em;
   font-weight: 400;
-  line-height: 1.08;
-  letter-spacing: -0.015em;
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
 .tagline em { font-style: italic; }
 
 /* Narrow viewports: drop the hard break and let it wrap naturally */
 @media (max-width: 760px) {
-  .tagline { max-width: 13em; line-height: 1.02; }
-  .tagline br { display: none; }
+  .tagline { max-width: 11em; line-height: 1.0; letter-spacing: -0.028em; }
 }
 
 .weatherMessage {
