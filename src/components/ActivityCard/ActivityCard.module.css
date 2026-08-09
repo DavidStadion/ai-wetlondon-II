@@ -274,6 +274,12 @@
 
 /* ---------- Responsive ---------- */
 @media (max-width: 768px) {
+  /* The bookmark icon carries the meaning on a phone; the aria-label still
+     spells it out for screen readers. */
+  .saveLabel { display: none; }
+  .saveBtn { padding: 0.5rem; border-radius: 50%; }
+  .saveBtn svg { width: 16px; height: 16px; }
+
   .card--spotlightHero { flex-direction: column; gap: 0; align-items: stretch; }
   .card--spotlightHero .image,
   .card--spotlightHero .content { width: 100%; }

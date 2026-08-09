@@ -13,11 +13,8 @@
   top: 0;
   width: 100%;
   z-index: 100;
-  display: grid;
-  grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
-  align-items: start;
-  gap: 1rem;
-  padding: 0.85rem var(--wl-gutter) 0.7rem;
+  display: flex;
+  flex-direction: column;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: saturate(1.4) blur(10px);
   border-bottom: 1px solid var(--color-border);
@@ -31,6 +28,14 @@
 @media (prefers-reduced-motion: reduce) {
   .header { transition: none; }
   .headerHidden { transform: none; }
+}
+
+.headerBar {
+  display: grid;
+  grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
+  align-items: start;
+  gap: 1rem;
+  padding: 0.85rem var(--wl-gutter) 0.7rem;
 }
 
 .mark {
@@ -387,7 +392,7 @@
 
 @media (max-width: 768px) {
   /* headerRight is hidden here, so the toggle becomes the third column */
-  .header {
+  .headerBar {
     grid-template-columns: auto 1fr auto;
     align-items: center;
     padding: 0.6rem var(--wl-gutter);
@@ -396,9 +401,10 @@
   .mark { width: 34px; height: 34px; }
 
   .headerCenter {
-    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
     flex-direction: row;
-    padding-left: 0.6rem;
+    padding-left: 0;
   }
 
   .navToggle { justify-self: end; }

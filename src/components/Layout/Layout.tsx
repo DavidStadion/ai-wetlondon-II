@@ -5,6 +5,7 @@ import { Link as RouterLink, useRouter } from 'preact-router';
 import { createPortal } from 'preact/compat';
 import { bookmarkedVenues } from '@/signals/uiSignals';
 import { isConsentSettingsOpen } from '@/utils/consent';
+import { WeatherStrip } from '@/components/WeatherStrip';
 import styles from './Layout.module.css';
 
 const savedCount = computed(() => bookmarkedVenues.value.size);
@@ -190,6 +191,7 @@ export function Layout({ children }: LayoutProps) {
       <a className="wl-skip-link" href="#main">Skip to content</a>
 
       <header className={`${styles.header} ${isHeaderHidden.value ? styles.headerHidden : ''}`}>
+        <div className={styles.headerBar}>
         {/* Mascot — a little rain cloud that walks and drips */}
         <Link href="/" className={styles.mark} aria-label="Wet London home">
           <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
@@ -295,6 +297,9 @@ export function Layout({ children }: LayoutProps) {
             />
           </svg>
         </button>
+        </div>
+
+        <WeatherStrip />
       </header>
 
       <MobileDrawer />

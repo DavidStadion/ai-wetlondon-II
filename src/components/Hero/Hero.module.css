@@ -2,9 +2,9 @@
   position: relative;
   overflow: hidden;
   margin-top: var(--wl-header-h);
-  padding: 3.25rem var(--wl-gutter) 1.25rem;
+  /* Breathing room at the top so a little of the rain is visible */
+  padding: clamp(3rem, 9vw, 5.5rem) var(--wl-gutter) 1.5rem;
   text-align: center;
-  background: transparent;
 }
 
 .heroContent {
@@ -32,7 +32,7 @@
 
 /* Narrow viewports: drop the hard break and let it wrap naturally */
 @media (max-width: 760px) {
-  .tagline { max-width: 11em; line-height: 1.0; letter-spacing: -0.028em; }
+  .tagline { max-width: 10em; line-height: 1.0; letter-spacing: -0.028em; }
 }
 
 .weatherMessage {
@@ -61,10 +61,10 @@
 
 .actions {
   display: flex;
-  gap: 0.75rem;
   justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
   flex-wrap: wrap;
-  margin-top: 1.25rem;
 }
 
 /* WeatherWidget kept mounted for its fetch, but hidden visually */
@@ -82,24 +82,14 @@
 /* Mobile Styles */
 @media (max-width: 768px) {
   .hero {
-    padding: 2.25rem var(--wl-gutter) 1rem;
+    /* More sky above the headline on a phone, so the rain reads */
+    padding: 240px var(--wl-gutter) 1rem;
   }
 
-  .actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .actions button {
-    width: 100%;
-  }
+  .actions { gap: 0.5rem; }
+  .actions button { flex: 1 1 auto; min-width: 0; }
 }
 
 
 /* Weather band sits below the hero copy, full container width */
-.weatherBand {
-  position: relative;
-  z-index: 2;
-  max-width: var(--wl-maxw);
-  margin: clamp(2rem, 4vw, 3rem) auto 0;
-}
+

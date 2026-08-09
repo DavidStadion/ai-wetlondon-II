@@ -1,6 +1,5 @@
 import { RainCanvas } from '@/components/RainCanvas';
 import { SearchBar } from '@/components/SearchBar';
-import { WeatherWidget } from '@/components/WeatherWidget';
 import { Button } from '@/components/common/Button';
 import styles from './Hero.module.css';
 
@@ -25,18 +24,13 @@ export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
         </div>
 
         <div className={styles.actions}>
-          <Button onClick={onCustomize} variant="accent" size="lg">
-            Customise your experience
+          <Button onClick={onCustomize} variant="accent">
+            Customise
           </Button>
-          <Button onClick={onFeelingLucky} variant="secondary" size="lg">
-            🎲 I'm feeling lucky
+          <Button onClick={onFeelingLucky} variant="secondary">
+            🎲 Feeling lucky
           </Button>
         </div>
-      </div>
-
-      {/* Live London conditions — the site's whole premise, stated plainly */}
-      <div className={styles.weatherBand}>
-        <WeatherWidget />
       </div>
     </section>
   );

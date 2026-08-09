@@ -4,6 +4,8 @@ export interface WeatherState {
   weatherCode: number;
   isRaining: boolean;
   temp: number;
+  feelsLike: number;
+  humidity: number;
 }
 
 export const weatherState = signal<WeatherState | null>(null);
