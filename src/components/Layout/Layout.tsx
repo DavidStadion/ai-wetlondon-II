@@ -217,26 +217,19 @@ export function Layout({ children }: LayoutProps) {
 
       <header ref={headerRef} className={`${styles.header} ${isHeaderHidden.value ? styles.headerHidden : ''}`}>
         <div className={styles.headerBar}>
-        {/* Mascot, a little rain cloud that walks and drips */}
+        {/* Mascot: a raindrop that hops, squashes on landing, and blinks. */}
         <Link href="/" className={styles.mark} aria-label="Wet London home">
           <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-            <g className={styles.markBody}>
+            <g className={styles.dropHop}>
               <path
-                d="M17 31c-5 0-9-4-9-9s4-9 9-9c1.7-6 7.2-10 13.4-10 6.3 0 11.6 4.2 13.2 10.2.9-.2 1.8-.3 2.7-.3 5.4 0 9.7 4.4 9.7 9.8S51.7 32 46.3 32H17Z"
+                d="M32 4c0 0 18 22.5 18 34.5a18 18 0 0 1-36 0C14 26.5 32 4 32 4Z"
                 fill="currentColor"
               />
-            </g>
-            <g stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" fill="none">
-              <path className={styles.markLegA} d="M25 33v13" />
-              <path className={styles.markLegB} d="M40 33v13" />
-            </g>
-            <g fill="currentColor">
-              <ellipse className={styles.markLegA} cx="22.5" cy="47.5" rx="6.5" ry="3.2" />
-              <ellipse className={styles.markLegB} cx="43.5" cy="47.5" rx="6.5" ry="3.2" />
-            </g>
-            <g fill="currentColor" className={styles.markDrops}>
-              <circle className={styles.markDrop1} cx="32" cy="36" r="2" />
-              <circle className={styles.markDrop2} cx="32" cy="36" r="2" />
+              {/* Knocked out of the body, so they read as eyes on any ground. */}
+              <g className={styles.dropEyes} fill="var(--color-bg)">
+                <ellipse cx="25.4" cy="39" rx="4.3" ry="5.2" />
+                <ellipse cx="38.6" cy="39" rx="4.3" ry="5.2" />
+              </g>
             </g>
           </svg>
         </Link>
@@ -337,7 +330,7 @@ export function Layout({ children }: LayoutProps) {
         <div className={styles.footerContainer}>
           <div className={styles.footerTop}>
             <div className={styles.footerColumn}>
-              <h4 className={styles.footerHeading}>Information</h4>
+              <h4 className={styles.footerHeading}>Quick Links</h4>
               <ul className={styles.footerLinks}>
                 <li><Link href="/about">About</Link></li>
                 <li><Link href="/situations">Pick Your Vibe</Link></li>
@@ -350,7 +343,7 @@ export function Layout({ children }: LayoutProps) {
             </div>
 
             <div className={styles.footerColumn}>
-              <h4 className={styles.footerHeading}>Legal</h4>
+              <h4 className={styles.footerHeading}>Important Bits</h4>
               <ul className={styles.footerLinks}>
                 <li><Link href="/privacy">Privacy Policy</Link></li>
                 <li><Link href="/terms">Terms &amp; Conditions</Link></li>
