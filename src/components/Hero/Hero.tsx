@@ -14,7 +14,7 @@ export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
     <section className={styles.hero} id="hero">
       <RainCanvas />
       <div className={styles.heroContent}>
-        {/* The wordmark lives in the header, no need to repeat it here. */}
+        <span className={styles.wordmark}>Wet London</span>
         <h1 className={styles.tagline}>
           {heroTagline.value.lead}{' '}
           <em>{heroTagline.value.accent}</em>

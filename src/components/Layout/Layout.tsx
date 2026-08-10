@@ -236,7 +236,8 @@ export function Layout({ children }: LayoutProps) {
 
         {/* Centred wordmark + nav row */}
         <div className={styles.headerCenter}>
-          <Link href="/" className={styles.wordmark}>Wet London</Link>
+          {/* Hidden while the wordmark is being tried in the hero instead. */}
+          <Link href="/" className={styles.wordmarkHidden}>Wet London</Link>
           <nav className={styles.nav} id="siteNav">
             {NAV_LINKS.map((l) => (
               <NavLink key={l.href} href={l.href}>{l.label}</NavLink>
