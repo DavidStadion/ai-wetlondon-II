@@ -132,3 +132,31 @@ export function venuesFor(collection: Collection, venues: Venue[]): Venue[] {
   const scorer = collection.score ?? rating;
   return venues.filter(collection.match).sort((a, b) => scorer(b) - scorer(a));
 }
+
+/**
+ * One cover venue per collection, guaranteed distinct.
+ *
+ * Picking each collection's top-scored venue independently put the National
+ * Gallery on three covers at once: the collections overlap heavily and most of
+ * them rank on rating. Assigning greedily in display order and skipping a venue
+ * already used as a cover is enough to fix it, and it keeps each collection's
+ * own ranking, so the cover is still that collection's best available place.
+ *
+ * An extra penalty for venues that qualify for many collections was tried and
+ * removed: it changed nothing about uniqueness and made the covers worse, at
+ * one point offering Windsor Castle as the face of "somewhere genuinely weird".
+ */
+export function collectionLeads(venues: Venue[]): Map<string, Venue> {
+  const leads = new Map<string, Venue>();
+  const used = new Set<string>();
+
+  for (const c of COLLECTIONS) {
+    const candidate = venuesFor(c, venues).find((v) => !used.has(v.name));
+    if (candidate) {
+      leads.set(c.slug, candidate);
+      used.add(candidate.name);
+    }
+  }
+
+  return leads;
+}

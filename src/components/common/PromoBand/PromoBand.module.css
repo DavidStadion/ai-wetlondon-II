@@ -53,7 +53,10 @@
 
 .title em { font-style: italic; }
 
-.center .title { margin-inline: auto; max-width: 18ch; }
+/* 34ch, not 18ch: at 18 characters these headlines could never sit on one line
+   whatever the screen width. Wide enough for the longest promo title to hold a
+   single line on desktop, and narrow screens still wrap it on their own. */
+.center .title { margin-inline: auto; max-width: 34ch; }
 
 .body {
   font-size: 0.95rem;
