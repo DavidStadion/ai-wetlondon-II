@@ -93,6 +93,17 @@
   min-width: 0;
 }
 
+/* Visually hidden, not removed: it still anchors the home link for screen
+   readers and keyboard users, and the header grid keeps its centre column. */
+.wordmarkHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .wordmark {
   font-family: var(--font-sans);
   font-size: var(--wl-type-t6);

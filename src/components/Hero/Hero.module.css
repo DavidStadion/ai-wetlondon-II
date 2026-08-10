@@ -16,11 +16,25 @@
 
 /* Sized in em so the measure scales with the type: line one holds
    "…the weather is awful", line two takes the rest. Two lines, not four. */
+/* Smaller than the header's t6, since it now sits with the headline rather than
+   carrying the top of the page on its own. Presentational only: the accessible
+   name for the site lives on the hidden header link. */
+.wordmark {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--color-text);
+}
+
 .tagline {
   font-family: var(--font-serif);
   font-size: var(--wl-type-d2);
   color: var(--color-text);
-  margin: 1.1rem auto 0;
+  margin: 0.7rem auto 0;
   max-width: 15em;
   font-weight: 400;
   line-height: 0.98;
