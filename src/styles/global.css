@@ -72,7 +72,18 @@
   --wl-shadow-soft: 0 10px 28px rgba(12, 12, 13, 0.10);
 
   --font-sans: 'Archivo', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-  --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  /* Every heading on the site reads this one token. Candidates that carry a
+     genuine italic, which the design needs for its 22 titleAccent italics:
+       'Newsreader'         low contrast, newsy      (current)
+       'Instrument Serif'   narrow, high contrast    (previous)
+       'Fraunces'           old-style with wonk
+       'Bodoni Moda'        didone, fashion
+       'DM Serif Display'   closest to Instrument
+       'Playfair Display'   safe, very widely used
+     Faces without a real italic (Young Serif, Gloock, Bricolage, Anton) would
+     need the accent to become a weight or colour instead. Update the font link
+     in index.html to match whatever is set here. */
+  --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
