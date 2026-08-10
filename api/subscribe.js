@@ -32,30 +32,64 @@ export default async function handler(req, res) {
     return;
   }
 
-  const email = String(body.email || '').trim();
-  if (!isValidEmail(email)) {
+  const raw = String(body.email || '').trim();
+  if (!isValidEmail(raw)) {
     json(res, 400, { ok: false, error: 'That does not look like an email address' });
     return;
   }
 
+  /*
+   * Stored lowercase. Uniqueness is enforced by a unique index on lower(email),
+   * so normalising here keeps the stored value and the index in agreement and
+   * lets a plain email=eq.<value> lookup find the row.
+   */
+  const email = raw.toLowerCase();
   const token = newToken();
   const source = typeof body.source === 'string' ? body.source.slice(0, 80) : null;
 
-  // on_conflict + merge-duplicates so a repeat signup is not an error. It also
-  // reissues the token, which doubles as "resend me the confirmation".
-  const insert = await db('subscribers?on_conflict=email', {
+  /*
+   * Insert, and treat a unique violation as "already signed up" rather than an
+   * error, reissuing the token so a second attempt doubles as "resend my
+   * confirmation".
+   *
+   * This was originally a PostgREST upsert with on_conflict=email, which always
+   * failed: ON CONFLICT (email) needs a unique constraint on that exact column,
+   * and ours is a functional index on lower(email), which does not satisfy it.
+   * PostgREST cannot express a functional index as an on_conflict target, so the
+   * insert-then-handle-409 shape is the way round it.
+   */
+  let row = null;
+
+  const insert = await db('subscribers', {
     method: 'POST',
-    headers: { Prefer: 'resolution=merge-duplicates,return=representation' },
+    headers: { Prefer: 'return=representation' },
     body: JSON.stringify([{ email, token, source }]),
   });
 
-  if (!insert.ok) {
+  if (insert.ok) {
+    const rows = await insert.json().catch(() => []);
+    row = Array.isArray(rows) ? rows[0] : null;
+  } else if (insert.status === 409) {
+    // Already on the list. Reissue the token so the confirm link works.
+    const update = await db(`subscribers?email=eq.${encodeURIComponent(email)}`, {
+      method: 'PATCH',
+      headers: { Prefer: 'return=representation' },
+      body: JSON.stringify({ token, unsubscribed_at: null }),
+    });
+    if (update.ok) {
+      const rows = await update.json().catch(() => []);
+      row = Array.isArray(rows) ? rows[0] : null;
+    }
+  }
+
+  if (!row) {
+    // Log enough to diagnose without putting database detail in the response.
+    // Guarded: the body has already been consumed on the success path.
+    const detail = insert.bodyUsed ? '' : await insert.text().catch(() => '');
+    console.error('[subscribe] failed', insert.status, detail.slice(0, 300));
     json(res, 500, { ok: false, error: 'Could not save that, please try again' });
     return;
   }
-
-  const rows = await insert.json().catch(() => []);
-  const row = Array.isArray(rows) ? rows[0] : null;
 
   // Already confirmed: say so rather than sending another confirmation.
   if (row?.confirmed_at && !row?.unsubscribed_at) {
