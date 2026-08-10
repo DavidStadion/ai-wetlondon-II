@@ -1,0 +1,135 @@
+.page {
+  padding-top: var(--wl-header-h);
+  padding-bottom: 3rem;
+  min-height: 70vh;
+}
+
+.hero {
+  max-width: var(--wl-maxw);
+  margin: 0 auto;
+  padding: 2.75rem var(--wl-gutter) 1rem;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--wl-type-d1);
+  letter-spacing: -0.025em;
+  line-height: 1;
+  margin: 0 auto 0.9rem;
+  max-width: 22em;
+  color: var(--color-text);
+  text-wrap: balance;
+}
+
+.title em { font-style: italic; }
+
+.tagline {
+  color: var(--color-text-secondary);
+  font-size: 1.05rem;
+  max-width: 54ch;
+  margin: 0 auto;
+}
+
+.container {
+  max-width: var(--wl-maxw);
+  margin: 0 auto;
+  padding: 2rem var(--wl-gutter) 0;
+}
+
+/* ---------- One edit ---------- */
+.edit {
+  padding: 2.25rem 0 0.5rem;
+  border-top: 1px solid var(--color-border);
+  margin-top: 2.25rem;
+}
+
+.edit:first-of-type {
+  border-top: 0;
+  margin-top: 0;
+  padding-top: 0.5rem;
+}
+
+.editHead {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 1.4rem;
+  max-width: 46ch;
+}
+
+.editTitle {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--wl-type-t2);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.editTitle em { font-style: italic; }
+
+.editBlurb {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.editCount {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  opacity: 0.75;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--wl-gap);
+}
+
+/* ---------- The caveat, said plainly rather than buried ---------- */
+.honesty {
+  margin: 3.5rem 0 1rem;
+  padding: 1.75rem var(--wl-gutter);
+  background: var(--color-sand);
+  border-radius: var(--radius-md);
+  max-width: 70ch;
+}
+
+.honestyTitle {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--wl-type-t6);
+  line-height: 1.05;
+  margin: 0 0 0.6rem;
+}
+
+.honesty p {
+  margin: 0 0 0.65rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.honesty p:last-child { margin-bottom: 0; }
+.honesty a { color: var(--color-wet); }
+
+@media (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 768px) {
+  .hero { padding-top: 1.75rem; text-align: left; }
+  .title { margin-left: 0; }
+  .tagline { margin-left: 0; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .editHead { max-width: none; }
+}
+
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
+}

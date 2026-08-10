@@ -51,7 +51,7 @@ export interface DbVenue {
   featured?: boolean;
   spotlight?: boolean;
   affiliate_link?: string | null;
-  prerequisites?: string[];
+  prerequisites?: string | string[];
   opening_hours?: Record<string, string> | null;
 }
 
@@ -86,7 +86,7 @@ export function convertVenue(dbVenue: DbVenue): Venue {
     featured: dbVenue.featured || false,
     spotlight: dbVenue.spotlight || false,
     affiliateLink: dbVenue.affiliate_link || null,
-    prerequisites: dbVenue.prerequisites || [],
+    prerequisites: toTagArray(dbVenue.prerequisites),
     openingHours: dbVenue.opening_hours || null,
   };
 }
@@ -125,6 +125,24 @@ function normaliseCategory(raw: unknown): VenueType | null {
 
   if (!s) return null;
   return s.toLowerCase() as VenueType;
+}
+
+/**
+ * Postgres returns text[] columns as a literal string ("{indoor,timed entry}"),
+ * so prerequisites arrived as a string despite being typed string[]. Two things
+ * were quietly broken by that: the constraints filter called .some() on a
+ * string, and the modal's amenity list is behind an Array.isArray() guard, so
+ * it never rendered. Values are kept verbatim, since they are displayed.
+ */
+function toTagArray(raw: unknown): string[] {
+  if (Array.isArray(raw)) return raw.map((t) => String(t).trim()).filter(Boolean);
+  if (typeof raw !== 'string') return [];
+  return raw
+    .replace(/^[{]+/, '')
+    .replace(/[}]+$/, '')
+    .split(',')
+    .map((s) => s.trim().replace(/^"|"$/g, ''))
+    .filter(Boolean);
 }
 
 function toTypeArray(dbType: string | string[]): string[] {

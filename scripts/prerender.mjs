@@ -244,6 +244,93 @@ function listPage(template, { path, h1, blurb, title, description, items, type }
   return { path, html: buildBody(html, inner) };
 }
 
+/**
+ * The kids pillar page.
+ *
+ * The section copy below is the keyword-bearing part and is duplicated from
+ * FAMILY_EDITS in src/utils/family.ts. Keep the two in step. The venue picking
+ * is a deliberately coarse mirror of familyProfile(): it only decides which
+ * links a crawler sees, and the app renders the real, fuller version a moment
+ * later.
+ */
+const KIDS_EDITS = [
+  ['Rainy day, kids climbing the walls', 'Fully indoors, straight off the tube, and enough going on to hold a small person for the afternoon.'],
+  ['Brilliant with kids and completely free', 'A wet afternoon does not have to cost anything. All of these are free to walk into.'],
+  ['Things they can actually touch', 'Buttons, levers, dressing up, building things. Places where "do not touch" is not the main rule.'],
+  ['In and out in under two hours', 'For the days when that is all anyone has in them. Yours included.'],
+  ['Step-free, lift access, buggy welcome', 'No stairs to wrestle, no cloakroom argument. Worth knowing before you set off.'],
+  ['There is a loo and somewhere to eat', 'The two things that decide whether an outing survives to the end. Both on site.'],
+];
+
+function looksFamily(v) {
+  const tags = (() => {
+    const p = v.prerequisites;
+    if (Array.isArray(p)) return p.map((x) => String(x).toLowerCase());
+    if (typeof p === 'string') return p.replace(/^[{]+|[}]+$/g, '').split(',').map((s) => s.trim().toLowerCase());
+    return [];
+  })();
+  const t = typesOf(v);
+  const txt = `${v.name} ${v.description || ''}`.toLowerCase();
+  const hit = (...n) => tags.some((tag) => n.some((x) => tag.includes(x)));
+
+  const adults = t.some((x) => ['nightlife', 'club', 'bars', 'cocktails', 'karaoke', 'spa', 'wellness'].includes(x))
+    || /\bbar\b|cocktail|nightclub|casino|adults only|18\+|wine tasting|gin tasting|brewery tour/.test(txt);
+  if (adults) return 0;
+
+  let s = 0;
+  if (hit('family', 'child', 'kid') || t.includes('kids') || t.includes('family') || /children|kids|family|toddler/.test(txt)) s += 30;
+  if (hit('interactive', 'educational', 'hands-on', 'workshop') || t.some((x) => ['science', 'gaming', 'games', 'workshops', 'immersive', 'aquariums'].includes(x))) s += 20;
+  if (hit('step-free', 'lift access', 'pram', 'buggy', 'wheelchair accessible')) s += 15;
+  if (hit('toilet', 'baby chang')) s += 10;
+  if (hit('cafe', 'restaurant', 'food')) s += 10;
+  if (Number(v.price) === 0) s += 8;
+  if (hit('under 1 hour', 'under 2 hours')) s += 7;
+  if (Number(v.wetness_score) <= 20) s += 5;
+  return s;
+}
+
+function kidsPage(template, allVenues) {
+  const path = '/kids';
+  const title = 'Things to do with kids in London when it rains | Wet London';
+  const picks = allVenues
+    .map((v) => ({ v, s: looksFamily(v) }))
+    .filter(({ s }) => s >= 30)
+    .sort((a, b) => b.s - a.s)
+    .map(({ v }) => v);
+
+  const description = `Indoor London with children: free museums, hands-on places, step-free and buggy-friendly, and short visits for a bad day. ${picks.length} places, rated by how dry you will stay.`;
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Things to do with kids in London when it rains',
+    description,
+    url: `${SITE}${path}`,
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: picks.length,
+      itemListElement: picks.slice(0, 25).map((v, i) => ({
+        '@type': 'ListItem', position: i + 1, name: v.name, url: `${SITE}/venue/${slugify(v.name)}`,
+      })),
+    },
+  };
+
+  const inner = `
+    <nav><a href="/">Wet London</a></nav>
+    <h1>Things to do with kids in London when it rains</h1>
+    <p>${esc(picks.length)} indoor places in London that work with children in tow, sorted by the things you actually need to know before you leave the house.</p>
+    ${KIDS_EDITS.map(([h, b]) => `<h2>${esc(h)}</h2><p>${esc(b)}</p>`).join('')}
+    <h2>Every family-friendly place we list</h2>
+    <ul>${picks.slice(0, 60).map((v) => `<li><a href="/venue/${slugify(v.name)}">${esc(v.name)}</a></li>`).join('')}</ul>
+    <p>We read this from what each venue publishes, so it is a good starting point rather than an inspection. Ring ahead if you need to be certain about a lift or a changing table.</p>`;
+
+  let html = buildHead(template, { title, description, path, jsonLd });
+  html = html.replace('</head>', `    <script type="application/ld+json">${JSON.stringify(
+    breadcrumbs([['Wet London', '/'], ['With kids', path]]),
+  )}</script>\n  </head>`);
+  return { path, html: buildBody(html, inner) };
+}
+
 /* ---------- run ---------- */
 
 const templatePath = join(DIST, 'index.html');
@@ -295,6 +382,9 @@ for (const [slug, [name, blurb]] of Object.entries(COLLECTIONS)) {
     items: [],
   }));
 }
+
+// The kids pillar
+pages.push(kidsPage(template, venues));
 
 // Flat pages
 for (const [path, [name, blurb]] of Object.entries(STATIC_PAGES)) {
