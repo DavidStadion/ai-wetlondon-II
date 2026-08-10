@@ -31,10 +31,27 @@ const DENSITY: Record<string, number> = {
   fine: 0.22,
 };
 
-export function RainCanvas() {
+export interface RainCanvasProps {
+  /** Drop colour as an "r, g, b" triple. Defaults to the wet blue. */
+  rgb?: string;
+  /** Fixed density, overriding the weather. Use where the rain is decorative. */
+  density?: number;
+  /** Multiplies drop opacity. Pale rain on a dark ground needs more than 1. */
+  alpha?: number;
+}
+
+export function RainCanvas({ rgb = '31, 67, 255', density, alpha = 1 }: RainCanvasProps = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const moodRef = useRef<string>('dull');
   moodRef.current = weatherMood.value ?? 'dull';
+
+  // Refs rather than effect deps, so changing these never restarts the loop.
+  const rgbRef = useRef(rgb);
+  const densityRef = useRef(density);
+  const alphaRef = useRef(alpha);
+  rgbRef.current = rgb;
+  densityRef.current = density;
+  alphaRef.current = alpha;
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -63,7 +80,7 @@ export function RainCanvas() {
       canvas!.height = Math.round(height * dpr);
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const density = DENSITY[moodRef.current] ?? 0.5;
+      const density = densityRef.current ?? DENSITY[moodRef.current] ?? 0.5;
       const count = Math.round((width * height) / 9000 * density);
 
       drops = Array.from({ length: count }, () => spawn(true));
@@ -82,7 +99,10 @@ export function RainCanvas() {
 
     function onPointerMove(e: PointerEvent) {
       const rect = canvas!.getBoundingClientRect();
-      const rel = (e.clientX - rect.left) / rect.width;     // 0 → 1
+      // Clamped because there are several canvases now: a pointer far outside
+      // one of them would otherwise compute a hurricane.
+      const raw = (e.clientX - rect.left) / rect.width;
+      const rel = Math.min(1, Math.max(0, raw));
       targetWind = (rel - 0.5) * 3.2;                        // lean with the cursor
     }
 
@@ -90,7 +110,7 @@ export function RainCanvas() {
       targetWind = 0.35;
     }
 
-    function frame() {
+    function draw() {
       ctx!.clearRect(0, 0, width, height);
       wind += (targetWind - wind) * 0.03;                    // ease, never snap
 
@@ -107,34 +127,67 @@ export function RainCanvas() {
         }
 
         ctx!.beginPath();
-        ctx!.strokeStyle = `rgba(31, 67, 255, ${0.05 + d.depth * 0.16})`;
+        ctx!.strokeStyle = `rgba(${rgbRef.current}, ${(0.05 + d.depth * 0.16) * alphaRef.current})`;
         ctx!.lineWidth = 0.6 + d.depth * 1.1;
         ctx!.moveTo(d.x, d.y);
         ctx!.lineTo(d.x - drift * 2.2, d.y - d.len);
         ctx!.stroke();
       }
+    }
 
-      raf = requestAnimationFrame(frame);
+    /*
+     * There are several of these on a page now, and the footer's sits below the
+     * fold on every route, so a loop that always ran would burn frames drawing
+     * rain nobody is looking at. Animate only while on screen and only while the
+     * tab is visible.
+     */
+    let onScreen = false;
+    let running = false;
+
+    function start() {
+      if (running || !onScreen || document.hidden) return;
+      running = true;
+      raf = requestAnimationFrame(frameLoop);
+    }
+
+    function stop() {
+      running = false;
+      cancelAnimationFrame(raf);
+    }
+
+    function frameLoop() {
+      draw();
+      if (running) raf = requestAnimationFrame(frameLoop);
     }
 
     resize();
-    frame();
 
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        onScreen = entries.some((e) => e.isIntersecting);
+        if (onScreen) start();
+        else stop();
+      },
+      { rootMargin: '120px' },
+    );
+    io.observe(canvas);
+
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     canvas.addEventListener('pointerleave', onPointerLeave);
 
-    // Don't burn frames on a hidden tab
     const onVisibility = () => {
-      cancelAnimationFrame(raf);
-      if (!document.hidden) raf = requestAnimationFrame(frame);
+      if (document.hidden) stop();
+      else start();
     };
     document.addEventListener('visibilitychange', onVisibility);
 
     return () => {
-      cancelAnimationFrame(raf);
+      stop();
       ro.disconnect();
+      io.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
       canvas.removeEventListener('pointerleave', onPointerLeave);
       document.removeEventListener('visibilitychange', onVisibility);

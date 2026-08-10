@@ -7,6 +7,7 @@ import { bookmarkedVenues, currentPath } from '@/signals/uiSignals';
 import { isConsentSettingsOpen } from '@/utils/consent';
 import { WeatherStrip } from '@/components/WeatherStrip';
 import { JoinClub } from '@/components/JoinClub';
+import { RainCanvas } from '@/components/RainCanvas';
 import styles from './Layout.module.css';
 
 const savedCount = computed(() => bookmarkedVenues.value.size);
@@ -95,7 +96,6 @@ function focusSearch() {
 }
 
 const NAV_LINKS: Array<{ href: string; label: string }> = [
-  { href: '/#activities', label: 'Featured' },
   { href: '/all-activities', label: 'All Activities' },
   { href: '/collections', label: 'Collections' },
   { href: '/kids', label: 'With Kids' },
@@ -399,8 +399,11 @@ export function Layout({ children }: LayoutProps) {
           </div>
         </div>
 
-        {/* Oversized wordmark, bleeding off the bottom edge */}
-        <div className={styles.footerMark} aria-hidden="true">Wet London</div>
+        {/* A wall of rain rather than a wordmark. Heavier and paler than the
+            hero's, because it is the last thing on the page and can be. */}
+        <div className={styles.footerRain} aria-hidden="true">
+          <RainCanvas rgb="255, 255, 255" density={2.4} alpha={2.5} />
+        </div>
       </footer>
     </div>
   );
