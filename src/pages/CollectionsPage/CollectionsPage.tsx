@@ -4,7 +4,7 @@ import { venues, isLoading } from '@/signals/venueSignals';
 import { selectedVenue, isActivityModalOpen } from '@/signals/uiSignals';
 import { fetchVenues } from '@/utils/supabase';
 import { setPageMeta, resetPageMeta } from '@/utils/meta';
-import { COLLECTIONS, getCollection, venuesFor } from '@/utils/collections';
+import { COLLECTIONS, getCollection, venuesFor, collectionLeads } from '@/utils/collections';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import { ActivityCard } from '@/components/ActivityCard';
 import { ActivityModal } from '@/components/modals/ActivityModal';
@@ -74,6 +74,8 @@ export function CollectionsPage(_props: RouteProps) {
   }, []);
 
   const all = venues.value;
+  // Distinct cover per collection: see collectionLeads().
+  const leads = collectionLeads(all);
 
   return (
     <div className={styles.page}>
@@ -99,7 +101,7 @@ export function CollectionsPage(_props: RouteProps) {
                   title={c.title}
                   titleAccent={c.titleAccent}
                   teaser={c.teaser}
-                  lead={list[0]}
+                  lead={leads.get(c.slug)}
                   count={list.length}
                 />
               );

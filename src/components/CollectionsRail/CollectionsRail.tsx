@@ -1,5 +1,5 @@
 import { venues } from '@/signals/venueSignals';
-import { COLLECTIONS, venuesFor } from '@/utils/collections';
+import { COLLECTIONS, venuesFor, collectionLeads } from '@/utils/collections';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import type { Venue } from '@/types';
 import styles from './CollectionsRail.module.css';
@@ -27,6 +27,9 @@ export function CollectionsRail() {
   const all = venues.value;
   if (all.length === 0) return null;
 
+  // Leads are resolved across all eight collections, not just the four shown,
+  // so the homepage covers match the ones on /collections.
+  const leads = collectionLeads(all);
   const picks = COLLECTIONS.slice(0, 4).map((c) => ({
     c,
     list: venuesFor(c, all),
@@ -47,7 +50,7 @@ export function CollectionsRail() {
             title={c.title}
             titleAccent={c.titleAccent}
             count={list.length}
-            lead={list[0]}
+            lead={leads.get(c.slug)}
           />
         ))}
       </div>
