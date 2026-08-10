@@ -75,11 +75,20 @@ export function AboutPage(_props: RouteProps) {
       {/* Hero */}
       <section className={styles.hero}>
         <h1 className={styles.title}>About</h1>
-        <p className={styles.intro}>
-          Wet London was started by Kate and Dave, two Londoners who love exploring come rain or shine (mostly rain, let's be honest). We've lost count of the times we've been caught out by the weather. Umbrellas turning inside out, trainers that squelch for days, that classic "it'll clear up" optimism that never pays off. So we built this to help fellow Londoners keep adventuring, whatever the sky throws at us.
+        <p className={styles.heroIntro}>
+          Wet London was started by Dave, a Londoner with a long and distinguished
+          history of leaving the house at precisely the wrong moment. Umbrellas turned
+          inside out. Trainers that squelched for a fortnight. That heroic optimism
+          where you look at a sky the colour of a filing cabinet and decide it will
+          probably clear up. Reader, it does not clear up.
         </p>
-        <p className={styles.intro}>
-          From pop-ups to landmarks to museums that will genuinely blow your mind (or at least keep you dry while you pretend to read the plaques). Got a recommendation? Send it our way. Want to partner up or get featured? Drop us a message and let's chat.
+        <p className={styles.heroIntro}>
+          So here we are. Museums that will genuinely blow your mind, or at the very
+          least keep you dry while you nod thoughtfully at a plaque you have no
+          intention of reading. Pop-ups, landmarks, and a few places odd enough that
+          you will still be describing them at parties years later. Found somewhere we
+          have missed? Send it over. Want to partner up or get featured? Also send it
+          over. It is dry in here and the kettle is on.
         </p>
       </section>
 

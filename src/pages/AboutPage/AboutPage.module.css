@@ -30,6 +30,18 @@
   text-align: left;
 }
 
+/* The opening block only. Narrower than .intro's 62rem because centred text
+   needs a shorter measure, or the eye loses the start of the next line. */
+.heroIntro {
+  composes: intro;
+  max-width: 48rem;
+  margin-bottom: 1.1rem;
+  text-align: center;
+  text-wrap: pretty;
+}
+
+.heroIntro:last-of-type { margin-bottom: 0; }
+
 /* Sections */
 .section {
   max-width: var(--wl-maxw);
