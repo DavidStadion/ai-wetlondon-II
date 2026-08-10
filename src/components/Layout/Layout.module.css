@@ -49,42 +49,40 @@
 
 .mark svg { width: 100%; height: 100%; overflow: visible; }
 
-/* Mascot: a rain cloud that ambles along and drips */
-.markBody { animation: markBob 2.6s ease-in-out infinite; transform-origin: 50% 60%; }
-.markLegA { animation: markStepA 1.3s ease-in-out infinite; transform-origin: 50% 40%; }
-.markLegB { animation: markStepB 1.3s ease-in-out infinite; transform-origin: 50% 40%; }
-.markDrop1 { animation: markDrip 2.2s ease-in infinite; }
-.markDrop2 { animation: markDrip 2.2s ease-in 1.1s infinite; }
-
-@keyframes markBob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-1.6px); }
+/* Mascot: a raindrop that hops and blinks.
+   transform-box: fill-box so percentage origins resolve against each shape's
+   own box rather than the whole SVG viewBox. */
+.dropHop {
+  animation: dropHop 3s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;   /* squash from the bottom, so it has weight */
 }
 
-@keyframes markStepA {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(2.4px); }
+.dropEyes {
+  animation: dropBlink 5.4s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
-@keyframes markStepB {
-  0%, 100% { transform: translateX(0); }
-  50% { transform: translateX(-2.4px); }
+@keyframes dropHop {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  38%      { transform: translateY(-3px) scale(0.96, 1.05); }
+  62%      { transform: translateY(0) scale(1.06, 0.94); }
+  78%      { transform: translateY(0) scale(0.99, 1.01); }
 }
 
-@keyframes markDrip {
-  0% { opacity: 0; transform: translateY(0) scale(0.6); }
-  18% { opacity: 1; transform: translateY(2px) scale(1); }
-  70% { opacity: 1; transform: translateY(13px) scale(0.9); }
-  100% { opacity: 0; transform: translateY(18px) scale(0.5); }
+/* Long open, quick shut: a slow blink reads as sleepy rather than alive. */
+@keyframes dropBlink {
+  0%, 88%, 100% { transform: scaleY(1); }
+  92%           { transform: scaleY(0.1); }
+  96%           { transform: scaleY(1); }
 }
+
+.mark:hover .dropHop { animation-duration: 1.15s; }
 
 @media (prefers-reduced-motion: reduce) {
-  .markBody,
-  .markLegA,
-  .markLegB,
-  .markDrop1,
-  .markDrop2 { animation: none; }
-  .markDrop1, .markDrop2 { opacity: 0; }
+  .dropHop,
+  .dropEyes { animation: none; }
 }
 
 .headerCenter {
