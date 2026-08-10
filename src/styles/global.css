@@ -85,9 +85,36 @@
   --wl-maxw: 1760px;
   --wl-gutter: clamp(14px, 2.4vw, 40px);
   --wl-gap: clamp(10px, 0.9vw, 14px);
-  /* Fallback only — Layout measures the real header and overwrites this,
+  /* Fallback only, Layout measures the real header and overwrites this,
      since its height varies by route and by wrapping. */
   --wl-header-h: 108px;
+
+  /* ---- Display type scale ----------------------------------------------
+     Every one of these was previously an inline clamp() repeated across
+     components, which drifted: a dozen sizes differed from a neighbour by a
+     pixel or two for no reason. These are the steps that actually earn their
+     place. Reach for the nearest step rather than inventing a new clamp.
+
+     mega   one-off oversized numerals (404)
+     hero   section headings on the homepage rails
+     d1-d5  page titles and hero taglines, largest to smallest
+     t1-t6  card and tile titles, largest to smallest
+
+     A dozen genuinely one-off sizes were left inline rather than bent to fit
+     a step they were never near.                                        */
+  --wl-type-mega: clamp(4.5rem, 17vw, 17rem);
+  --wl-type-hero: clamp(2.85rem, 11vw, 6.5rem);
+  --wl-type-d1: clamp(2.5rem, 6.5vw, 5.5rem);
+  --wl-type-d2: clamp(2.4rem, 8.5vw, 5.25rem);
+  --wl-type-d3: clamp(2.25rem, 5.6vw, 4.5rem);
+  --wl-type-d4: clamp(2rem, 5vw, 3.5rem);
+  --wl-type-d5: clamp(2rem, 6vw, 3.1rem);
+  --wl-type-t1: clamp(2.15rem, 3.6vw, 3.7rem);
+  --wl-type-t2: clamp(1.9rem, 3.4vw, 3.1rem);
+  --wl-type-t3: clamp(1.75rem, 3.5vw, 2.75rem);
+  --wl-type-t4: clamp(1.6rem, 3vw, 2.35rem);
+  --wl-type-t5: clamp(1.5rem, 2.7vw, 2.1rem);
+  --wl-type-t6: clamp(1.4rem, 2.6vw, 2.15rem);
 }
 
 @media (max-width: 768px) {
@@ -156,3 +183,24 @@ body {
    A blanket min-height was tried here and removed: chaining :not() to spare
    the icon buttons pushed the selector to 0-4-1 specificity, which beat their
    own class rules and stretched every circular control into an ellipse. */
+
+/* Prerendered SEO content. Visible only until the app boots (main.tsx clears
+   it), and to anyone without JavaScript. Styled just enough to be readable. */
+.wl-prerender {
+  max-width: 62ch;
+  margin: 0 auto;
+  padding: calc(var(--wl-header-h, 60px) + 3rem) var(--wl-gutter) 4rem;
+  font-size: 1.05rem;
+  line-height: 1.55;
+}
+.wl-prerender h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--wl-type-d4);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0 0 1rem;
+}
+.wl-prerender nav { font-size: 0.8rem; opacity: 0.6; margin-bottom: 1.5rem; }
+.wl-prerender ul { padding-left: 1.1rem; }
+.wl-prerender li { margin-bottom: 0.35rem; }

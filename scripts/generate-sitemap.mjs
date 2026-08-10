@@ -17,7 +17,8 @@ const STATIC_PATHS = [
   ['/events', '0.8', 'daily'],
   ['/popups', '0.7', 'weekly'],
   ['/situations', '0.7', 'weekly'],
-  ['/saved', '0.3', 'monthly'],
+  // /saved is per-visitor localStorage content, so it is an empty page to a
+  // crawler. Excluded here and disallowed in robots.txt.
   ['/about', '0.5', 'monthly'],
   ['/contact', '0.4', 'monthly'],
   ['/privacy', '0.2', 'yearly'],

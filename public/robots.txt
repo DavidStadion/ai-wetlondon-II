@@ -7,5 +7,9 @@ Allow: /
 # Block admin pages from indexing
 Disallow: /admin
 
+# Personal pages: content comes from the visitor's own device, so there is
+# nothing here for a crawler to index.
+Disallow: /saved
+
 # Allow sitemap
 Sitemap: https://wetlondon.co.uk/sitemap.xml

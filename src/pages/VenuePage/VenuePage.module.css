@@ -54,7 +54,7 @@
 .title {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(2.25rem, 5.6vw, 4.5rem);
+  font-size: var(--wl-type-d3);
   line-height: 0.98;
   letter-spacing: -0.028em;
   color: var(--color-text);
@@ -185,7 +185,7 @@
 
 .standfirst {
   font-family: var(--font-serif);
-  font-size: clamp(1.4rem, 2.6vw, 2.15rem);
+  font-size: var(--wl-type-t6);
   line-height: 1.28;
   letter-spacing: -0.015em;
   color: var(--color-text);
@@ -211,7 +211,7 @@
 .panelHeading {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-size: var(--wl-type-t4);
   letter-spacing: -0.02em;
   line-height: 1;
   margin: 0 0 1.5rem;
@@ -228,7 +228,7 @@
 .sectionHeading {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-size: var(--wl-type-t4);
   letter-spacing: -0.02em;
   line-height: 1;
   margin: 0 0 1.25rem;
@@ -248,7 +248,7 @@
 .nfTitle {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-size: var(--wl-type-d4);
   letter-spacing: -0.02em;
   margin: 0 0 0.75rem;
   color: var(--color-text);

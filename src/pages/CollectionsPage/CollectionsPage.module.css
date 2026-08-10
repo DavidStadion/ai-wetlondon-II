@@ -14,7 +14,7 @@
 .title {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(2.85rem, 11vw, 6.5rem);
+  font-size: var(--wl-type-hero);
   letter-spacing: -0.025em;
   line-height: 1;
   margin: 0 0 0.75rem;
@@ -92,7 +92,7 @@
 .cardTitle {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(1.9rem, 3.4vw, 3.1rem);
+  font-size: var(--wl-type-t2);
   line-height: 1.02;
   letter-spacing: -0.02em;
   text-wrap: balance;
@@ -140,7 +140,7 @@
 .collectionTitle {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+  font-size: var(--wl-type-d1);
   letter-spacing: -0.03em;
   line-height: 0.98;
   margin: 0 auto;
