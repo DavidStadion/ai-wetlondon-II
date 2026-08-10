@@ -5,8 +5,18 @@
 }
 
 .inner {
+  position: relative;
+  overflow: hidden;   /* clips the rain to the rounded corners */
   border-radius: var(--radius-md);
   padding: clamp(2rem, 5vw, 3.75rem) clamp(1.5rem, 4vw, 3.5rem);
+}
+
+/* The rain canvas is positioned, so unpositioned text would paint beneath it. */
+.title,
+.body,
+.cta {
+  position: relative;
+  z-index: 1;
 }
 
 /* Tones */

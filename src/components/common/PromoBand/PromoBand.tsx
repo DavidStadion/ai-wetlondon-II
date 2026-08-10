@@ -1,4 +1,5 @@
 import type { ComponentChildren } from 'preact';
+import { RainCanvas } from '@/components/RainCanvas';
 import styles from './PromoBand.module.css';
 
 export interface PromoBandProps {
@@ -45,6 +46,9 @@ export function PromoBand({
       ].join(' ')}
     >
       <div className={styles.inner}>
+        {/* Only on the blue tone: white rain would be invisible on the sand one.
+            Absolutely positioned, so it takes no grid cell in the split layout. */}
+        {tone === 'bold' && <RainCanvas rgb="255, 255, 255" density={2} alpha={2.2} />}
         <h2 className={styles.title}>
           {title}
           {titleAccent && <> <em>{titleAccent}</em></>}

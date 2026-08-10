@@ -113,7 +113,7 @@
   gap: 0.15rem;
   align-items: center;
   background: var(--color-bg-secondary);
-  border-radius: 10px;
+  border-radius: 999px;
   padding: 0.25rem 0.3rem;
 }
 
@@ -124,7 +124,7 @@
   color: var(--color-text);
   text-decoration: none;
   padding: 0.45rem 0.95rem;
-  border-radius: 8px;
+  border-radius: 999px;
   white-space: nowrap;
   transition: background 0.15s, color 0.15s;
 }
@@ -194,7 +194,7 @@
   font-size: 0.82rem;
   font-weight: 700;
   padding: 0.6rem 1.05rem;
-  border-radius: 8px;
+  border-radius: 999px;
   text-decoration: none;
   white-space: nowrap;
   transition: background 0.15s;
@@ -367,18 +367,13 @@
 .footerTagline { font-style: italic; }
 
 /* Oversized wordmark bleeding off the bottom */
-.footerMark {
-  font-family: var(--font-sans);
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: -0.055em;
-  font-size: var(--wl-type-mega);
-  line-height: 0.78;
-  color: rgba(255, 255, 255, 0.09);
-  text-align: center;
-  margin-bottom: -0.16em;
-  user-select: none;
-  white-space: nowrap;
+/* Deliberately empty: the point is the rain and the black space it falls
+   through. Needs a definite height because the canvas measures its box, and
+   collapses to plain black for anyone who prefers reduced motion. */
+.footerRain {
+  position: relative;
+  height: clamp(190px, 24vw, 340px);
+  overflow: hidden;
 }
 
 /* ============ RESPONSIVE ============ */
