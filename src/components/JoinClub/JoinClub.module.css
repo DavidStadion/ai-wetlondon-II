@@ -1,0 +1,85 @@
+.form { display: grid; gap: 0.35rem; }
+
+.label {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.35rem;
+  line-height: 1.1;
+}
+
+.blurb {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin: 0 0 0.5rem;
+  line-height: 1.45;
+}
+
+.row { display: flex; gap: 0.4rem; }
+
+.input {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.6rem 0.8rem;
+  font: inherit;
+  font-size: 0.95rem;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius-md);
+}
+
+.input::placeholder { color: rgba(255, 255, 255, 0.45); }
+
+.input:focus-visible {
+  outline: 2px solid var(--color-footer-accent);
+  outline-offset: 1px;
+}
+
+.button {
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0.6rem 1.1rem;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: #0c0c0d;
+  background: #fff;
+  border: 0;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.button:hover { background: var(--color-footer-accent-hover); }
+.button:disabled { opacity: 0.6; cursor: default; }
+
+/* Off-screen rather than display:none, which some bots skip. */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.done {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 28ch;
+}
+
+.error {
+  font-size: 0.85rem;
+  margin: 0.35rem 0 0;
+  color: #ffb4b4;
+}
+
+.smallprint {
+  font-size: 0.72rem;
+  opacity: 0.6;
+  line-height: 1.45;
+  margin: 0.55rem 0 0;
+}
+
+.smallprint a { color: inherit; text-decoration: underline; }

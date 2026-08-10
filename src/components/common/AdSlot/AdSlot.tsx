@@ -14,19 +14,30 @@ declare global {
   }
 }
 
+/**
+ * AdSense slot IDs are numeric. Anything else (notably the "PLACEHOLDER" the
+ * site shipped with) is not a slot, and rendering it meant visitors saw an
+ * "Advertisement" label over an empty box while AdSense was handed an invalid
+ * unit. Render nothing until a real ID exists.
+ */
+const isRealSlot = (id: string) => /^\d{6,}$/.test(id.trim());
+
 export function AdSlot({ slotId, format = 'auto', layout, className }: AdSlotProps) {
   const adRef = useRef<HTMLModElement>(null);
   const pushed = useRef(false);
+  const real = isRealSlot(slotId);
 
   useEffect(() => {
-    if (pushed.current) return;
+    if (!real || pushed.current) return;
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
       pushed.current = true;
     } catch {
       // AdSense not loaded, fail silently
     }
-  }, []);
+  }, [real]);
+
+  if (!real) return null;
 
   const containerClass = [styles.adSlot, className].filter(Boolean).join(' ');
 
