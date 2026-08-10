@@ -29,6 +29,41 @@ function matchesCategory(v: Venue, categoryId: string): boolean {
   return v.type.some((t) => t.toLowerCase().includes(categoryId));
 }
 
+const rating = (v: Venue) =>
+  typeof v.rating === 'number' && v.rating > 0 && v.rating <= 5 ? v.rating : 0;
+
+/**
+ * One tile image per category, guaranteed distinct.
+ *
+ * Two problems with taking matches[0]: it is whatever the name-ordered fetch
+ * happened to return first, so the tile showed an arbitrary venue rather than a
+ * good one; and venues sit in several categories, so Moco Museum fronted both
+ * Museums and Galleries while Hamilton fronted both Theatre and Music.
+ *
+ * Ranks by rating, then assigns greedily and skips anything already used. Run
+ * over every category rather than only the visible ones, so pressing "Show all"
+ * cannot reshuffle the tiles already on screen. Same approach as
+ * collectionLeads() in utils/collections.ts.
+ */
+function categoryLeads(all: Venue[]): Map<string, Venue> {
+  const leads = new Map<string, Venue>();
+  const used = new Set<string>();
+
+  for (const c of CATEGORIES) {
+    const candidate = all
+      .filter((v) => matchesCategory(v, c.id))
+      .sort((a, b) => rating(b) - rating(a))
+      .find((v) => !used.has(v.name));
+
+    if (candidate) {
+      leads.set(c.id, candidate);
+      used.add(candidate.name);
+    }
+  }
+
+  return leads;
+}
+
 interface TileProps {
   category: Category;
   count: number;
@@ -58,6 +93,7 @@ export function PopularCategories() {
   const allVenues = venues.value;
 
   const visible = CATEGORIES.filter((c) => expanded || !c.hidden);
+  const leads = categoryLeads(allVenues);
 
   return (
     <section className={styles.section}>
@@ -81,7 +117,7 @@ export function PopularCategories() {
                 key={category.id}
                 category={category}
                 count={matches.length}
-                sample={matches[0]}
+                sample={leads.get(category.id)}
               />
             );
           })}
