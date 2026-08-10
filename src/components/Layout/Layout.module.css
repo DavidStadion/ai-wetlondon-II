@@ -97,7 +97,7 @@
 
 .wordmark {
   font-family: var(--font-sans);
-  font-size: clamp(1.35rem, 2.6vw, 2.15rem);
+  font-size: var(--wl-type-t6);
   font-weight: 900;
   letter-spacing: -0.045em;
   text-transform: uppercase;
@@ -372,7 +372,7 @@
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -0.055em;
-  font-size: clamp(4.5rem, 17vw, 17rem);
+  font-size: var(--wl-type-mega);
   line-height: 0.78;
   color: rgba(255, 255, 255, 0.09);
   text-align: center;

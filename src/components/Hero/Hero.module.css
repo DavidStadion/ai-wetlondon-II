@@ -18,7 +18,7 @@
    "…the weather is awful", line two takes the rest. Two lines, not four. */
 .tagline {
   font-family: var(--font-serif);
-  font-size: clamp(2.4rem, 8.5vw, 5.25rem);
+  font-size: var(--wl-type-d2);
   color: var(--color-text);
   margin: 1.1rem auto 0;
   max-width: 15em;

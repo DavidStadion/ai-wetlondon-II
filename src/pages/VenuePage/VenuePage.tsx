@@ -14,7 +14,15 @@ import { RelatedVenues } from '@/components/modals/ActivityModal/RelatedVenues';
 import { Button } from '@/components/common/Button';
 import { BackToTop } from '@/components/common/BackToTop';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
-import type { RouteProps } from '@/types';
+import type { RouteProps, AreaType } from '@/types';
+
+const AREA_LABELS: Record<AreaType, string> = {
+  central: 'Central London',
+  north: 'North London',
+  south: 'South London',
+  east: 'East London',
+  west: 'West London',
+};
 import styles from './VenuePage.module.css';
 
 interface VenueRouteProps extends RouteProps {
@@ -45,9 +53,12 @@ export function VenuePage({ slug }: VenueRouteProps) {
   useEffect(() => {
     if (venue) {
       addToRecentlyViewed(venue.name);
+      // Must match the title scripts/prerender.mjs writes for this URL, so the
+      // static HTML and the rendered page do not disagree about the page name.
+      const area = AREA_LABELS[venue.location] ?? 'London';
       setPageMeta({
-        title: `${venue.name} | Wet London`,
-        description: `${venue.description} ${venue.priceDisplay} · ${venue.location} London · rated ${Math.round(venue.wetnessScore)}% wet by Wet London.`.slice(0, 300),
+        title: `${venue.name} | ${area} indoor activity | Wet London`,
+        description: `${venue.name} in ${area}: ${venue.description}`.replace(/\s+/g, ' ').slice(0, 300),
         path: `/venue/${slug}`,
       });
     }

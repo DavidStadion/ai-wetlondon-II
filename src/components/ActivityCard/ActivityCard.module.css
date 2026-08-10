@@ -73,7 +73,7 @@
 .overlay .kicker { color: rgba(255, 255, 255, 0.9); }
 .overlay .area { color: #fff; }
 
-.overlayLg .name { font-size: clamp(2.15rem, 3.6vw, 3.7rem); }
+.overlayLg .name { font-size: var(--wl-type-t1); }
 
 /* ---------- Badges / controls ---------- */
 .wetBadge {

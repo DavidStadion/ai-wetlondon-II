@@ -1,23 +1,32 @@
 import { render } from 'preact';
+import { lazy, Suspense } from 'preact/compat';
 import Router from 'preact-router';
 import { Layout } from '@/components/Layout';
 import { HomePage } from '@/pages/HomePage';
-import { AboutPage } from '@/pages/AboutPage';
-import { EventsPage } from '@/pages/EventsPage';
-import { PopupsPage } from '@/pages/PopupsPage';
-import { SituationsPage } from '@/pages/SituationsPage';
-import { SavedPage } from '@/pages/SavedPage';
-import { CategoryPage } from '@/pages/CategoryPage';
-import { AllActivitiesPage } from '@/pages/AllActivitiesPage';
-import { VenuePage } from '@/pages/VenuePage';
-import { CollectionsPage, CollectionPage } from '@/pages/CollectionsPage';
-import { NotFoundPage } from '@/pages/NotFoundPage';
-import { PrivacyPage } from '@/pages/PrivacyPage';
-import { CookiesPage } from '@/pages/CookiesPage';
-import { TermsPage } from '@/pages/TermsPage';
-import { AffiliatePage } from '@/pages/AffiliatePage';
-import { ContactPage } from '@/pages/ContactPage';
-import { AdminPage } from '@/pages/AdminPage';
+import { RouteFallback } from '@/components/common/RouteFallback';
+
+/**
+ * Only the homepage ships in the main bundle. Every other route is its own
+ * chunk, fetched on navigation, so a first visit does not pay for the admin
+ * page and the legal pages it will never open.
+ */
+const AboutPage = lazy(() => import('@/pages/AboutPage').then((m) => m.AboutPage));
+const EventsPage = lazy(() => import('@/pages/EventsPage').then((m) => m.EventsPage));
+const PopupsPage = lazy(() => import('@/pages/PopupsPage').then((m) => m.PopupsPage));
+const SituationsPage = lazy(() => import('@/pages/SituationsPage').then((m) => m.SituationsPage));
+const SavedPage = lazy(() => import('@/pages/SavedPage').then((m) => m.SavedPage));
+const CategoryPage = lazy(() => import('@/pages/CategoryPage').then((m) => m.CategoryPage));
+const AllActivitiesPage = lazy(() => import('@/pages/AllActivitiesPage').then((m) => m.AllActivitiesPage));
+const VenuePage = lazy(() => import('@/pages/VenuePage').then((m) => m.VenuePage));
+const CollectionsPage = lazy(() => import('@/pages/CollectionsPage').then((m) => m.CollectionsPage));
+const CollectionPage = lazy(() => import('@/pages/CollectionsPage').then((m) => m.CollectionPage));
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage').then((m) => m.NotFoundPage));
+const PrivacyPage = lazy(() => import('@/pages/PrivacyPage').then((m) => m.PrivacyPage));
+const CookiesPage = lazy(() => import('@/pages/CookiesPage').then((m) => m.CookiesPage));
+const TermsPage = lazy(() => import('@/pages/TermsPage').then((m) => m.TermsPage));
+const AffiliatePage = lazy(() => import('@/pages/AffiliatePage').then((m) => m.AffiliatePage));
+const ContactPage = lazy(() => import('@/pages/ContactPage').then((m) => m.ContactPage));
+const AdminPage = lazy(() => import('@/pages/AdminPage').then((m) => m.AdminPage));
 import { ToastContainer } from '@/components/common/Toast/ToastContainer';
 import { ConfigurationError } from '@/components/ConfigurationError';
 import { hasSupabaseCredentials } from '@/utils/supabase';
@@ -52,6 +61,7 @@ function App() {
   return (
     <>
       <Layout>
+        <Suspense fallback={<RouteFallback />}>
         <Router
           onChange={(e) => {
             // A modal left open would otherwise persist across the route change
@@ -80,6 +90,7 @@ function App() {
           {/* Catch-all: without this, unknown routes render a blank page */}
           <NotFoundPage default />
         </Router>
+        </Suspense>
       </Layout>
       <ToastContainer />
       <CookieConsent />
@@ -98,5 +109,8 @@ loadRecentlyViewed();
 
 const container = document.getElementById('preact-root');
 if (container) {
+  // Prerendered markup exists purely so crawlers and social scrapers see real
+  // content. Clear it rather than letting Preact diff against it.
+  if (container.querySelector('[data-prerender]')) container.innerHTML = '';
   render(<App />, container);
 }

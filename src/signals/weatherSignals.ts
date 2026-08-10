@@ -115,6 +115,25 @@ export const weatherMessage = computed<string | null>(() => {
   return line;
 });
 
+/**
+ * The front-page line. "The weather is awful" is the house line and stays put
+ * whenever the weather is, in fact, awful. It only moves when the sky would
+ * make it read as nonsense: a heatwave, a cold snap, or a genuinely nice day.
+ * The trailing clause is set in italic by the Hero.
+ */
+export const heroTagline = computed<{ lead: string; accent: string }>(() => {
+  switch (weatherMood.value) {
+    case 'heat':
+      return { lead: 'London ideas for when it is too hot to', accent: 'think straight.' };
+    case 'freezing':
+      return { lead: 'London ideas for when it is too cold to', accent: 'be outside.' };
+    case 'fine':
+      return { lead: 'It is genuinely lovely out. London ideas for when you are', accent: 'staying in anyway.' };
+    default:
+      return { lead: 'London ideas for when the weather is awful and your', accent: 'motivation is worse.' };
+  }
+});
+
 export const weatherIcon = computed<string | null>(() => {
   const mood = weatherMood.value;
   if (!mood) return null;

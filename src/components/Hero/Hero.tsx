@@ -1,3 +1,4 @@
+import { heroTagline } from '@/signals/weatherSignals';
 import { RainCanvas } from '@/components/RainCanvas';
 import { SearchBar } from '@/components/SearchBar';
 import { Button } from '@/components/common/Button';
@@ -15,8 +16,8 @@ export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
       <div className={styles.heroContent}>
         {/* The wordmark lives in the header, no need to repeat it here. */}
         <h1 className={styles.tagline}>
-          London ideas for when the weather is awful and your{' '}
-          <em>motivation is worse.</em>
+          {heroTagline.value.lead}{' '}
+          <em>{heroTagline.value.accent}</em>
         </h1>
 
         <div className={styles.searchSection}>
