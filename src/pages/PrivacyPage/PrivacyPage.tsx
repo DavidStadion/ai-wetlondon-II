@@ -27,9 +27,8 @@ export function PrivacyPage(_props: RouteProps) {
         Wet London (“we”, “us”) runs the website at wetlondon.co.uk, a free guide to
         indoor things to do in London. For data protection purposes the data
         controller is{' '}
-        David Hampshire
-        {', '}
-        <span className={styles.todo}>TODO: your registered address</span>.
+        David Hampshire, London, United Kingdom. Our postal address is available
+        on request by email.
       </p>
       <p>
         If you have any question about this policy or about your information, email us
@@ -88,6 +87,11 @@ export function PrivacyPage(_props: RouteProps) {
               <td>Reviews you submit</td>
               <td>To show other visitors what a place is like</td>
               <td>Consent, you choose to submit it</td>
+            </tr>
+            <tr>
+              <td>Your email address, if you join the rain alerts</td>
+              <td>To email you on mornings when rain is forecast</td>
+              <td>Consent, confirmed by clicking the link we send you</td>
             </tr>
             <tr>
               <td>Analytics cookies</td>
@@ -174,7 +178,10 @@ export function PrivacyPage(_props: RouteProps) {
       <ul>
         <li><strong>Reviews</strong>: kept while they're useful and relevant, or until you ask us to remove them.</li>
         <li><strong>Saved places and recently viewed</strong>: on your device until you clear them; we hold no copy.</li>
-        <li><strong>Analytics</strong>: retained according to the Google Analytics retention setting, currently <span className={styles.todo}>TODO: confirm your GA4 retention period</span>.</li>
+        <li><strong>Rain alert subscriptions</strong>: kept until you unsubscribe, which you
+        can do from the link in any email. We keep a record that you unsubscribed so we do
+        not email you again by mistake.</li>
+        <li><strong>Analytics</strong>: retained by Google Analytics for no more than 14 months, which is the longest we allow. Google may keep aggregated, non-identifying totals for longer.</li>
       </ul>
 
       <h2>Your rights</h2>

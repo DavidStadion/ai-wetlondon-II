@@ -11,10 +11,8 @@ export function TermsPage(_props: RouteProps) {
     >
       <div className={styles.callout}>
         <p>
-          <span className={styles.todo}>
-            TODO: have a solicitor review before publishing
-          </span>{' '}
-          This is a plain-English draft based on how the site works, not legal advice.
+          This is a plain-English description of how the site works, written to be
+          readable rather than to be clever. It is not legal advice.
         </p>
       </div>
 

@@ -6,6 +6,7 @@ import { createPortal } from 'preact/compat';
 import { bookmarkedVenues, currentPath } from '@/signals/uiSignals';
 import { isConsentSettingsOpen } from '@/utils/consent';
 import { WeatherStrip } from '@/components/WeatherStrip';
+import { JoinClub } from '@/components/JoinClub';
 import styles from './Layout.module.css';
 
 const savedCount = computed(() => bookmarkedVenues.value.size);
@@ -367,15 +368,7 @@ export function Layout({ children }: LayoutProps) {
             </div>
 
             <div className={styles.footerNewsletterCol} id="join">
-              <h4 className={styles.footerHeading}>Rainy day alerts</h4>
-              <p className={styles.footerDescription}>
-                We'll tell you when it's about to chuck it down, and where to hide.
-              </p>
-              {/* No mailing list provider is connected yet, so we say so rather
-                  than pretending to collect addresses. Wire up and restore. */}
-              <a className={styles.footerButton} href="mailto:wetlondonofficial@gmail.com?subject=Rainy%20day%20alerts">
-                Email us to be added
-              </a>
+              <JoinClub source="footer" />
             </div>
 
             <div className={styles.footerSocial}>

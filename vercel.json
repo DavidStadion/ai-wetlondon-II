@@ -1,9 +1,19 @@
 {
   "devCommand": "echo 'No dev server needed'",
   "rewrites": [
-    { "source": "/((?!api/).*)", "destination": "/" }
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/"
+    }
   ],
   "crons": [
-    { "path": "/api/keep-alive", "schedule": "0 6 * * *" }
+    {
+      "path": "/api/keep-alive",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/rain-alert",
+      "schedule": "50 6 * * *"
+    }
   ]
 }
