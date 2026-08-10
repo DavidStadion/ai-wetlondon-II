@@ -15,6 +15,7 @@ const EventsPage = lazy(() => import('@/pages/EventsPage').then((m) => m.EventsP
 const PopupsPage = lazy(() => import('@/pages/PopupsPage').then((m) => m.PopupsPage));
 const SituationsPage = lazy(() => import('@/pages/SituationsPage').then((m) => m.SituationsPage));
 const SavedPage = lazy(() => import('@/pages/SavedPage').then((m) => m.SavedPage));
+const KidsPage = lazy(() => import('@/pages/KidsPage').then((m) => m.KidsPage));
 const CategoryPage = lazy(() => import('@/pages/CategoryPage').then((m) => m.CategoryPage));
 const AllActivitiesPage = lazy(() => import('@/pages/AllActivitiesPage').then((m) => m.AllActivitiesPage));
 const VenuePage = lazy(() => import('@/pages/VenuePage').then((m) => m.VenuePage));
@@ -76,6 +77,7 @@ function App() {
           <PopupsPage path="/popups" />
           <SituationsPage path="/situations" />
           <SavedPage path="/saved" />
+          <KidsPage path="/kids" />
           <CategoryPage path="/category/:type" />
           <AllActivitiesPage path="/all-activities" />
           <VenuePage path="/venue/:slug" />

@@ -11,6 +11,7 @@ const ROOT = join(__dirname, '..');
 const SITE = 'https://wetlondon.co.uk';
 
 const STATIC_PATHS = [
+  ['/kids', '0.9', 'weekly'],
   ['/', '1.0', 'daily'],
   ['/all-activities', '0.9', 'daily'],
   ['/collections', '0.8', 'weekly'],

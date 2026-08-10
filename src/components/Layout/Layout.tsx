@@ -97,6 +97,7 @@ const NAV_LINKS: Array<{ href: string; label: string }> = [
   { href: '/#activities', label: 'Featured' },
   { href: '/all-activities', label: 'All Activities' },
   { href: '/collections', label: 'Collections' },
+  { href: '/kids', label: 'With Kids' },
   { href: '/events', label: "What's On" },
   { href: '/popups', label: 'Pop-Ups' },
   { href: '/situations', label: 'Pick Your Vibe' },
