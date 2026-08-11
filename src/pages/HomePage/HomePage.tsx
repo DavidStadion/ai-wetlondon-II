@@ -234,7 +234,8 @@ export function HomePage(_props: RouteProps) {
       {/* Banner Ad */}
       {!loading && !errorMsg && (
         <div className={styles.adWrapper}>
-          <AdSlot slotId="PLACEHOLDER" format="horizontal" />
+          {/* AdSense unit "Homepage in-feed" */}
+          <AdSlot slotId="2166965467" format="horizontal" />
         </div>
       )}
 
