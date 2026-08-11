@@ -123,6 +123,8 @@ export default async function handler(req, res) {
     // Mailer's HTTP status when a send fails. A number, never a message, so it
     // is safe to return and turns 'no email arrived' into a one-request
     // diagnosis rather than a log hunt.
-    ...(result.ok || result.skipped ? {} : { mailer: result.status ?? 'network' }),
+    ...(result.ok || result.skipped
+      ? {}
+      : { mailer: result.status ?? 'network', mailerDetail: String(result.error || '').slice(0, 200) }),
   });
 }
