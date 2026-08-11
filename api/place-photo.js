@@ -94,8 +94,87 @@ async function proxyPhoto(res, apiKey, photoName, maxW, maxH) {
   res.end(Buffer.from(arrayBuffer));
 }
 
+
+/*
+ * Abuse guard.
+ *
+ * This endpoint was an open proxy: any query from anywhere reached Google Places
+ * Text Search, and every call is billed. A request for "Eiffel Tower Paris"
+ * returned a photo, which means a loop could have run up a large bill on the
+ * project's card with nothing to show for it.
+ *
+ * The site only ever asks for venues it lists, so the fix is to accept only
+ * those. The name list is read once per cold start from Supabase, where venues
+ * are publicly readable anyway.
+ */
+let venueNames = null;
+let venueNamesAt = 0;
+const VENUE_TTL = 30 * 60 * 1000;
+
+async function knownVenueNames() {
+  const now = Date.now();
+  if (venueNames && now - venueNamesAt < VENUE_TTL) return venueNames;
+
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+  const key = process.env.VITE_SUPABASE_ANON_KEY || process.env.SUPABASE_ANON_KEY;
+  if (!url || !key) return null;   // cannot verify, so do not block
+
+  try {
+    const r = await fetch(`${url}/rest/v1/venues?select=name`, {
+      headers: { apikey: key, Authorization: `Bearer ${key}` },
+    });
+    if (!r.ok) return null;
+    const rows = await r.json();
+    venueNames = new Set(rows.map((v) => String(v.name).toLowerCase().trim()));
+    venueNamesAt = now;
+    return venueNames;
+  } catch {
+    return null;
+  }
+}
+
+/** The client appends " London" to the venue name; tolerate that and a suffix. */
+async function isKnownVenueQuery(query) {
+  const names = await knownVenueNames();
+  if (!names) return true;   // fail open rather than break the site on a blip
+
+  const q = query.toLowerCase().trim().replace(/\s+london$/, '').trim();
+  if (names.has(q)) return true;
+  // Some callers pass "<name>, <area>" or a trailing qualifier.
+  for (const n of names) {
+    if (q === n || q.startsWith(n + ' ') || q.startsWith(n + ',')) return true;
+  }
+  return false;
+}
+
+/** Places photo names have a fixed shape; anything else is not ours to fetch. */
+function isPlausiblePhotoName(name) {
+  return /^places\/[A-Za-z0-9_-]+\/photos\/[A-Za-z0-9_\-]+$/.test(String(name));
+}
+
+/* Light per-instance rate limit. Not a substitute for a quota cap on the Google
+   project, but it turns a cheap loop into an expensive one. */
+const hits = new Map();
+function rateLimited(req, limit = 60, windowMs = 60_000) {
+  const ip = (req.headers?.['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+  const now = Date.now();
+  const rec = hits.get(ip);
+  if (!rec || now - rec.start > windowMs) {
+    hits.set(ip, { start: now, n: 1 });
+    if (hits.size > 5000) hits.clear();
+    return false;
+  }
+  rec.n += 1;
+  return rec.n > limit;
+}
+
 export default async function handler(req, res) {
   try {
+    if (rateLimited(req)) {
+      res.setHeader('Retry-After', '60');
+      return json(res, 429, { error: 'Too many requests' });
+    }
+
     const apiKey = getApiKey();
     if (!apiKey) {
       return json(res, 500, { error: 'Missing Places API key in env (GOOGLE_PLACES_API_KEY or GOOGLE_MAPS_API_KEY)' });
@@ -104,6 +183,9 @@ export default async function handler(req, res) {
     // Mode B: photo proxy
     const photoName = req.query?.photo;
     if (photoName) {
+      if (!isPlausiblePhotoName(photoName)) {
+        return json(res, 400, { error: 'Malformed photo reference' });
+      }
       const maxW = safeInt(req.query?.w, 900);
       const maxH = safeInt(req.query?.h, 600);
       return await proxyPhoto(res, apiKey, String(photoName), maxW, maxH);
@@ -116,6 +198,10 @@ export default async function handler(req, res) {
     }
 
     const query = String(q).trim();
+    if (query.length > 120 || !(await isKnownVenueQuery(query))) {
+      return json(res, 403, { error: 'Query not recognised' });
+    }
+
     const wantGallery = req.query?.gallery === 'true';
     const cacheKey = wantGallery ? `gallery:${query.toLowerCase()}` : `q:${query.toLowerCase()}`;
     const cached = cacheGet(cacheKey);

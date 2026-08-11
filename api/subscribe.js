@@ -10,9 +10,37 @@
  */
 import { json, db, hasStore, newToken, isValidEmail, sendEmail, SITE } from './_lib/club.js';
 
+/*
+ * Per-instance rate limit.
+ *
+ * Without this, anyone could POST a stranger's address on a loop and each
+ * attempt would send them a confirmation from alerts@wetlondon.co.uk. That is a
+ * tool for bombarding someone else's inbox using this domain, and the likely
+ * outcome is Resend suspending the account and the sending reputation being
+ * ruined before it is a week old.
+ */
+const hits = new Map();
+function rateLimited(req, limit = 5, windowMs = 10 * 60_000) {
+  const ip = (req.headers?.['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+  const now = Date.now();
+  const rec = hits.get(ip);
+  if (!rec || now - rec.start > windowMs) {
+    hits.set(ip, { start: now, n: 1 });
+    if (hits.size > 5000) hits.clear();
+    return false;
+  }
+  rec.n += 1;
+  return rec.n > limit;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     json(res, 405, { ok: false, error: 'Use POST' });
+    return;
+  }
+  if (rateLimited(req)) {
+    res.setHeader('Retry-After', '600');
+    json(res, 429, { ok: false, error: 'Too many attempts. Try again shortly.' });
     return;
   }
   if (!hasStore()) {
@@ -97,6 +125,17 @@ export default async function handler(req, res) {
     return;
   }
 
+  /*
+   * One confirmation per address per 15 minutes, tracked on the row itself so it
+   * holds across instances and restarts. The IP limit above is per-instance and
+   * would not stop a distributed attempt at a single victim.
+   */
+  const lastSent = row?.confirmation_sent_at ? Date.parse(row.confirmation_sent_at) : 0;
+  if (lastSent && Date.now() - lastSent < 15 * 60_000) {
+    json(res, 200, { ok: true, status: 'check-email' });
+    return;
+  }
+
   const confirmUrl = `${SITE}/api/confirm?token=${encodeURIComponent(row?.token || token)}`;
   const result = await sendEmail({
     to: email,
@@ -113,6 +152,14 @@ export default async function handler(req, res) {
   // promise an email when one actually went.
   if (!result.ok && !result.skipped) {
     console.error('[subscribe] confirmation email failed:', result.error);
+  }
+
+  if (result.ok && row?.id) {
+    // Best effort: a failure here only means the next attempt is allowed sooner.
+    await db(`subscribers?id=eq.${row.id}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ confirmation_sent_at: new Date().toISOString() }),
+    }).catch(() => {});
   }
 
   json(res, 200, {
