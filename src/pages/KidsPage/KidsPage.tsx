@@ -7,8 +7,8 @@ import { setPageMeta, resetPageMeta } from '@/utils/meta';
 import { buildFamilySections, isFamilyVenue } from '@/utils/family';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import { ActivityCard } from '@/components/ActivityCard';
+import { ClubBand } from '@/components/ClubBand';
 import { ActivityModal } from '@/components/modals/ActivityModal';
-import { PromoBand } from '@/components/common/PromoBand';
 import { BackToTop } from '@/components/common/BackToTop';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import type { Venue, RouteProps } from '@/types';
@@ -94,14 +94,7 @@ export function KidsPage(_props: RouteProps) {
             </section>
 
             {i === 1 && (
-              <PromoBand
-                title="Know before you get soaked"
-                titleAccent="again."
-                body="We email on the mornings rain is coming, with somewhere indoors to take them."
-                ctaLabel="Join the club"
-                ctaHref="/#join"
-                tone="bold"
-              />
+              <ClubBand source="kids" />
             )}
           </Fragment>
         ))}
@@ -109,6 +102,7 @@ export function KidsPage(_props: RouteProps) {
         {!isLoading.value && sections.length > 0 && (
           <aside className={styles.honesty}>
             <h2 className={styles.honestyTitle}>How we work this out</h2>
+            <div className={styles.honestyText}>
             <p>
               We read this from what each venue publishes: step-free and lift access,
               whether there are toilets, whether there is a cafe, how long a visit
@@ -121,6 +115,7 @@ export function KidsPage(_props: RouteProps) {
               we have something wrong,{' '}
               <a href="/contact">tell us</a> and we will fix it.
             </p>
+            </div>
           </aside>
         )}
       </section>

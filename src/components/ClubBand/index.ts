@@ -1,0 +1,1 @@
+export { ClubBand } from './ClubBand';

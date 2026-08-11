@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'preact/hooks';
 import { Button } from '@/components/common/Button';
+import { ClubBand } from '@/components/ClubBand';
 import { BackToTop } from '@/components/common/BackToTop';
 import { Contributors } from '@/components/Contributors';
 import type { RouteProps } from '@/types';
@@ -223,6 +224,8 @@ export function AboutPage(_props: RouteProps) {
 
       
 
+
+      <ClubBand source="about" />
 
       <BackToTop />
     </div>

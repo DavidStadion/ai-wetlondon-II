@@ -7,6 +7,7 @@ import { setPageMeta, resetPageMeta } from '@/utils/meta';
 import { COLLECTIONS, getCollection, venuesFor, collectionLeads } from '@/utils/collections';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import { ActivityCard } from '@/components/ActivityCard';
+import { ClubBand } from '@/components/ClubBand';
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { Button } from '@/components/common/Button';
 import { BackToTop } from '@/components/common/BackToTop';
@@ -109,6 +110,8 @@ export function CollectionsPage(_props: RouteProps) {
           </div>
         )}
       </section>
+
+      <ClubBand source="collections" />
 
       <BackToTop />
     </div>

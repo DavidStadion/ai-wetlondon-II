@@ -83,3 +83,51 @@
 }
 
 .smallprint a { color: inherit; text-decoration: underline; }
+
+/* ---------- Compact: inside a promo band ---------- */
+/* The band already carries the headline and the explanation, so the form is
+   just the row, centred, on a wider measure than the footer column. */
+.compact {
+  justify-items: center;
+  max-width: 34rem;
+  margin: 1.75rem auto 0;
+}
+
+.compact .row { width: 100%; }
+
+.compact .input {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  font-size: 1rem;
+  min-height: 50px;
+}
+
+.compact .input::placeholder { color: rgba(255, 255, 255, 0.6); }
+
+.compact .button {
+  min-height: 50px;
+  padding-inline: 1.4rem;
+  font-size: 0.95rem;
+}
+
+.compact .smallprint {
+  text-align: center;
+  opacity: 0.75;
+}
+
+.compact .done {
+  max-width: none;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+/* Visually hidden, still announced */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
