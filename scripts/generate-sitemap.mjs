@@ -54,15 +54,15 @@ const today = new Date().toISOString().slice(0, 10);
 const urls = [];
 
 for (const [path, priority, freq] of STATIC_PATHS) {
-  urls.push({ loc: `${SITE}${path}`, priority, freq });
+  urls.push({ loc: `${SITE}${path}`, priority, freq, group: 'pages' });
 }
 
 for (const slug of COLLECTION_SLUGS) {
-  urls.push({ loc: `${SITE}/collection/${slug}`, priority: '0.8', freq: 'weekly' });
+  urls.push({ loc: `${SITE}/collection/${slug}`, priority: '0.8', freq: 'weekly', group: 'collections' });
 }
 
 for (const slug of CATEGORY_SLUGS) {
-  urls.push({ loc: `${SITE}/category/${slug}`, priority: '0.7', freq: 'weekly' });
+  urls.push({ loc: `${SITE}/category/${slug}`, priority: '0.7', freq: 'weekly', group: 'categories' });
 }
 
 const snapshot = join(ROOT, 'public', 'data', 'venues.json');
@@ -73,16 +73,17 @@ if (existsSync(snapshot)) {
     const slug = slugify(v.name || '');
     if (!slug || seen.has(slug)) continue;
     seen.add(slug);
-    urls.push({ loc: `${SITE}/venue/${slug}`, priority: '0.6', freq: 'weekly' });
+    urls.push({ loc: `${SITE}/venue/${slug}`, priority: '0.6', freq: 'weekly', group: 'venues' });
   }
   console.log(`[sitemap] ${seen.size} venue URLs`);
 } else {
   console.warn('[sitemap] no venue snapshot found — sitemap will omit venue pages');
 }
 
-const xml = `<?xml version="1.0" encoding="UTF-8"?>
+function urlsetXml(list) {
+  return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls
+${list
   .map(
     (u) => `  <url>
     <loc>${u.loc}</loc>
@@ -94,6 +95,44 @@ ${urls
   .join('\n')}
 </urlset>
 `;
+}
 
-writeFileSync(join(ROOT, 'public', 'sitemap.xml'), xml);
-console.log(`[sitemap] wrote ${urls.length} URLs to public/sitemap.xml`);
+/*
+ * One sitemap per section, behind an index.
+ *
+ * Two reasons. Search Console reports discovered and indexed counts per child
+ * sitemap, so a section that is not getting indexed is visible instead of hidden
+ * inside one total. And a sitemap at a new URL gets fetched promptly, where an
+ * existing one Google has deprioritised can sit unread: this one went unread
+ * from February to August while the site served every URL as a duplicate of the
+ * homepage.
+ */
+const GROUPS = ['pages', 'collections', 'categories', 'venues'];
+const written = [];
+
+for (const g of GROUPS) {
+  const list = urls.filter((u) => u.group === g);
+  if (!list.length) continue;
+  const file = `sitemap-${g}.xml`;
+  writeFileSync(join(ROOT, 'public', file), urlsetXml(list));
+  written.push({ file, n: list.length });
+}
+
+// The single flat sitemap stays, so the URL already submitted keeps working.
+writeFileSync(join(ROOT, 'public', 'sitemap.xml'), urlsetXml(urls));
+
+const index = `<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${written
+  .map((w) => `  <sitemap>
+    <loc>${SITE}/${w.file}</loc>
+    <lastmod>${today}</lastmod>
+  </sitemap>`)
+  .join('\n')}
+</sitemapindex>
+`;
+writeFileSync(join(ROOT, 'public', 'sitemap-index.xml'), index);
+
+for (const w of written) console.log(`[sitemap] ${w.file}: ${w.n} URLs`);
+console.log(`[sitemap] sitemap.xml: ${urls.length} URLs (kept for the already-submitted URL)`);
+console.log(`[sitemap] sitemap-index.xml references ${written.length} child sitemaps`);

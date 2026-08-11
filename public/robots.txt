@@ -11,5 +11,7 @@ Disallow: /admin
 # nothing here for a crawler to index.
 Disallow: /saved
 
-# Allow sitemap
+# Sitemaps. The index is the one to submit; the flat file is kept because it is
+# already registered in Search Console.
+Sitemap: https://wetlondon.co.uk/sitemap-index.xml
 Sitemap: https://wetlondon.co.uk/sitemap.xml
