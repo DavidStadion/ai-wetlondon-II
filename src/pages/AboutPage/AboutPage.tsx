@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'preact/hooks';
 import { Button } from '@/components/common/Button';
+import { venues, totalActivities, isLoading } from '@/signals/venueSignals';
+import { fetchVenues } from '@/utils/supabase';
 import { ClubBand } from '@/components/ClubBand';
 import { BackToTop } from '@/components/common/BackToTop';
 import { Contributors } from '@/components/Contributors';
@@ -71,6 +73,23 @@ function FAQItem({ question, answer }: FAQItemProps) {
 }
 
 export function AboutPage(_props: RouteProps) {
+  // The venue count used to be typed in by hand and had drifted to 228 against a
+  // real 333. Load the venues so the number cannot go stale again.
+  useEffect(() => {
+    async function load() {
+      if (venues.value.length > 0) return;
+      isLoading.value = true;
+      try {
+        venues.value = await fetchVenues();
+      } catch {
+        // the stat simply stays hidden
+      } finally {
+        isLoading.value = false;
+      }
+    }
+    load();
+  }, []);
+
   return (
     <div className={styles.page}>
       {/* Hero */}
@@ -96,7 +115,7 @@ export function AboutPage(_props: RouteProps) {
       {/* Stats */}
       <section className={styles.section} aria-label="Stats">
         <div className={styles.grid}>
-          <StatCard target={228} label="venues (and growing)" />
+          <StatCard target={totalActivities.value} label="venues (and growing)" />
           <StatCard target={3} label="ways to explore: search, filters, lucky" />
           <StatCard target={0} label="judgement for cancelling outdoor plans" />
         </div>
