@@ -170,7 +170,8 @@ export function AllActivitiesPage(_props: RouteProps) {
                 <ClubBand source="all-activities" />
               ) : (
                 <div className={styles.adWrap}>
-                  <AdSlot slotId="PLACEHOLDER" format="horizontal" />
+                  {/* AdSense unit "All activities in-feed" */}
+                  <AdSlot slotId="1639783634" format="horizontal" />
                 </div>
               )
             )}
