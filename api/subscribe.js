@@ -120,5 +120,9 @@ export default async function handler(req, res) {
     // 'stored' means we have the address but could not email. The UI must not
     // tell people to check an inbox in that case.
     status: result.ok ? 'check-email' : 'stored',
+    // Mailer's HTTP status when a send fails. A number, never a message, so it
+    // is safe to return and turns 'no email arrived' into a one-request
+    // diagnosis rather than a log hunt.
+    ...(result.ok || result.skipped ? {} : { mailer: result.status ?? 'network' }),
   });
 }

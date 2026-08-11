@@ -110,7 +110,9 @@ export async function sendEmail({ to, subject, html: body, text, unsubscribeUrl 
         headers,
       }),
     });
-    if (!res.ok) return { ok: false, error: `Resend ${res.status}: ${await res.text()}` };
+    if (!res.ok) {
+      return { ok: false, status: res.status, error: `Resend ${res.status}: ${await res.text()}` };
+    }
     return { ok: true };
   } catch (err) {
     return { ok: false, error: String(err) };
