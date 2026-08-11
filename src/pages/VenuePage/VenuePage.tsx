@@ -8,6 +8,7 @@ import { setPageMeta, resetPageMeta } from '@/utils/meta';
 import { isVenueOpenNow } from '@/utils/openingHours';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import { OverviewTab } from '@/components/modals/ActivityModal/OverviewTab';
+import { ClubBand } from '@/components/ClubBand';
 import { GalleryTab } from '@/components/modals/ActivityModal/GalleryTab';
 import { ReviewsTab } from '@/components/modals/ActivityModal/ReviewsTab';
 import { RelatedVenues } from '@/components/modals/ActivityModal/RelatedVenues';
@@ -219,6 +220,8 @@ export function VenuePage({ slug }: VenueRouteProps) {
       </section>
 
       <RelatedVenues venue={venue} />
+
+      <ClubBand source="venue" />
 
       <BackToTop />
     </article>

@@ -10,6 +10,7 @@ import {
 } from '@/signals/uiSignals';
 import { fetchVenues } from '@/utils/supabase';
 import { ActivityCard } from '@/components/ActivityCard';
+import { ClubBand } from '@/components/ClubBand';
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { Button } from '@/components/common/Button';
 import { BackToTop } from '@/components/common/BackToTop';
@@ -112,6 +113,8 @@ export function SavedPage(_props: RouteProps) {
           </>
         )}
       </section>
+
+      <ClubBand source="saved" />
 
       <BackToTop />
 

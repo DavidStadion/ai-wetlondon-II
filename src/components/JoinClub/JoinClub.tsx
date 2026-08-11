@@ -6,12 +6,17 @@ type State = 'idle' | 'sending' | 'check-email' | 'stored' | 'already' | 'error'
 interface JoinClubProps {
   /** Recorded against the signup so we learn which placement converts. */
   source?: string;
+  /** Inside a promo band the headline is already there, so drop the label. */
+  compact?: boolean;
 }
 
-export function JoinClub({ source = 'footer' }: JoinClubProps) {
+export function JoinClub({ source = 'footer', compact = false }: JoinClubProps) {
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');   // honeypot
   const [state, setState] = useState<State>('idle');
+  // Unique per placement: the footer form and an in-page band coexist, and two
+  // elements sharing an id would break the label association for both.
+  const id = `clubEmail-${source}`;
   const [message, setMessage] = useState('');
 
   const submit = async (e: Event) => {
@@ -62,17 +67,23 @@ export function JoinClub({ source = 'footer' }: JoinClubProps) {
   }
 
   return (
-    <form className={styles.form} onSubmit={submit} noValidate>
-      <label className={styles.label} htmlFor="clubEmail">
+    <form
+      className={`${styles.form} ${compact ? styles.compact : ''}`}
+      onSubmit={submit}
+      noValidate
+    >
+      <label className={compact ? styles.srOnly : styles.label} htmlFor={id}>
         Rainy day alerts
       </label>
-      <p className={styles.blurb}>
-        We email on the mornings rain is coming, with somewhere indoors to go.
-      </p>
+      {!compact && (
+        <p className={styles.blurb}>
+          We email on the mornings rain is coming, with somewhere indoors to go.
+        </p>
+      )}
 
       <div className={styles.row}>
         <input
-          id="clubEmail"
+          id={id}
           className={styles.input}
           type="email"
           name="email"

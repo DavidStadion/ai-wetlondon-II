@@ -27,6 +27,7 @@ import { useImageLoader } from '@/hooks/useImageLoader';
 import type { Venue, CardVariant, RouteProps } from '@/types';
 
 import { Hero } from '@/components/Hero';
+import { ClubBand } from '@/components/ClubBand';
 import { PopularCategories } from '@/components/PopularCategories';
 import { CollectionsRail } from '@/components/CollectionsRail';
 import { ActivityCard } from '@/components/ActivityCard';
@@ -39,7 +40,6 @@ import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { Button } from '@/components/common/Button';
 import { AdSlot } from '@/components/common/AdSlot';
 import { Carousel } from '@/components/common/Carousel';
-import { PromoBand } from '@/components/common/PromoBand';
 
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { CustomizeModal } from '@/components/modals/CustomizeModal';
@@ -223,14 +223,7 @@ export function HomePage(_props: RouteProps) {
       )}
 
       {/* Promo, the club / rainy day alerts */}
-      <PromoBand
-        title="Never get caught out"
-        titleAccent="again."
-        body="We'll tell you when it's about to chuck it down, and exactly where to hide. One email, every Friday."
-        ctaLabel="Join the club"
-        ctaHref="/#join"
-        tone="bold"
-      />
+      <ClubBand source="home" />
 
       {/* Editorial collections, angles rather than categories */}
       <CollectionsRail />

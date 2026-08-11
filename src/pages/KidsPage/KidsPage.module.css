@@ -51,32 +51,47 @@
   padding-top: 0.5rem;
 }
 
+/* Full width, title against blurb, rather than a narrow stacked column that
+   read as a phone layout stranded on a desktop. */
 .editHead {
   display: grid;
-  gap: 0.4rem;
-  margin-bottom: 1.4rem;
-  max-width: 46ch;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  column-gap: clamp(1.5rem, 4vw, 4rem);
+  row-gap: 0.35rem;
+  margin-bottom: 1.6rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .editTitle {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: var(--wl-type-t2);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+  font-size: var(--wl-type-t1);
+  line-height: 1.0;
+  letter-spacing: -0.022em;
   margin: 0;
   text-wrap: balance;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  align-self: end;
 }
 
 .editTitle em { font-style: italic; }
 
 .editBlurb {
   color: var(--color-text-secondary);
-  font-size: 1rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
   margin: 0;
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  max-width: 44ch;
 }
 
 .editCount {
+  grid-column: 2;
+  grid-row: 2;
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -92,25 +107,34 @@
 }
 
 /* ---------- The caveat, said plainly rather than buried ---------- */
+/* Full width and deeper. Capped at 70ch it read as an afterthought pinned to
+   the left edge, which is the opposite of the point: this caveat should look
+   deliberate. */
 .honesty {
-  margin: 3.5rem 0 1rem;
-  padding: 1.75rem var(--wl-gutter);
+  margin: 4rem 0 1rem;
+  padding: clamp(1.9rem, 3.4vw, 3.25rem) clamp(1.5rem, 3vw, 3rem);
   background: var(--color-sand);
   border-radius: var(--radius-md);
-  max-width: 70ch;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  column-gap: clamp(1.5rem, 4vw, 4rem);
 }
 
 .honestyTitle {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: var(--wl-type-t6);
-  line-height: 1.05;
-  margin: 0 0 0.6rem;
+  font-size: var(--wl-type-t4);
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
 }
 
+.honestyText { max-width: 66ch; }
+
 .honesty p {
-  margin: 0 0 0.65rem;
-  font-size: 0.95rem;
+  margin: 0 0 0.7rem;
+  font-size: 1rem;
   line-height: 1.55;
   color: var(--color-text);
 }
@@ -122,12 +146,21 @@
   .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
+@media (max-width: 900px) {
+  .editHead,
+  .honesty { grid-template-columns: 1fr; }
+  .editTitle,
+  .editBlurb,
+  .editCount { grid-column: 1; grid-row: auto; }
+  .editBlurb { max-width: none; margin-top: 0.35rem; }
+  .honestyTitle { margin-bottom: 0.7rem; }
+}
+
 @media (max-width: 768px) {
   .hero { padding-top: 1.75rem; text-align: left; }
   .title { margin-left: 0; }
   .tagline { margin-left: 0; }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .editHead { max-width: none; }
 }
 
 @media (max-width: 480px) {

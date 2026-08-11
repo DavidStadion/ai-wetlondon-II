@@ -15,6 +15,7 @@ import {
   filterForSituation,
 } from '@/utils/situationFilters';
 import { ActivityCard } from '@/components/ActivityCard';
+import { ClubBand } from '@/components/ClubBand';
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { Button } from '@/components/common/Button';
 import { BackToTop } from '@/components/common/BackToTop';
@@ -181,6 +182,8 @@ export function SituationsPage(_props: RouteProps) {
           )}
         </div>
       </section>
+
+      <ClubBand source="situations" />
 
       <BackToTop />
 

@@ -15,9 +15,9 @@ import { selectedVenue, isActivityModalOpen } from '@/signals/uiSignals';
 import { fetchVenues } from '@/utils/supabase';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import { ActivityCard } from '@/components/ActivityCard';
+import { ClubBand } from '@/components/ClubBand';
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { FilterBar } from '@/components/FilterBar';
-import { PromoBand } from '@/components/common/PromoBand';
 import { Button } from '@/components/common/Button';
 import { BackToTop } from '@/components/common/BackToTop';
 import { SkeletonLoader } from '@/components/common/SkeletonLoader';
@@ -167,14 +167,7 @@ export function AllActivitiesPage(_props: RouteProps) {
             {/* Alternate promo and advertising between blocks, never at the very end */}
             {blockIndex < blocks.length - 1 && (
               blockIndex % 2 === 0 ? (
-                <PromoBand
-                  title="Never get caught out"
-                  titleAccent="again."
-                  body="We'll tell you when it's about to chuck it down, and exactly where to hide."
-                  ctaLabel="Join the club"
-                  ctaHref="/#join"
-                  tone={blockIndex === 0 ? 'bold' : 'soft'}
-                />
+                <ClubBand source="all-activities" />
               ) : (
                 <div className={styles.adWrap}>
                   <AdSlot slotId="PLACEHOLDER" format="horizontal" />
