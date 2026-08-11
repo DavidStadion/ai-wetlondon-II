@@ -8,7 +8,7 @@
  * If no mailer is configured yet the signup is still stored and the response
  * says so honestly, so the list can grow before sending goes live.
  */
-import { json, db, hasStore, hasMailer, newToken, isValidEmail, sendEmail, SITE } from './_lib/club.js';
+import { json, db, hasStore, newToken, isValidEmail, sendEmail, SITE } from './_lib/club.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -108,10 +108,17 @@ export default async function handler(req, res) {
       <p style="font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#6b6b70">If you did not sign up, ignore this and nothing happens.</p>`,
   });
 
+  // A failed send used to still report 'check-email', which sent people to an
+  // inbox nothing was arriving in and left the reason nowhere. Log it, and only
+  // promise an email when one actually went.
+  if (!result.ok && !result.skipped) {
+    console.error('[subscribe] confirmation email failed:', result.error);
+  }
+
   json(res, 200, {
     ok: true,
-    // 'stored' means we have the address but cannot email yet. The UI must not
+    // 'stored' means we have the address but could not email. The UI must not
     // tell people to check an inbox in that case.
-    status: result.skipped || !hasMailer() ? 'stored' : 'check-email',
+    status: result.ok ? 'check-email' : 'stored',
   });
 }
