@@ -90,6 +90,23 @@ const slugify = (name) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 
+/** Trim to a length a search result will actually show, on a word boundary. */
+const clamp = (s, n) => {
+  const t = String(s ?? '').replace(/\s+/g, ' ').trim();
+  if (t.length <= n) return t;
+  return `${t.slice(0, t.lastIndexOf(' ', n - 1))}...`;
+};
+
+/** 2026-08-12 becomes 12 August 2026. Mirrors formatDate() in ArticlesPage. */
+const prettyDate = (iso) => {
+  if (!iso) return '';
+  const d = new Date(`${iso}T00:00:00Z`);
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('en-GB', {
+    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC',
+  });
+};
+
 const AREA = { central: 'Central London', north: 'North London', south: 'South London', east: 'East London', west: 'West London' };
 
 /**
@@ -122,11 +139,14 @@ function replaceTag(html, pattern, replacement) {
   return html.replace(pattern, replacement);
 }
 
-function buildHead(html, { title, description, path, jsonLd }) {
+function buildHead(html, { title, description, path, jsonLd, ogType }) {
   const url = `${SITE}${path}`;
   let out = html;
 
   out = replaceTag(out, /<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`);
+  if (ogType) {
+    out = replaceTag(out, /(<meta property="og:type" content=")[^"]*(")/, `$1${ogType}$2`);
+  }
   out = replaceTag(out, /(<meta name="description" content=")[^"]*(")/, `$1${esc(description)}$2`);
   out = replaceTag(out, /(<link rel="canonical" href=")[^"]*(")/, `$1${url}$2`);
   out = replaceTag(out, /(<meta property="og:url" content=")[^"]*(")/, `$1${url}$2`);
@@ -331,6 +351,95 @@ function kidsPage(template, allVenues) {
   return { path, html: buildBody(html, inner) };
 }
 
+/* ---------- articles ---------- */
+
+/**
+ * The whole point of the articles section is that the words are in the served
+ * HTML, so `inner` here is the article's real body rather than a summary of it.
+ * The markdown was converted to HTML at build time by build-articles.mjs, so
+ * there is nothing to parse and nothing to escape: it is our own copy, from our
+ * own repo, already safe.
+ */
+function articlePage(template, a) {
+  const path = `/blog/${a.slug}`;
+  const url = `${SITE}${path}`;
+  const title = `${a.title} | Wet London`;
+  const description = clamp(a.dek || a.title, 158);
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: a.title,
+    description: a.dek || undefined,
+    datePublished: a.date || undefined,
+    dateModified: a.date || undefined,
+    url,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    wordCount: a.wordCount || undefined,
+    inLanguage: 'en-GB',
+    author: { '@type': 'Person', name: 'Dave' },
+    publisher: { '@type': 'Organization', name: 'Wet London', url: SITE },
+  };
+
+  const inner = `
+    <nav><a href="/">Wet London</a> / <a href="/blog">Blog</a></nav>
+    <h1>${esc(a.title)}</h1>
+    ${a.dek ? `<p>${esc(a.dek)}</p>` : ''}
+    <p>${esc(prettyDate(a.date))}${a.date ? ' · ' : ''}${esc(a.readingMinutes)} min read</p>
+    ${a.html}
+    <p><a href="/blog">More from the Wet London blog</a></p>`;
+
+  let html = buildHead(template, { title, description, path, jsonLd, ogType: 'article' });
+  html = html.replace('</head>', `    <script type="application/ld+json">${JSON.stringify(
+    breadcrumbs([['Wet London', '/'], ['Blog', '/blog'], [a.title, path]]),
+  )}</script>\n  </head>`);
+  return { path, html: buildBody(html, inner) };
+}
+
+function blogIndexPage(template, list) {
+  const path = '/blog';
+  const h1 = 'Blog';
+  const blurb =
+    'Longer pieces about indoor London. Where to go when it is pouring, what is worth the money, and the places most people walk straight past.';
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'Wet London: Blog',
+    description: blurb,
+    url: `${SITE}${path}`,
+    inLanguage: 'en-GB',
+    publisher: { '@type': 'Organization', name: 'Wet London', url: SITE },
+    blogPost: list.map((a) => ({
+      '@type': 'BlogPosting',
+      headline: a.title,
+      description: a.dek || undefined,
+      datePublished: a.date || undefined,
+      url: `${SITE}/blog/${a.slug}`,
+    })),
+  };
+
+  const inner = `
+    <nav><a href="/">Wet London</a></nav>
+    <h1>${esc(h1)}</h1>
+    <p>${esc(blurb)}</p>
+    ${list.length
+      ? `<ul>${list.map((a) =>
+          `<li><a href="/blog/${esc(a.slug)}">${esc(a.title)}</a>${a.dek ? `: ${esc(a.dek)}` : ''}</li>`).join('')}</ul>`
+      : ''}`;
+
+  let html = buildHead(template, {
+    title: `${h1} | Wet London`,
+    description: clamp(blurb, 158),
+    path,
+    jsonLd,
+  });
+  html = html.replace('</head>', `    <script type="application/ld+json">${JSON.stringify(
+    breadcrumbs([['Wet London', '/'], [h1, path]]),
+  )}</script>\n  </head>`);
+  return { path, html: buildBody(html, inner) };
+}
+
 /* ---------- run ---------- */
 
 const templatePath = join(DIST, 'index.html');
@@ -345,6 +454,12 @@ if (!existsSync(snapshotPath)) {
   console.warn('[prerender] no venue snapshot, skipping venue and category pages.');
 }
 const venues = existsSync(snapshotPath) ? JSON.parse(readFileSync(snapshotPath, 'utf8')) : [];
+
+const articlesPath = join(DIST, 'data', 'articles.json');
+if (!existsSync(articlesPath)) {
+  console.warn('[prerender] no articles.json, skipping the blog section.');
+}
+const articles = existsSync(articlesPath) ? JSON.parse(readFileSync(articlesPath, 'utf8')) : [];
 
 const pages = [];
 
@@ -386,6 +501,13 @@ for (const [slug, [name, blurb]] of Object.entries(COLLECTIONS)) {
 // The kids pillar
 pages.push(kidsPage(template, venues));
 
+// The blog section: index plus one page per article, each carrying its full
+// text rather than a summary.
+if (articles.length) {
+  pages.push(blogIndexPage(template, articles));
+  for (const a of articles) pages.push(articlePage(template, a));
+}
+
 // Flat pages
 for (const [path, [name, blurb]] of Object.entries(STATIC_PAGES)) {
   pages.push(listPage(template, {
@@ -401,4 +523,5 @@ for (const [path, [name, blurb]] of Object.entries(STATIC_PAGES)) {
 
 for (const { path, html } of pages) write(path, html);
 
-console.log(`[prerender] wrote ${pages.length} pages (${seen.size} venues, ${Object.keys(CATEGORIES).length} categories, ${Object.keys(COLLECTIONS).length} collections, ${Object.keys(STATIC_PAGES).length} flat).`);
+console.log(`[prerender] wrote ${pages.length} pages (${seen.size} venues, ${Object.keys(CATEGORIES).length} categories, ${Object.keys(COLLECTIONS).length} collections, ${Object.keys(STATIC_PAGES).length} flat, ${articles.length} articles).`);
+for (const a of articles) console.log(`[prerender] /blog/${a.slug}: ${a.wordCount} words of real HTML`);

@@ -215,3 +215,11 @@ body {
 .wl-prerender nav { font-size: 0.8rem; opacity: 0.6; margin-bottom: 1.5rem; }
 .wl-prerender ul { padding-left: 1.1rem; }
 .wl-prerender li { margin-bottom: 0.35rem; }
+/* Articles put a full piece here, so the headings and paragraphs are real. */
+.wl-prerender h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.4rem;
+  margin: 2rem 0 0.6rem;
+}
+.wl-prerender p { margin: 0 0 1rem; }

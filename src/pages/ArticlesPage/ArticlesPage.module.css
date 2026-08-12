@@ -1,0 +1,264 @@
+.page {
+  padding-top: var(--wl-header-h);
+  padding-bottom: 3rem;
+  min-height: 70vh;
+}
+
+.hero {
+  max-width: var(--wl-maxw);
+  margin: 0 auto;
+  padding: 2.75rem var(--wl-gutter) 1rem;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--wl-type-hero);
+  letter-spacing: -0.025em;
+  line-height: 1;
+  margin: 0 0 0.75rem;
+  color: var(--color-text);
+}
+
+.tagline {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  max-width: 52ch;
+  margin: 0 auto;
+}
+
+.heroActions { display: flex; justify-content: center; margin-top: 1.5rem; }
+
+.container {
+  max-width: var(--wl-maxw);
+  margin: 0 auto;
+  padding: 2rem var(--wl-gutter) 0;
+}
+
+.empty {
+  text-align: center;
+  color: var(--color-text-secondary);
+  padding: 3rem 0;
+}
+
+/* ---------- Index grid ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--wl-gap);
+}
+
+/*
+ * min-height rather than aspect-ratio. A locked ratio pins the height, and since
+ * the body sits in flow a long dek then spills out of the top of the card and
+ * the title gets clipped. 28vw lands on roughly 16 / 9 at desktop widths, and
+ * the card is free to grow taller when the text needs it.
+ */
+.card {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(240px, 28vw, 420px);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  text-decoration: none;
+  color: #fff;
+  background: var(--color-bg-secondary);
+}
+
+.cardImage {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s ease;
+}
+
+.card:hover .cardImage { transform: scale(1.04); }
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.82), rgba(0, 0, 0, 0.1) 68%);
+}
+
+.cardBody {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.cardMeta {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  opacity: 0.85;
+}
+
+.cardTitle {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--wl-type-t2);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.cardDek {
+  font-size: 1.02rem;
+  opacity: 0.82;
+  margin-top: 0.15rem;
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* ---------- Single article ---------- */
+.articleHero {
+  background: var(--color-sand);
+  padding: clamp(2.5rem, 5vw, 4rem) var(--wl-gutter);
+}
+
+.articleHeroInner {
+  max-width: 1040px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.crumb {
+  display: inline-block;
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  margin-bottom: 1.25rem;
+}
+
+.crumb::before { content: '← '; }
+.crumb:hover { color: var(--color-text); text-decoration: underline; }
+
+.articleTitle {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--wl-type-d1);
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  margin: 0 auto;
+  max-width: 18ch;
+  color: var(--color-text);
+  text-wrap: balance;
+}
+
+.dek {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 58ch;
+  margin: 1.25rem auto 0;
+}
+
+.meta {
+  margin-top: 1.25rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--color-text-secondary);
+}
+
+.cover {
+  max-width: 1040px;
+  margin: 2.5rem auto 0;
+  aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: center;
+  border-radius: var(--radius-md);
+}
+
+/*
+ * The reading column. Serif body rather than the site's Archivo: this is the one
+ * part of Wet London that is asking to be read at length rather than scanned,
+ * and Newsreader is already the display face.
+ */
+.body {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: 2.75rem var(--wl-gutter) 1rem;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  line-height: 1.62;
+  color: var(--color-text);
+}
+
+.body p { margin: 0 0 1.4rem; }
+
+.body h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin: 2.75rem 0 0.85rem;
+  text-wrap: balance;
+}
+
+.body h3 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin: 2rem 0 0.75rem;
+}
+
+.body a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-text-secondary);
+}
+
+.body a:hover { text-decoration-color: var(--color-text); }
+
+.body ul, .body ol { padding-left: 1.3rem; margin: 0 0 1.4rem; }
+.body li { margin-bottom: 0.5rem; }
+
+.body blockquote {
+  margin: 2rem 0;
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.body img { max-width: 100%; height: auto; border-radius: var(--radius-md); }
+
+.body hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin: 2.5rem 0;
+}
+
+.moreTitle {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--wl-type-t4);
+  letter-spacing: -0.02em;
+  margin: 2rem 0 1.5rem;
+  color: var(--color-text);
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .body { font-size: 1.12rem; }
+}

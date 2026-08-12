@@ -65,6 +65,25 @@ for (const slug of CATEGORY_SLUGS) {
   urls.push({ loc: `${SITE}/category/${slug}`, priority: '0.7', freq: 'weekly', group: 'categories' });
 }
 
+/*
+ * The blog section gets its own child sitemap rather than joining 'pages'.
+ * Articles are the answer to the thin-content problem, so whether they get
+ * indexed is the one number worth being able to read on its own.
+ */
+const articlesFile = join(ROOT, 'public', 'data', 'articles.json');
+if (existsSync(articlesFile)) {
+  const articles = JSON.parse(readFileSync(articlesFile, 'utf8'));
+  if (articles.length) {
+    urls.push({ loc: `${SITE}/blog`, priority: '0.8', freq: 'weekly', group: 'blog' });
+    for (const a of articles) {
+      urls.push({ loc: `${SITE}/blog/${a.slug}`, priority: '0.7', freq: 'monthly', group: 'blog' });
+    }
+  }
+  console.log(`[sitemap] ${articles.length} article URLs`);
+} else {
+  console.warn('[sitemap] no articles.json found — sitemap will omit the blog section');
+}
+
 const snapshot = join(ROOT, 'public', 'data', 'venues.json');
 if (existsSync(snapshot)) {
   const venues = JSON.parse(readFileSync(snapshot, 'utf8'));
@@ -107,7 +126,7 @@ ${list
  * from February to August while the site served every URL as a duplicate of the
  * homepage.
  */
-const GROUPS = ['pages', 'collections', 'categories', 'venues'];
+const GROUPS = ['pages', 'blog', 'collections', 'categories', 'venues'];
 const written = [];
 
 for (const g of GROUPS) {

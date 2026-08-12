@@ -235,6 +235,30 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://wetlondon.co.uk/blog</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/blog/would-be-a-great-date</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/blog/mate-visiting-and-its-raining</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/blog/free-and-nobody-queues</loc>
+    <lastmod>2026-08-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://wetlondon.co.uk/venue/moco-museum-london</loc>
     <lastmod>2026-08-12</lastmod>
     <changefreq>weekly</changefreq>

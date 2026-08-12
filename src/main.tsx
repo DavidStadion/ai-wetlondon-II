@@ -21,6 +21,8 @@ const AllActivitiesPage = lazy(() => import('@/pages/AllActivitiesPage').then((m
 const VenuePage = lazy(() => import('@/pages/VenuePage').then((m) => m.VenuePage));
 const CollectionsPage = lazy(() => import('@/pages/CollectionsPage').then((m) => m.CollectionsPage));
 const CollectionPage = lazy(() => import('@/pages/CollectionsPage').then((m) => m.CollectionPage));
+const ArticlesPage = lazy(() => import('@/pages/ArticlesPage').then((m) => m.ArticlesPage));
+const ArticlePage = lazy(() => import('@/pages/ArticlesPage').then((m) => m.ArticlePage));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage').then((m) => m.NotFoundPage));
 const PrivacyPage = lazy(() => import('@/pages/PrivacyPage').then((m) => m.PrivacyPage));
 const CookiesPage = lazy(() => import('@/pages/CookiesPage').then((m) => m.CookiesPage));
@@ -83,6 +85,8 @@ function App() {
           <VenuePage path="/venue/:slug" />
           <CollectionsPage path="/collections" />
           <CollectionPage path="/collection/:slug" />
+          <ArticlesPage path="/blog" />
+          <ArticlePage path="/blog/:slug" />
           <PrivacyPage path="/privacy" />
           <CookiesPage path="/cookies" />
           <TermsPage path="/terms" />

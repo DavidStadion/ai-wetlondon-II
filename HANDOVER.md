@@ -87,9 +87,10 @@ URL before running SQL.
 
 ---
 
-## Work in progress: the articles section
+## The articles section
 
-**Half built. Committed at `acdb15e`. Nothing renders yet.**
+**Built and verified, at `/blog`. Three pieces published. Only more of them is
+outstanding.**
 
 Purpose, in priority order:
 1. AdSense rejected the site for **"Low value content"**. Venue descriptions are
@@ -106,20 +107,44 @@ Purpose, in priority order:
   `content/articles/*.md`, converts to HTML **at build time**, writes
   `public/data/articles.json`. Wired into `prebuild`
 - `content/articles/free-and-nobody-queues.md` — 789 words, 4 min read, nine
-  internal links to venue pages. **David has not yet reviewed the voice.** Get
-  his verdict before writing more
+  internal links to venue pages. **David approved the voice on 12 August 2026.**
+  This piece is the reference for everything written after it
+- Two more pieces, both approved in the same session:
+  `would-be-a-great-date.md` (919 words, eight venues) and
+  `mate-visiting-and-its-raining.md` (710 words, five venues)
+- `src/pages/ArticlesPage/` — `ArticlesPage` (index) and `ArticlePage` (single),
+  both exports of one directory, the same shape as `CollectionsPage`. The
+  section is called the **blog** and lives at `/blog`; the components and
+  `content/articles/` keep "article" as the internal noun, since a blog contains
+  articles
+- Routes `/blog` and `/blog/:slug` in `src/main.tsx`, lazy-loaded
+- Nav entry in `NAV_LINKS`, between "Pick Your Vibe" and "Saved"
+- **Prerendering with the full article HTML** in `scripts/prerender.mjs`. The
+  three pieces serve **970, 842 and 761 words of real HTML**, with every h2 and
+  every internal link, plus `BlogPosting` JSON-LD and `og:type: article`.
+  Compare `/about` at 33 words. This is the AdSense fix
+- `sitemap-blog.xml` as its own child sitemap, via `GROUPS` in
+  `scripts/generate-sitemap.mjs`, so Search Console reports whether articles get
+  indexed separately from the 333 venues
 
 ### Not done
-- `src/pages/ArticlesPage/` — index page and single-article page components. I
-  was mid-write when the session ended; nothing exists on disk
-- Routes in `src/main.tsx`: `/writing` and `/writing/:slug`, lazy-loaded like the
-  others
-- Nav entry in `NAV_LINKS` in `src/components/Layout/Layout.tsx`
-- **Prerendering the articles with their full HTML** in `scripts/prerender.mjs`.
-  This is the part that actually fixes the AdSense problem
-- Sitemap: a `sitemap-writing.xml` child, via `GROUPS` in
-  `scripts/generate-sitemap.mjs`
-- 4 to 9 more pieces
+- 2 to 6 more pieces. Candidates already agreed with David: the seasonal
+  "cool, dark and out of the sun" one (only one with an expiry date), the
+  "somewhere genuinely weird" one, "under a tenner", and the wetness score
+  explained properly as a piece rather than three cards on `/about`
+
+### Worth knowing
+- Article body is set in Newsreader at a 544px measure, roughly 66 characters,
+  rather than the site's Archivo. One rule in `ArticlesPage.module.css` if that
+  ever wants reverting
+- Links inside articles are plain markdown anchors, so `ArticlePage` intercepts
+  clicks on same-origin hrefs and routes them. Without it every internal link in
+  a piece would reload the whole page
+- Cards use `min-height`, not `aspect-ratio`. A locked ratio pins the height and
+  a long dek then spills out of the top of the card and clips the title
+- **Check every internal link before publishing.** All ten in the first piece
+  were validated against the venue snapshot. Nine dead links in a flagship
+  article is worse than no article
 
 ### Design decision already made
 Articles are markdown files in the repo, not database rows, so David can publish

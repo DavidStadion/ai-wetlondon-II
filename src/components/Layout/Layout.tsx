@@ -102,6 +102,7 @@ const NAV_LINKS: Array<{ href: string; label: string }> = [
   { href: '/events', label: "What's On" },
   { href: '/popups', label: 'Pop-Ups' },
   { href: '/situations', label: 'Pick Your Vibe' },
+  { href: '/blog', label: 'Blog' },
   { href: '/saved', label: 'Saved' },
   { href: '/about', label: 'About' },
 ];
