@@ -97,6 +97,7 @@ const STATIC_PAGES = {
   '/collections': ['Collections', 'Curated ways into London indoors: brilliant when it is chucking it down, under a tenner, somewhere genuinely weird, and more.'],
   '/about': ['About Wet London', 'Why we rate London by how wet you will get, how the wetness score works, and who is behind it.'],
   '/events': ['What is on in London right now', 'Exhibitions, shows and one-off nights worth catching, all of them indoors.'],
+  '/situations': ['Pick your vibe', 'Indoor London sorted by the kind of day you are having: on your own, as a couple, with kids, in a group, step-free, or on a budget.'],
   '/popups': ['London pop-ups', 'Short-run pop-ups and residencies under a roof, before they disappear.'],
   '/contact': ['Contact Wet London', 'Suggest a place, report something out of date, or ask about being featured.'],
   '/privacy': ['Privacy Policy', 'What we collect, why, and how to get it removed.'],
@@ -205,11 +206,14 @@ function replaceTag(html, pattern, replacement) {
   return html.replace(pattern, replacement);
 }
 
-function buildHead(html, { title, description, path, jsonLd, ogType }) {
+function buildHead(html, { title, description, path, jsonLd, ogType, noindex }) {
   const url = `${SITE}${path}`;
   let out = html;
 
   out = replaceTag(out, /<title>[\s\S]*?<\/title>/, `<title>${esc(title)}</title>`);
+  if (noindex) {
+    out = out.replace('</head>', '    <meta name="robots" content="noindex">\n  </head>');
+  }
   if (ogType) {
     out = replaceTag(out, /(<meta property="og:type" content=")[^"]*(")/, `$1${ogType}$2`);
   }
@@ -545,6 +549,35 @@ function blogIndexPage(template, list) {
   return { path, html: buildBody(html, inner) };
 }
 
+/**
+ * dist/404.html, which Vercel serves with a real 404 status for anything that
+ * is not a file.
+ *
+ * Until now the catch-all rewrite sent every unknown URL to the homepage with
+ * HTTP 200, so /banana and /some/made/up/path both looked like a real page to a
+ * crawler. Soft 404s at that scale are a quality signal working against a site
+ * that already has trouble getting indexed.
+ */
+function notFoundPage(template) {
+  const inner = `
+    <nav><a href="/">Wet London</a></nav>
+    <h1>That page does not exist</h1>
+    <p>The link is wrong, or the page has moved. Neither is your fault, and you are still dry.</p>
+    <ul>
+      <li><a href="/all-activities">Every indoor activity in London</a></li>
+      <li><a href="/collections">Collections</a></li>
+      <li><a href="/blog">The blog</a></li>
+      <li><a href="/">Start again from the homepage</a></li>
+    </ul>`;
+
+  return buildHead(buildBody(template, inner), {
+    title: 'Page not found | Wet London',
+    description: 'That page does not exist. Try the full list of indoor activities in London instead.',
+    path: '/404',
+    noindex: true,
+  });
+}
+
 /* ---------- run ---------- */
 
 const templatePath = join(DIST, 'index.html');
@@ -627,6 +660,9 @@ for (const [path, [name, blurb]] of Object.entries(STATIC_PAGES)) {
 }
 
 for (const { path, html } of pages) write(path, html);
+
+// Not a route, so it is written directly rather than as <path>/index.html.
+writeFileSync(join(DIST, '404.html'), notFoundPage(template));
 
 console.log(`[prerender] wrote ${pages.length} pages (${seen.size} venues, ${Object.keys(CATEGORIES).length} categories, ${Object.keys(COLLECTIONS).length} collections, ${Object.keys(STATIC_PAGES).length} flat, ${articles.length} articles).`);
 for (const a of articles) console.log(`[prerender] /blog/${a.slug}: ${a.wordCount} words of real HTML`);
