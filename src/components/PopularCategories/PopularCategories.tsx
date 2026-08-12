@@ -89,7 +89,9 @@ function CategoryTile({ category, count, sample }: TileProps) {
 }
 
 export function PopularCategories() {
-  const [expanded, setExpanded] = useState(false);
+  // Open by default: the six extra categories are worth showing rather than
+  // hiding behind a button most people never press.
+  const [expanded, setExpanded] = useState(true);
   const allVenues = venues.value;
 
   const visible = CATEGORIES.filter((c) => expanded || !c.hidden);
