@@ -23,7 +23,7 @@
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
 import { build } from 'esbuild';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -42,18 +42,20 @@ const SITE = 'https://wetlondon.co.uk';
  * this file's history happened.
  */
 async function loadVenueInfo() {
-  const outfile = join(ROOT, 'node_modules', '.cache', 'prerender-venue-info.mjs');
-  await build({
+  const result = await build({
     entryPoints: [join(ROOT, 'src', 'utils', 'venueInfo.ts')],
-    outfile,
     bundle: true,
     format: 'esm',
     platform: 'node',
     // Mirrors the '@' alias in vite.config.ts / tsconfig.
     alias: { '@': join(ROOT, 'src') },
+    // Kept in memory: a build that has to find a writable scratch directory is
+    // a build with one more way to fail on someone else's machine.
+    write: false,
     logLevel: 'silent',
   });
-  return import(`${pathToFileURL(outfile).href}?v=${Date.now()}`);
+  const code = Buffer.from(result.outputFiles[0].text).toString('base64');
+  return import(`data:text/javascript;base64,${code}`);
 }
 
 const venueInfo = await loadVenueInfo();
