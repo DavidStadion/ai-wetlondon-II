@@ -25,5 +25,20 @@ export function isVenueOpenNow(
   const openMins = openH * 60 + openM;
   const closeMins = closeH * 60 + closeM;
 
+  /*
+   * A closing time at or before the opening time means it runs past midnight:
+   * "12:00-00:00", or a bowling alley at "10:30-02:30". Comparing those with a
+   * plain range made 44 venues read as closed for the whole of their latest
+   * hours, which is most of the point of knowing a place is open late.
+   *
+   * Still approximate at the very start of the day: 01:00 is checked against
+   * today's row rather than yesterday's, so a venue open late last night but
+   * shut today reads as closed. Right for the common case of a venue that
+   * keeps the same late hours either side of midnight.
+   */
+  if (closeMins <= openMins) {
+    return currentMins >= openMins || currentMins < closeMins;
+  }
+
   return currentMins >= openMins && currentMins < closeMins;
 }
