@@ -20,6 +20,10 @@ export const filterCounts = computed(() => ({
 
 export const hasActiveFilters = computed(() => {
   if (maxPrice.value !== null) return true;
+  // filteredVenues narrows on maxWetnessScore as well as wetnessLevel, so
+  // leaving it out here meant picking "Bone dry" cut the results while the page
+  // still reported no filters and offered no way to clear them.
+  if (maxWetnessScore.value < 100) return true;
   const counts = filterCounts.value;
   return (
     counts.types > 0 ||
