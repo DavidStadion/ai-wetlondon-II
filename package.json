@@ -11,14 +11,15 @@
     "dev:api": "node server.js",
     "dev:all": "node server.js & vite",
     "snapshot": "node scripts/snapshot-supabase.mjs",
-    "prebuild": "node scripts/snapshot-supabase.mjs && node scripts/generate-sitemap.mjs",
+    "prebuild": "node scripts/snapshot-supabase.mjs && node scripts/build-articles.mjs && node scripts/generate-sitemap.mjs",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit",
     "sitemap": "node scripts/generate-sitemap.mjs",
     "postbuild": "node scripts/prerender.mjs",
-    "prerender": "node scripts/prerender.mjs"
+    "prerender": "node scripts/prerender.mjs",
+    "articles": "node scripts/build-articles.mjs"
   },
   "repository": {
     "type": "git",
@@ -46,6 +47,7 @@
     "dotenv": "^17.2.4",
     "eslint": "^9.39.2",
     "eslint-plugin-react-hooks": "^7.0.1",
+    "marked": "^18.0.9",
     "typescript": "^5.9.3",
     "vercel": "^50.13.2",
     "vite": "^7.3.1"
