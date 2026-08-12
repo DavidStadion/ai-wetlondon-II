@@ -23,11 +23,40 @@
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import { build } from 'esbuild';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = join(ROOT, 'dist');
 const SITE = 'https://wetlondon.co.uk';
+
+/**
+ * The venue copy below comes from src/utils/venueInfo.ts, compiled and imported
+ * rather than reimplemented here.
+ *
+ * That module already works out opening hours, transport, duration,
+ * accessibility, booking and what is included for every venue, and the app has
+ * always shown it to people. It simply never reached the HTML. Porting 300
+ * lines into this script would have worked once and then drifted the first time
+ * anyone edited the real one, which is exactly how the type[] parsing bug in
+ * this file's history happened.
+ */
+async function loadVenueInfo() {
+  const outfile = join(ROOT, 'node_modules', '.cache', 'prerender-venue-info.mjs');
+  await build({
+    entryPoints: [join(ROOT, 'src', 'utils', 'venueInfo.ts')],
+    outfile,
+    bundle: true,
+    format: 'esm',
+    platform: 'node',
+    // Mirrors the '@' alias in vite.config.ts / tsconfig.
+    alias: { '@': join(ROOT, 'src') },
+    logLevel: 'silent',
+  });
+  return import(`${pathToFileURL(outfile).href}?v=${Date.now()}`);
+}
+
+const venueInfo = await loadVenueInfo();
 
 /* ---------- shared copy, kept in step with the app ---------- */
 
@@ -128,6 +157,43 @@ function typesOf(v) {
 
 const label = (t) => (CATEGORIES[t] ? CATEGORIES[t][0] : t);
 
+/** Mirrors toTagArray() in src/utils/supabase.ts. */
+function tagsOf(raw) {
+  if (Array.isArray(raw)) return raw.map((t) => String(t).trim()).filter(Boolean);
+  if (typeof raw !== 'string') return [];
+  return raw
+    .replace(/^[{]+/, '')
+    .replace(/[}]+$/, '')
+    .split(',')
+    .map((s) => s.trim().replace(/^"|"$/g, ''))
+    .filter(Boolean);
+}
+
+/**
+ * Snapshot row to the camelCase shape venueInfo expects. A trimmed
+ * convertVenue(): only the fields those helpers actually read.
+ */
+function toVenue(v) {
+  const price = parseFloat(String(v.price)) || 0;
+  const raw = v.price_display;
+  const hasDisplay = raw && !/^[\d.]+$/.test(String(raw).trim());
+  return {
+    name: v.name,
+    type: typesOf(v),
+    location: v.location,
+    wetness: v.wetness,
+    wetnessScore: Number(v.wetness_score) || 0,
+    price,
+    priceDisplay: hasDisplay ? raw : price === 0 ? 'FREE' : `£${Math.round(price)}`,
+    description: v.description || '',
+    rating: parseFloat(String(v.rating)) || 4.5,
+    prerequisites: tagsOf(v.prerequisites),
+    openingHours: v.opening_hours || null,
+  };
+}
+
+const li = (items) => items.map((s) => `<li>${esc(s)}</li>`).join('');
+
 function dryness(score) {
   if (score <= 10) return 'you will stay bone dry';
   if (score <= 40) return 'you will stay mostly dry';
@@ -208,17 +274,56 @@ function venuePage(template, v) {
     publicAccess: true,
   };
 
+  /*
+   * Everything below is what the app already shows a visitor once JavaScript
+   * runs. Putting it in the HTML is not padding: it is the page's real content
+   * finally reaching the people who cannot execute JavaScript.
+   *
+   * Deliberately omitted: getOpenStatus(). "Open now" is true at build time and
+   * a lie for the next 24 hours.
+   */
+  const venue = toVenue(v);
+  const hours = venueInfo.formatOpeningHours(venue.openingHours);
+  const hasHours = Boolean(venue.openingHours);
+  const transport = venueInfo.getTransportInfo(venue.description);
+  const included = venueInfo.getWhatsIncluded(venue.type, venue.prerequisites);
+  const goodToKnow = venueInfo.getGoodToKnow(venue);
+  const primaryCat = typesOf(v).find((t) => CATEGORIES[t]);
+
   const inner = `
     <nav><a href="/">Wet London</a> / <a href="/all-activities">All activities</a></nav>
     <h1>${esc(v.name)}</h1>
     <p>${esc(v.description || '')}</p>
+
+    <h2>Visiting ${esc(v.name)}</h2>
     <ul>
       <li>Area: ${esc(area)}</li>
       ${cats.length ? `<li>Category: ${esc(cats.join(', '))}</li>` : ''}
-      <li>Price: ${esc(price)}</li>
-      <li>Rain exposure: ${esc(dryness(Number(v.wetness_score) || 0))}</li>
+      <li>Entry: ${esc(price)}</li>
+      <li>Rain exposure: ${esc(dryness(venue.wetnessScore))}</li>
+      <li>How long to allow: ${esc(venueInfo.getDuration(venue.type, venue.prerequisites))}</li>
     </ul>
-    <p><a href="/all-activities">Browse every indoor activity in London</a></p>`;
+
+    <h2>Opening hours</h2>
+    ${hasHours ? `<ul>${li(hours.split('\n'))}</ul>` : `<p>${esc(hours)}</p>`}
+
+    <h2>Getting there</h2>
+    <p>${esc(transport.station)}. ${esc(transport.details)}</p>
+    <p><a href="${esc(venueInfo.getGoogleMapsUrl(v.name, area))}" rel="nofollow noopener" target="_blank">Find ${esc(v.name)} on Google Maps</a></p>
+
+    ${included.length ? `<h2>What to expect</h2><ul>${li(included)}</ul>` : ''}
+
+    <h2>Accessibility</h2>
+    <p>${esc(venueInfo.getAccessibilityText(venue.prerequisites, venue.wetness))}</p>
+
+    <h2>Booking</h2>
+    <p>${esc(venueInfo.getBookingText(venue.type, venue.prerequisites, venue.price))}</p>
+
+    ${goodToKnow.length ? `<h2>Good to know</h2><ul>${li(goodToKnow)}</ul>` : ''}
+
+    <p>More like this:
+      ${primaryCat ? `<a href="/category/${esc(primaryCat)}">${esc(label(primaryCat))} in London</a> ·` : ''}
+      <a href="/all-activities">every indoor activity in London</a></p>`;
 
   let html = buildHead(template, { title, description, path, jsonLd });
   html = html.replace('</head>', `    <script type="application/ld+json">${JSON.stringify(

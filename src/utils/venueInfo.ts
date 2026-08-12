@@ -47,18 +47,33 @@ export function getTransportInfo(description: string): {
   let station = 'Check venue for details';
   let details = 'Easily accessible by tube';
 
+  /*
+   * A station name is one to three capitalised words. These patterns are
+   * deliberately case-sensitive: with /i the [A-Z] stopped meaning "capitalised"
+   * and the greedy [A-Za-z\s']+ swallowed whole clauses, so one venue's station
+   * read "Bouldering and ropes inside a mock Victorian castle that used to be a
+   * pumping" and another read "min walk from Southwark".
+   */
+  const NAME = "[A-Z][A-Za-z']*(?:\\s+[A-Z][A-Za-z']*){0,2}";
   const stationPatterns = [
-    /([A-Z][A-Za-z\s']+(?:Square|Street|Road|Bridge|Cross|Gate|Park|Hill|Station|Circus))\s+(?:station|tube|direct)/i,
-    /([A-Z][A-Za-z\s']+)\s+(?:station|direct)/i,
-    /from\s+([A-Z][A-Za-z\s']+)\s+station/i,
+    new RegExp(`from\\s+(${NAME})\\s+[Ss]tation`),
+    new RegExp(`(${NAME})\\s+(?:[Ss]tation|[Tt]ube|direct|Direct)`),
+    // Last, because most descriptions name the stop and the walk without ever
+    // saying "station", as in "Leicester Square 4 min walk". Without this, 90%
+    // of venues fell back to "Check venue for details" with the stop right
+    // there in the text.
+    new RegExp(`(${NAME})\\s+\\d+\\s*min`),
   ];
 
   for (const pattern of stationPatterns) {
     const match = description.match(pattern);
-    if (match) {
-      station = match[1].trim();
-      break;
-    }
+    if (!match) continue;
+    // "Direct Russell Square station" names the station, not a "Direct" one,
+    // and "Direct tube access" names no station at all.
+    const name = match[1].replace(/^Direct\s+/, '').trim();
+    if (!name || name === 'Direct') continue;
+    station = name;
+    break;
   }
 
   if (/direct/i.test(description)) {
