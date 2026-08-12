@@ -555,6 +555,11 @@ function blogIndexPage(template, list) {
  * dist/404.html, which Vercel serves with a real 404 status for anything that
  * is not a file.
  *
+ * The matching config lives in vercel.json, which takes no comments: it cannot
+ * even hold a "_comment" key, since unknown top-level properties fail schema
+ * validation and kill the deployment. Only /saved and /admin are rewritten to
+ * the SPA now; every other real route is prerendered and served as a file.
+ *
  * Until now the catch-all rewrite sent every unknown URL to the homepage with
  * HTTP 200, so /banana and /some/made/up/path both looked like a real page to a
  * crawler. Soft 404s at that scale are a quality signal working against a site

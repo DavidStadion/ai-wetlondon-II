@@ -1,6 +1,5 @@
 {
   "devCommand": "echo 'No dev server needed'",
-  "_comment_rewrites": "Every real route is prerendered to its own file and served directly, so the old catch-all rewrite only ever caught URLs that do not exist and handed them the homepage with HTTP 200. Unmatched paths now fall through to dist/404.html with a real 404. Only these two routes have no prerendered file: /saved is per-visitor localStorage and /admin is not for crawlers.",
   "rewrites": [
     { "source": "/saved", "destination": "/" },
     { "source": "/admin", "destination": "/" }
