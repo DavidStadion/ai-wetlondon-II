@@ -400,9 +400,10 @@
 }
 
 @media (max-width: 768px) {
-  /* headerRight is hidden here, so the toggle becomes the third column */
+  /* Saved has no nav entry, so the bookmark is the only route to it. Keep just
+     that icon here and let the drawer carry everything else. */
   .headerBar {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr auto auto;
     align-items: center;
     padding: 0.6rem var(--wl-gutter);
   }
@@ -420,7 +421,10 @@
 
   .wordmark { font-size: 1.2rem; }
 
-  .headerRight { display: none; }
+  .headerRight { display: flex; gap: 0; }
+
+  /* Search and preferences both live in the drawer or on the page itself. */
+  .headerRight > *:not(.savedBtn) { display: none; }
 
   .navToggle { display: grid; place-items: center; }
 

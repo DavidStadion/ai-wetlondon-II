@@ -103,7 +103,6 @@ const NAV_LINKS: Array<{ href: string; label: string }> = [
   { href: '/popups', label: 'Pop-Ups' },
   { href: '/situations', label: 'Pick Your Vibe' },
   { href: '/blog', label: 'Blog' },
-  { href: '/saved', label: 'Saved' },
   { href: '/about', label: 'About' },
 ];
 
@@ -262,7 +261,7 @@ export function Layout({ children }: LayoutProps) {
 
           <Link
             href="/saved"
-            className={styles.iconBtn}
+            className={`${styles.iconBtn} ${styles.savedBtn}`}
             aria-label={
               savedCount.value > 0
                 ? `Saved places (${savedCount.value})`
