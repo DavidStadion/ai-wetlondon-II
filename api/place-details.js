@@ -119,7 +119,7 @@ export default async function handler(req, res) {
       headers: {
         'Content-Type': 'application/json',
         'X-Goog-Api-Key': apiKey,
-        'X-Goog-FieldMask': 'id,displayName,rating,userRatingCount,reviews,websiteUri,googleMapsUri,formattedAddress,currentOpeningHours'
+        'X-Goog-FieldMask': 'id,displayName,rating,userRatingCount,reviews,websiteUri,googleMapsUri,formattedAddress,currentOpeningHours,regularOpeningHours'
       }
     });
 
@@ -142,7 +142,10 @@ export default async function handler(req, res) {
       websiteUri: detailsData.websiteUri || null,
       googleMapsUri: detailsData.googleMapsUri || null,
       formattedAddress: detailsData.formattedAddress || null,
-      openingHours: detailsData.currentOpeningHours?.weekdayDescriptions || null
+      openingHours: detailsData.currentOpeningHours?.weekdayDescriptions || null,
+      // Regular hours ignore this week's holiday overrides, so they are the
+      // ones worth storing. currentOpeningHours stays for the live UI.
+      regularOpeningHours: detailsData.regularOpeningHours?.weekdayDescriptions || null
     };
 
     cacheSet(cacheKey, payload);
