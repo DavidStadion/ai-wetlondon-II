@@ -167,7 +167,9 @@ export function AllActivitiesPage(_props: RouteProps) {
             {/* Alternate promo and advertising between blocks, never at the very end */}
             {blockIndex < blocks.length - 1 && (
               blockIndex % 2 === 0 ? (
-                <ClubBand source="all-activities" />
+                <div className={styles.promoWrap}>
+                  <ClubBand source="all-activities" />
+                </div>
               ) : (
                 <div className={styles.adWrap}>
                   {/* AdSense unit "All activities in-feed" */}

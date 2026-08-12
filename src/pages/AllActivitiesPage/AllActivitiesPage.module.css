@@ -118,6 +118,10 @@
 
 .adWrap { margin: 0 0 2.5rem; }
 
+/* PromoBand carries a top margin but no bottom one. Everywhere else it is the
+   last thing before the footer; here it sits between two grids of cards. */
+.promoWrap { margin-bottom: 2.5rem; }
+
 /* ---------- Load more ---------- */
 .loadMoreWrap { display: flex; justify-content: center; margin-top: 1rem; }
 
