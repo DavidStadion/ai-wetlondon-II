@@ -10,8 +10,38 @@
   align-items: center;
   justify-content: space-between;
   gap: 1.25rem;
-  margin-bottom: 1rem;
 }
+
+/* The whole label is the hit target, not just the chevron. */
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex: 1;
+  min-width: 0;
+  padding: 0.25rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  text-align: left;
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+.chevron {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  transform: rotate(-90deg);
+  transition: transform 0.25s ease;
+}
+
+.chevronOpen { transform: rotate(0deg); }
 
 .title {
   font-family: var(--font-sans);
@@ -20,6 +50,67 @@
   letter-spacing: -0.01em;
   margin: 0;
   color: var(--color-text);
+}
+
+/* Shown only while collapsed, so a hidden panel still admits what it is doing. */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: var(--color-text);
+  color: #fff;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.toggleHint {
+  margin-left: auto;
+  font-size: 0.66rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+.toggle:hover .toggleHint { color: var(--color-text); }
+
+/*
+ * 0fr to 1fr animates to the panel's natural height, which a fixed max-height
+ * cannot do: the contents reflow from four columns to one across breakpoints,
+ * so the height is never known in advance.
+ */
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.28s ease;
+}
+
+.panelOpen { grid-template-rows: 1fr; }
+
+.panelInner {
+  overflow: hidden;
+  /* Grid items default to min-height:auto and would refuse to shrink past
+     their content, leaving the panel at full height with the row set to 0. */
+  min-height: 0;
+  /* Keeps collapsed chips out of the tab order and off screen readers. */
+  visibility: hidden;
+  transition: visibility 0.28s;
+}
+
+.panelOpen .panelInner {
+  visibility: visible;
+}
+
+/* Sits here rather than on .head so it collapses away with the panel. */
+.panelInner > .row:first-child { padding-top: 1rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .panel, .panelInner, .chevron { transition: none; }
 }
 
 .sortWrap {
@@ -146,4 +237,6 @@
 @media (max-width: 768px) {
   .head { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
   .groups { grid-template-columns: 1fr; }
+  /* Column flex makes flex:1 grow the height, so width has to be explicit. */
+  .toggle { width: 100%; padding: 0.4rem 0; }
 }
