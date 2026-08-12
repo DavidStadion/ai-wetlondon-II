@@ -89,7 +89,7 @@ URL before running SQL.
 
 ## The articles section
 
-**Built and verified, at `/blog`. Three pieces published. Only more of them is
+**Built and verified, at `/blog`. Five pieces published. Only more of them is
 outstanding.**
 
 Purpose, in priority order:
@@ -168,35 +168,44 @@ is not padding: it is information the site already shows to people.
 2. **One SQL statement**, next time he's in Supabase:
    `ALTER TABLE public.subscribers ADD COLUMN IF NOT EXISTS confirmation_sent_at timestamptz;`
    Until then the per-address email limit is inert and only the per-IP one applies
-3. **Ten GetYourGuide affiliate links.** Ranked worklist below. Link format:
-   `https://www.getyourguide.com/<product-url>/?partner_id=3NBC6EH&utm_medium=online_publisher&cmp=wetlondon_venue`
-   He builds them in Tools → Links, pastes them back as `venue name → link`, and
-   they go in via SQL. Product URLs cannot be generated: `/s/?q=` ignores the
-   query and their search is a JS autocomplete that never navigates
-4. **Do not click "Request review" in AdSense** until real content exists
-5. Registered address for `/privacy` (currently "available on request", which is
+3. **Do not click "Request review" in AdSense** until happy with the content.
+   The venue pages now serve ~146 words each and there are 5 blog pieces, so
+   the site is far closer than when this was written
+4. Registered address for `/privacy` (currently "available on request", which is
    a legitimate approach for a sole trader) and a solicitor on the Terms
+5. **Search Console:** submit `sitemap-blog.xml` and request indexing on the
+   five blog URLs
 
-### The GetYourGuide worklist, by likely earnings
+### GetYourGuide: DONE, 12 August 2026
 
-| Venue (exact DB name) | Price | 8% |
-|---|---|---|
-| London Photoshoot | £150 | £12.00 |
-| Gourmet Dinner Coach | £140 | £11.20 |
-| Warner Bros. Studio Tour (Branded Bus) | £109 | £8.72 |
-| Warner Bros. Studio Tour (with transfers) | £99 | £7.92 |
-| Black Cab Sightseeing Tour | £95 | £7.60 |
-| VIP Kensington Palace & High Tea | £95 | £7.60 |
-| Windsor Stonehenge Bath Day Trip | £89 | £7.12 |
-| The Lion King | £85 | £6.80 |
-| Moulin Rouge! The Musical | £80 | £6.40 |
-| Soho Food Walking Tour | £79 | £6.32 |
+**27 venues now carry GYG links with partner_id 3NBC6EH**, run via
+`sql/affiliate-links-gyg.sql` and verified live in the database. 16 replaced
+direct ticket links, 11 filled blanks (the original ten-venue worklist plus
+Frameless). The displaced direct links are preserved in
+`docs/venue-direct-links.md` so David can chase venue-direct affiliate schemes
+separately.
 
-Only 51 venues have an `affiliate_link` and **none of them earn anything yet**.
-An earlier audit found 75 pointing at GetYourGuide's bare homepage and 11 with an
-invented `?affiliate=wetlondon` parameter; both were cleared. The 51 remaining are
-real ticket pages on venues' own sites, which are useful to visitors and pay
-nothing.
+How the product URLs were found, since GYG's own search cannot be scripted:
+**search the public web restricted to getyourguide.com from outside**. Their
+product pages are indexed even though the pages themselves 403 automated
+readers. Attribution is cookie-based (~30 days), so any GYG page with
+partner_id attached earns on everything booked afterwards, not just the linked
+product: location pages (`...-l3191/`) are valid links where no single product
+fits.
+
+Searched and not on GYG, kept direct: Monopoly Lifesized, Van Gogh Immersive,
+Bubble Planet, F1 Arcade, The Comedy Store, Swingers City (only the West End
+branch is listed). The long tail of cinemas and bars was not searched. The 14
+free venues keep their direct links deliberately: a "Book tickets" button on a
+free museum pointing at paid GYG tours would mislead.
+
+**Opening hours were backfilled the same day**: 318 of 333 venues now have
+hours (was 235), via `sql/backfill-opening-hours.sql` from Google Places
+regularOpeningHours. Also fixed `isVenueOpenNow` for past-midnight closes,
+which had 44 late venues reading "Closed" all evening.
+
+Possibly defunct: **London Film Museum**. Google resolves it to The Cinema
+Museum in Kennington and Places cannot match its name. Check it still exists.
 
 ---
 
