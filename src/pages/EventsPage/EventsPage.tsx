@@ -8,7 +8,7 @@ import {
   currentEvents,
   comingSoonEvents,
 } from '@/signals/eventSignals';
-import { fetchEvents, sampleEvents } from '@/utils/supabase';
+import { fetchEvents } from '@/utils/supabase';
 import type { Event, EventCategory, RouteProps } from '@/types';
 import { BackToTop } from '@/components/common/BackToTop';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
@@ -59,11 +59,20 @@ export function EventsPage(_props: RouteProps) {
       isEventsLoading.value = true;
       eventsError.value = null;
 
+      /*
+       * No fallback to sampleEvents.
+       *
+       * This used to serve a hardcoded list whenever the fetch failed or came
+       * back empty, so a database outage rendered a Van Gogh show that closed
+       * in April and a Hamilton entry pointing at a dead link, with no error
+       * anywhere. Plausible stale content presented as live is worse than an
+       * empty page: nobody investigates a page that looks fine.
+       */
       try {
-        const data = await fetchEvents();
-        events.value = data.length > 0 ? data : sampleEvents;
-      } catch {
-        events.value = sampleEvents;
+        events.value = await fetchEvents();
+      } catch (err) {
+        eventsError.value = err instanceof Error ? err.message : 'Could not load events';
+        events.value = [];
       } finally {
         isEventsLoading.value = false;
       }

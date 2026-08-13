@@ -1,0 +1,12 @@
+{
+  "name": "Wet London",
+  "short_name": "Wet London",
+  "description": "Indoor things to do in London, rated by how wet you will get.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0C0C0D",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

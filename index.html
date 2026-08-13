@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- The tab icon is the inline data URI above: no request, no 404. These two
+         cover what it cannot: iOS home-screen bookmarks, which ignore SVG data
+         URIs and would otherwise use a screenshot, and install metadata. -->
+    <link rel="apple-touch-icon" href="/favicon.svg">
+    <link rel="manifest" href="/site.webmanifest">
     <title>Wet London - Best Indoor Activities in London When It Rains</title>
 
     <!-- Fonts: Archivo (grotesk) + Newsreader (editorial headlines).

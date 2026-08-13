@@ -26,6 +26,24 @@ function json(res, status, payload) {
   res.statusCode = status;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Access-Control-Allow-Origin', '*');
+
+  /*
+   * Same gap as place-photo: no Cache-Control meant Vercel defaulted to
+   * must-revalidate, so every visitor opening the same venue's Reviews or
+   * Gallery tab ran a fresh Places search plus a details call.
+   *
+   * Shorter than the photo lookup because reviews and ratings do move, but a
+   * day at the CDN still removes almost all of the repeat cost.
+   */
+  if (status === 200) {
+    res.setHeader(
+      'Cache-Control',
+      'public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800',
+    );
+  } else {
+    res.setHeader('Cache-Control', 'no-store');
+  }
+
   res.end(JSON.stringify(payload));
 }
 

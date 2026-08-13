@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- The raindrop mascot from the header, as a tab icon. Solid background so
+       it stays legible at 16px, where a transparent drop disappears. -->
+  <rect width="64" height="64" rx="14" fill="#0C0C0D"/>
+  <path d="M32 10c0 0 15 18.5 15 28.5a15 15 0 0 1-30 0C17 28.5 32 10 32 10Z" fill="#fff"/>
+  <ellipse cx="26.6" cy="39" rx="3.6" ry="4.4" fill="#0C0C0D"/>
+  <ellipse cx="37.4" cy="39" rx="3.6" ry="4.4" fill="#0C0C0D"/>
+</svg>

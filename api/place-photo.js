@@ -28,6 +28,31 @@ function cacheSet(key, value) {
 function json(res, status, payload) {
   res.statusCode = status;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
+
+  /*
+   * Cache successful lookups at the CDN.
+   *
+   * This is the ?q= half of the endpoint: venue name in, Places searchText out.
+   * It was sending no Cache-Control at all, so Vercel defaulted to
+   * "max-age=0, must-revalidate" and every visitor's every card ran a fresh
+   * Places search. One cold page view of /all-activities cost about 48 API
+   * calls against a 2,000/day cap: roughly 41 visitors a day before images
+   * started failing, which is a site that breaks on the day it succeeds.
+   *
+   * A venue's name does not change and neither does the place it resolves to,
+   * so this is safe to cache hard. The CDN now answers for every visitor after
+   * the first, rather than each browser caching separately in localStorage.
+   * Errors are deliberately left uncached so a blip does not stick.
+   */
+  if (status === 200) {
+    res.setHeader(
+      'Cache-Control',
+      'public, max-age=86400, s-maxage=2592000, stale-while-revalidate=604800',
+    );
+  } else {
+    res.setHeader('Cache-Control', 'no-store');
+  }
+
   res.end(JSON.stringify(payload));
 }
 
