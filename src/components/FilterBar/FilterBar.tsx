@@ -43,6 +43,7 @@ const SORTS: Array<{ value: SortOption; label: string }> = [
   { value: 'price-asc', label: 'Cheapest first' },
   { value: 'price-desc', label: 'Priciest first' },
   { value: 'name-desc', label: 'Name (Z to A)' },
+  { value: 'random', label: 'Surprise me' },
 ];
 
 /** Curated labels, friendlier than the raw type keys in the database. */

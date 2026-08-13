@@ -22,8 +22,50 @@ export const venues = signal<Venue[]>([]);
 export const isLoading = signal<boolean>(true);
 export const error = signal<string | null>(null);
 
-export type SortOption = 'name-asc' | 'name-desc' | 'price-asc' | 'price-desc' | 'wetness-asc' | 'wetness-desc' | 'rating-desc';
-export const sortOption = signal<SortOption>('name-asc');
+export type SortOption = 'name-asc' | 'name-desc' | 'price-asc' | 'price-desc' | 'wetness-asc' | 'wetness-desc' | 'rating-desc' | 'random';
+
+/**
+ * Top rated rather than alphabetical. A to Z meant every visitor's first screen
+ * opened on whatever happens to start with A, which is the most arbitrary order
+ * available while looking like a neutral one.
+ */
+export const sortOption = signal<SortOption>('rating-desc');
+
+/**
+ * One random key per venue, fixed for the life of the page.
+ *
+ * Sorting with Math.random() in the comparator looks like the obvious way to do
+ * this and is not: the same pair can compare differently on successive calls,
+ * which breaks the contract sort relies on and produces an order that is not
+ * merely random but unstable, reshuffling as you scroll. Assign each venue one
+ * key and sort by that.
+ */
+const shuffleKeys = new Map<string, number>();
+function shuffleKey(name: string): number {
+  let key = shuffleKeys.get(name);
+  if (key === undefined) {
+    key = Math.random();
+    shuffleKeys.set(name, key);
+  }
+  return key;
+}
+
+/** Shared by filteredVenues and sortedVenues, which both sort the same way. */
+function compareVenues(sort: SortOption) {
+  return (a: Venue, b: Venue): number => {
+    switch (sort) {
+      case 'name-asc': return a.name.localeCompare(b.name);
+      case 'name-desc': return b.name.localeCompare(a.name);
+      case 'price-asc': return a.price - b.price;
+      case 'price-desc': return b.price - a.price;
+      case 'wetness-asc': return a.wetnessScore - b.wetnessScore;
+      case 'wetness-desc': return b.wetnessScore - a.wetnessScore;
+      case 'rating-desc': return validRating(b) - validRating(a);
+      case 'random': return shuffleKey(a.name) - shuffleKey(b.name);
+      default: return 0;
+    }
+  };
+}
 
 export const filteredVenues = computed(() => {
   let result = venues.value;
@@ -77,41 +119,16 @@ export const filteredVenues = computed(() => {
     );
   }
 
-  // Sort
-  const sort = sortOption.value;
-  result = [...result].sort((a, b) => {
-    switch (sort) {
-      case 'name-asc': return a.name.localeCompare(b.name);
-      case 'name-desc': return b.name.localeCompare(a.name);
-      case 'price-asc': return a.price - b.price;
-      case 'price-desc': return b.price - a.price;
-      case 'wetness-asc': return a.wetnessScore - b.wetnessScore;
-      case 'wetness-desc': return b.wetnessScore - a.wetnessScore;
-      case 'rating-desc': return (validRating(b) - validRating(a));
-      default: return 0;
-    }
-  });
+  result = [...result].sort(compareVenues(sortOption.value));
 
   return result;
 });
 
 export const venueCount = computed(() => filteredVenues.value.length);
 
-export const sortedVenues = computed(() => {
-  const sort = sortOption.value;
-  return [...venues.value].sort((a, b) => {
-    switch (sort) {
-      case 'name-asc': return a.name.localeCompare(b.name);
-      case 'name-desc': return b.name.localeCompare(a.name);
-      case 'price-asc': return a.price - b.price;
-      case 'price-desc': return b.price - a.price;
-      case 'wetness-asc': return a.wetnessScore - b.wetnessScore;
-      case 'wetness-desc': return b.wetnessScore - a.wetnessScore;
-      case 'rating-desc': return (validRating(b) - validRating(a));
-      default: return 0;
-    }
-  });
-});
+export const sortedVenues = computed(() =>
+  [...venues.value].sort(compareVenues(sortOption.value)),
+);
 
 export const totalActivities = computed(() => venues.value.length);
 
