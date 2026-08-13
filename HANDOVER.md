@@ -176,12 +176,37 @@ is not padding: it is information the site already shows to people.
 5. **Search Console:** submit `sitemap-blog.xml` and request indexing on the
    five blog URLs
 
-### GetYourGuide: DONE, 12 August 2026
+### Affiliate links: two networks live, 13 August 2026
 
-**27 venues now carry GYG links with partner_id 3NBC6EH**, run via
-`sql/affiliate-links-gyg.sql` and verified live in the database. 16 replaced
-direct ticket links, 11 filled blanks (the original ten-venue worklist plus
-Frameless). The displaced direct links are preserved in
+**42 venues earn commission**, verified live in the database: **36
+GetYourGuide** (`partner_id=3NBC6EH`) and **6 Tiqets**
+(`partner=wet_london-189124`). Plus **5 events** on What's On via
+`events.link`, tagged `cmp=wetlondon_event` so the two placements stay
+separable in each network's analytics.
+
+Applied in four files, in this order, each superseding the last where they
+overlap: `affiliate-links-gyg.sql` (27), `-gyg-batch2.sql` (11 famous
+attractions that had never been linked), `-tiqets.sql` (5, four of which
+replaced a GYG link), `-batch3.sql` (4).
+
+**Tiqets may pay roughly 14% against GetYourGuide's 8%.** That is inferred
+from a single product tile in the portal (~£23.21 on ~£164), NOT confirmed:
+read "Understand your commission model" in the Tiqets affiliate portal. If it
+holds generally, moving the GYG links that Tiqets also sells is worth more
+than another twenty long-tail links.
+
+Sweep status: the top of the catalogue by price and all the famous names are
+done. Below ~£25 it becomes cinemas, bars and small museums that neither
+network lists, and the hit rate collapses. 256 venues still have no link,
+mostly legitimately.
+
+Data-quality flags the sweep turned up, both probable duplicates:
+**London Aquarium** and **SEA LIFE London** are two rows for one attraction,
+now sharing a product link. **Museum of Illusions London** has no listing on
+either network under that name, only Paradox Museum London, which is already
+a separate row.
+
+The displaced direct links are preserved in
 `docs/venue-direct-links.md` so David can chase venue-direct affiliate schemes
 separately.
 
