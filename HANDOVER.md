@@ -89,8 +89,7 @@ URL before running SQL.
 
 ## The articles section
 
-**Built and verified, at `/blog`. Five pieces published. Only more of them is
-outstanding.**
+**Built and verified, at `/blog`. Seven pieces published.**
 
 Purpose, in priority order:
 1. AdSense rejected the site for **"Low value content"**. Venue descriptions are
@@ -178,8 +177,8 @@ is not padding: it is information the site already shows to people.
 
 ### Affiliate links: two networks live, 13 August 2026
 
-**42 venues earn commission**, verified live in the database: **36
-GetYourGuide** (`partner_id=3NBC6EH`) and **6 Tiqets**
+**66 venues earn commission**, verified live in the database: **36
+GetYourGuide** (`partner_id=3NBC6EH`) and **30 Tiqets**
 (`partner=wet_london-189124`). Plus **5 events** on What's On via
 `events.link`, tagged `cmp=wetlondon_event` so the two placements stay
 separable in each network's analytics.
@@ -288,3 +287,58 @@ itself and getting `[]`), and denies the `subscribers` table entirely.
 everything done on 11 August. If the grey "not indexed" bar grows and the green
 bar stays flat after a fortnight, the problem is content quality rather than
 anything technical, and the answer is the articles rather than more code.
+
+---
+
+## State at end of 13 August 2026
+
+Everything below is verified against the live database and the live site, not
+assumed.
+
+| | 11 Aug | now |
+|---|---|---|
+| Venues | 333 | **346** |
+| Earning affiliate links | 0 | **66** (30 Tiqets, 36 GetYourGuide) |
+| Venues with opening hours | 235 | **331** |
+| Venue page HTML | ~30 words | ~146 words |
+| Blog pieces | 0 rendered | **7** |
+| Unknown URLs | HTTP 200 | real 404 |
+
+### The two-network rule, which is not what I first thought
+
+GetYourGuide pays a flat **8%**. Tiqets varies per product, **3.3% to 14.2%**,
+mean 8.7%. So the choice is per venue, not per network. An early claim in this
+file that Tiqets pays "~14%" was read off the single highest product and was
+wrong; two links were moved on that basis and had to be moved back.
+
+Useful pattern: Tiqets tends to win on **museums and attractions**, GetYourGuide
+on **West End shows**, where Tiqets pays about 6%.
+
+Commission rates are visible in the Tiqets Product Catalogue. Product URLs are
+not exported, so they still have to be resolved one at a time by searching the
+public web restricted to the network's domain. Both networks' product pages
+block automated readers, but they are indexed, so search finds them.
+
+### Outstanding
+
+1. **51 of 74 pages** of the Tiqets catalogue export are unread. I sampled eight
+   and wrongly called the rest low yield. Probably another dozen usable venues
+2. **Affiliate widgets:** decided against for now. Revisit once there is click
+   data in the Tiqets and GYG dashboards, roughly a fortnight from 13 August. If
+   pages get clicks but few bookings, the Tiqets Availability Widget is the fix,
+   on the top ten earners only, consent-gated. If there are barely any clicks,
+   the problem is traffic and a widget fixes nothing
+3. **Search Console:** submit `sitemap-blog.xml`, request indexing on the seven
+   blog URLs
+4. **£5 Google Cloud budget alert**, and the `confirmation_sent_at` column
+5. Four shows with no link, needing a URL each: SIX and Beetlejuice (Tiqets
+   wins, but search returns the Broadway productions), Cabaret and Oliver!
+6. `Ramses and the Pharaohs' Gold` belongs in `events`, not `venues`: it closes,
+   and the events table self-expires
+
+### Two probable duplicate rows, still unresolved
+
+- **London Aquarium** and **SEA LIFE London** are one attraction, two rows
+- **Museum of Illusions London** is on neither network under that name, and
+  Google resolves it to The Cinema Museum. Paradox Museum is already a separate
+  row. Removed from the homepage on 13 August but still in the catalogue
