@@ -175,7 +175,7 @@ export function HomePage(_props: RouteProps) {
       )}
 
       {/* Featured, editorial mosaic (lead tile + two stacked) */}
-      {!loading && !errorMsg && mosaicLead && (
+      {!loading && !errorMsg && !filtersActive && mosaicLead && (
         <section className={styles.mosaicSection} id="activities">
           <div className={styles.mosaic}>
             <div className={styles.mosaicLead}>
@@ -203,7 +203,7 @@ export function HomePage(_props: RouteProps) {
       )}
 
       {/* Featured rail */}
-      {!loading && !errorMsg && featuredRail.length > 0 && (
+      {!loading && !errorMsg && !filtersActive && featuredRail.length > 0 && (
         <section className={styles.railSection}>
           <div className={styles.sectionHead}>
             <h2 className={styles.sectionTitle}>Featured Activities</h2>
@@ -223,13 +223,13 @@ export function HomePage(_props: RouteProps) {
       )}
 
       {/* Promo, the club / rainy day alerts */}
-      <ClubBand source="home" />
+      {!filtersActive && <ClubBand source="home" />}
 
       {/* Editorial collections, angles rather than categories */}
-      <CollectionsRail />
+      {!filtersActive && <CollectionsRail />}
 
       {/* Popular Categories */}
-      <PopularCategories />
+      {!filtersActive && <PopularCategories />}
 
       {/* Banner Ad */}
       {!loading && !errorMsg && (
@@ -240,12 +240,12 @@ export function HomePage(_props: RouteProps) {
       )}
 
       {/* Weather Recommendations */}
-      {!loading && !errorMsg && (
+      {!loading && !errorMsg && !filtersActive && (
         <WeatherRecommendations />
       )}
 
       {/* Pop-ups Section */}
-      {!loading && !errorMsg && partners.value.length > 0 && (
+      {!loading && !errorMsg && !filtersActive && partners.value.length > 0 && (
         <PopupsSection />
       )}
 

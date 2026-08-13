@@ -50,6 +50,33 @@ function shuffleKey(name: string): number {
   return key;
 }
 
+const escapeRegex = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+/**
+ * How well a venue answers a search term. Higher is better, 0 is no match.
+ *
+ * Plain substring matching plus a rating sort put "Banksy Limitless", "BFI
+ * Southbank" and Gordon's Wine Bar (whose description mentions Embankment)
+ * above Bank of England Museum for the search "bank". Every one of those
+ * contains the letters; none of them is what was asked for.
+ *
+ * So: a whole word in the name beats a prefix, a prefix beats a substring, and
+ * anything in the name beats anything in the description.
+ */
+function searchScore(v: Venue, term: string): number {
+  const name = v.name.toLowerCase();
+  const desc = (v.description || '').toLowerCase();
+  const whole = new RegExp(`\\b${escapeRegex(term)}\\b`);
+
+  if (name === term) return 100;        // Bank of England Museum for "bank of england museum"
+  if (whole.test(name)) return 90;      // "Bank of England Museum" for "bank"
+  if (name.startsWith(term)) return 80; // "Banksy Limitless" for "bank"
+  if (name.includes(term)) return 50;   // "BFI Southbank" for "bank"
+  if (whole.test(desc)) return 25;
+  if (desc.includes(term)) return 10;   // Gordon's, via "Embankment"
+  return 0;
+}
+
 /** Shared by filteredVenues and sortedVenues, which both sort the same way. */
 function compareVenues(sort: SortOption) {
   return (a: Venue, b: Venue): number => {
@@ -129,7 +156,20 @@ export const filteredVenues = computed(() => {
     );
   }
 
-  result = [...result].sort(compareVenues(sortOption.value));
+  /*
+   * With a search term, relevance wins. The chosen sort still breaks ties, so
+   * "top rated" or "cheapest first" still orders venues that match equally
+   * well. Without a term, nothing changes.
+   */
+  const term = searchTerm;
+  if (term) {
+    const byRelevance = compareVenues(sortOption.value);
+    result = [...result].sort(
+      (a, b) => searchScore(b, term) - searchScore(a, term) || byRelevance(a, b),
+    );
+  } else {
+    result = [...result].sort(compareVenues(sortOption.value));
+  }
 
   return result;
 });
