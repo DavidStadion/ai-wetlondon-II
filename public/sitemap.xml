@@ -331,13 +331,13 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/hamilton-west-end</loc>
+    <loc>https://wetlondon.co.uk/venue/science-museum</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/science-museum</loc>
+    <loc>https://wetlondon.co.uk/venue/hamilton-west-end</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -913,6 +913,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://wetlondon.co.uk/venue/tottenham-hotspur-stadium-tour</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://wetlondon.co.uk/venue/warner-bros-studio-tour-branded-bus</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -1417,12 +1423,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/shreks-adventure</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://wetlondon.co.uk/venue/ifly-indoor-skydiving</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -1466,6 +1466,12 @@
   </url>
   <url>
     <loc>https://wetlondon.co.uk/venue/beatles-walking-tour</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/shreks-adventure</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1597,6 +1603,30 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://wetlondon.co.uk/venue/les-miserables</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/matilda-the-musical</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/the-book-of-mormon</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/hadestown</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://wetlondon.co.uk/venue/tower-of-london</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -1604,6 +1634,12 @@
   </url>
   <url>
     <loc>https://wetlondon.co.uk/venue/westminster-abbey</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/stranger-things-the-first-shadow</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -2306,6 +2342,12 @@
   </url>
   <url>
     <loc>https://wetlondon.co.uk/venue/mundo-pixar</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/tower-bridge</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>

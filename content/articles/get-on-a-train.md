@@ -1,5 +1,5 @@
 ---
-title: "Six places worth leaving London for, all of them indoors"
+title: "Seven places worth leaving London for, all of them indoors"
 slug: get-on-a-train
 dek: "There is a point in a bad week of weather where the answer is not another London museum. It is a train, and somewhere with a roof at the other end."
 date: 2026-08-13
@@ -12,7 +12,7 @@ Which means there is a version of a wet Saturday where the honest advice is to s
 
 The rule still applies, though, and it disqualifies most of what gets sold as a day trip. Stonehenge is a field. Warwick Castle is a hill with some buildings on it. Bicester Village, which the outlet people would very much like you to consider, is an open-air shopping street in Oxfordshire, and standing in the rain to queue outside a shop is not an improvement on standing in the rain in London.
 
-These six have a roof.
+These seven have a roof.
 
 ## 1. Warner Bros. Studio Tour
 
@@ -61,6 +61,14 @@ Up the hill from the other two, which is the one exposed bit of this entire list
 Worth it for the Time galleries, which contain Harrison's sea clocks: four attempts by one Yorkshire carpenter to solve longitude, which he did, after forty years, while the scientific establishment told him it could not be done that way. The meridian line outside is the famous bit and the least interesting thing in the building.
 
 [Royal Observatory Greenwich](/venue/royal-observatory-greenwich)
+
+## 7. Tower Bridge
+
+Not a train at all, and included because it is the best value here and almost nobody who lives in London has done it.
+
+The high walkways are forty metres up with a glass floor, so you stand there watching buses pass under your shoes. Then you go down to the Victorian engine rooms and look at the steam machinery that lifted the bascules until 1976. Sixteen pounds, entirely indoors, and you have walked past it four hundred times without going in.
+
+[Tower Bridge](/venue/tower-bridge)
 
 ## The rule, restated
 
