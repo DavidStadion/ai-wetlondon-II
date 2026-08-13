@@ -1,10 +1,18 @@
 .hero {
   position: relative;
-  overflow: hidden;
   margin-top: var(--wl-header-h);
   /* Breathing room at the top so a little of the rain is visible */
   padding: clamp(3rem, 9vw, 5.5rem) var(--wl-gutter) 1.5rem;
   text-align: center;
+}
+
+/* Holds the rain and clips it, so .hero does not have to. */
+.rainClip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .heroContent {

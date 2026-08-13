@@ -14,7 +14,12 @@ interface HeroProps {
 export function Hero({ onCustomize, onFeelingLucky }: HeroProps) {
   return (
     <section className={styles.hero} id="hero">
-      <RainCanvas />
+      {/* The rain is clipped here rather than on the section, so the hero can
+          stop being a clipping ancestor. It was cutting the search dropdown off
+          at its bottom edge, which no z-index can escape. */}
+      <div className={styles.rainClip} aria-hidden="true">
+        <RainCanvas />
+      </div>
       <div className={styles.heroContent}>
         <span className={styles.wordmark}>Wet London</span>
         <h1 className={styles.tagline}>
