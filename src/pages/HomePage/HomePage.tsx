@@ -231,8 +231,10 @@ export function HomePage(_props: RouteProps) {
       {/* Popular Categories */}
       {!filtersActive && <PopularCategories />}
 
-      {/* Banner Ad */}
-      {!loading && !errorMsg && (
+      {/* Banner Ad. Hidden while searching: AdSense has not approved the
+          site, so the slot renders an empty container that pushes the results
+          a screen further down for no return. */}
+      {!loading && !errorMsg && !filtersActive && (
         <div className={styles.adWrapper}>
           {/* AdSense unit "Homepage in-feed" */}
           <AdSlot slotId="2166965467" format="horizontal" />

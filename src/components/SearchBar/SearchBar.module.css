@@ -102,3 +102,80 @@
 
   .clearButton { right: 5.6rem; }
 }
+
+/* ---------- typeahead suggestions ---------- */
+/* .container is already position:relative, so this hangs off the input. */
+
+.suggestions {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  z-index: 60;
+  margin: 0;
+  padding: 0.35rem;
+  list-style: none;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-height: 60vh;
+  overflow-y: auto;
+  text-align: left;
+}
+
+.suggestion {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+/* Hover and keyboard selection share one state, so the highlight never
+   disagrees with what Enter will open. */
+.suggestionActive {
+  background: var(--color-bg-secondary);
+}
+
+.suggestionName {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.suggestionMeta {
+  font-size: 0.74rem;
+  color: var(--color-text-secondary);
+  text-transform: capitalize;
+}
+
+.suggestionAll {
+  padding: 0.6rem 0.75rem;
+  margin-top: 0.2rem;
+  border-top: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+}
+
+.suggestionAll:hover {
+  background: var(--color-bg-secondary);
+  color: var(--color-text);
+}
+
+@media (max-width: 640px) {
+  /* Short enough to sit above the fold on a 812px phone, and shorter still
+     than that once the on-screen keyboard takes the bottom half. Four venues
+     plus the "see all" row, which is as much as anyone reads anyway. */
+  .suggestions { max-height: 290px; }
+  .suggestionName { font-size: 0.88rem; }
+  .suggestion { padding: 0.55rem 0.7rem; }
+}
