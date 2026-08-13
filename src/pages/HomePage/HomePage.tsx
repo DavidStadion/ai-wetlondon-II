@@ -304,8 +304,10 @@ export function HomePage(_props: RouteProps) {
           </div>
         )}
 
-        {/* Empty State */}
-        {!loading && !errorMsg && venueList.length === 0 && (
+        {/* Empty State. Checks the filtered list, not the full one: it used to
+            test venueList, which is always all 346, so searching for something
+            with no matches produced neither results nor a message. */}
+        {!loading && !errorMsg && regularVenues.length === 0 && (
           <div className={styles.emptyState}>
             <p className={styles.emptyMessage}>
               No activities match your filters. Try adjusting your search criteria.
@@ -322,6 +324,7 @@ export function HomePage(_props: RouteProps) {
         )}
 
         {/* Activity Grid (regular venues, paginated) */}
+        <div id="results" />
         {!loading && !errorMsg && previewVenues.length > 0 && (
           <>
             <div className={styles.grid}>

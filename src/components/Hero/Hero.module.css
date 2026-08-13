@@ -107,3 +107,31 @@
 
 /* Weather band sits below the hero copy, full container width */
 
+
+/* Live result count under the search box. The results themselves are several
+   screens down, so this is the only feedback a searcher gets where they are
+   actually looking. */
+.resultCount {
+  display: inline-block;
+  margin-top: 0.85rem;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+}
+
+.resultCount:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.resultCount:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}

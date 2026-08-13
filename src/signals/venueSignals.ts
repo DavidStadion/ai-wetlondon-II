@@ -112,10 +112,20 @@ export const filteredVenues = computed(() => {
     result = result.filter((v) => isVenueOpenNow(v.openingHours) === true);
   }
 
-  // Filter by constraints (prerequisites)
+  /*
+   * Filter by constraints (prerequisites), case-insensitively.
+   *
+   * This was an exact match, and every option in the customiser is written
+   * "Wheelchair accessible" while every tag in the database is written
+   * "wheelchair accessible". So all 27 options returned nothing, silently.
+   * Someone ticking the box that decides whether they can physically get in
+   * was told the city had nothing for them, with 119 accessible venues in the
+   * table. Normalise both sides and never rely on the two staying in step.
+   */
   if (constraints.value.size > 0) {
+    const wanted = new Set([...constraints.value].map((c) => c.toLowerCase()));
     result = result.filter((v) =>
-      v.prerequisites?.some((p) => constraints.value.has(p)) ?? false
+      v.prerequisites?.some((p) => wanted.has(String(p).toLowerCase())) ?? false
     );
   }
 

@@ -63,28 +63,36 @@ const PRICE_OPTIONS: Array<{ value: number | null; label: string }> = [
   { value: 20, label: 'Under £20' },
 ];
 
-/** The things that decide whether somewhere actually works for someone. */
+/**
+ * The things that decide whether somewhere actually works for someone.
+ *
+ * Every option here must exist as a tag on real venues. This list used to carry
+ * 27 and only 13 had any data behind them: "Low sensory", "Quiet hours",
+ * "Predictable layouts", "Avoid crowds", "No flashing lights", "Nut-free" and
+ * the rest matched nothing and always would. An accessibility filter that
+ * silently returns nothing is worse than no filter, because it tells someone
+ * the city has nothing for them rather than that we do not know.
+ *
+ * To add a category back, tag the venues first, then add it here. The venue
+ * counts below were correct on 13 August 2026.
+ */
 const NEEDS: Array<{ title: string; note?: string; items: string[] }> = [
   {
     title: 'Access & mobility',
-    items: ['Wheelchair accessible', 'Step-free', 'Lift access', 'Seating available', 'Avoid stairs', 'Low-impact'],
+    items: ['Wheelchair accessible', 'Step-free', 'Lift access'],
   },
   {
     title: 'Sensory & comfort',
     note: 'Useful if crowds, noise or bright lights are a problem',
-    items: ['Quiet environment', 'Avoid crowds', 'No flashing lights', 'No loud music', 'Well-lit spaces', 'Climate controlled'],
-  },
-  {
-    title: 'Neurodiverse',
-    items: ['Low sensory', 'Quiet hours', 'Predictable layouts'],
+    items: ['Quiet environment', 'Quiet spaces', 'Climate controlled'],
   },
   {
     title: 'With children',
-    items: ['Child-friendly', 'Pushchair-friendly', 'Family tickets', 'Quiet spaces', 'Interactive exhibits'],
+    items: ['Child-friendly', 'Family tickets'],
   },
   {
     title: 'Dietary',
-    items: ['Vegan options', 'Vegetarian', 'Gluten-free', 'Halal', 'Kosher', 'Dairy-free', 'Nut-free'],
+    items: ['Vegan options', 'Vegetarian', 'Gluten-free', 'Halal', 'Dairy-free'],
   },
 ];
 

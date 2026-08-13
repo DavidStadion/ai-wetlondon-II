@@ -223,19 +223,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/bfi-imax</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://wetlondon.co.uk/venue/covent-garden-market</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/barbican-centre</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -685,12 +673,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/abba-voyage</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://wetlondon.co.uk/venue/everyman-cinema-kings-cross</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -710,12 +692,6 @@
   </url>
   <url>
     <loc>https://wetlondon.co.uk/venue/angel-comedy</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/barbican-library</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -745,13 +721,31 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://wetlondon.co.uk/venue/all-star-lanes</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://wetlondon.co.uk/venue/hunterian-museum</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://wetlondon.co.uk/venue/all-star-lanes-stratford</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://wetlondon.co.uk/venue/design-museum</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/thames-evening-bubbly-cruise</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -781,19 +775,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/all-star-lanes</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://wetlondon.co.uk/venue/amy-winehouse-camden-tour</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/all-star-lanes-stratford</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -824,12 +806,6 @@
   </url>
   <url>
     <loc>https://wetlondon.co.uk/venue/guided-e-bike-tour</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/thames-evening-bubbly-cruise</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -907,12 +883,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/sky-garden</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://wetlondon.co.uk/venue/waterstones-piccadilly</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -926,6 +896,12 @@
   </url>
   <url>
     <loc>https://wetlondon.co.uk/venue/royal-academy-of-arts</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/sky-garden</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1141,12 +1117,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/changing-of-the-guard-tour</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://wetlondon.co.uk/venue/ifly-indoor-skydiving</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -1183,12 +1153,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/jack-the-ripper-night-tour</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://wetlondon.co.uk/venue/beatles-walking-tour</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -1213,13 +1177,19 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/london-eye</loc>
+    <loc>https://wetlondon.co.uk/venue/jack-the-ripper-night-tour</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/tootbus-hop-on-hop-off</loc>
+    <loc>https://wetlondon.co.uk/venue/changing-of-the-guard-tour</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/london-eye</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1243,31 +1213,13 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/afternoon-tea-bus</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://wetlondon.co.uk/venue/street-art-tour</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/thames-afternoon-tea-cruise</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://wetlondon.co.uk/venue/bar-club-crawl</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/harry-potter-walking-tour</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1297,6 +1249,18 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://wetlondon.co.uk/venue/thames-afternoon-tea-cruise</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/afternoon-tea-bus</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://wetlondon.co.uk/venue/windsor-castle</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -1321,12 +1285,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/churchill-war-rooms</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://wetlondon.co.uk/venue/les-miserables</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -1340,6 +1298,12 @@
   </url>
   <url>
     <loc>https://wetlondon.co.uk/venue/the-book-of-mormon</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/churchill-war-rooms</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1369,6 +1333,24 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://wetlondon.co.uk/venue/buckingham-palace-guard-tour</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/churchill-wwii-walking-tour</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/westminster-to-greenwich-cruise</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://wetlondon.co.uk/venue/wembley-stadium-tour</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -1376,6 +1358,48 @@
   </url>
   <url>
     <loc>https://wetlondon.co.uk/venue/emirates-stadium-tour</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/v-a-east-museum</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/mundo-pixar</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/abba-voyage</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/tower-bridge</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/bfi-imax</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/barbican-centre</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/barbican-library</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1411,7 +1435,7 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/two-temple-place</loc>
+    <loc>https://wetlondon.co.uk/venue/museum-of-illusions-london</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1423,7 +1447,19 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/museum-of-illusions-london</loc>
+    <loc>https://wetlondon.co.uk/venue/tootbus-hop-on-hop-off</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/jack-the-ripper-historic-pub-tour</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/two-temple-place</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1442,18 +1478,6 @@
   </url>
   <url>
     <loc>https://wetlondon.co.uk/venue/natural-history-museum</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/old-royal-naval-college</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/cutty-sark</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1489,13 +1513,25 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/alexandra-palace</loc>
+    <loc>https://wetlondon.co.uk/venue/old-royal-naval-college</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/thames-lunch-cruise</loc>
+    <loc>https://wetlondon.co.uk/venue/cutty-sark</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/jack-the-ripper-whitechapel-tour</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/harry-potter-walking-tour</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1507,7 +1543,19 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/big-bus-hop-on-hop-off</loc>
+    <loc>https://wetlondon.co.uk/venue/alexandra-palace</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/royal-palaces-walking-tour</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/thames-lunch-cruise</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1538,12 +1586,6 @@
   </url>
   <url>
     <loc>https://wetlondon.co.uk/venue/beer-bike-tour</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/taylor-swift-afternoon-tea-bus</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1591,67 +1633,25 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://wetlondon.co.uk/venue/taylor-swift-afternoon-tea-bus</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/big-bus-hop-on-hop-off</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://wetlondon.co.uk/venue/uber-boat-cable-car-pass</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://wetlondon.co.uk/venue/churchill-wwii-walking-tour</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/thames-dinner-cruise</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/westminster-to-greenwich-cruise</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/royal-palaces-walking-tour</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/tootbus-must-see-tour</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://wetlondon.co.uk/venue/brixton-food-tour</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/great-british-afternoon-tea-bus</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/jack-the-ripper-historic-pub-tour</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/jack-the-ripper-whitechapel-tour</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/buckingham-palace-guard-tour</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -1676,6 +1676,24 @@
   </url>
   <url>
     <loc>https://wetlondon.co.uk/venue/queens-skate-dine-bowl</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/thames-dinner-cruise</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/great-british-afternoon-tea-bus</loc>
+    <lastmod>2026-08-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://wetlondon.co.uk/venue/tootbus-must-see-tour</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
@@ -2054,24 +2072,6 @@
   </url>
   <url>
     <loc>https://wetlondon.co.uk/venue/musical-museum</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/v-a-east-museum</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/mundo-pixar</loc>
-    <lastmod>2026-08-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://wetlondon.co.uk/venue/tower-bridge</loc>
     <lastmod>2026-08-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
