@@ -22,6 +22,16 @@
 .content { padding-block: 3.25rem; }
 .adWrapper { padding-block: 2.5rem 0; }
 
+/* Visually hidden, still announced. Same pattern as JoinClub. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 /* AdSlot renders nothing until AdSense is actually serving, which would
    otherwise leave this wrapper holding 2.5rem of empty padding. */
 .adWrapper:empty { display: none; }

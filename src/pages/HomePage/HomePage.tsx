@@ -177,7 +177,11 @@ export function HomePage(_props: RouteProps) {
 
       {/* Featured, editorial mosaic (lead tile + two stacked) */}
       {!loading && !errorMsg && !filtersActive && mosaicLead && (
-        <section className={styles.mosaicSection} id="activities">
+        <section className={styles.mosaicSection} id="activities" aria-labelledby="todays-picks">
+          {/* The mosaic had no heading, so the page jumped from the h1 straight
+              to the cards' h3s. Hidden rather than shown: the tiles are the
+              design here, and a visible title would fight them. */}
+          <h2 id="todays-picks" className={styles.srOnly}>Today&rsquo;s picks</h2>
           <div className={styles.mosaic}>
             <div className={styles.mosaicLead}>
               <ActivityCard

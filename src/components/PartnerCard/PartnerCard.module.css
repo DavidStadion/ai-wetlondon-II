@@ -115,6 +115,10 @@
 
 
 /* On the inverted pop-ups band, flip the card text to read on ink */
+/* --color-wet is #1f43ff, which is 3.08:1 on this section's near-black and fails
+   AA on 10.88px bold. #9fb0ff is the blue already used for .partnerBtn:hover
+   below, and clears it comfortably. */
+:global(.popupsInverted) .partnerType { color: #9fb0ff; }
 :global(.popupsInverted) .partnerTitle { color: #fff; }
 :global(.popupsInverted) .partnerLocation,
 :global(.popupsInverted) .partnerDescription { color: rgba(255, 255, 255, 0.7); }

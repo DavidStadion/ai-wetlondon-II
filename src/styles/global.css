@@ -19,9 +19,17 @@
   --color-primary: #1f43ff;
   --color-primary-dark: #1734cc;
   --color-secondary: #6b6b70;
-  --color-success: #1f9d55;
-  --color-error: #d64545;
-  --color-error-hover: #b83232;
+  /*
+   * The green and red are darker than they look like they want to be, because
+   * both carry white text on them ("OPEN NOW", "CLOSED", toasts) and both are
+   * also used as text colour on the light page. The old #1f9d55 gave white text
+   * 3.49:1 and the old #d64545 gave 4.38:1, against the 4.5:1 WCAG AA needs at
+   * that size. These are the smallest darkening that clears it in both
+   * directions: 4.99:1 and 5.01:1 with white, 4.57:1 and 4.59:1 as text.
+   */
+  --color-success: #178044;
+  --color-error: #c93c3c;
+  --color-error-hover: #b02d2d;
   --color-warning: #b8790a;
 
   /* Accent buttons -> confident ink fill */
@@ -29,9 +37,9 @@
   --color-accent-hover: #000000;
   --color-accent-text: #ffffff;
 
-  /* Status */
-  --color-status-open: #1f9d55;
-  --color-status-closed: #d64545;
+  /* Status. Kept identical to success/error so the palette stays coherent. */
+  --color-status-open: #178044;
+  --color-status-closed: #c93c3c;
 
   /* Card variant borders */
   --color-featured: #0c0c0d;
