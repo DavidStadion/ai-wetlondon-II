@@ -64,6 +64,7 @@ async function loadTsModule(...segments) {
 
 const venueInfo = await loadTsModule('src', 'utils', 'venueInfo.ts');
 const collections = await loadTsModule('src', 'utils', 'collections.ts');
+const venueTypes = await loadTsModule('src', 'utils', 'venueTypes.ts');
 
 /* ---------- shared copy, kept in step with the app ---------- */
 
@@ -90,6 +91,7 @@ const CATEGORIES = {
 
 const COLLECTIONS = {
   'chucking-it-down': ['Brilliant when it is chucking it down', 'The places that work hardest on the worst days. Straight off the tube, fully covered, and good enough to make you glad it rained.'],
+  'with-a-scoreboard': ['Somewhere with a scoreboard', 'Darts, bowling, shuffleboard, crazy golf, ping pong, axe throwing and simulated Formula One. Most of it has a bar attached, none of it asks you to be any good, and all of it is indoors. London has quietly filled its basements and railway arches with ways to lose at something.'],
   'under-a-tenner': ['Brilliant London for under a tenner', 'London gets an expensive reputation it only half deserves. Everything here costs a tenner or less, and plenty of it costs nothing at all.'],
   'completely-free': ['Costs absolutely nothing', 'World-class museums, strange little collections and some of the best buildings in the city. None of it will cost you a penny.'],
   'somewhere-weird': ['Somewhere genuinely weird', 'Neon warehouses, surgical theatres, houses frozen in another century. London is much stranger than it lets on.'],
@@ -153,13 +155,13 @@ const AREA = { central: 'Central London', north: 'North London', south: 'South L
  */
 function typesOf(v) {
   const raw = v.type;
-  if (Array.isArray(raw)) return raw.map((t) => String(t).trim().toLowerCase());
+  if (Array.isArray(raw)) return raw.map((t) => venueTypes.canonicalType(t));
   if (typeof raw !== 'string') return [];
   return raw
     .replace(/^[{]+/, '')
     .replace(/[}]+$/, '')
     .split(',')
-    .map((s) => s.trim().replace(/^"|"$/g, '').toLowerCase())
+    .map((s) => venueTypes.canonicalType(s.replace(/^"|"$/g, '')))
     .filter(Boolean);
 }
 

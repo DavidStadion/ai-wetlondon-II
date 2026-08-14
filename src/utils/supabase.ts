@@ -2,6 +2,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import type { Venue, VenueType, AreaType, WetnessLevel } from '../types';
 import type { Event, EventCategory } from '../types/event';
 import type { Partner, PartnerType, PartnerLocation } from '../types/partner';
+import { canonicalType } from './venueTypes';
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || '';
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
@@ -146,11 +147,11 @@ function toTagArray(raw: unknown): string[] {
 }
 
 function toTypeArray(dbType: string | string[]): string[] {
-  if (Array.isArray(dbType)) return dbType;
+  if (Array.isArray(dbType)) return dbType.map(canonicalType);
   if (typeof dbType === 'string') {
     const trimmed = dbType.trim();
     const withoutBraces = trimmed.replace(/^[{]+/, '').replace(/[}]+$/, '');
-    return withoutBraces.split(',').map((s) => s.trim());
+    return withoutBraces.split(',').map((s) => canonicalType(s));
   }
   return [];
 }

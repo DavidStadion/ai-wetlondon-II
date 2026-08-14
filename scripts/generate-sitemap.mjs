@@ -28,9 +28,13 @@ const STATIC_PATHS = [
   ['/affiliate', '0.2', 'yearly'],
 ];
 
+// Keep in step with COLLECTIONS in src/utils/collections.ts and the copy map in
+// scripts/prerender.mjs. Three lists, all hand-maintained: a collection missing
+// from any one of them half-exists.
 const COLLECTION_SLUGS = [
-  'chucking-it-down', 'under-a-tenner', 'completely-free', 'somewhere-weird',
-  'date-night', 'with-little-ones', 'quiet-please', 'escape-the-heat',
+  'chucking-it-down', 'with-a-scoreboard', 'under-a-tenner', 'completely-free',
+  'somewhere-weird', 'date-night', 'with-little-ones', 'quiet-please',
+  'escape-the-heat',
 ];
 
 const CATEGORY_SLUGS = [

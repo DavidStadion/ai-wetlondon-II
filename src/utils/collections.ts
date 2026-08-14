@@ -39,6 +39,32 @@ export const COLLECTIONS: Collection[] = [
     score: (v) => rating(v) + (v.wetnessScore === 0 ? 0.5 : 0),
   },
   {
+    /*
+     * The trade press calls this "competitive socialising" and the listings sites
+     * call it "activity bars". Nobody has ever said either out loud. What it
+     * actually is: somewhere that keeps score.
+     *
+     * The blurb is doing the search-engine work rather than the title, because
+     * people look for "darts", "bowling" and "crazy golf" by name and nobody
+     * searches for a scoreboard. Worth watching: if this collection earns
+     * traffic it deserves promoting to a real category, which needs the venues
+     * retagged in SQL.
+     */
+    slug: 'with-a-scoreboard',
+    title: 'Somewhere with a',
+    titleAccent: 'scoreboard',
+    teaser: 'Something to aim at, and a bar',
+    blurb:
+      'Darts, bowling, shuffleboard, crazy golf, ping pong, axe throwing and simulated Formula One. Most of it has a bar attached, none of it asks you to be any good, and all of it is indoors. London has quietly filled its basements and railway arches with ways to lose at something.',
+    match: (v) =>
+      v.wetnessScore <= 30 &&
+      (has(v, 'gaming') ||
+        /darts|shuffleboard|shuffle|crazy golf|mini golf|ping pong|bowling|axe throw|arcade|karaoke|racing sim|simulator|batting cage/.test(
+          text(v),
+        )),
+    score: rating,
+  },
+  {
     slug: 'under-a-tenner',
     title: 'Brilliant London for',
     titleAccent: 'under a tenner',

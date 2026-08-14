@@ -85,6 +85,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://wetlondon.co.uk/collection/with-a-scoreboard</loc>
+    <lastmod>2026-08-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://wetlondon.co.uk/collection/under-a-tenner</loc>
     <lastmod>2026-08-14</lastmod>
     <changefreq>weekly</changefreq>
