@@ -13,8 +13,8 @@ something already shipped. If you change something, change the number here too.
 
 ## What this is
 
-`wetlondon.co.uk` — a guide to indoor things to do in London, rated by how wet
-you will get. Preact + TypeScript + Vite SPA (**not** Next.js), CSS Modules,
+`wetlondon.co.uk` is a guide to indoor things to do in London, rated by how
+wet you will get. Preact + TypeScript + Vite SPA (**not** Next.js), CSS Modules,
 `@preact/signals`, `preact-router`. Vercel serverless functions in `/api`
 (vanilla JS). Supabase Postgres. Deployed on Vercel from `main`: every push
 deploys.
@@ -146,7 +146,7 @@ OPEN NOW badge 3.49:1 to 4.99:1, CLOSED badge 4.38:1 to 5.01:1, pop-up type
    `public/` is tracked, including the sitemaps, which the build rewrites: expect
    `lastmod` churn in `git status` after any build
 5. **Env vars need a redeploy** to take effect
-6. **Never prefix a secret with `VITE_`** — that ships it to the browser
+6. **Never prefix a secret with `VITE_`**: that ships it to the browser
 7. **Failure paths that report success.** Supabase's editor showed "Failed to
    fetch" for a transaction that had fully committed. Always verify against the
    data, never the message
@@ -198,12 +198,12 @@ cookie-based, ~30 days.
 
 ### David's jobs
 1. **£5 Google Cloud budget alert** (Billing → Budgets & alerts)
-2. **Awin signup** — in progress. Hosts many UK merchants' own programmes
+2. **Awin signup**, in progress. Hosts many UK merchants' own programmes
    including, probably, Merlin (Madame Tussauds, London Eye, SEA LIFE, London
    Dungeon, Shrek's). Direct rates may beat GYG's 8% on all five
 3. **Do not click "Request review" in AdSense** until happy with the content
 4. **Check the GYG and Tiqets dashboards around 27 August**
-5. **Pop-Ups** — he is unhappy with `/popups` and planning a redesign himself.
+5. **Pop-Ups**: he is unhappy with `/popups` and planning a redesign himself.
    It is currently a thin page driven by the `partners` table. Do not pre-empt it
 
 Done and verifiable, so do not put these back on the list: the
