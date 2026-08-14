@@ -1,7 +1,8 @@
 .band {
   max-width: var(--wl-maxw);
   margin: 0 auto;
-  padding: 3.5rem var(--wl-gutter) 0.5rem;
+  padding-inline: var(--wl-gutter);
+  padding-block: clamp(3.5rem, 7vw, 6rem) clamp(2.75rem, 5.5vw, 4.5rem);
 }
 
 .inner {
@@ -38,6 +39,32 @@
   color: var(--color-text);
   text-decoration: underline;
   text-underline-offset: 0.15em;
+}
+
+/* Desktop shows all three columns at once, so the toggle is mobile-only. */
+.toggle {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .toggle {
+    display: inline-block;
+    justify-self: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
+    cursor: pointer;
+  }
+
+  /* Everything after the first paragraph, until asked for. */
+  .body:not(.expanded) > p:nth-of-type(n + 2) {
+    display: none;
+  }
 }
 
 @media (min-width: 768px) {
