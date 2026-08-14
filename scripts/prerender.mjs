@@ -31,19 +31,23 @@ const DIST = join(ROOT, 'dist');
 const SITE = 'https://wetlondon.co.uk';
 
 /**
- * The venue copy below comes from src/utils/venueInfo.ts, compiled and imported
- * rather than reimplemented here.
+ * The venue copy and the collection predicates below come from the app's own
+ * modules, compiled and imported rather than reimplemented here.
  *
- * That module already works out opening hours, transport, duration,
+ * venueInfo.ts already works out opening hours, transport, duration,
  * accessibility, booking and what is included for every venue, and the app has
  * always shown it to people. It simply never reached the HTML. Porting 300
  * lines into this script would have worked once and then drifted the first time
  * anyone edited the real one, which is exactly how the type[] parsing bug in
  * this file's history happened.
+ *
+ * collections.ts is here for the same reason: each collection is a predicate,
+ * and a second hand-copied set of predicates would start disagreeing with the
+ * app about which venues belong in which collection.
  */
-async function loadVenueInfo() {
+async function loadTsModule(...segments) {
   const result = await build({
-    entryPoints: [join(ROOT, 'src', 'utils', 'venueInfo.ts')],
+    entryPoints: [join(ROOT, ...segments)],
     bundle: true,
     format: 'esm',
     platform: 'node',
@@ -58,7 +62,8 @@ async function loadVenueInfo() {
   return import(`data:text/javascript;base64,${code}`);
 }
 
-const venueInfo = await loadVenueInfo();
+const venueInfo = await loadTsModule('src', 'utils', 'venueInfo.ts');
+const collections = await loadTsModule('src', 'utils', 'collections.ts');
 
 /* ---------- shared copy, kept in step with the app ---------- */
 
@@ -259,9 +264,53 @@ function write(path, html) {
   writeFileSync(join(dir, 'index.html'), html);
 }
 
+/**
+ * Which other venues a venue page should link to.
+ *
+ * Every venue page used to carry four internal links: the logo, /all-activities
+ * twice and its category. So 341 pages sat one hop from the homepage with almost
+ * nothing pointing at them and nothing leading out of them. A sitemap tells a
+ * crawler a URL exists; internal links are what suggest it matters.
+ *
+ * Nearest first: same category in the same part of London is the genuinely
+ * useful "if you liked this" list, so it is also the honest one to show a
+ * reader. Sorted by rating, then name so the build is deterministic.
+ */
+function relatedVenues(v, all) {
+  const self = slugify(v.name);
+  const primary = typesOf(v).find((t) => CATEGORIES[t]);
+  const rate = (x) => parseFloat(String(x.rating)) || 0;
+  const byRating = (a, b) => rate(b) - rate(a) || String(a.name).localeCompare(String(b.name));
+
+  const pool = all.filter((x) => {
+    const s = slugify(x.name);
+    return s && s !== self;
+  });
+
+  const nearby = primary
+    ? pool.filter((x) => x.location === v.location && typesOf(x).includes(primary)).sort(byRating)
+    : [];
+  const nearbySet = new Set(nearby);
+  const elsewhere = primary
+    ? pool.filter((x) => typesOf(x).includes(primary) && !nearbySet.has(x)).sort(byRating)
+    : [];
+
+  return {
+    primary,
+    nearby: nearby.slice(0, 5),
+    elsewhere: elsewhere.slice(0, 5),
+    // Only needed when a venue has no category we build a page for, which would
+    // otherwise leave it with no outbound links at all.
+    sameArea: primary ? [] : pool.filter((x) => x.location === v.location).sort(byRating).slice(0, 6),
+  };
+}
+
+const venueLinks = (items) =>
+  `<ul>${items.map((x) => `<li><a href="/venue/${slugify(x.name)}">${esc(x.name)}</a></li>`).join('')}</ul>`;
+
 /* ---------- page builders ---------- */
 
-function venuePage(template, v) {
+function venuePage(template, v, all) {
   const path = `/venue/${slugify(v.name)}`;
   const area = AREA[v.location] ?? 'London';
   const cats = typesOf(v).map(label).filter(Boolean);
@@ -295,6 +344,21 @@ function venuePage(template, v) {
   const included = venueInfo.getWhatsIncluded(venue.type, venue.prerequisites);
   const goodToKnow = venueInfo.getGoodToKnow(venue);
   const primaryCat = typesOf(v).find((t) => CATEGORIES[t]);
+  const related = relatedVenues(v, all);
+  const catLabel = related.primary ? label(related.primary).toLowerCase() : '';
+  /*
+   * Rarest first, capped at three. The collections overlap heavily by design:
+   * the British Museum qualifies for seven of the eight, and listing all seven
+   * reads as filler and says nothing. The smallest collection a venue belongs
+   * to is the most interesting thing about it, and it spreads links towards the
+   * collections that fewest venues reach.
+   */
+  const inCollections = collections.COLLECTIONS
+    .filter((c) => c.match(venue))
+    .map((c) => c.slug)
+    .filter((slug) => COLLECTIONS[slug])
+    .sort((a, b) => (collectionSizes.get(a) ?? 0) - (collectionSizes.get(b) ?? 0))
+    .slice(0, 3);
 
   const inner = `
     <nav><a href="/">Wet London</a> / <a href="/all-activities">All activities</a></nav>
@@ -326,6 +390,16 @@ function venuePage(template, v) {
     <p>${esc(venueInfo.getBookingText(venue.type, venue.prerequisites, venue.price))}</p>
 
     ${goodToKnow.length ? `<h2>Good to know</h2><ul>${li(goodToKnow)}</ul>` : ''}
+
+    ${related.nearby.length ? `<h2>Other ${esc(catLabel)} in ${esc(area)}</h2>${venueLinks(related.nearby)}` : ''}
+    ${related.elsewhere.length ? `<h2>More ${esc(catLabel)} across London</h2>${venueLinks(related.elsewhere)}` : ''}
+    ${related.sameArea.length ? `<h2>Also indoors in ${esc(area)}</h2>${venueLinks(related.sameArea)}` : ''}
+
+    ${inCollections.length
+      ? `<p>${esc(v.name)} also turns up in ${inCollections
+          .map((slug) => `<a href="/collection/${esc(slug)}">${esc(COLLECTIONS[slug][0])}</a>`)
+          .join(' · ')}</p>`
+      : ''}
 
     <p>More like this:
       ${primaryCat ? `<a href="/category/${esc(primaryCat)}">${esc(label(primaryCat))} in London</a> ·` : ''}
@@ -600,6 +674,15 @@ if (!existsSync(snapshotPath)) {
 }
 const venues = existsSync(snapshotPath) ? JSON.parse(readFileSync(snapshotPath, 'utf8')) : [];
 
+// The shape the app's own helpers and collection predicates expect.
+const venueObjects = venues.map(toVenue);
+
+// How many venues each collection holds, so a venue page can lead with the
+// most distinctive collections it belongs to rather than the broadest.
+const collectionSizes = new Map(
+  collections.COLLECTIONS.map((c) => [c.slug, venueObjects.filter((v) => c.match(v)).length]),
+);
+
 const articlesPath = join(DIST, 'data', 'articles.json');
 if (!existsSync(articlesPath)) {
   console.warn('[prerender] no articles.json, skipping the blog section.');
@@ -615,7 +698,7 @@ for (const v of venues) {
   const slug = slugify(v.name);
   if (!slug || seen.has(slug)) continue;
   seen.add(slug);
-  pages.push(venuePage(template, v));
+  pages.push(venuePage(template, v, venues));
 }
 
 // Category pages
@@ -631,15 +714,21 @@ for (const [slug, [name, blurb]] of Object.entries(CATEGORIES)) {
   }));
 }
 
-// Collection pages
+// Collection pages.
+//
+// These used to be built with an empty item list, so all eight were a heading
+// and a paragraph that linked to nothing: in the sitemap, but a dead end for
+// anyone arriving and for anything crawling. The membership test is the app's
+// own predicate, so the page and the app cannot disagree about what belongs.
 for (const [slug, [name, blurb]] of Object.entries(COLLECTIONS)) {
+  const collection = collections.getCollection(slug);
   pages.push(listPage(template, {
     path: `/collection/${slug}`,
     h1: name,
     blurb,
     title: `${name} | Wet London`,
     description: blurb,
-    items: [],
+    items: collection ? collections.venuesFor(collection, venueObjects) : [],
   }));
 }
 
