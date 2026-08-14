@@ -1,7 +1,8 @@
 # Wet London: session handover
 
-Written 12 August 2026, at the end of a long session. Paste this into a new
-session to pick up without re-deriving anything.
+Written 13 August 2026. Paste this into a new session to pick up without
+re-deriving anything. Every number below was verified against the live database
+and the live site, not assumed.
 
 ---
 
@@ -10,335 +11,229 @@ session to pick up without re-deriving anything.
 `wetlondon.co.uk` — a guide to indoor things to do in London, rated by how wet
 you will get. Preact + TypeScript + Vite SPA (**not** Next.js), CSS Modules,
 `@preact/signals`, `preact-router`. Vercel serverless functions in `/api`
-(vanilla JS). Supabase Postgres. Deployed on Vercel from `main`.
+(vanilla JS). Supabase Postgres. Deployed on Vercel from `main`: every push
+deploys.
 
 Repo: `DavidStadion/ai-wetlondon-II` (public). Working dir
 `/Users/dhstadion/projects/ai-wetlondon-aug/ai-wetlondon-II`.
 
-**David is a product/UI designer, not a developer.** He owns the domain and makes
-the design calls. Explain things in terms of what they do, not how. He asks good
-questions and wants the reasoning, not reassurance.
+**David is a product/UI designer, not a developer.** He owns the domain and
+makes the design calls. Explain things in terms of what they do, not how. He
+asks good questions and wants the reasoning, not reassurance. He spots real
+problems: the two biggest bugs found on 13 August were both things he noticed
+as a user before anyone found them in code.
 
 **Voice matters to him more than almost anything.** Dry, self-aware, British,
 undercuts itself, concrete rather than florid. Read `/about` and
 `content/articles/free-and-nobody-queues.md` before writing any copy.
-**No em dashes anywhere** — he had them all removed because they "look very AI".
+**No em dashes anywhere.** He had them all removed because they "look very AI".
 Use colons, full stops or restructured sentences. UK English throughout.
 
 ---
 
-## Accounts, because this cost real time to work out
+## Accounts
 
 | Service | Account | Detail |
 |---|---|---|
-| Supabase | `davidh@stadion.io` | **GitHub OAuth only, no password.** Sign in with "Continue with GitHub" as `DavidStadion` |
-| AdSense | `wetlondonofficial@gmail.com` | publisher `pub-1382628707656079`, status Open |
-| GetYourGuide | `wetlondonofficial@gmail.com` | affiliate partner ID **3NBC6EH**, 8% commission |
-| Tiqets | `wetlondonofficial@gmail.com` | application submitted 11 Aug, awaiting approval |
-| Resend | `davidh@stadion.io` (org `stadion`) | domain `wetlondon.co.uk` verified, sends from `alerts@wetlondon.co.uk` |
+| Supabase | `davidh@stadion.io` | **GitHub OAuth only, no password.** "Continue with GitHub" as `DavidStadion` |
+| AdSense | `wetlondonofficial@gmail.com` | publisher `pub-1382628707656079`. **Rejected for "Low value content".** Do not request review yet |
+| GetYourGuide | `wetlondonofficial@gmail.com` | partner ID **3NBC6EH**, flat **8%** |
+| Tiqets | `wetlondonofficial@gmail.com` | partner **wet_london-189124**, **3.3% to 14.2%**, varies per product |
+| Resend | `davidh@stadion.io` (org `stadion`) | domain verified, sends from `alerts@wetlondon.co.uk` |
 | DNS | **Namecheap** (not Vercel) | `dns1/dns2.registrar-servers.com` |
-| Google Cloud | via `wetlondonofficial@gmail.com` | project `WetLondon`, only Places API enabled |
+| Google Cloud | via `wetlondonofficial@gmail.com` | project `WetLondon`, Places API only, capped 2,000/day and 60/min |
 
 ### The Supabase trap
 **The live project is `wetlondon2026`, ref `iguspxisuudvvlcbtaxk`.** Two other
 projects exist with more obvious names (`wet-london` = `fynsbibwygcxovbefqsl`,
-and `Wet London`). Both are **paused and unused**. Always check the ref in the
-URL before running SQL.
+and `Wet London`). Both are paused and unused. Always check the ref in the URL
+before running SQL.
+
+David runs all SQL by hand in the Supabase editor: RLS denies anonymous writes,
+and PostgREST returns `200 []` when it silently refuses, so scripts must
+generate SQL rather than attempt writes.
 
 ---
 
-## Current state, all verified live
+## Current state, verified 13 August 2026
 
-- **333 venues**, no duplicate names, no duplicate URLs
-- **372 URLs prerendered** as static HTML with unique titles, descriptions,
-  canonicals and JSON-LD
-- Sitemap index + 4 children, submitted and **read by Google on 11 Aug: 372
-  pages discovered** (it had been unread since 5 Feb, showing 5 pages)
-- One hostname serves the site. `www.wetlondon.co.uk`, `wetlondon.com` and
-  `www.wetlondon.com` are all single-hop **308** to `wetlondon.co.uk`
-- Rain alert club works end to end: signup → confirmation email → confirm link.
-  Cron at 06:50 daily, only sends when rain is forecast 08:00–20:00
-- Security headers live via `vercel.json` (nosniff, X-Frame-Options DENY, CSP
-  frame-ancestors, referrer policy, permissions policy). Assets cached immutable
-- Google Places API capped: **2,000/day, 60/minute**
-- Display face is **Newsreader**; wordmark sits in the hero, not the header
+| | |
+|---|---|
+| Venues | **341** |
+| Earning affiliate links | **95** (GetYourGuide 63, Tiqets 32) |
+| Venue-direct links, pay nothing | 35 |
+| No link at all | 211 (86 are free venues with nothing to sell) |
+| Venues with opening hours | **326** |
+| Blog pieces | **7**, all prerendered with full text |
+| Prerendered pages | 387 |
+| Venue page HTML | ~146 words (was ~30) |
+| Unknown URLs | real **404** (was HTTP 200) |
+| Invalid `location` values | 0 |
+| Homepage spotlight | Old Royal Naval College |
+
+Last commit: `d121a10`. Tree clean, in sync with origin, all deployed.
 
 ---
 
-## Traps that already caught us once
+## What changed on 12-13 August
+
+**Content and SEO**
+- `/blog` built from markdown in `content/articles/`, prerendered with the full
+  article HTML, `BlogPosting` JSON-LD, `og:type: article`, own `sitemap-blog.xml`
+- Venue pages now serve real content from `venueInfo.ts` (hours, transport,
+  duration, accessibility, booking, good-to-know) instead of a 30-word summary
+- Real 404s. Unknown URLs used to return 200 with the homepage
+- 7 articles, 58 internal links, all validated against the live database
+
+**Money**
+- 95 earning links across two networks, chosen per venue on real commission data
+- `docs/venue-direct-links.md` preserves the 51 original venue-direct links for
+  chasing those schemes separately
+
+**Bugs fixed (all found on 13 August)**
+- **Customiser returned nothing for every option.** Modal offered "Wheelchair
+  accessible", database stores "wheelchair accessible", filter compared exactly.
+  All 27 options silently matched nothing. Now case-insensitive: wheelchair
+  accessible returns 119 venues. 14 options with no data behind them were cut
+- **Places API quota.** The `?q=` lookup sent no `Cache-Control`, so every
+  visitor's every card ran a fresh Places search: ~48 calls per cold page view
+  against a 2,000/day cap, about 41 visitors a day before images failed. Both
+  API endpoints now cache at the CDN
+- **Search did nothing visible.** Results sat ~5,000px down. Page now collapses
+  editorial sections on search, plus a typeahead dropdown under the box
+- **Search ranked badly.** "bank" returned Banksy, BFI Southbank and Gordon's
+  Wine Bar (via "Embankment") before Bank of England Museum. Now relevance-ranked
+- **Events page served stale hardcoded data** on any fetch failure, including a
+  show that closed in April, with no error
+- **`isVenueOpenNow` broke past midnight.** 44 late venues read as closed all evening
+- **`hasActiveFilters` ignored `maxWetnessScore`**, so "Bone dry" filtered the
+  list while the page reported no filters and offered no way to clear
+- 5 duplicate venues merged, 3 invalid `location: "various"` values fixed
+
+---
+
+## Traps that have already caught us
 
 1. **Postgres returns `text[]` as a literal string** (`"{museums,education}"`).
    `convertVenue` parses `type` and `prerequisites`. Anything new reading array
-   columns must parse too. This silently broke the constraints filter and hid the
-   modal's amenity tags for months.
-2. **`vercel.json` is the only config Vercel reads.** There was a `_headers` file
-   (Netlify format) that did nothing for months. Deleted.
-3. **`public/data/` is gitignored** and regenerated by `prebuild`. Never assume
-   it is committed.
-4. **Env vars need a redeploy.** Adding them to Vercel does nothing until a new
-   build.
-5. **Never prefix a secret with `VITE_`** — that ships it to the browser.
-6. **Failure paths that report success.** Three bugs in one day had this shape.
-   Always read the real response, not the green tick. The API now logs upstream
-   status and error to the Vercel runtime log.
-7. **The browser preview pane can be "hidden"**, which pauses
-   `requestAnimationFrame`. Canvases then read as blank and screenshots come back
-   white. That is the harness, not the site.
+   columns must parse too
+2. **`vercel.json` takes no comments and no unknown keys.** A `_comment` key
+   fails schema validation and kills the deployment silently. This cost 25
+   minutes of "why is nothing deploying"
+3. **Never assume a dependency is installed because it resolves locally.**
+   `esbuild` worked via npm hoisting from vite and broke the Vercel build
+4. **`public/data/` is gitignored**, regenerated by `prebuild`
+5. **Env vars need a redeploy** to take effect
+6. **Never prefix a secret with `VITE_`** — that ships it to the browser
+7. **Failure paths that report success, and successes that report failure.**
+   Supabase's editor showed "Failed to fetch" for a transaction that had fully
+   committed. Always verify against the data, never the message
+8. **The browser preview pane can be "hidden"**, pausing `requestAnimationFrame`.
+   Screenshots come back white after scrolling. That is the harness, not the site
+9. **A clipping ancestor beats any z-index.** `overflow: hidden` on the hero was
+   cutting off the search dropdown, which looked exactly like a stacking bug
 
 ---
 
-## The articles section
+## The two-network rule
 
-**Built and verified, at `/blog`. Seven pieces published.**
+GetYourGuide pays a flat **8%**. Tiqets varies per product, **3.3% to 14.2%**,
+mean 8.7%. So the choice is per venue, not per network.
 
-Purpose, in priority order:
-1. AdSense rejected the site for **"Low value content"**. Venue descriptions are
-   a median of **11 words** and all 333 are under 40. There is no long-form
-   writing anywhere. This is the fix.
-2. Only 3 of 372 pages are indexed. Thin pages are part of why.
-3. David wants a weekly piece to post on Instagram.
-4. A blog makes "I'll write you up" a credible pitch for press access and comp
-   tickets to pop-ups.
+An earlier claim in this file that Tiqets pays "~14%" was read off the single
+highest product and was wrong. Two links were moved on that basis and had to be
+moved back. **Check the rate before moving anything.**
 
-### Done
-- `marked` added as a devDependency
-- `scripts/build-articles.mjs` — parses frontmatter + markdown from
-  `content/articles/*.md`, converts to HTML **at build time**, writes
-  `public/data/articles.json`. Wired into `prebuild`
-- `content/articles/free-and-nobody-queues.md` — 789 words, 4 min read, nine
-  internal links to venue pages. **David approved the voice on 12 August 2026.**
-  This piece is the reference for everything written after it
-- Two more pieces, both approved in the same session:
-  `would-be-a-great-date.md` (919 words, eight venues) and
-  `mate-visiting-and-its-raining.md` (710 words, five venues)
-- `src/pages/ArticlesPage/` — `ArticlesPage` (index) and `ArticlePage` (single),
-  both exports of one directory, the same shape as `CollectionsPage`. The
-  section is called the **blog** and lives at `/blog`; the components and
-  `content/articles/` keep "article" as the internal noun, since a blog contains
-  articles
-- Routes `/blog` and `/blog/:slug` in `src/main.tsx`, lazy-loaded
-- Nav entry in `NAV_LINKS`, between "Pick Your Vibe" and "Saved"
-- **Prerendering with the full article HTML** in `scripts/prerender.mjs`. The
-  three pieces serve **970, 842 and 761 words of real HTML**, with every h2 and
-  every internal link, plus `BlogPosting` JSON-LD and `og:type: article`.
-  Compare `/about` at 33 words. This is the AdSense fix
-- `sitemap-blog.xml` as its own child sitemap, via `GROUPS` in
-  `scripts/generate-sitemap.mjs`, so Search Console reports whether articles get
-  indexed separately from the 333 venues
+Pattern that holds: **Tiqets wins on museums and attractions, GetYourGuide wins
+on West End shows** (Tiqets pays about 6% on musicals).
 
-### Not done
-- 2 to 6 more pieces. Candidates already agreed with David: the seasonal
-  "cool, dark and out of the sun" one (only one with an expiry date), the
-  "somewhere genuinely weird" one, "under a tenner", and the wetness score
-  explained properly as a piece rather than three cards on `/about`
+Rates are visible in the Tiqets Product Catalogue. Product URLs are **not**
+exported, so they still have to be resolved one at a time by searching the
+public web restricted to the network's domain:
 
-### Worth knowing
-- Article body is set in Newsreader at a 544px measure, roughly 66 characters,
-  rather than the site's Archivo. One rule in `ArticlesPage.module.css` if that
-  ever wants reverting
-- Links inside articles are plain markdown anchors, so `ArticlePage` intercepts
-  clicks on same-origin hrefs and routes them. Without it every internal link in
-  a piece would reload the whole page
-- Cards use `min-height`, not `aspect-ratio`. A locked ratio pins the height and
-  a long dek then spills out of the top of the card and clips the title
-- **Check every internal link before publishing.** All ten in the first piece
-  were validated against the venue snapshot. Nine dead links in a flagship
-  article is worse than no article
+```
+WebSearch "venue name tickets" allowed_domains:["getyourguide.com"]
+```
 
-### Design decision already made
-Articles are markdown files in the repo, not database rows, so David can publish
-by adding a file through GitHub's web editor without waiting for anyone to build
-an editor. Every push deploys.
+Both networks' product pages block automated readers (403) but are indexed, so
+search finds them. For commodity products with dozens of variants (Jack the
+Ripper walks, Harry Potter tours), link the **category page** rather than
+picking a variant: the visitor chooses and the cookie still pays.
 
-### The other half of the AdSense fix
-`scripts/prerender.mjs` currently emits a **summary** per page, not the real
-content. `/about` serves 33 words of HTML while a reader sees several hundred.
-Venue pages serve ~30. Meanwhile `src/utils/venueInfo.ts` already computes
-opening hours, transport, duration, accessibility, what's included and
-good-to-know for every venue, and none of it reaches the HTML. Putting it there
-is not padding: it is information the site already shows to people.
+Attribution is cookie-based, ~30 days. Any page with the partner ID attached
+earns on everything booked afterwards, so location and category pages are valid
+links, and combo products do not need separate links.
 
 ---
 
-## Outstanding: David's jobs
+## Outstanding
 
-1. **£5 budget alert** — Google Cloud → Billing → Budgets & alerts. The quota cap
-   is the brake; this is the smoke alarm
-2. **One SQL statement**, next time he's in Supabase:
-   `ALTER TABLE public.subscribers ADD COLUMN IF NOT EXISTS confirmation_sent_at timestamptz;`
-   Until then the per-address email limit is inert and only the per-IP one applies
-3. **Do not click "Request review" in AdSense** until happy with the content.
-   The venue pages now serve ~146 words each and there are 5 blog pieces, so
-   the site is far closer than when this was written
-4. Registered address for `/privacy` (currently "available on request", which is
-   a legitimate approach for a sole trader) and a solicitor on the Terms
-5. **Search Console:** submit `sitemap-blog.xml` and request indexing on the
-   five blog URLs
+### David's jobs
+1. **Search Console:** submit `sitemap-blog.xml`, request indexing on the 7 blog URLs
+2. **£5 Google Cloud budget alert** (Billing → Budgets & alerts)
+3. **One SQL statement:** `ALTER TABLE public.subscribers ADD COLUMN IF NOT EXISTS confirmation_sent_at timestamptz;`
+4. **Awin signup** — in progress. It hosts many UK merchants' own programmes
+   including, probably, Merlin (Madame Tussauds, London Eye, SEA LIFE, London
+   Dungeon, Shrek's). Direct rates may beat GYG's 8% on all five
+5. **Do not click "Request review" in AdSense** until happy with the content
+6. **Check the GYG and Tiqets dashboards around 27 August.** If pages get clicks
+   but few bookings, the Tiqets Availability Widget is the fix, on the top ten
+   earners only, consent-gated. If there are barely any clicks, the problem is
+   traffic and a widget fixes nothing
 
-### Affiliate links: two networks live, 13 August 2026
-
-**66 venues earn commission**, verified live in the database: **36
-GetYourGuide** (`partner_id=3NBC6EH`) and **30 Tiqets**
-(`partner=wet_london-189124`). Plus **5 events** on What's On via
-`events.link`, tagged `cmp=wetlondon_event` so the two placements stay
-separable in each network's analytics.
-
-Applied in four files, in this order, each superseding the last where they
-overlap: `affiliate-links-gyg.sql` (27), `-gyg-batch2.sql` (11 famous
-attractions that had never been linked), `-tiqets.sql` (5, four of which
-replaced a GYG link), `-batch3.sql` (4).
-
-**Tiqets may pay roughly 14% against GetYourGuide's 8%.** That is inferred
-from a single product tile in the portal (~£23.21 on ~£164), NOT confirmed:
-read "Understand your commission model" in the Tiqets affiliate portal. If it
-holds generally, moving the GYG links that Tiqets also sells is worth more
-than another twenty long-tail links.
-
-Sweep status: the top of the catalogue by price and all the famous names are
-done. Below ~£25 it becomes cinemas, bars and small museums that neither
-network lists, and the hit rate collapses. 256 venues still have no link,
-mostly legitimately.
-
-Data-quality flags the sweep turned up, both probable duplicates:
-**London Aquarium** and **SEA LIFE London** are two rows for one attraction,
-now sharing a product link. **Museum of Illusions London** has no listing on
-either network under that name, only Paradox Museum London, which is already
-a separate row.
-
-The displaced direct links are preserved in
-`docs/venue-direct-links.md` so David can chase venue-direct affiliate schemes
-separately.
-
-How the product URLs were found, since GYG's own search cannot be scripted:
-**search the public web restricted to getyourguide.com from outside**. Their
-product pages are indexed even though the pages themselves 403 automated
-readers. Attribution is cookie-based (~30 days), so any GYG page with
-partner_id attached earns on everything booked afterwards, not just the linked
-product: location pages (`...-l3191/`) are valid links where no single product
-fits.
-
-Searched and not on GYG, kept direct: Monopoly Lifesized, Van Gogh Immersive,
-Bubble Planet, F1 Arcade, The Comedy Store, Swingers City (only the West End
-branch is listed). The long tail of cinemas and bars was not searched. The 14
-free venues keep their direct links deliberately: a "Book tickets" button on a
-free museum pointing at paid GYG tours would mislead.
-
-**Opening hours were backfilled the same day**: 318 of 333 venues now have
-hours (was 235), via `sql/backfill-opening-hours.sql` from Google Places
-regularOpeningHours. Also fixed `isVenueOpenNow` for past-midnight closes,
-which had 44 late venues reading "Closed" all evening.
-
-Possibly defunct: **London Film Museum**. Google resolves it to The Cinema
-Museum in Kennington and Places cannot match its name. Check it still exists.
-
----
-
-## Ideas raised and not built
-
-- **Per-venue Open Graph share images.** Every shared link uses the same
-  `og-image.jpg`. Highest-value unbuilt feature for how the site travels
-- **Geocoding pass.** No venue has coordinates; `location` is just `'central'`.
-  `place-photo.js` already receives lat/lng and place IDs from Google and throws
-  them away. Storing them unlocks a map, "near me", distance sort, and real
-  street addresses in the structured data, which helps local search
-- **A map**, after geocoding. Use MapLibre with open tiles, not Google Maps JS,
-  to avoid per-load billing
-- **"Coming soon" slot.** London Museum at Smithfield opens 28 Nov 2026, free,
-  £437m conversion of the Victorian General Market. Being the guide that covers
-  opening week properly is the most linkable thing available
-- **A "Get featured" rate card** and a **media pack**, for paid features and press
-  access. The `small_mighty_partners` table and the
-  `sponsored`/`featured`/`spotlight` flags already exist
-- **Multi-city.** Only **10** structurally city-specific references in 12,600
-  lines. A config object plus a `city` column would do it. The real cost is
-  content and voice: Manchester and Edinburgh transfer nearly intact, New York
-  does not. Advice given was to buy `wetmanchester.co.uk` and
-  `wetedinburgh.co.uk` now and build nothing until London earns something
-- **Automated layout regression checks.** Several of the day's bugs were in the
-  header
+### Code and content
+1. **Accessibility audit of the site itself.** Never done. ActivityCard and
+   CustomizeModal have two aria attributes between them. The site helps disabled
+   people find venues; it should be operable by them. This is the top pick
+2. **The empty AdSense slot.** It renders an empty container on every page
+   because the site is unapproved, reserving a screenful of blank space. Hidden
+   during search only. Worth hiding entirely until it serves something
+3. **51 of 74 pages** of the Tiqets catalogue export are unread
+   (`tiqets places pages 1 - 15 - Sheet1.pdf` in the repo root). I sampled eight
+   and wrongly called the rest low yield
+4. **13 tour venues still unlinked**, none worth more than ~£55
+5. **4 shows need URLs**: SIX and Beetlejuice (Tiqets wins, but search returns
+   the Broadway productions), Cabaret and Oliver!
+6. **`Ramses and the Pharaohs' Gold`** belongs in `events`, not `venues`: it
+   closes, and the events table self-expires
+7. **Per-venue Open Graph images.** Every shared link uses the same
+   `og-image.jpg`. Highest-value unbuilt thing for how the site travels on
+   Instagram
+8. **~20 walking and open-top bus tours are outdoors** and sit oddly on a site
+   promising you will stay dry. Decide whether they belong or need a clearer
+   weather-dependent treatment
 
 ---
 
 ## Useful commands
 
 ```bash
-npm run build        # tsc + vite build + prerender (312+ pages)
+npm run build        # tsc + vite build + prerender (387 pages)
 npm run snapshot     # refresh public/data from Supabase
 npm run articles     # rebuild articles.json from content/articles/
-node scripts/generate-sitemap.mjs
+node scripts/backfill-hours.mjs --limit 5   # opening hours, writes SQL
 ```
 
-Reading live data without the dashboard, using the public anon key:
+Reading live data without the dashboard:
 
 ```bash
 set -a; . ./.env; set +a
-curl -s "$VITE_SUPABASE_URL/rest/v1/venues?select=name,price" \
+curl -s "$VITE_SUPABASE_URL/rest/v1/venues?select=name,affiliate_link" \
   -H "apikey: $VITE_SUPABASE_ANON_KEY" -H "Authorization: Bearer $VITE_SUPABASE_ANON_KEY"
 ```
 
-RLS blocks all anonymous writes (verified by writing a venue's own name back to
-itself and getting `[]`), and denies the `subscribers` table entirely.
+Two pre-existing lint errors in `ContactPage.tsx` and `HomePage.tsx` (unused
+imports). Not introduced by recent work, left alone deliberately.
 
 ---
 
 ## The number that matters
 
-**Search Console → Indexing: "3 indexed pages".** That is the scoreboard for
-everything done on 11 August. If the grey "not indexed" bar grows and the green
-bar stays flat after a fortnight, the problem is content quality rather than
-anything technical, and the answer is the articles rather than more code.
+**Search Console → Indexing.** It was 3 indexed pages on 11 August. That is the
+scoreboard for all the content and prerendering work. If the grey "not indexed"
+bar grows and the green bar stays flat after a fortnight, the problem is content
+quality rather than anything technical.
 
----
-
-## State at end of 13 August 2026
-
-Everything below is verified against the live database and the live site, not
-assumed.
-
-| | 11 Aug | now |
-|---|---|---|
-| Venues | 333 | **346** |
-| Earning affiliate links | 0 | **66** (30 Tiqets, 36 GetYourGuide) |
-| Venues with opening hours | 235 | **331** |
-| Venue page HTML | ~30 words | ~146 words |
-| Blog pieces | 0 rendered | **7** |
-| Unknown URLs | HTTP 200 | real 404 |
-
-### The two-network rule, which is not what I first thought
-
-GetYourGuide pays a flat **8%**. Tiqets varies per product, **3.3% to 14.2%**,
-mean 8.7%. So the choice is per venue, not per network. An early claim in this
-file that Tiqets pays "~14%" was read off the single highest product and was
-wrong; two links were moved on that basis and had to be moved back.
-
-Useful pattern: Tiqets tends to win on **museums and attractions**, GetYourGuide
-on **West End shows**, where Tiqets pays about 6%.
-
-Commission rates are visible in the Tiqets Product Catalogue. Product URLs are
-not exported, so they still have to be resolved one at a time by searching the
-public web restricted to the network's domain. Both networks' product pages
-block automated readers, but they are indexed, so search finds them.
-
-### Outstanding
-
-1. **51 of 74 pages** of the Tiqets catalogue export are unread. I sampled eight
-   and wrongly called the rest low yield. Probably another dozen usable venues
-2. **Affiliate widgets:** decided against for now. Revisit once there is click
-   data in the Tiqets and GYG dashboards, roughly a fortnight from 13 August. If
-   pages get clicks but few bookings, the Tiqets Availability Widget is the fix,
-   on the top ten earners only, consent-gated. If there are barely any clicks,
-   the problem is traffic and a widget fixes nothing
-3. **Search Console:** submit `sitemap-blog.xml`, request indexing on the seven
-   blog URLs
-4. **£5 Google Cloud budget alert**, and the `confirmation_sent_at` column
-5. Four shows with no link, needing a URL each: SIX and Beetlejuice (Tiqets
-   wins, but search returns the Broadway productions), Cabaret and Oliver!
-6. `Ramses and the Pharaohs' Gold` belongs in `events`, not `venues`: it closes,
-   and the events table self-expires
-
-### Two probable duplicate rows, still unresolved
-
-- **London Aquarium** and **SEA LIFE London** are one attraction, two rows
-- **Museum of Illusions London** is on neither network under that name, and
-  Google resolves it to The Cinema Museum. Paradox Museum is already a separate
-  row. Removed from the homepage on 13 August but still in the catalogue
+And the honest second number: **95 affiliate links earn nothing until someone
+clicks them.** The constraint now is traffic, not coverage. Search Console and
+the Instagram plan matter more from here than link number 96.
