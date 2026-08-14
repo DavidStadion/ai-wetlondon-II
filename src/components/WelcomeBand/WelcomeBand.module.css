@@ -1,0 +1,51 @@
+.band {
+  max-width: var(--wl-maxw);
+  margin: 0 auto;
+  padding: 3.5rem var(--wl-gutter) 0.5rem;
+}
+
+.inner {
+  border-top: 2px solid var(--color-text);
+  padding-top: 1.75rem;
+}
+
+.lead {
+  font-family: var(--font-serif);
+  font-size: var(--wl-type-d4);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+  margin: 0 0 2rem;
+  max-width: 30ch;
+}
+
+.body {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.body p {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.body a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+@media (min-width: 768px) {
+  .lead {
+    font-size: var(--wl-type-d3);
+    max-width: 26ch;
+  }
+
+  .body {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2.5rem;
+  }
+}

@@ -1,0 +1,1 @@
+export { WelcomeBand } from './WelcomeBand';

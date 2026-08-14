@@ -27,6 +27,7 @@ import { useImageLoader } from '@/hooks/useImageLoader';
 import type { Venue, CardVariant, RouteProps } from '@/types';
 
 import { Hero } from '@/components/Hero';
+import { WelcomeBand } from '@/components/WelcomeBand';
 import { ClubBand } from '@/components/ClubBand';
 import { PopularCategories } from '@/components/PopularCategories';
 import { CollectionsRail } from '@/components/CollectionsRail';
@@ -221,6 +222,9 @@ export function HomePage(_props: RouteProps) {
           </Carousel>
         </section>
       )}
+
+      {/* What the site is, for anyone who arrived without knowing */}
+      {!filtersActive && <WelcomeBand />}
 
       {/* Promo, the club / rainy day alerts */}
       {!filtersActive && <ClubBand source="home" />}

@@ -536,6 +536,85 @@ function kidsPage(template, allVenues) {
   return { path, html: buildBody(html, inner) };
 }
 
+/**
+ * The homepage.
+ *
+ * Every other route was prerendered from the start; '/' never was. So the most
+ * important page on the site served the bare template: no h1, and no copy
+ * saying what Wet London is or who it is for. A crawler arriving at the front
+ * door found card titles and nothing else.
+ *
+ * The prose below is the same argument as WelcomeBand.tsx, minus its inline
+ * links, and the two need keeping in step by hand. That is the same deal as
+ * KIDS_EDITS above: a shared copy module would have to carry markup for the
+ * links, which is more machinery than three paragraphs deserve.
+ *
+ * The h1 is deliberately not the app's h1. The visible one reads off the
+ * weather and changes hourly ("It is genuinely lovely out"), which is no use as
+ * the page's permanent heading.
+ */
+const HOME_COPY = [
+  'It rains here about one day in three, which is a statistic you only really feel while standing under a bus shelter working out whether the afternoon is still worth it. So everywhere on this site carries a wetness score: how much of the trip is under a roof, how far the door is from the tube, and whether you will walk in looking like you swam.',
+  'It is for people who live here and have run out of ideas. For a parent with a small person and two hours to fill. For anyone whose friend is visiting on Saturday and has just seen the forecast quietly dismantle the plan.',
+  'It exists because most guides to indoor London are the same twelve attractions in a different order, written by somebody who has never had to cross the city in a downpour. This one is free and there is nothing to log into.',
+];
+
+function homePage(template, allVenues, list) {
+  const path = '/';
+  const title = 'Wet London - Best Indoor Activities in London When It Rains';
+  const free = allVenues.filter((v) => Number(v.price) === 0).length;
+  const description = `${allVenues.length} indoor things to do in London, every one rated by how wet you will get on the way. ${free} of them are free.`;
+
+  const topCategories = Object.entries(CATEGORIES)
+    .map(([slug, [name]]) => ({ slug, name, n: allVenues.filter((v) => typesOf(v).includes(slug)).length }))
+    .filter((c) => c.n > 0)
+    .sort((a, b) => b.n - a.n);
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Wet London',
+    description,
+    url: SITE,
+    inLanguage: 'en-GB',
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: allVenues.length,
+      itemListElement: allVenues.slice(0, 25).map((v, i) => ({
+        '@type': 'ListItem', position: i + 1, name: v.name, url: `${SITE}/venue/${slugify(v.name)}`,
+      })),
+    },
+  };
+
+  const inner = `
+    <h1>Indoor things to do in London when it rains</h1>
+    ${HOME_COPY.map((p) => `<p>${esc(p)}</p>`).join('')}
+    <p>There are ${esc(allVenues.length)} places listed so far, and
+      <a href="/collection/completely-free">${esc(free)} of them are free</a>.
+      The <a href="/about">wetness score</a> explains itself on the about page.</p>
+
+    <h2>Browse by category</h2>
+    <ul>${topCategories.map((c) =>
+      `<li><a href="/category/${esc(c.slug)}">${esc(c.name)} in London</a>: ${esc(c.n)} places</li>`).join('')}</ul>
+
+    <h2>Collections</h2>
+    <ul>${Object.entries(COLLECTIONS).map(([slug, [name]]) =>
+      `<li><a href="/collection/${esc(slug)}">${esc(name)}</a></li>`).join('')}</ul>
+
+    ${list.length ? `<h2>From the blog</h2><ul>${list.slice(0, 7).map((a) =>
+      `<li><a href="/blog/${esc(a.slug)}">${esc(a.title)}</a>${a.dek ? `: ${esc(a.dek)}` : ''}</li>`).join('')}</ul>` : ''}
+
+    <h2>Everywhere else</h2>
+    <ul>
+      <li><a href="/all-activities">Every indoor activity in London</a></li>
+      <li><a href="/kids">Things to do with kids in London when it rains</a></li>
+      <li><a href="/events">What is on right now</a></li>
+      <li><a href="/situations">Pick your vibe</a></li>
+    </ul>`;
+
+  return { path, html: buildBody(buildHead(template, { title, description, path, jsonLd }), inner) };
+}
+
 /* ---------- articles ---------- */
 
 /**
@@ -668,6 +747,18 @@ if (!existsSync(templatePath)) {
 }
 const template = readFileSync(templatePath, 'utf8');
 
+/*
+ * dist/index.html is both the template every page is built from and the file the
+ * homepage is now written to. A second run without a fresh vite build would read
+ * its own output: the empty <div id="preact-root"></div> that buildBody() looks
+ * for would already be full, so no page would receive its content and the script
+ * would cheerfully report success for all 388 of them.
+ */
+if (template.includes('data-prerender')) {
+  console.error('[prerender] dist/index.html is already prerendered. Run `npm run build` first.');
+  process.exit(1);
+}
+
 const snapshotPath = join(DIST, 'data', 'venues.json');
 if (!existsSync(snapshotPath)) {
   console.warn('[prerender] no venue snapshot, skipping venue and category pages.');
@@ -731,6 +822,9 @@ for (const [slug, [name, blurb]] of Object.entries(COLLECTIONS)) {
     items: collection ? collections.venuesFor(collection, venueObjects) : [],
   }));
 }
+
+// The homepage, which until now was the only route with no prerendered body
+pages.push(homePage(template, venues, articles));
 
 // The kids pillar
 pages.push(kidsPage(template, venues));
