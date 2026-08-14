@@ -118,6 +118,10 @@
 
 .adWrap { margin: 0 0 2.5rem; }
 
+/* AdSlot renders nothing until AdSense is actually serving, which would
+   otherwise leave this wrapper holding 2.5rem of empty margin. */
+.adWrap:empty { display: none; }
+
 /* PromoBand carries a top margin but no bottom one. Everywhere else it is the
    last thing before the footer; here it sits between two grids of cards. */
 .promoWrap { margin-bottom: 2.5rem; }

@@ -22,6 +22,10 @@
 .content { padding-block: 3.25rem; }
 .adWrapper { padding-block: 2.5rem 0; }
 
+/* AdSlot renders nothing until AdSense is actually serving, which would
+   otherwise leave this wrapper holding 2.5rem of empty padding. */
+.adWrapper:empty { display: none; }
+
 /* Section header: serif title + rule, action on the right */
 .sectionHead {
   display: flex;
