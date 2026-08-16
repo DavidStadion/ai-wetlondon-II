@@ -82,12 +82,12 @@ per-user.
 | Venues | **341** |
 | Earning affiliate links | **95** (GetYourGuide 63, Tiqets 32) |
 | No affiliate link | 211 |
-| Prerendered pages | **388** (341 venues, 18 categories, 8 collections, 11 flat, 7 articles, homepage) |
+| Prerendered pages | **394** (341 venues, 18 categories, 9 collections, 11 flat, 12 articles, homepage) |
 | Venue page HTML | ~513 words |
 | Homepage HTML | **946 words**, was 293 |
 | Venue-to-venue internal links | **2,945**, was 0 |
-| Internal links per venue page | 20, was 7 |
-| Blog pieces | 7, all prerendered with full text |
+| Internal links per venue page | **52**, was 7 |
+| Blog pieces | **12**, all prerendered with full text |
 | Sitemaps in Search Console | 5, all Success. `sitemap-index.xml` read 14 Aug, 393 pages |
 
 Last commit: `5c3414c`. Tree clean, in sync with origin, all deployed.
@@ -166,6 +166,13 @@ OPEN NOW badge 3.49:1 to 4.99:1, CLOSED badge 4.38:1 to 5.01:1, pop-up type
 12. **Contrast cannot be measured by walking up for a background colour.** Card
     text sits over photographs, so the walk reaches the page colour and reports a
     meaningless 1.09:1. Only trust readings where both sides are solid colours
+13. **Anything in a component reaches people, not crawlers.** The whole SEO
+    architecture is the prerendered HTML in `dist/`, and the app clears it on
+    hydration. The footer lives in `Layout.tsx`, so there is not a single
+    `<footer>` tag anywhere in the 394 built files. Adding forty-two links to it
+    looked like a site-wide internal linking win and delivered nothing to the
+    prerendered layer until `siteLinks()` was added to `buildBody`. Before
+    claiming any change helps search, check `dist/`, not the browser
 
 ---
 
