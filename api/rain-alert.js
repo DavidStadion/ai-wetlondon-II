@@ -52,6 +52,101 @@ async function londonForecast() {
   return { peakProb, totalMm, peakHour };
 }
 
+/**
+ * Kept in step with slugify() in src/utils/slug.ts by hand. The API functions
+ * are vanilla JS and are not compiled from the TypeScript sources, so they
+ * cannot import it. If venue URLs ever 404 from an email, look here first.
+ */
+function slugify(name) {
+  return String(name)
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/['’]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+/**
+ * Three actual places, rather than two bare links.
+ *
+ * The old alert was a weather statistic and two category links, which is
+ * structurally what a promotional blast looks like to a spam filter and is not
+ * much of an email either. Naming real venues gives someone a reason to open
+ * the next one, and engagement is the thing that actually moves inbox placement.
+ *
+ * Rotated on the date so a subscriber who gets a wet week does not receive the
+ * same three museums five days running. Deterministic, so a retry inside the
+ * same day cannot send a different list than the first attempt.
+ */
+async function pickVenues(today) {
+  /*
+   * Capped at £30. Somebody reading this at eight in the morning is deciding
+   * what to do with today, and a £109 studio tour is not that decision. Rated
+   * 4.5 and up, and 10% wet or drier, because the whole promise of the email is
+   * that you will not get soaked getting there.
+   */
+  const res = await db(
+    'venues?select=name,description,price,location,wetness_score,rating' +
+      '&wetness_score=lte.10&rating=gte.4.5&price=lte.30&order=rating.desc&limit=80',
+  );
+  if (!res.ok) return [];
+  const raw = await res.json().catch(() => []);
+  if (!Array.isArray(raw) || raw.length === 0) return [];
+
+  // The database still holds a handful of venues twice under slightly different
+  // names, so dedupe on the slug or the same place can appear as two of three.
+  const bySlug = new Map();
+  for (const v of raw) if (!bySlug.has(slugify(v.name))) bySlug.set(slugify(v.name), v);
+  const all = [...bySlug.values()];
+
+  /*
+   * Rotated with a stride rather than by one a day. Stepping one place along
+   * gave near-identical picks on consecutive days: the Tottenham stadium tour
+   * turned up three mornings running in testing, because the free-first pick and
+   * the area spread both re-select from the same neighbours. Thirteen is coprime
+   * with most list lengths, so the window genuinely moves.
+   */
+  const day = Math.floor(Date.parse(`${today}T00:00:00Z`) / 86400000);
+  const offset = (((day * 13) % all.length) + all.length) % all.length;
+  const rotated = [...all.slice(offset), ...all.slice(0, offset)];
+
+  const picked = [];
+  const seenArea = new Set();
+
+  // One free place first if there is one, because free is the easiest yes.
+  const free = rotated.find((v) => Number(v.price) === 0);
+  if (free) { picked.push(free); seenArea.add(free.location); }
+
+  // Then spread across London rather than three things in Bloomsbury.
+  for (const v of rotated) {
+    if (picked.length >= 3) break;
+    if (picked.includes(v) || seenArea.has(v.location)) continue;
+    picked.push(v);
+    seenArea.add(v.location);
+  }
+
+  // Backfill if the area spread ran out of candidates.
+  for (const v of rotated) {
+    if (picked.length >= 3) break;
+    if (!picked.includes(v)) picked.push(v);
+  }
+
+  return picked.slice(0, 3);
+}
+
+const AREA_LABEL = {
+  central: 'Central London', north: 'North London', south: 'South London',
+  east: 'East London', west: 'West London',
+};
+
+/** "Free" or "£14", and the part of town. The two things that decide a yes. */
+function venueLine(v) {
+  const price = Number(v.price) === 0 ? 'Free' : `£${Math.round(Number(v.price))}`;
+  const area = AREA_LABEL[v.location] ?? 'London';
+  return `${price}, ${area}`;
+}
+
 function describe({ peakProb, peakHour }) {
   const when =
     peakHour == null ? 'today'
@@ -126,6 +221,26 @@ export default async function handler(req, res) {
   );
   const list = listRes.ok ? await listRes.json().catch(() => []) : [];
 
+  const picks = await pickVenues(today);
+
+  const textPicks = picks
+    .map((v) => `${v.name} (${venueLine(v)})\n${SITE}/venue/${slugify(v.name)}`)
+    .join('\n\n');
+
+  const htmlPicks = picks
+    .map(
+      (v) => `<p style="margin:0 0 16px">
+        <a href="${SITE}/venue/${slugify(v.name)}" style="color:#1f43ff;font-weight:600;text-decoration:none">${v.name}</a><br>
+        <span style="color:#6b6b70;font-size:14px">${venueLine(v)}</span><br>
+        <span style="font-size:15px">${String(v.description || '').slice(0, 110)}</span>
+      </p>`,
+    )
+    .join('');
+
+  const opener = picks.length
+    ? 'Three places that will not care:'
+    : 'Somewhere dry instead:';
+
   let sent = 0;
   const failures = [];
 
@@ -133,18 +248,22 @@ export default async function handler(req, res) {
     const unsubscribeUrl = `${SITE}/api/unsubscribe?token=${encodeURIComponent(person.token)}`;
     const result = await sendEmail({
       to: person.email,
-      subject: `Rain ${when}: ${chance}% chance. Here is somewhere dry`,
+      subject: `${chance}% chance of rain ${when}. Three places that will not care`,
       text:
         `${chance}% chance of rain ${when} in London.\n\n` +
-        `Somewhere indoors instead: ${SITE}/collection/chucking-it-down\n` +
+        `${opener}\n\n${textPicks}\n\n` +
+        `More of them: ${SITE}/collection/chucking-it-down\n` +
         `With kids: ${SITE}/kids\n\n` +
-        `Unsubscribe: ${unsubscribeUrl}`,
-      html: `<div style="font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;color:#0c0c0d">
-        <p style="font-size:22px;margin:0 0 12px"><strong>${chance}% chance of rain ${when}.</strong></p>
-        <p style="margin:0 0 20px">Have a dry one instead.</p>
-        <p style="margin:0 0 10px"><a href="${SITE}/collection/chucking-it-down" style="color:#1f43ff">Places that work on the worst days</a></p>
-        <p style="margin:0 0 24px"><a href="${SITE}/kids" style="color:#1f43ff">Somewhere to take the kids</a></p>
-        <p style="font-size:12px;color:#6b6b70;margin:0">
+        `You asked for these. Unsubscribe: ${unsubscribeUrl}`,
+      html: `<div style="font-family:Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;color:#0c0c0d;max-width:520px">
+        <p style="font-size:22px;margin:0 0 6px"><strong>${chance}% chance of rain ${when}.</strong></p>
+        <p style="margin:0 0 22px;color:#6b6b70">${opener}</p>
+        ${htmlPicks}
+        <p style="margin:22px 0 0;padding-top:16px;border-top:1px solid #e6e6e4;font-size:15px">
+          <a href="${SITE}/collection/chucking-it-down" style="color:#1f43ff">More places that work on the worst days</a><br>
+          <a href="${SITE}/kids" style="color:#1f43ff">Somewhere to take the kids</a>
+        </p>
+        <p style="font-size:12px;color:#6b6b70;margin:20px 0 0">
           You asked for these. <a href="${unsubscribeUrl}" style="color:#6b6b70">Unsubscribe</a>.
         </p>
       </div>`,

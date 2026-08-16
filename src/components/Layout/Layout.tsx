@@ -9,6 +9,25 @@ import { WeatherStrip } from '@/components/WeatherStrip';
 import { JoinClub } from '@/components/JoinClub';
 import { CATEGORIES } from '@/utils/categories';
 import { COLLECTIONS } from '@/utils/collections';
+
+/**
+ * Collection titles are written to be read on the page, not scanned in a
+ * footer: "Brilliant when it's chucking it down" is three lines in a narrow
+ * column, and nine of those is a wall. The slug says the same thing in three
+ * words, so the footer uses that instead. The accent alone would not do, since
+ * "nothing" and "just the pub" mean nothing without their first half.
+ */
+const shortLabel = (slug: string) => {
+  const words = slug.replace(/-/g, ' ');
+  return words.charAt(0).toUpperCase() + words.slice(1);
+};
+
+/**
+ * Whether the footer's long lists start collapsed. Driven by matchMedia rather
+ * than CSS, because a <details> that is shut cannot be forced open again by a
+ * stylesheet: the open state is a property, not a presentation detail.
+ */
+const isFooterCompact = signal(false);
 import { RainCanvas } from '@/components/RainCanvas';
 import styles from './Layout.module.css';
 
@@ -210,6 +229,15 @@ export function Layout({ children }: LayoutProps) {
   useHeaderAutoHide();
   useHeaderHeight(headerRef);
 
+  // Matches the 768px breakpoint the footer's own stylesheet uses.
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    const sync = () => { isFooterCompact.value = mq.matches; };
+    sync();
+    mq.addEventListener('change', sync);
+    return () => mq.removeEventListener('change', sync);
+  }, []);
+
   // The conditions strip belongs to the landing page, not every route
   const isHome = currentPath.value === '/';
 
@@ -357,8 +385,15 @@ export function Layout({ children }: LayoutProps) {
               </ul>
             </div>
 
-            <div className={styles.footerColumnWide}>
-              <h4 className={styles.footerHeading}>Browse by category</h4>
+            {/*
+              * Open on desktop, shut on a phone. Twenty-seven category and
+              * collection links stacked between someone and the legal footer
+              * made it two and a half screens tall. Collapsed rather than
+              * dropped: the links stay in the markup, and the crawler-facing
+              * copy in the prerendered HTML is unaffected either way.
+              */}
+            <details className={styles.footerColumnWide} open={!isFooterCompact.value}>
+              <summary className={styles.footerHeading}>Browse by category</summary>
               <ul className={[styles.footerLinks, styles.footerLinksSplit].join(' ')}>
                 {CATEGORIES.map((c) => (
                   <li key={c.slug}>
@@ -366,20 +401,18 @@ export function Layout({ children }: LayoutProps) {
                   </li>
                 ))}
               </ul>
-            </div>
+            </details>
 
-            <div className={styles.footerColumn}>
-              <h4 className={styles.footerHeading}>Collections</h4>
+            <details className={styles.footerColumn} open={!isFooterCompact.value}>
+              <summary className={styles.footerHeading}>Collections</summary>
               <ul className={styles.footerLinks}>
                 {COLLECTIONS.map((c) => (
                   <li key={c.slug}>
-                    <Link href={`/collection/${c.slug}`}>
-                      {`${c.title} ${c.titleAccent ?? ''}`.trim()}
-                    </Link>
+                    <Link href={`/collection/${c.slug}`}>{shortLabel(c.slug)}</Link>
                   </li>
                 ))}
               </ul>
-            </div>
+            </details>
 
             <div className={styles.footerColumn}>
               <h4 className={styles.footerHeading}>Important Bits</h4>

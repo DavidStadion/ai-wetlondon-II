@@ -267,17 +267,41 @@
  */
 .footerSitemap {
   display: grid;
-  grid-template-columns: 1fr 2fr 1.4fr 1fr;
+  grid-template-columns: 1fr 2.2fr 1fr 1fr;
   gap: 2.5rem;
-  padding-bottom: 2.5rem;
+  padding-bottom: 2.25rem;
 }
 
 .footerColumnWide { display: flex; flex-direction: column; }
 
+/*
+ * Three columns, not two. Eighteen categories stacked nine deep made the block
+ * taller than the newsletter beside it and turned the whole footer into a wall.
+ */
 .footerLinksSplit {
-  column-count: 2;
-  column-gap: 1.5rem;
+  column-count: 3;
+  column-gap: 1.25rem;
 }
+
+/*
+ * The sitemap is reference material, so it is set quieter than the rest of the
+ * footer: smaller, tighter, and a step down in contrast. It should be findable
+ * when wanted and ignorable when not.
+ */
+.footerSitemap .footerLinks a { font-size: 0.82rem; }
+.footerSitemap .footerLinks li { margin-bottom: 0.4rem; }
+
+/*
+ * The category and collection groups are <details>, so their headings are
+ * <summary>. On desktop they are always open and the disclosure triangle would
+ * be noise, so it goes; on a phone the caret earns its place.
+ */
+.footerSitemap summary {
+  cursor: default;
+  list-style: none;
+}
+
+.footerSitemap summary::-webkit-details-marker { display: none; }
 
 /* A link must not be split across two columns. */
 .footerLinksSplit li { break-inside: avoid; }
@@ -461,7 +485,23 @@
   /* Two columns rather than one on a phone: eighteen categories stacked singly
      is a very long thumb-scroll to reach the legal links underneath. */
   .footerSitemap { grid-template-columns: 1fr 1fr; gap: 1.75rem 1.25rem; }
-  .footerLinksSplit { column-count: 1; }
+
+  /* Categories span both cells and run two-up when opened. */
+  .footerColumnWide { grid-column: 1 / -1; }
+  .footerLinksSplit { column-count: 2; column-gap: 1.25rem; }
+
+  /* Collapsed by default here, so the caret is the affordance. */
+  .footerSitemap summary {
+    cursor: pointer;
+    padding-block: 0.4rem;
+  }
+
+  .footerSitemap summary::after {
+    content: ' +';
+    font-weight: 400;
+  }
+
+  .footerSitemap details[open] > summary::after { content: ' –'; }
 
   /*
    * The gap between links becomes part of the link instead of sitting between
