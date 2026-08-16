@@ -86,10 +86,17 @@ function ArticleCard({ article, feature }: { article: Article; feature?: boolean
  * turning the page into a mile of tiles.
  */
 function ArticleRow({ article, n }: { article: Article; n: number }) {
+  const { src } = useImageLoader(article.lead ?? '');
+
   return (
     <li>
       <a className={styles.row} href={`/blog/${article.slug}`}>
         <span className={styles.rowNum} aria-hidden="true">{String(n).padStart(2, '0')}</span>
+        <span
+          className={styles.rowThumb}
+          style={{ backgroundImage: `url(${src})` }}
+          aria-hidden="true"
+        />
         <span className={styles.rowMain}>
           <span className={styles.rowTitle}>{article.title}</span>
           <span className={styles.rowDek}>{article.dek}</span>
