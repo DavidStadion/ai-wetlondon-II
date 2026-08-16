@@ -55,11 +55,14 @@ function formatDate(iso: string): string {
 
 /* ── Index ─────────────────────────────────────────────────────────── */
 
-function ArticleCard({ article }: { article: Article }) {
+function ArticleCard({ article, feature }: { article: Article; feature?: boolean }) {
   const { src } = useImageLoader(article.lead ?? '');
 
   return (
-    <a className={styles.card} href={`/blog/${article.slug}`}>
+    <a
+      className={[styles.card, feature && styles.cardFeature].filter(Boolean).join(' ')}
+      href={`/blog/${article.slug}`}
+    >
       <span className={styles.cardImage} style={{ backgroundImage: `url(${src})` }} aria-hidden="true" />
       <span className={styles.cardBody}>
         <span className={styles.cardMeta}>
@@ -69,6 +72,34 @@ function ArticleCard({ article }: { article: Article }) {
         <span className={styles.cardDek}>{article.dek}</span>
       </span>
     </a>
+  );
+}
+
+/**
+ * The archive row.
+ *
+ * The index was one uniform grid of identical picture cards, which read as
+ * repetitive by about the sixth piece and would only get worse as the blog
+ * grows. Everything past the first three is a text row instead: no image, a
+ * number, and the dek doing the selling. It gives the eye somewhere to rest
+ * after two rows of photographs, and it scales to fifty articles without
+ * turning the page into a mile of tiles.
+ */
+function ArticleRow({ article, n }: { article: Article; n: number }) {
+  return (
+    <li>
+      <a className={styles.row} href={`/blog/${article.slug}`}>
+        <span className={styles.rowNum} aria-hidden="true">{String(n).padStart(2, '0')}</span>
+        <span className={styles.rowMain}>
+          <span className={styles.rowTitle}>{article.title}</span>
+          <span className={styles.rowDek}>{article.dek}</span>
+        </span>
+        <span className={styles.rowMeta}>
+          <time dateTime={article.date}>{formatDate(article.date)}</time>
+          <span className={styles.rowMins}>{article.readingMinutes} min</span>
+        </span>
+      </a>
+    </li>
   );
 }
 
@@ -101,9 +132,26 @@ export function ArticlesPage(_props: RouteProps) {
         {isLoading.value && <LoadingSpinner text="Loading..." />}
 
         {!isLoading.value && list.length > 0 && (
-          <div className={styles.grid}>
-            {list.map((a) => <ArticleCard key={a.slug} article={a} />)}
-          </div>
+          <>
+            <ArticleCard article={list[0]} feature />
+
+            {list.length > 1 && (
+              <div className={styles.pair}>
+                {list.slice(1, 3).map((a) => <ArticleCard key={a.slug} article={a} />)}
+              </div>
+            )}
+
+            {list.length > 3 && (
+              <>
+                <h2 className={styles.archiveTitle}>Everything else</h2>
+                <ol className={styles.rows}>
+                  {list.slice(3).map((a, i) => (
+                    <ArticleRow key={a.slug} article={a} n={i + 4} />
+                  ))}
+                </ol>
+              </>
+            )}
+          </>
         )}
 
         {!isLoading.value && list.length === 0 && (
@@ -214,7 +262,7 @@ export function ArticlePage({ slug }: ArticleRouteProps) {
       {others.length > 0 && (
         <section className={styles.container}>
           <h2 className={styles.moreTitle}>More from the blog</h2>
-          <div className={styles.grid}>
+          <div className={styles.trio}>
             {others.map((a) => <ArticleCard key={a.slug} article={a} />)}
           </div>
         </section>
