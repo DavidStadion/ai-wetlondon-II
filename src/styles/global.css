@@ -230,4 +230,36 @@ body {
   font-size: 1.4rem;
   margin: 2rem 0 0.6rem;
 }
+
+/*
+ * The crawler-facing copy of the footer, appended to every prerendered page.
+ * The app clears all of this on hydration, so in practice it is seen by
+ * crawlers and by anyone without JavaScript, for whom it is the only navigation
+ * on the page. Set quieter and in columns so it reads as a footer rather than
+ * as more of the article.
+ */
+.wl-prerender .wl-sitelinks {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.95rem;
+}
+
+.wl-prerender .wl-sitelinks h2 {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--color-text-secondary);
+  margin: 1.5rem 0 0.5rem;
+}
+
+.wl-prerender .wl-sitelinks ul {
+  columns: 2;
+  column-gap: 2rem;
+  padding-left: 1.1rem;
+}
+
+.wl-prerender .wl-sitelinks li { break-inside: avoid; }
 .wl-prerender p { margin: 0 0 1rem; }

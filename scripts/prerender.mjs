@@ -231,11 +231,49 @@ function buildHead(html, { title, description, path, jsonLd, ogType, noindex }) 
   return out;
 }
 
+/**
+ * The same links the footer shows, for the crawler that never sees the footer.
+ *
+ * The footer lives in Layout.tsx, so it is rendered by the app and appears in
+ * exactly none of these 394 files. Every page therefore served a handful of
+ * links where a visitor sees forty-two, and the footer's whole value as a
+ * site-wide internal link block was reaching humans only.
+ *
+ * Emitted once here rather than in each page builder, so it cannot be forgotten
+ * on a new page type. It is the same set of links, in the same order, as the
+ * footer: mirroring what a visitor sees is the honest version of this and the
+ * only one worth doing.
+ */
+const siteLinks = () => `
+  <nav class="wl-sitelinks" aria-label="Site">
+    <h2>Browse by category</h2>
+    <ul>${categoryList.CATEGORIES.map((c) =>
+      `<li><a href="/category/${esc(c.slug)}">${esc(c.label)}</a></li>`).join('')}</ul>
+
+    <h2>Collections</h2>
+    <ul>${collections.COLLECTIONS.map((c) => {
+      const [name] = COLLECTION_COPY[c.slug] ?? [`${c.title} ${c.titleAccent ?? ''}`.trim()];
+      return `<li><a href="/collection/${esc(c.slug)}">${esc(name)}</a></li>`;
+    }).join('')}</ul>
+
+    <h2>More from Wet London</h2>
+    <ul>
+      <li><a href="/all-activities">All indoor activities in London</a></li>
+      <li><a href="/kids">Things to do with kids in London when it rains</a></li>
+      <li><a href="/events">What is on right now</a></li>
+      <li><a href="/blog">The blog</a></li>
+      <li><a href="/situations">Pick your vibe</a></li>
+      <li><a href="/popups">London pop-ups</a></li>
+      <li><a href="/about">About Wet London</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>`;
+
 /** Static copy inside the app root. main.tsx clears it before rendering. */
 function buildBody(html, inner) {
   return html.replace(
     /<div id="preact-root"><\/div>/,
-    `<div id="preact-root"><div data-prerender="1" class="wl-prerender">${inner}</div></div>`,
+    `<div id="preact-root"><div data-prerender="1" class="wl-prerender">${inner}${siteLinks()}</div></div>`,
   );
 }
 
@@ -584,26 +622,16 @@ function homePage(template, allVenues, list) {
       <a href="/collection/completely-free">${esc(free)} of them are free</a>.
       The <a href="/about">wetness score</a> explains itself on the about page.</p>
 
-    <h2>Browse by category</h2>
-    <ul>${topCategories.map((c) =>
+    <h2>Where to start</h2>
+    <ul>${topCategories.slice(0, 8).map((c) =>
       `<li><a href="/category/${esc(c.slug)}">${esc(c.name)} in London</a>: ${esc(c.n)} places</li>`).join('')}</ul>
 
-    <h2>Collections</h2>
-    <ul>${collections.COLLECTIONS.map((c) => {
-      const [name] = COLLECTION_COPY[c.slug] ?? [`${c.title} ${c.titleAccent ?? ''}`.trim()];
-      return `<li><a href="/collection/${esc(c.slug)}">${esc(name)}</a></li>`;
-    }).join('')}</ul>
-
     ${list.length ? `<h2>From the blog</h2><ul>${list.slice(0, 7).map((a) =>
-      `<li><a href="/blog/${esc(a.slug)}">${esc(a.title)}</a>${a.dek ? `: ${esc(a.dek)}` : ''}</li>`).join('')}</ul>` : ''}
+      `<li><a href="/blog/${esc(a.slug)}">${esc(a.title)}</a>${a.dek ? `: ${esc(a.dek)}` : ''}</li>`).join('')}</ul>` : ''}`;
 
-    <h2>Everywhere else</h2>
-    <ul>
-      <li><a href="/all-activities">Every indoor activity in London</a></li>
-      <li><a href="/kids">Things to do with kids in London when it rains</a></li>
-      <li><a href="/events">What is on right now</a></li>
-      <li><a href="/situations">Pick your vibe</a></li>
-    </ul>`;
+  // The full category and collection lists are appended to every page by
+  // siteLinks(), so repeating them here would just duplicate them on the one
+  // page that already had them. The eight above are the biggest, with counts.
 
   return { path, html: buildBody(buildHead(template, { title, description, path, jsonLd }), inner) };
 }
