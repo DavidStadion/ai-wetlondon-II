@@ -5,10 +5,34 @@
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { build } from 'esbuild';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 const SITE = 'https://wetlondon.co.uk';
+
+/**
+ * Compile and import an app module, the same trick prerender.mjs uses, so the
+ * category and collection lists live in one place instead of being re-typed
+ * here. A sitemap that disagrees with the pages it declares is worse than no
+ * sitemap: it sends crawlers at URLs that were never built.
+ */
+async function loadTsModule(...segments) {
+  const result = await build({
+    entryPoints: [join(ROOT, ...segments)],
+    bundle: true,
+    format: 'esm',
+    platform: 'node',
+    alias: { '@': join(ROOT, 'src') },
+    write: false,
+    logLevel: 'silent',
+  });
+  const code = Buffer.from(result.outputFiles[0].text).toString('base64');
+  return import(`data:text/javascript;base64,${code}`);
+}
+
+const categoryList = await loadTsModule('src', 'utils', 'categories.ts');
+const collectionList = await loadTsModule('src', 'utils', 'collections.ts');
 
 const STATIC_PATHS = [
   ['/kids', '0.9', 'weekly'],
@@ -28,20 +52,8 @@ const STATIC_PATHS = [
   ['/affiliate', '0.2', 'yearly'],
 ];
 
-// Keep in step with COLLECTIONS in src/utils/collections.ts and the copy map in
-// scripts/prerender.mjs. Three lists, all hand-maintained: a collection missing
-// from any one of them half-exists.
-const COLLECTION_SLUGS = [
-  'chucking-it-down', 'with-a-scoreboard', 'under-a-tenner', 'completely-free',
-  'somewhere-weird', 'date-night', 'with-little-ones', 'quiet-please',
-  'escape-the-heat',
-];
-
-const CATEGORY_SLUGS = [
-  'museums', 'galleries', 'theatre', 'dining', 'entertainment', 'shopping',
-  'wellness', 'nightlife', 'music', 'comedy', 'cinema', 'gaming',
-  'workshops', 'historic', 'markets', 'sports', 'exhibitions', 'libraries',
-];
+const COLLECTION_SLUGS = collectionList.COLLECTIONS.map((c) => c.slug);
+const CATEGORY_SLUGS = categoryList.CATEGORY_SLUGS;
 
 // Keep in step with src/utils/slug.ts
 function slugify(name) {

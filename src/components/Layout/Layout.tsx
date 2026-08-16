@@ -7,6 +7,8 @@ import { bookmarkedVenues, currentPath } from '@/signals/uiSignals';
 import { isConsentSettingsOpen } from '@/utils/consent';
 import { WeatherStrip } from '@/components/WeatherStrip';
 import { JoinClub } from '@/components/JoinClub';
+import { CATEGORIES } from '@/utils/categories';
+import { COLLECTIONS } from '@/utils/collections';
 import { RainCanvas } from '@/components/RainCanvas';
 import styles from './Layout.module.css';
 
@@ -329,23 +331,61 @@ export function Layout({ children }: LayoutProps) {
 
       <footer className={styles.footer}>
         <div className={styles.footerContainer}>
-          <div className={styles.footerTop}>
+          {/*
+            * The footer is the one block that appears on all 394 pages, so what
+            * is listed here is what every page votes for. It used to carry
+            * twelve links and none of them were the blog, the full catalogue,
+            * the kids page, or any of the eighteen category and nine collection
+            * pages, which between them are most of the site.
+            *
+            * Categories and collections are read from their own modules rather
+            * than typed out again, so this cannot drift from the pages that
+            * actually exist or from the sitemap that declares them.
+            */}
+          <div className={styles.footerSitemap}>
             <div className={styles.footerColumn}>
-              <h4 className={styles.footerHeading}>Quick Links</h4>
+              <h4 className={styles.footerHeading}>Explore</h4>
               <ul className={styles.footerLinks}>
-                <li><Link href="/about">About</Link></li>
-                <li><Link href="/situations">Pick Your Vibe</Link></li>
+                <li><Link href="/all-activities">All activities</Link></li>
+                <li><Link href="/collections">Collections</Link></li>
+                <li><Link href="/kids">With kids</Link></li>
                 <li><Link href="/events">What's On</Link></li>
                 <li><Link href="/popups">Pop-Ups</Link></li>
-                <li><Link href="/collections">Collections</Link></li>
+                <li><Link href="/situations">Pick Your Vibe</Link></li>
+                <li><Link href="/blog">Blog</Link></li>
                 <li><Link href="/saved">Saved places</Link></li>
-                <li><Link href="/contact">Contact</Link></li>
+              </ul>
+            </div>
+
+            <div className={styles.footerColumnWide}>
+              <h4 className={styles.footerHeading}>Browse by category</h4>
+              <ul className={[styles.footerLinks, styles.footerLinksSplit].join(' ')}>
+                {CATEGORIES.map((c) => (
+                  <li key={c.slug}>
+                    <Link href={`/category/${c.slug}`}>{c.label}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className={styles.footerColumn}>
+              <h4 className={styles.footerHeading}>Collections</h4>
+              <ul className={styles.footerLinks}>
+                {COLLECTIONS.map((c) => (
+                  <li key={c.slug}>
+                    <Link href={`/collection/${c.slug}`}>
+                      {`${c.title} ${c.titleAccent ?? ''}`.trim()}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
 
             <div className={styles.footerColumn}>
               <h4 className={styles.footerHeading}>Important Bits</h4>
               <ul className={styles.footerLinks}>
+                <li><Link href="/about">About</Link></li>
+                <li><Link href="/contact">Contact</Link></li>
                 <li><Link href="/privacy">Privacy Policy</Link></li>
                 <li><Link href="/terms">Terms &amp; Conditions</Link></li>
                 <li><Link href="/cookies">Cookie Policy</Link></li>
@@ -360,7 +400,9 @@ export function Layout({ children }: LayoutProps) {
                 <li><Link href="/affiliate">Affiliate Disclosure</Link></li>
               </ul>
             </div>
+          </div>
 
+          <div className={styles.footerTop}>
             <div className={styles.footerNewsletterCol} id="join">
               <JoinClub source="footer" />
             </div>

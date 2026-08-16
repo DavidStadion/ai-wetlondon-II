@@ -65,31 +65,20 @@ async function loadTsModule(...segments) {
 const venueInfo = await loadTsModule('src', 'utils', 'venueInfo.ts');
 const collections = await loadTsModule('src', 'utils', 'collections.ts');
 const venueTypes = await loadTsModule('src', 'utils', 'venueTypes.ts');
+const categoryList = await loadTsModule('src', 'utils', 'categories.ts');
 
 /* ---------- shared copy, kept in step with the app ---------- */
 
-const CATEGORIES = {
-  museums: ['Museums', 'Collections, curiosities and enough roof to see out any downpour.'],
-  galleries: ['Galleries', 'Art worth standing still for, all of it comfortably indoors.'],
-  theatre: ['Theatre', 'West End spectacle and tiny rooms above pubs. Both count.'],
-  dining: ['Dining', 'Long lunches and somewhere warm to sit while it hammers down.'],
-  entertainment: ['Entertainment', 'Immersive, interactive and reliably dry.'],
-  shopping: ['Shopping', 'Department stores, arcades and markets with a roof.'],
-  wellness: ['Wellness & Spa', 'Steam, sauna and doing very little on purpose.'],
-  nightlife: ['Nightlife', 'Late ones that never need an umbrella.'],
-  music: ['Music Venues', 'From jazz basements to arena-sized nights.'],
-  comedy: ['Comedy Clubs', 'Cheap laughs and a low ceiling. Ideal.'],
-  cinema: ['Cinemas', 'Two hours somewhere warm in a very big chair.'],
-  gaming: ['Gaming', 'Arcades, VR, bowling and board games.'],
-  workshops: ['Classes & Workshops', 'Make something with your hands while it pours outside.'],
-  historic: ['Historic Sites', 'Centuries of London, mercifully under cover.'],
-  markets: ['Markets', 'Covered markets. Browsing without the drenching.'],
-  sports: ['Sports & Fitness', 'Climb, swim, skate and sweat indoors.'],
-  exhibitions: ['Exhibitions', 'Shows worth catching before they close.'],
-  libraries: ['Libraries', 'Quiet, free, and among the driest places in London.'],
-};
+/*
+ * Shape kept as { slug: [label, blurb] } because the rest of this file reads it
+ * that way, but the data now comes from src/utils/categories.ts so the footer,
+ * the sitemap and these pages cannot disagree about what a category is.
+ */
+const CATEGORIES = Object.fromEntries(
+  categoryList.CATEGORIES.map((c) => [c.slug, [c.label, c.blurb]]),
+);
 
-const COLLECTIONS = {
+const COLLECTION_COPY = {
   'chucking-it-down': ['Brilliant when it is chucking it down', 'The places that work hardest on the worst days. Straight off the tube, fully covered, and good enough to make you glad it rained.'],
   'with-a-scoreboard': ['Somewhere with a scoreboard', 'Darts, bowling, shuffleboard, crazy golf, ping pong, axe throwing and simulated Formula One. Most of it has a bar attached, none of it asks you to be any good, and all of it is indoors. London has quietly filled its basements and railway arches with ways to lose at something.'],
   'under-a-tenner': ['Brilliant London for under a tenner', 'London gets an expensive reputation it only half deserves. Everything here costs a tenner or less, and plenty of it costs nothing at all.'],
@@ -358,7 +347,7 @@ function venuePage(template, v, all) {
   const inCollections = collections.COLLECTIONS
     .filter((c) => c.match(venue))
     .map((c) => c.slug)
-    .filter((slug) => COLLECTIONS[slug])
+    .filter((slug) => COLLECTION_COPY[slug])
     .sort((a, b) => (collectionSizes.get(a) ?? 0) - (collectionSizes.get(b) ?? 0))
     .slice(0, 3);
 
@@ -399,7 +388,7 @@ function venuePage(template, v, all) {
 
     ${inCollections.length
       ? `<p>${esc(v.name)} also turns up in ${inCollections
-          .map((slug) => `<a href="/collection/${esc(slug)}">${esc(COLLECTIONS[slug][0])}</a>`)
+          .map((slug) => `<a href="/collection/${esc(slug)}">${esc(COLLECTION_COPY[slug][0])}</a>`)
           .join(' · ')}</p>`
       : ''}
 
@@ -600,8 +589,10 @@ function homePage(template, allVenues, list) {
       `<li><a href="/category/${esc(c.slug)}">${esc(c.name)} in London</a>: ${esc(c.n)} places</li>`).join('')}</ul>
 
     <h2>Collections</h2>
-    <ul>${Object.entries(COLLECTIONS).map(([slug, [name]]) =>
-      `<li><a href="/collection/${esc(slug)}">${esc(name)}</a></li>`).join('')}</ul>
+    <ul>${collections.COLLECTIONS.map((c) => {
+      const [name] = COLLECTION_COPY[c.slug] ?? [`${c.title} ${c.titleAccent ?? ''}`.trim()];
+      return `<li><a href="/collection/${esc(c.slug)}">${esc(name)}</a></li>`;
+    }).join('')}</ul>
 
     ${list.length ? `<h2>From the blog</h2><ul>${list.slice(0, 7).map((a) =>
       `<li><a href="/blog/${esc(a.slug)}">${esc(a.title)}</a>${a.dek ? `: ${esc(a.dek)}` : ''}</li>`).join('')}</ul>` : ''}
@@ -813,15 +804,22 @@ for (const [slug, [name, blurb]] of Object.entries(CATEGORIES)) {
 // and a paragraph that linked to nothing: in the sitemap, but a dead end for
 // anyone arriving and for anything crawling. The membership test is the app's
 // own predicate, so the page and the app cannot disagree about what belongs.
-for (const [slug, [name, blurb]] of Object.entries(COLLECTIONS)) {
-  const collection = collections.getCollection(slug);
+//
+// Driven by the app's own COLLECTIONS rather than the copy map below it, so a
+// collection added to collections.ts always gets a page. The sitemap derives its
+// slugs from that same list, and the two disagreeing would mean declaring URLs
+// that were never built. COLLECTION_COPY supplies the hand-written headline
+// where there is one, and the app's own title falls in behind it.
+for (const c of collections.COLLECTIONS) {
+  const [name, blurb] = COLLECTION_COPY[c.slug]
+    ?? [`${c.title} ${c.titleAccent ?? ''}`.trim(), c.blurb];
   pages.push(listPage(template, {
-    path: `/collection/${slug}`,
+    path: `/collection/${c.slug}`,
     h1: name,
     blurb,
     title: `${name} | Wet London`,
     description: blurb,
-    items: collection ? collections.venuesFor(collection, venueObjects) : [],
+    items: collections.venuesFor(c, venueObjects),
   }));
 }
 
@@ -856,5 +854,5 @@ for (const { path, html } of pages) write(path, html);
 // Not a route, so it is written directly rather than as <path>/index.html.
 writeFileSync(join(DIST, '404.html'), notFoundPage(template));
 
-console.log(`[prerender] wrote ${pages.length} pages (${seen.size} venues, ${Object.keys(CATEGORIES).length} categories, ${Object.keys(COLLECTIONS).length} collections, ${Object.keys(STATIC_PAGES).length} flat, ${articles.length} articles).`);
+console.log(`[prerender] wrote ${pages.length} pages (${seen.size} venues, ${Object.keys(CATEGORIES).length} categories, ${collections.COLLECTIONS.length} collections, ${Object.keys(STATIC_PAGES).length} flat, ${articles.length} articles).`);
 for (const a of articles) console.log(`[prerender] /blog/${a.slug}: ${a.wordCount} words of real HTML`);

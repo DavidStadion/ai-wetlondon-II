@@ -259,11 +259,35 @@
   padding: 0 var(--wl-gutter);
 }
 
-.footerTop {
+/*
+ * The sitemap block: everything the site actually contains, on every page.
+ * Categories get the double-width cell because there are eighteen of them and a
+ * single column of eighteen makes the footer taller than some of the pages it
+ * links to.
+ */
+.footerSitemap {
   display: grid;
-  grid-template-columns: 1fr 1fr 1.6fr auto;
+  grid-template-columns: 1fr 2fr 1.4fr 1fr;
   gap: 2.5rem;
   padding-bottom: 2.5rem;
+}
+
+.footerColumnWide { display: flex; flex-direction: column; }
+
+.footerLinksSplit {
+  column-count: 2;
+  column-gap: 1.5rem;
+}
+
+/* A link must not be split across two columns. */
+.footerLinksSplit li { break-inside: avoid; }
+
+.footerTop {
+  display: grid;
+  grid-template-columns: 1.6fr auto;
+  gap: 2.5rem;
+  padding-bottom: 2.5rem;
+  align-items: start;
 }
 
 .footerColumn,
@@ -396,6 +420,7 @@
 
 @media (max-width: 900px) {
   .footerTop { grid-template-columns: 1fr 1fr; }
+  .footerSitemap { grid-template-columns: 1fr 1fr; gap: 2rem; }
   .footerSocial { grid-column: 1 / -1; }
 }
 
@@ -432,6 +457,25 @@
   .nav { display: none; }
 
   .footerTop { grid-template-columns: 1fr; gap: 1.75rem; }
+
+  /* Two columns rather than one on a phone: eighteen categories stacked singly
+     is a very long thumb-scroll to reach the legal links underneath. */
+  .footerSitemap { grid-template-columns: 1fr 1fr; gap: 1.75rem 1.25rem; }
+  .footerLinksSplit { column-count: 1; }
+
+  /*
+   * The gap between links becomes part of the link instead of sitting between
+   * them. Same footer height, but the tap target goes from about 23px to about
+   * 32px and spans the full column width, which clears the 24px WCAG 2.5.8
+   * minimum that forty-two small links in a row would otherwise fail.
+   */
+  .footerLinks li { margin-bottom: 0; }
+
+  .footerLinks a {
+    display: block;
+    padding-block: 0.45rem;
+  }
+
   .footerBottom { flex-direction: column; align-items: flex-start; }
 }
 
