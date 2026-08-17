@@ -47,7 +47,7 @@ Use colons, full stops or restructured sentences. UK English throughout.
 | Tiqets | `wetlondonofficial@gmail.com` | partner **wet_london-189124**, **3.3% to 14.2%**, varies per product |
 | Resend | `davidh@stadion.io` (org `stadion`) | domain verified, sends from `alerts@wetlondon.co.uk` |
 | DNS | **Namecheap** (not Vercel) | `dns1/dns2.registrar-servers.com` |
-| Google Cloud | via `wetlondonofficial@gmail.com` | project `WetLondon`, Places API only, capped 2,000/day and 60/min |
+| Google Cloud | via `wetlondonofficial@gmail.com` | project `WetLondon`. **One key only**: `wet-london-places-new-server`, restricted to Places API (New), no application restriction (correct for a server key). Legacy Places API disabled |
 
 ### The Supabase trap
 **The live project is `wetlondon2026`, ref `iguspxisuudvvlcbtaxk`.** Two other
@@ -79,7 +79,7 @@ per-user.
 
 | | |
 |---|---|
-| Venues | **341** |
+| Venues | **341**, of which **337 hold a Google `place_id`** |
 | Earning affiliate links | **95** (GetYourGuide 63, Tiqets 32) |
 | No affiliate link | 211 |
 | Prerendered pages | **394** (341 venues, 18 categories, 9 collections, 11 flat, 12 articles, homepage) |
@@ -133,6 +133,46 @@ OPEN NOW badge 3.49:1 to 4.99:1, CLOSED badge 4.38:1 to 5.01:1, pop-up type
 
 ---
 
+## What changed on 17 August
+
+**The Places bill, which was the urgent thing.** £41.31 went on Places between 1
+and 16 August: roughly £27 on working out which place each venue is, £14.26 on
+serving photo bytes. The lookup half repeated on every cache miss to answer a
+question about the British Museum that has the same answer every time.
+
+`place_id` is now stored on 337 of 341 venues, and photos come from a Place
+Details call with an ID-only field mask, which Google bills at nothing. Proved
+in practice, not just in the docs: `GetPlaceRequest` usage moved off zero the
+moment the new path ran.
+
+The four that would not resolve are `Obby Classes`, `Soho & Chinatown Food
+Tour`, `Slow Horses Tour` and `Wake The Tiger`. Three are products rather than
+places. Wake The Tiger is in Bristol, which is worth a look on its own terms.
+
+**Quotas, now sized for the new architecture** (Places API (New), not the
+legacy one):
+
+| Row | Value | Why |
+|---|---|---|
+| `GetPlaceRequest per day` | 200 | The main lookup now. Free, ID-only mask |
+| `SearchTextRequest per day` | 25 | Only the 4 unmatched venues and anything new |
+| `GetPhotoMediaRequest per day` | 60 | **The only one that costs money**, 0.55p a call |
+
+**Three API keys became one.** `wet-london-places-photos-2` matched nothing in
+Vercel. `wet-london-places-photos` was restricted to HTTP referrers, which only
+browsers send, so it could never have served a server-side call. Both deleted,
+site verified between each. `GOOGLE_MAPS_API_KEY` removed from Vercel too.
+
+**Five more blog pieces and a rebuilt blog index**, three treatments instead of
+one repeating card. **The footer carries the whole sitemap**, 42 links, and
+`siteLinks()` puts the same links into every prerendered page.
+
+**The no-photo state was redesigned.** All 28 of its old colours failed contrast
+against the white text the cards lay over them: amber gave 1.67:1 against a 4.5
+requirement. Now dark ink with a rain texture, 19 tones all above 16:1.
+
+---
+
 ## Traps that have already caught us
 
 1. **Postgres returns `text[]` as a literal string** (`"{museums,education}"`).
@@ -166,7 +206,19 @@ OPEN NOW badge 3.49:1 to 4.99:1, CLOSED badge 4.38:1 to 5.01:1, pop-up type
 12. **Contrast cannot be measured by walking up for a background colour.** Card
     text sits over photographs, so the walk reaches the page colour and reports a
     meaningless 1.09:1. Only trust readings where both sides are solid colours
-13. **Anything in a component reaches people, not crawlers.** The whole SEO
+13. **A quota is not a spend cap and a budget is not either.** Budgets only
+    email you. The cap is per-API daily quotas, and after any architecture
+    change they need resizing: moving photos onto `place_id` made
+    `GetPlaceRequest` the main call while it was still capped at 5 a day, which
+    would have silently failed back to the paid search
+14. **An HTTP-referrer restriction cannot work server-side.** Browsers send a
+    referrer, servers do not. A key restricted that way is dead weight for a
+    Vercel backend, whatever its name suggests
+15. **`encodeURIComponent` leaves `'`, `(` and `)` alone**, none of which are
+    legal in an unquoted CSS `url()`. Preact assigns style properties straight
+    onto `dom.style`, so a rejected value leaves no style attribute at all and
+    every image vanishes rather than looking wrong
+16. **Anything in a component reaches people, not crawlers.** The whole SEO
     architecture is the prerendered HTML in `dist/`, and the app clears it on
     hydration. The footer lives in `Layout.tsx`, so there is not a single
     `<footer>` tag anywhere in the 394 built files. Adding forty-two links to it
@@ -204,7 +256,10 @@ cookie-based, ~30 days.
 ## Outstanding
 
 ### David's jobs
-1. **£5 Google Cloud budget alert** (Billing → Budgets & alerts)
+1. **Check Billing → Reports → group by SKU.** The one claim not yet proved on
+   the invoice: Text Search should have collapsed to near zero, Place Details
+   should appear at £0, Place Photo should carry on. If Place Details shows a
+   charge, the ID-only tier reading was wrong
 2. **Awin signup**, in progress. Hosts many UK merchants' own programmes
    including, probably, Merlin (Madame Tussauds, London Eye, SEA LIFE, London
    Dungeon, Shrek's). Direct rates may beat GYG's 8% on all five
