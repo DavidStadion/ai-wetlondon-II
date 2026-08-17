@@ -71,7 +71,7 @@ interface TileProps {
 }
 
 function CategoryTile({ category, count, sample }: TileProps) {
-  const { src } = useImageLoader(sample?.name ?? category.name, sample?.type ?? []);
+  const { src } = useImageLoader(sample?.name ?? category.name, sample?.type ?? [], category.name);
 
   return (
     <a className={styles.tile} href={`/category/${category.id}`}>

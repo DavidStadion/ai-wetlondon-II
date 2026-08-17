@@ -56,7 +56,7 @@ function formatDate(iso: string): string {
 /* ── Index ─────────────────────────────────────────────────────────── */
 
 function ArticleCard({ article, feature }: { article: Article; feature?: boolean }) {
-  const { src } = useImageLoader(article.lead ?? '');
+  const { src } = useImageLoader(article.lead ?? '', [], article.title);
 
   return (
     <a
@@ -86,7 +86,7 @@ function ArticleCard({ article, feature }: { article: Article; feature?: boolean
  * turning the page into a mile of tiles.
  */
 function ArticleRow({ article, n }: { article: Article; n: number }) {
-  const { src } = useImageLoader(article.lead ?? '');
+  const { src } = useImageLoader(article.lead ?? '', [], article.title);
 
   return (
     <li>
@@ -202,7 +202,7 @@ export function ArticlePage({ slug }: ArticleRouteProps) {
   useArticles(slug);
 
   const article = articles.value.find((a) => a.slug === slug);
-  const { src: cover } = useImageLoader(article?.lead ?? '');
+  const { src: cover } = useImageLoader(article?.lead ?? '', [], article?.title);
 
   useEffect(() => {
     if (article) {

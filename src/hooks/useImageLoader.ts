@@ -24,11 +24,20 @@ interface ImageLoaderState {
  * Hook for lazy image loading with fallbacks.
  * Checks localStorage cache first, then fetches from Google Places API.
  */
+/**
+ * `placeholderLabel` exists because the thing a card shows a photo of is not
+ * always the thing a card is called. Category and collection cards borrow a lead
+ * venue's photograph, so the Gaming tile was falling back to a ghosted D for DNA
+ * VR and Wellness to an E for ESPA: a letter belonging to a venue the card never
+ * mentions. Pass whatever the card actually prints and the initial always
+ * matches the words next to it.
+ */
 export function useImageLoader(
   venueName: string,
-  venueTypes: VenueType[] = []
+  venueTypes: VenueType[] = [],
+  placeholderLabel?: string
 ): ImageLoaderState {
-  const placeholder = getPlaceholderImage(venueName, venueTypes);
+  const placeholder = getPlaceholderImage(placeholderLabel ?? venueName, venueTypes);
   const [state, setState] = useState<ImageLoaderState>({
     src: placeholder,
     isLoading: true,

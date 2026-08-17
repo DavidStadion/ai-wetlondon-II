@@ -13,7 +13,7 @@ export function EventCard({ event, badgeType }: EventCardProps) {
   const daysLeft = getDaysLeft(event.endDate);
 
   // Most events have no image of their own, fall back to a photo of the venue.
-  const { src: venuePhoto } = useImageLoader(event.venue, []);
+  const { src: venuePhoto } = useImageLoader(event.venue, [], event.title);
   const imageSrc = event.imageUrl || venuePhoto;
 
   let badgeText = '';

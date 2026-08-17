@@ -7,7 +7,7 @@ import styles from './CollectionsRail.module.css';
 function Tile({ slug, title, titleAccent, count, lead }: {
   slug: string; title: string; titleAccent?: string; count: number; lead: Venue | undefined;
 }) {
-  const { src } = useImageLoader(lead?.name ?? '', lead?.type ?? []);
+  const { src } = useImageLoader(lead?.name ?? '', lead?.type ?? [], title);
 
   return (
     <a className={styles.tile} href={`/collection/${slug}`}>

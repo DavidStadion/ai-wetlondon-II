@@ -23,7 +23,7 @@ function CollectionCard({ slug, title, titleAccent, teaser, lead, count }: {
   slug: string; title: string; titleAccent?: string; teaser: string;
   lead: Venue | undefined; count: number;
 }) {
-  const { src } = useImageLoader(lead?.name ?? '', lead?.type ?? []);
+  const { src } = useImageLoader(lead?.name ?? '', lead?.type ?? [], title);
 
   return (
     <a className={styles.card} href={`/collection/${slug}`}>
