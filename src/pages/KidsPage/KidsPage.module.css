@@ -157,7 +157,7 @@
 }
 
 @media (max-width: 768px) {
-  .hero { padding-top: 1.75rem; text-align: left; }
+  .hero { padding-top: var(--wl-rule-gap); text-align: left; }
   .title { margin-left: 0; }
   .tagline { margin-left: 0; }
   .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }

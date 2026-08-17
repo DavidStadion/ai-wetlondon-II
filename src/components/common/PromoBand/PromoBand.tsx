@@ -1,5 +1,6 @@
 import type { ComponentChildren } from 'preact';
 import { RainCanvas } from '@/components/RainCanvas';
+import { DropMark } from '@/components/DropMark';
 import styles from './PromoBand.module.css';
 
 export interface PromoBandProps {
@@ -15,6 +16,12 @@ export interface PromoBandProps {
   tone?: 'bold' | 'soft';
   /** 'center' for a statement band, 'split' for headline left / content right. */
   layout?: 'center' | 'split';
+  /**
+   * Puts the mascot above the headline, hopping. Opt-in because this component
+   * is used for several bands and he stops being a treat if he is on all of
+   * them.
+   */
+  mascot?: boolean;
   children?: ComponentChildren;
 }
 
@@ -27,6 +34,7 @@ export function PromoBand({
   onCta,
   tone = 'bold',
   layout = 'center',
+  mascot = false,
   children,
 }: PromoBandProps) {
   const cta = ctaLabel && (
@@ -49,6 +57,7 @@ export function PromoBand({
         {/* Only on the blue tone: white rain would be invisible on the sand one.
             Absolutely positioned, so it takes no grid cell in the split layout. */}
         {tone === 'bold' && <RainCanvas rgb="255, 255, 255" density={2} alpha={2.2} />}
+        {mascot && <DropMark size={64} className={styles.mascot} />}
         <h2 className={styles.title}>
           {title}
           {titleAccent && <> <em>{titleAccent}</em></>}

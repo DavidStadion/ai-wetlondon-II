@@ -234,7 +234,7 @@
   margin: 0 0 1.25rem;
   color: var(--color-text);
   border-top: 2px solid var(--color-text);
-  padding-top: 0.9rem;
+  padding-top: var(--wl-rule-gap);
 }
 
 /* ============ States ============ */

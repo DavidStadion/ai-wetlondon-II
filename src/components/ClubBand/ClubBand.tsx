@@ -24,6 +24,7 @@ export function ClubBand({ source }: ClubBandProps) {
       titleAccent="again."
       body="One email on the mornings rain is coming, with somewhere dry worth going. Nothing else, ever."
       tone="bold"
+      mascot
     >
       <JoinClub source={source} compact />
     </PromoBand>

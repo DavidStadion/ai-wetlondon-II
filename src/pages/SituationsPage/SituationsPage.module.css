@@ -35,7 +35,7 @@
 /* ---------- Controls ---------- */
 .controls {
   margin-top: 2.5rem;
-  padding-top: 1.75rem;
+  padding-top: var(--wl-rule-gap);
   border-top: 1px solid var(--color-border);
 }
 
@@ -109,7 +109,7 @@
   justify-content: space-between;
   gap: 1.25rem;
   border-top: 2px solid var(--color-text);
-  padding-top: 0.9rem;
+  padding-top: var(--wl-rule-gap);
   margin-bottom: 1.5rem;
 }
 

@@ -30,6 +30,25 @@
   color: var(--color-text);
 }
 
+/*
+ * The mascot, above the headline. Sits in flow so it pushes the title down
+ * rather than floating over the rain, and centred with auto margins because
+ * .wl-drop is display:block and ignores text-align.
+ *
+ * His eye whites have to be the band's own background, not the page's: on the
+ * blue tone he is drawn in white, and page-white eyes would disappear into him.
+ */
+.mascot {
+  position: relative;
+  margin: 0 auto 1.1rem;
+}
+
+.bold .mascot { color: #fff; --wl-drop-eye: var(--color-wet); }
+.soft .mascot { color: var(--color-text); --wl-drop-eye: var(--color-sand); }
+
+/* Left-aligned in the split layout, where the headline is too. */
+.split .mascot { margin-inline: 0; }
+
 /* Layouts */
 .center .inner { text-align: center; }
 

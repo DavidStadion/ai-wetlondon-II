@@ -61,7 +61,7 @@
   gap: 1rem;
   flex-wrap: wrap;
   border-top: 2px solid var(--color-text);
-  padding-top: 0.9rem;
+  padding-top: var(--wl-rule-gap);
   margin-bottom: 1.5rem;
 }
 

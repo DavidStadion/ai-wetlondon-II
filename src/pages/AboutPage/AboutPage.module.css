@@ -57,7 +57,7 @@
   line-height: 1;
   color: var(--color-text);
   border-top: 2px solid var(--color-text);
-  padding-top: 0.9rem;
+  padding-top: var(--wl-rule-gap);
   margin: 0 0 1.5rem;
 }
 

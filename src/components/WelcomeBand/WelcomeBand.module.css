@@ -7,7 +7,7 @@
 
 .inner {
   border-top: 2px solid var(--color-text);
-  padding-top: 1.75rem;
+  padding-top: var(--wl-rule-gap);
 }
 
 .lead {

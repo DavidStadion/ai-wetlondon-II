@@ -104,6 +104,10 @@
   --wl-maxw: 1760px;
   --wl-gutter: clamp(14px, 2.4vw, 40px);
   --wl-gap: clamp(10px, 0.9vw, 14px);
+  /* The breathing room under a section's 2px rule and above its heading. Was
+     0.9rem hardcoded in sixteen separate files, which is both too tight against
+     a 48px serif and exactly the kind of repeated value that drifts. */
+  --wl-rule-gap: clamp(1.1rem, 1.6vw, 1.75rem);
   /* Fallback only, Layout measures the real header and overwrites this,
      since its height varies by route and by wrapping. */
   --wl-header-h: 108px;
