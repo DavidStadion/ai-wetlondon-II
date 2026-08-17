@@ -19,6 +19,7 @@ import { ClubBand } from '@/components/ClubBand';
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { FilterBar } from '@/components/FilterBar';
 import { Button } from '@/components/common/Button';
+import { DropMark } from '@/components/DropMark';
 import { BackToTop } from '@/components/common/BackToTop';
 import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { AdSlot } from '@/components/common/AdSlot';
@@ -143,6 +144,7 @@ export function AllActivitiesPage(_props: RouteProps) {
 
         {!loading && !errorMsg && results.length === 0 && (
           <div className={styles.empty}>
+            <DropMark size={56} mood="lost" className={styles.emptyDrop} />
             <h2 className={styles.emptyTitle}>Nothing matches that</h2>
             <p className={styles.emptyText}>
               Try loosening a filter, or clear them and start again.

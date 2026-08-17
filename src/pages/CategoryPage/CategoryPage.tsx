@@ -9,6 +9,7 @@ import { ActivityCard } from '@/components/ActivityCard';
 import { ClubBand } from '@/components/ClubBand';
 import { ActivityModal } from '@/components/modals/ActivityModal';
 import { Button } from '@/components/common/Button';
+import { DropMark } from '@/components/DropMark';
 import { BackToTop } from '@/components/common/BackToTop';
 import { LoadingSpinner } from '@/components/common/LoadingSpinner';
 import { useImageLoader } from '@/hooks/useImageLoader';
@@ -157,6 +158,7 @@ export function CategoryPage({ type }: CategoryRouteProps) {
 
         {!loading && sorted.length === 0 && (
           <div className={styles.empty}>
+            <DropMark size={56} mood="lost" className={styles.emptyDrop} />
             <h2 className={styles.emptyTitle}>Nothing here yet</h2>
             <p className={styles.emptyText}>We haven't listed anything in {category.label} so far.</p>
             <Button as="a" href="/all-activities" variant="accent">Browse everything</Button>

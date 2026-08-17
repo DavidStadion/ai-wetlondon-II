@@ -7,6 +7,7 @@ import { bookmarkedVenues, currentPath } from '@/signals/uiSignals';
 import { isConsentSettingsOpen } from '@/utils/consent';
 import { WeatherStrip } from '@/components/WeatherStrip';
 import { JoinClub } from '@/components/JoinClub';
+import { DropMark } from '@/components/DropMark';
 import { CATEGORIES } from '@/utils/categories';
 import { COLLECTIONS } from '@/utils/collections';
 
@@ -247,33 +248,8 @@ export function Layout({ children }: LayoutProps) {
 
       <header ref={headerRef} className={`${styles.header} ${isHeaderHidden.value ? styles.headerHidden : ''}`}>
         <div className={styles.headerBar}>
-        {/* Mascot: a raindrop that hops, squashes on landing, and blinks. */}
         <Link href="/" className={styles.mark} aria-label="Wet London home">
-          <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-            <g className={styles.dropHop}>
-              <path
-                d="M32 4c0 0 18 22.5 18 34.5a18 18 0 0 1-36 0C14 26.5 32 4 32 4Z"
-                fill="currentColor"
-              />
-              {/*
-                * Whites knocked out of the body, so they read as eyes on any
-                * ground. Pupils in currentColor for the same reason: they are
-                * holes within holes, and stay right whatever the drop is set in.
-                *
-                * The whites are fixed and only the pupils move. Sliding the
-                * whole eye would look like the holes were wandering around his
-                * head rather than like him looking at something.
-                */}
-              <g className={styles.dropEyes} fill="var(--color-bg)">
-                <ellipse cx="25.4" cy="39" rx="4.3" ry="5.2" />
-                <ellipse cx="38.6" cy="39" rx="4.3" ry="5.2" />
-                <g className={styles.dropPupils} fill="currentColor">
-                  <circle cx="25.4" cy="39.6" r="2.4" />
-                  <circle cx="38.6" cy="39.6" r="2.4" />
-                </g>
-              </g>
-            </g>
-          </svg>
+          <DropMark size={50} />
         </Link>
 
         {/* Centred wordmark + nav row */}
@@ -476,7 +452,10 @@ export function Layout({ children }: LayoutProps) {
             <p className={styles.footerTagline}>
               Wet London only lists places that still work when the weather doesn't.
             </p>
-            <p className={styles.footerMadeWith}>Made by Dave ☔</p>
+            <p className={styles.footerMadeWith}>
+              <DropMark size={22} animated={false} className={styles.footerDrop} />
+              Made by Dave
+            </p>
           </div>
         </div>
 

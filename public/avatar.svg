@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!--
+    Profile picture for Instagram, TikTok and anywhere else that wants a square.
+
+    Square rather than rounded, because every platform crops to a circle itself
+    and a pre-rounded corner just gets thrown away.
+
+    He fills about 68% of the frame. Any larger and the circular crop starts
+    clipping his shoulders; any smaller and he is a dot in a black square at the
+    40px these get shown at in a feed. The furthest point of the drop sits 349px
+    from centre against a 512px crop radius, so there is real margin.
+
+    Ink ground with a white drop, matching the favicon, because a white ground
+    disappears into most feeds. To invert it, swap the two fills below.
+
+    Geometry is the site mascot exactly, scaled: same path, same eyes, same
+    pupils. If the header drop ever changes shape, change it here too.
+  -->
+  <rect width="1024" height="1024" fill="#0C0C0D"/>
+  <g transform="translate(512 512) scale(13.3) translate(-32 -30.25)">
+    <path
+      d="M32 4c0 0 18 22.5 18 34.5a18 18 0 0 1-36 0C14 26.5 32 4 32 4Z"
+      fill="#ffffff"
+    />
+    <ellipse cx="25.4" cy="39" rx="4.3" ry="5.2" fill="#0C0C0D"/>
+    <ellipse cx="38.6" cy="39" rx="4.3" ry="5.2" fill="#0C0C0D"/>
+    <circle cx="25.4" cy="39.6" r="2.4" fill="#ffffff"/>
+    <circle cx="38.6" cy="39.6" r="2.4" fill="#ffffff"/>
+  </g>
+</svg>

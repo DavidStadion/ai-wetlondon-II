@@ -1,4 +1,5 @@
 import { Button } from '@/components/common/Button';
+import { DropMark } from '@/components/DropMark';
 import type { RouteProps } from '@/types';
 import styles from './NotFoundPage.module.css';
 
@@ -6,6 +7,9 @@ export function NotFoundPage(_props: RouteProps) {
   return (
     <div className={styles.page}>
       <div className={styles.inner}>
+        {/* He looks down and away here, and stops glancing about. A cheerful
+            hopping mascot on a dead end reads as not having noticed. */}
+        <DropMark size={72} mood="lost" className={styles.drop} />
         <span className={styles.eyebrow}>Error 404</span>
         <h1 className={styles.title}>
           This one's washed <em>away.</em>

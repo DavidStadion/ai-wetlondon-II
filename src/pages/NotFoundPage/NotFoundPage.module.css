@@ -47,3 +47,13 @@
   justify-content: center;
   flex-wrap: wrap;
 }
+
+/*
+ * Centred with auto margins, not text-align. .wl-drop is display:block, so the
+ * parent's text-align does nothing to it and he sat hard left of a centred
+ * page.
+ */
+.drop {
+  color: var(--color-text);
+  margin: 0 auto 1.25rem;
+}

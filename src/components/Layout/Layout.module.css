@@ -49,68 +49,11 @@
 
 .mark svg { width: 100%; height: 100%; overflow: visible; }
 
-/* Mascot: a raindrop that hops and blinks.
-   transform-box: fill-box so percentage origins resolve against each shape's
-   own box rather than the whole SVG viewBox. */
-.dropHop {
-  animation: dropHop 3s ease-in-out infinite;
-  transform-box: fill-box;
-  transform-origin: 50% 100%;   /* squash from the bottom, so it has weight */
-}
-
-.dropEyes {
-  animation: dropBlink 5.4s ease-in-out infinite;
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-@keyframes dropHop {
-  0%, 100% { transform: translateY(0) scale(1, 1); }
-  38%      { transform: translateY(-3px) scale(0.96, 1.05); }
-  62%      { transform: translateY(0) scale(1.06, 0.94); }
-  78%      { transform: translateY(0) scale(0.99, 1.01); }
-}
-
-/* Long open, quick shut: a slow blink reads as sleepy rather than alive. */
-@keyframes dropBlink {
-  0%, 88%, 100% { transform: scaleY(1); }
-  92%           { transform: scaleY(0.1); }
-  96%           { transform: scaleY(1); }
-}
-
-/*
- * The pupils, which are what actually make him a character rather than a shape
- * with two holes in it.
- *
- * They sit inside .dropEyes, so the blink squashes pupil and white together
- * instead of leaving two dots hanging in a shut eye.
- *
- * 7.2s against the blink's 5.4s deliberately: two loops that do not divide into
- * each other drift in and out of phase, so he never settles into an obvious
- * repeating pattern. Travel is 1.3px, which leaves 0.6 between a 2.4 pupil and
- * the edge of a 4.3 white at full glance.
- */
-.dropPupils {
-  animation: dropLook 7.2s ease-in-out infinite;
-  transform-box: fill-box;
-}
-
-@keyframes dropLook {
-  0%, 34%   { transform: translateX(0); }
-  42%, 54%  { transform: translateX(1.3px); }
-  64%, 76%  { transform: translateX(-1.3px); }
-  86%, 100% { transform: translateX(0); }
-}
-
-/* Hovered, he hops faster and looks about more, rather than just one or other. */
-.mark:hover .dropHop { animation-duration: 1.15s; }
-.mark:hover .dropPupils { animation-duration: 2.6s; }
-
-@media (prefers-reduced-motion: reduce) {
-  .dropHop,
-  .dropEyes,
-  .dropPupils { animation: none; }
-}
+/* The mascot lives in src/components/DropMark. His animations are global
+   (wl-drop-*) in global.css, because this hover boost has to reach across a
+   module boundary and a hashed class name cannot be targeted from elsewhere. */
+.mark:hover :global(.wl-drop-hop) { animation-duration: 1.15s; }
+.mark:hover :global(.wl-drop-pupils) { animation-duration: 2.6s; }
 
 .headerCenter {
   display: flex;
@@ -446,6 +389,21 @@
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.5);
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+/*
+ * He replaces the umbrella emoji that used to sit here. Not animated: this is
+ * the last thing on the page and a hopping drop in the corner of every footer
+ * would be a fidget rather than a flourish. Set at the same opacity as the text
+ * so he reads as part of the sign-off, not as a logo stuck on the end.
+ */
+.footerDrop {
+  color: rgba(255, 255, 255, 0.5);
+  --wl-drop-eye: #0c0c0d;   /* the footer's own ink, or his eyes vanish into him */
+  flex: 0 0 auto;
 }
 
 .footerTagline { font-style: italic; }

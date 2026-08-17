@@ -263,3 +263,68 @@ body {
 
 .wl-prerender .wl-sitelinks li { break-inside: avoid; }
 .wl-prerender p { margin: 0 0 1rem; }
+
+/* ============ THE MASCOT ============
+ *
+ * Global rather than module-scoped, like .wl-prerender and .wl-skip-link, so
+ * the header can speed his animations up on hover from its own stylesheet.
+ * The component is src/components/DropMark.
+ *
+ * transform-box: fill-box so percentage origins resolve against each shape's
+ * own box rather than the whole SVG viewBox.
+ */
+.wl-drop { display: block; overflow: visible; }
+
+.wl-drop-hop {
+  animation: wlDropHop 3s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;   /* squash from the bottom, so he has weight */
+}
+
+.wl-drop-eyes {
+  animation: wlDropBlink 5.4s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/*
+ * The pupils are what make him a character rather than a shape with two holes
+ * in it. They sit inside the eyes so a blink squashes pupil and white together,
+ * instead of leaving two dots floating in a shut eye.
+ *
+ * 7.2s against the blink's 5.4s deliberately: two loops that do not divide into
+ * each other drift in and out of phase, so he never settles into a visible
+ * pattern. Travel is 1.3, leaving 0.6 between a 2.4 pupil and the edge of a 4.3
+ * white at full glance.
+ */
+.wl-drop-pupils {
+  animation: wlDropLook 7.2s ease-in-out infinite;
+  transform-box: fill-box;
+}
+
+@keyframes wlDropHop {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  38%      { transform: translateY(-3px) scale(0.96, 1.05); }
+  62%      { transform: translateY(0) scale(1.06, 0.94); }
+  78%      { transform: translateY(0) scale(0.99, 1.01); }
+}
+
+/* Long open, quick shut: a slow blink reads as sleepy rather than alive. */
+@keyframes wlDropBlink {
+  0%, 88%, 100% { transform: scaleY(1); }
+  92%           { transform: scaleY(0.1); }
+  96%           { transform: scaleY(1); }
+}
+
+@keyframes wlDropLook {
+  0%, 34%   { transform: translateX(0); }
+  42%, 54%  { transform: translateX(1.3px); }
+  64%, 76%  { transform: translateX(-1.3px); }
+  86%, 100% { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wl-drop-hop,
+  .wl-drop-eyes,
+  .wl-drop-pupils { animation: none; }
+}
