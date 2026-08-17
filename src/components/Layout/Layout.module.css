@@ -78,11 +78,38 @@
   96%           { transform: scaleY(1); }
 }
 
+/*
+ * The pupils, which are what actually make him a character rather than a shape
+ * with two holes in it.
+ *
+ * They sit inside .dropEyes, so the blink squashes pupil and white together
+ * instead of leaving two dots hanging in a shut eye.
+ *
+ * 7.2s against the blink's 5.4s deliberately: two loops that do not divide into
+ * each other drift in and out of phase, so he never settles into an obvious
+ * repeating pattern. Travel is 1.3px, which leaves 0.6 between a 2.4 pupil and
+ * the edge of a 4.3 white at full glance.
+ */
+.dropPupils {
+  animation: dropLook 7.2s ease-in-out infinite;
+  transform-box: fill-box;
+}
+
+@keyframes dropLook {
+  0%, 34%   { transform: translateX(0); }
+  42%, 54%  { transform: translateX(1.3px); }
+  64%, 76%  { transform: translateX(-1.3px); }
+  86%, 100% { transform: translateX(0); }
+}
+
+/* Hovered, he hops faster and looks about more, rather than just one or other. */
 .mark:hover .dropHop { animation-duration: 1.15s; }
+.mark:hover .dropPupils { animation-duration: 2.6s; }
 
 @media (prefers-reduced-motion: reduce) {
   .dropHop,
-  .dropEyes { animation: none; }
+  .dropEyes,
+  .dropPupils { animation: none; }
 }
 
 .headerCenter {
