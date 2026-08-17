@@ -136,6 +136,8 @@ let venueNames = null;
 let venueNamesAt = 0;
 const VENUE_TTL = 30 * 60 * 1000;
 
+let venuePlaceIds = null;
+
 async function knownVenueNames() {
   const now = Date.now();
   if (venueNames && now - venueNamesAt < VENUE_TTL) return venueNames;
@@ -145,17 +147,79 @@ async function knownVenueNames() {
   if (!url || !key) return null;   // cannot verify, so do not block
 
   try {
-    const r = await fetch(`${url}/rest/v1/venues?select=name`, {
-      headers: { apikey: key, Authorization: `Bearer ${key}` },
-    });
+    // place_id comes along for the ride: this request already happens, and the
+    // alternative is a second round trip per image to fetch one short string.
+    //
+    // Retried without it if the column is not there yet. PostgREST answers 400
+    // with code 42703 for an unknown column, and without this retry deploying
+    // ahead of the migration would make the whole lookup fail, which makes
+    // isKnownVenueQuery fail open and quietly switches off the allowlist that
+    // stops arbitrary queries spending money. Now the order does not matter.
+    const get = (select) =>
+      fetch(`${url}/rest/v1/venues?select=${select}`, {
+        headers: { apikey: key, Authorization: `Bearer ${key}` },
+      });
+
+    let r = await get('name,place_id');
+    let hasPlaceId = r.ok;
+    if (!r.ok) r = await get('name');
+
     if (!r.ok) return null;
     const rows = await r.json();
     venueNames = new Set(rows.map((v) => String(v.name).toLowerCase().trim()));
+    venuePlaceIds = hasPlaceId
+      ? new Map(
+        rows
+          .filter((v) => v.place_id)
+          .map((v) => [String(v.name).toLowerCase().trim(), String(v.place_id)]),
+      )
+      : new Map();
     venueNamesAt = now;
     return venueNames;
   } catch {
     return null;
   }
+}
+
+/**
+ * The stored place ID for a query, if we have swept this venue.
+ *
+ * Matches the same way isKnownVenueQuery does, because the client appends
+ * " London" and sometimes an area, and a near miss here silently costs money:
+ * it falls back to the paid Text Search rather than failing visibly.
+ */
+async function storedPlaceId(query) {
+  await knownVenueNames();
+  if (!venuePlaceIds || venuePlaceIds.size === 0) return null;
+
+  const q = query.toLowerCase().trim().replace(/\s+london$/, '').trim();
+  if (venuePlaceIds.has(q)) return venuePlaceIds.get(q);
+  for (const [name, id] of venuePlaceIds) {
+    if (q === name || q.startsWith(name + ' ') || q.startsWith(name + ',')) return id;
+  }
+  return null;
+}
+
+/**
+ * Photo references for a known place ID.
+ *
+ * `photos` sits in Google's Essentials IDs Only tier, which is billed at
+ * nothing, so this replaces a paid Text Search with a free lookup. That is the
+ * entire point of storing the ID: of £41.31 spent on Places in the first half of
+ * August, about £27 was these lookups.
+ *
+ * Do not add fields to this mask. One extra field moves the call out of the free
+ * tier and reintroduces the cost this exists to remove.
+ */
+async function photosForPlaceId(apiKey, placeId) {
+  const url = `https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}`;
+  const data = await fetchJson(url, {
+    headers: {
+      'X-Goog-Api-Key': apiKey,
+      'X-Goog-FieldMask': 'photos',
+    },
+  });
+  return data?.photos || [];
 }
 
 /** The client appends " London" to the venue name; tolerate that and a suffix. */
@@ -234,31 +298,60 @@ export default async function handler(req, res) {
       return json(res, 200, cached);
     }
 
-    // Find a place
-    const findUrl = 'https://places.googleapis.com/v1/places:searchText';
-    const findData = await fetchJson(findUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Goog-Api-Key': apiKey,
-        // Request multiple photos for gallery mode
-        'X-Goog-FieldMask': 'places.id,places.photos'
-      },
-      body: JSON.stringify({
-        textQuery: query,
-        // Bias to London to keep results consistent for your use case
-        locationBias: {
-          circle: {
-            center: { latitude: 51.5074, longitude: -0.1278 },
-            radius: 50000
-          }
-        }
-      })
-    });
+    /*
+     * Two routes to the same photos.
+     *
+     * If the venue has been swept, we already know its place ID and can ask for
+     * its photos directly on the free ID-only tier. If not, we fall back to the
+     * paid Text Search that used to be the only path. The fallback is kept
+     * deliberately: a venue the sweep could not match, or one added since, still
+     * gets a picture rather than a placeholder.
+     */
+    let placeId = await storedPlaceId(query);
+    let photos = [];
 
-    const place = findData?.places?.[0];
-    const placeId = place?.id;
-    const photos = place?.photos || [];
+    if (placeId) {
+      try {
+        photos = await photosForPlaceId(apiKey, placeId);
+      } catch {
+        // fetchJson throws on any non-OK response, and a stored ID can go stale:
+        // venues close, and Google retires and merges IDs. Swallowing it here
+        // means a dead ID costs one wasted free call and then behaves exactly as
+        // it did before the sweep, rather than turning into a 500.
+        photos = [];
+      }
+      // A stored ID that returns no photos is not worth trusting either, so drop
+      // through to the search rather than reporting the venue as pictureless.
+      if (photos.length === 0) placeId = null;
+    }
+
+    if (!placeId) {
+      const findUrl = 'https://places.googleapis.com/v1/places:searchText';
+      const findData = await fetchJson(findUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': apiKey,
+          // Request multiple photos for gallery mode
+          'X-Goog-FieldMask': 'places.id,places.photos'
+        },
+        body: JSON.stringify({
+          textQuery: query,
+          // Bias to London to keep results consistent for your use case
+          locationBias: {
+            circle: {
+              center: { latitude: 51.5074, longitude: -0.1278 },
+              radius: 50000
+            }
+          }
+        })
+      });
+
+      const place = findData?.places?.[0];
+      placeId = place?.id;
+      photos = place?.photos || [];
+    }
+
     const photoRef = photos[0]?.name;
 
     if (!placeId || !photoRef) {
