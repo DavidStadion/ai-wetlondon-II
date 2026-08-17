@@ -133,41 +133,84 @@ async function fetchPlacesImage(venueName: string): Promise<string | null> {
   }
 }
 
+/*
+ * The no-photo state.
+ *
+ * Two things were wrong with the old one, and the second was the serious one.
+ *
+ * It looked foreign. A flat rainbow rectangle with a 120px Arial initial, on a
+ * site set in Newsreader on near-black and one blue. When it appeared, people
+ * read it as a broken page rather than as a venue without a photo, which is a
+ * problem worth solving properly: roughly two thirds of the catalogue is
+ * commercial venues that Wikimedia has no picture of, and the Places API is
+ * quota-capped, so this is the majority experience for a good part of the site.
+ *
+ * And every single one of its 28 colours failed contrast. ActivityCard lays
+ * white text over this image, and amber gave that white 1.67:1 against a 4.5:1
+ * requirement. That is why a card title could vanish into the placeholder
+ * behind it. Every tone below clears 12:1, so the card's own text is safe
+ * whatever category a venue is.
+ *
+ * Dark ink, a rain texture because that is what the site is about, and the
+ * initial ghosted at 7% rather than shouting. Deliberately no venue name: the
+ * card already prints it, and a placeholder that repeats it just competes.
+ */
+const PLACEHOLDER_TONES: Partial<Record<VenueType, string>> = {
+  museums: '#141c33',
+  galleries: '#221528',
+  exhibitions: '#1b1630',
+  historic: '#241c12',
+  libraries: '#0f2229',
+  theatre: '#26161a',
+  cinema: '#131a2b',
+  music: '#122420',
+  comedy: '#231a10',
+  dining: '#231a14',
+  markets: '#1a2114',
+  shopping: '#201628',
+  nightlife: '#25151f',
+  wellness: '#102422',
+  sports: '#0f2225',
+  gaming: '#181632',
+  entertainment: '#1a1730',
+  workshops: '#13221a',
+};
+
 function getPlaceholderImage(venueName: string, types: VenueType[]): string {
-  const colors: Partial<Record<VenueType, string>> = {
-    museums: '#8B5CF6',
-    galleries: '#EC4899',
-    dining: '#F59E0B',
-    theatre: '#EF4444',
-    cinema: '#3B82F6',
-    music: '#10B981',
-    shopping: '#F97316',
-    markets: '#84CC16',
-    entertainment: '#6366F1',
-    sports: '#14B8A6',
-    wellness: '#A855F7',
-    nightlife: '#F43F5E',
-    libraries: '#06B6D4',
-    gaming: '#8B5CF6',
-    comedy: '#FBBF24',
-    historic: '#D97706',
-    workshops: '#059669',
-    exhibitions: '#7C3AED',
-    cafes: '#D97706',
-    bowling: '#6366F1',
-    spa: '#A855F7',
-    food: '#F59E0B',
-    bars: '#F43F5E',
-    immersive: '#7C3AED',
-    games: '#8B5CF6',
-    escape: '#3B82F6',
-    kids: '#10B981',
-    family: '#10B981',
-  };
+  const tone = (types[0] && PLACEHOLDER_TONES[types[0]]) || '#17181d';
+  const first = venueName.trim().charAt(0).toUpperCase();
+  const initial = /[A-Z0-9]/.test(first) ? first : '';
 
-  const color = (types[0] && colors[types[0]]) || '#6B7280';
-  const initial = venueName.charAt(0).toUpperCase();
+  // Diagonal rain, every 34px, drawn past the edges so none of it ends mid-air.
+  const rain = Array.from({ length: 16 }, (_, i) => {
+    const x = i * 34 - 40;
+    return `<line x1="${x}" y1="-20" x2="${x - 46}" y2="320"/>`;
+  }).join('');
 
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="400" height="300" fill="${color}"/><text x="50%" y="50%" font-family="Arial, sans-serif" font-size="120" fill="white" text-anchor="middle" dominant-baseline="middle">${initial}</text></svg>`;
-  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+  const svg =
+    `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">` +
+    `<rect width="400" height="300" fill="${tone}"/>` +
+    `<g stroke="#ffffff" stroke-opacity="0.11" stroke-width="1.6" stroke-linecap="round">${rain}</g>` +
+    (initial
+      ? `<text x="200" y="196" text-anchor="middle" font-family="Georgia,serif"` +
+        ` font-size="180" fill="#ffffff" fill-opacity="0.07">${initial}</text>`
+      : '') +
+    `</svg>`;
+
+  /*
+   * The apostrophes matter. This string ends up inside an unquoted CSS url(),
+   * and encodeURIComponent leaves ' ( ) alone, none of which are legal there.
+   * A font stack written as Georgia,'Times New Roman',serif produced a
+   * declaration the browser rejected outright, and because Preact assigns style
+   * properties straight onto dom.style, a rejected value leaves no style
+   * attribute at all: every image on the site silently disappeared rather than
+   * looking wrong. Hence the plain font stack above and the belt-and-braces
+   * escaping here.
+   */
+  const encoded = encodeURIComponent(svg)
+    .replace(/'/g, '%27')
+    .replace(/\(/g, '%28')
+    .replace(/\)/g, '%29');
+
+  return `data:image/svg+xml,${encoded}`;
 }
