@@ -28,19 +28,25 @@ const THEMES = [
   { name: 'wet',   bg: WET,   fg: PAPER, eye: WET },
 ];
 
+/*
+ * `cta` is the small line above the domain: what to do, in words that follow on
+ * from the joke above it. One tailored line beats the same line twelve times,
+ * and the whole point of a set like this is that somebody eventually types the
+ * address in.
+ */
 const POSTS = [
-  { slug: 'light-showers', size: 104, lines: ['“Light showers.”', 'The two most', 'optimistic words', 'in the English', 'language.'] },
-  { slug: 'too-far-to-go-back', size: 96, lines: ['The rain doesn’t', 'start when you', 'leave. It waits', 'until you’re too', 'far to go back.'] },
-  { slug: 'umbrella-negotiation', size: 88, lines: ['An umbrella keeps', 'the top of your', 'head dry while the', 'rest of you is', 'negotiated with.'] },
-  { slug: 'rainy-disposition', size: 100, lines: ['London doesn’t', 'have a rainy', 'season. It has a', 'rainy disposition.'] },
-  { slug: 'easing-off', size: 116, lines: ['“I think it’s', 'easing off.”', '', 'It is not', 'easing off.'] },
-  { slug: 'one-day-in-three', size: 96, lines: ['It rains here one', 'day in three.', 'The other two,', 'it’s thinking', 'about it.'] },
-  { slug: 'four-working-umbrellas', size: 92, lines: ['There are nine', 'million people in', 'London and four', 'working umbrellas.'] },
-  { slug: 'bus-shelter', size: 98, lines: ['The bus shelter', 'is not a shelter.', 'It’s a suggestion.'] },
-  { slug: 'you-can-smell-it', size: 96, lines: ['It’s coming. You', 'can smell it on', 'the pavement.', 'You will do', 'nothing about it.'] },
-  { slug: 'nobody-asked', size: 88, lines: ['We rate everywhere', 'by how wet you’ll', 'get on the way.', 'Nobody asked.', 'Somebody had to.'] },
-  { slug: 'highest-compliment', size: 128, lines: ['0% wet.', '', 'The highest', 'compliment', 'we give.'] },
-  { slug: 'forty-minutes', size: 96, lines: ['Rain in forty', 'minutes. You have', 'forty minutes to', 'make better', 'choices.'] },
+  { slug: 'light-showers', size: 104, cta: '341 indoor places, rated by how wet you’ll get.', lines: ['“Light showers.”', 'The two most', 'optimistic words', 'in the English', 'language.'] },
+  { slug: 'too-far-to-go-back', size: 96, cta: 'Know where you’re going before it starts.', lines: ['The rain doesn’t', 'start when you', 'leave. It waits', 'until you’re too', 'far to go back.'] },
+  { slug: 'umbrella-negotiation', size: 88, cta: 'Find the places where it stays shut.', lines: ['An umbrella keeps', 'the top of your', 'head dry while the', 'rest of you is', 'negotiated with.'] },
+  { slug: 'rainy-disposition', size: 100, cta: 'So there is a whole website about it.', lines: ['London doesn’t', 'have a rainy', 'season. It has a', 'rainy disposition.'] },
+  { slug: 'easing-off', size: 116, cta: 'It is not. Find somewhere with a roof.', lines: ['“I think it’s', 'easing off.”', '', 'It is not', 'easing off.'] },
+  { slug: 'one-day-in-three', size: 96, cta: '341 places for the one day in three.', lines: ['It rains here one', 'day in three.', 'The other two,', 'it’s thinking', 'about it.'] },
+  { slug: 'four-working-umbrellas', size: 92, cta: 'Somewhere indoors, then. 341 of them.', lines: ['There are nine', 'million people in', 'London and four', 'working umbrellas.'] },
+  { slug: 'bus-shelter', size: 98, cta: 'Search 341 places with an actual roof.', lines: ['The bus shelter', 'is not a shelter.', 'It’s a suggestion.'] },
+  { slug: 'you-can-smell-it', size: 96, cta: 'Or you could do something about it.', lines: ['It’s coming. You', 'can smell it on', 'the pavement.', 'You will do', 'nothing about it.'] },
+  { slug: 'nobody-asked', size: 88, cta: 'Every place scored 0% to 100% wet.', lines: ['We rate everywhere', 'by how wet you’ll', 'get on the way.', 'Nobody asked.', 'Somebody had to.'] },
+  { slug: 'highest-compliment', size: 128, cta: 'See the other 88 that cost nothing too.', lines: ['0% wet.', '', 'The highest', 'compliment', 'we give.'] },
+  { slug: 'forty-minutes', size: 96, cta: 'Long enough to pick somewhere dry.', lines: ['Rain in forty', 'minutes. You have', 'forty minutes to', 'make better', 'choices.'] },
 ];
 
 /* The mascot, at the scale he sits at here. Same geometry as the site. */
@@ -66,7 +72,7 @@ POSTS.forEach((post, i) => {
   const leading = Math.round(size * 1.06);
   // Bottom-anchored block: the last line always sits the same distance above
   // the footer, so the set holds a rhythm whatever the line count.
-  const baseline = 1350 - 190 - (post.lines.length - 1) * leading;
+  const baseline = 1350 - 250 - (post.lines.length - 1) * leading;
 
   const text = post.lines
     .map((l, n) => l === ''
@@ -79,7 +85,9 @@ POSTS.forEach((post, i) => {
   ${t.name === 'paper' ? '' : `<g stroke="${t.fg}" stroke-opacity="0.10" stroke-width="3">${rain(t.fg)}</g>`}
   ${drop(t.fg, t.eye)}
     ${text}
-  <text x="96" y="1268" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="0.16em" fill="${t.fg}" fill-opacity="0.55">WETLONDON.CO.UK</text>
+  <line x1="96" y1="1156" x2="984" y2="1156" stroke="${t.fg}" stroke-opacity="0.22" stroke-width="2"/>
+  <text x="96" y="1216" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="34" font-weight="500" fill="${t.fg}" fill-opacity="0.8">${post.cta.replace(/&/g, '&amp;')}</text>
+  <text x="96" y="1272" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="27" font-weight="700" letter-spacing="0.16em" fill="${t.fg}">WETLONDON.CO.UK</text>
 </svg>
 `;
   writeFileSync(join(OUT, `${String(i + 1).padStart(2, '0')}-${post.slug}.svg`), svg);
