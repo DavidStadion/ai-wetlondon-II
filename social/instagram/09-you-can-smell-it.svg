@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <rect width="1080" height="1350" fill="#1F43FF"/>
+  <g stroke="#FFFFFF" stroke-opacity="0.10" stroke-width="3"><line x1="-120" y1="-40" x2="-270" y2="1400"/><line x1="-68" y1="-40" x2="-218" y2="1400"/><line x1="-16" y1="-40" x2="-166" y2="1400"/><line x1="36" y1="-40" x2="-114" y2="1400"/><line x1="88" y1="-40" x2="-62" y2="1400"/><line x1="140" y1="-40" x2="-10" y2="1400"/><line x1="192" y1="-40" x2="42" y2="1400"/><line x1="244" y1="-40" x2="94" y2="1400"/><line x1="296" y1="-40" x2="146" y2="1400"/><line x1="348" y1="-40" x2="198" y2="1400"/><line x1="400" y1="-40" x2="250" y2="1400"/><line x1="452" y1="-40" x2="302" y2="1400"/><line x1="504" y1="-40" x2="354" y2="1400"/><line x1="556" y1="-40" x2="406" y2="1400"/><line x1="608" y1="-40" x2="458" y2="1400"/><line x1="660" y1="-40" x2="510" y2="1400"/><line x1="712" y1="-40" x2="562" y2="1400"/><line x1="764" y1="-40" x2="614" y2="1400"/><line x1="816" y1="-40" x2="666" y2="1400"/><line x1="868" y1="-40" x2="718" y2="1400"/><line x1="920" y1="-40" x2="770" y2="1400"/><line x1="972" y1="-40" x2="822" y2="1400"/><line x1="1024" y1="-40" x2="874" y2="1400"/><line x1="1076" y1="-40" x2="926" y2="1400"/><line x1="1128" y1="-40" x2="978" y2="1400"/><line x1="1180" y1="-40" x2="1030" y2="1400"/></g>
+  
+  <g transform="translate(96 132) scale(1.55)">
+    <path d="M32 4c0 0 18 22.5 18 34.5a18 18 0 0 1-36 0C14 26.5 32 4 32 4Z" fill="#FFFFFF"/>
+    <ellipse cx="25.4" cy="39" rx="4.3" ry="5.2" fill="#1F43FF"/>
+    <ellipse cx="38.6" cy="39" rx="4.3" ry="5.2" fill="#1F43FF"/>
+    <circle cx="25.4" cy="39.6" r="2.4" fill="#FFFFFF"/>
+    <circle cx="38.6" cy="39.6" r="2.4" fill="#FFFFFF"/>
+  </g>
+    <text x="96" y="752" font-family="Newsreader, Georgia, serif" font-size="96" font-weight="400" fill="#FFFFFF" letter-spacing="-0.02em">It’s coming. You</text>
+    <text x="96" y="854" font-family="Newsreader, Georgia, serif" font-size="96" font-weight="400" fill="#FFFFFF" letter-spacing="-0.02em">can smell it on</text>
+    <text x="96" y="956" font-family="Newsreader, Georgia, serif" font-size="96" font-weight="400" fill="#FFFFFF" letter-spacing="-0.02em">the pavement.</text>
+    <text x="96" y="1058" font-family="Newsreader, Georgia, serif" font-size="96" font-weight="400" fill="#FFFFFF" letter-spacing="-0.02em">You will do</text>
+    <text x="96" y="1160" font-family="Newsreader, Georgia, serif" font-size="96" font-weight="400" fill="#FFFFFF" letter-spacing="-0.02em">nothing about it.</text>
+  <text x="96" y="1268" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="0.16em" fill="#FFFFFF" fill-opacity="0.55">WETLONDON.CO.UK</text>
+</svg>

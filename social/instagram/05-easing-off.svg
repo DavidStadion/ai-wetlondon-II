@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350">
+  <rect width="1080" height="1350" fill="#FFFFFF"/>
+  
+  
+  <g transform="translate(96 132) scale(1.55)">
+    <path d="M32 4c0 0 18 22.5 18 34.5a18 18 0 0 1-36 0C14 26.5 32 4 32 4Z" fill="#0C0C0D"/>
+    <ellipse cx="25.4" cy="39" rx="4.3" ry="5.2" fill="#FFFFFF"/>
+    <ellipse cx="38.6" cy="39" rx="4.3" ry="5.2" fill="#FFFFFF"/>
+    <circle cx="25.4" cy="39.6" r="2.4" fill="#0C0C0D"/>
+    <circle cx="38.6" cy="39.6" r="2.4" fill="#0C0C0D"/>
+  </g>
+    <text x="96" y="668" font-family="Newsreader, Georgia, serif" font-size="116" font-weight="400" fill="#0C0C0D" letter-spacing="-0.02em">“I think it’s</text>
+    <text x="96" y="791" font-family="Newsreader, Georgia, serif" font-size="116" font-weight="400" fill="#0C0C0D" letter-spacing="-0.02em">easing off.”</text>
+    
+    <text x="96" y="1037" font-family="Newsreader, Georgia, serif" font-size="116" font-weight="400" fill="#0C0C0D" letter-spacing="-0.02em">It is not</text>
+    <text x="96" y="1160" font-family="Newsreader, Georgia, serif" font-size="116" font-weight="400" fill="#0C0C0D" letter-spacing="-0.02em">easing off.</text>
+  <text x="96" y="1268" font-family="Archivo, Helvetica, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="0.16em" fill="#0C0C0D" fill-opacity="0.55">WETLONDON.CO.UK</text>
+</svg>
