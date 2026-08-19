@@ -2,6 +2,7 @@ import { venues } from '@/signals/venueSignals';
 import { selectedVenue } from '@/signals/uiSignals';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import type { Venue, AreaType } from '@/types';
+import { wetnessBand } from '@/utils/wetness';
 import styles from './RelatedVenues.module.css';
 
 const AREA_LABELS: Record<AreaType, string> = {
@@ -33,6 +34,7 @@ function relatedTo(current: Venue, all: Venue[]): Venue[] {
 function RelatedCard({ venue }: { venue: Venue }) {
   const { src } = useImageLoader(venue.name, venue.type);
   const wet = Math.max(0, Math.min(100, Math.round(venue.wetnessScore ?? 0)));
+  const band = wetnessBand(wet);
 
   return (
     <button
@@ -44,7 +46,7 @@ function RelatedCard({ venue }: { venue: Venue }) {
       }}
     >
       <span className={styles.image} style={{ backgroundImage: `url(${src})` }} aria-hidden="true">
-        <span className={styles.wet}>{wet}% wet</span>
+        <span className={styles.wet}>{band.label}</span>
       </span>
       <span className={styles.kicker}>
         {AREA_LABELS[venue.location]}
