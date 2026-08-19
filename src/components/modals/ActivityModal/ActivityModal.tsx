@@ -16,6 +16,7 @@ import { RelatedVenues } from "./RelatedVenues";
 import { venueUrl } from "@/utils/slug";
 import { trackBookingClick } from "@/utils/consent";
 import styles from "./ActivityModal.module.css";
+import { wetnessBand } from '@/utils/wetness';
 
 export interface ActivityModalProps {
   venue: Venue | null;
@@ -111,12 +112,13 @@ export function ActivityModal({
 
   const isLucky = luckyDeck.value.length > 1;
 
-  const wetnessWord =
-    venue.wetness === "dry"
-      ? "Stays dry"
-      : venue.wetness === "slightly"
-        ? "Mostly dry"
-        : "Some exposure";
+  /*
+   * Derived from the score, not from venue.wetness. Those two fields disagree on
+   * 28 venues, and this modal shows both at once: The Mousetrap read "Stays dry"
+   * directly above "15% WET". One source, so they cannot contradict each other.
+   */
+  const band = wetnessBand(wet);
+  const wetnessWord = band.label;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={venue.name} size="xl" hideHeader flush>
@@ -154,11 +156,14 @@ export function ActivityModal({
           style={imageUrl ? { backgroundImage: `url(${imageUrl})` } : undefined}
           aria-hidden="true"
         />
-        <span className={styles.heroWet}>
+        {/* The detail view, so it carries the blurb as well as the label: this is
+            where someone has come to find out what the number means. */}
+        <span className={styles.heroWet} title={`${band.label}: ${band.blurb.toLowerCase()}`}>
           <span className={styles.heroWetMeter}>
             <i style={{ width: `${Math.max(5, wet)}%` }} />
           </span>
-          {wet}% WET
+          {band.label}
+          <span className={styles.heroWetPct}>{wet}%</span>
         </span>
         <div className={styles.heroText}>
           <div className={styles.heroKicker}>

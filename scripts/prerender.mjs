@@ -66,6 +66,7 @@ const venueInfo = await loadTsModule('src', 'utils', 'venueInfo.ts');
 const collections = await loadTsModule('src', 'utils', 'collections.ts');
 const venueTypes = await loadTsModule('src', 'utils', 'venueTypes.ts');
 const categoryList = await loadTsModule('src', 'utils', 'categories.ts');
+const wetness = await loadTsModule('src', 'utils', 'wetness.ts');
 
 /* ---------- shared copy, kept in step with the app ---------- */
 
@@ -193,11 +194,8 @@ function toVenue(v) {
 
 const li = (items) => items.map((s) => `<li>${esc(s)}</li>`).join('');
 
-function dryness(score) {
-  if (score <= 10) return 'you will stay bone dry';
-  if (score <= 40) return 'you will stay mostly dry';
-  return 'expect to get a bit wet getting there';
-}
+/* The fourth copy of these bands, now the only definition, in wetness.ts. */
+const dryness = (score) => wetness.wetnessBand(score).prose;
 
 /** Swap a tag's attribute value in the template. */
 function replaceTag(html, pattern, replacement) {

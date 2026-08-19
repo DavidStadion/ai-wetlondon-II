@@ -3,6 +3,7 @@ import { bookmarkedVenues, toggleBookmark } from '@/signals/uiSignals';
 import { useImageLoader } from '@/hooks/useImageLoader';
 import { isVenueOpenNow } from '@/utils/openingHours';
 import styles from './ActivityCard.module.css';
+import { wetnessBand } from '@/utils/wetness';
 
 export interface ActivityCardProps {
   venue: Venue;
@@ -66,6 +67,7 @@ export function ActivityCard({
   const handleBookmarkToggle = () => toggleBookmark(venue.name);
 
   const wet = Math.max(0, Math.min(100, Math.round(venue.wetnessScore ?? 0)));
+  const band = wetnessBand(wet);
 
   // Some rows carry out-of-range ratings (e.g. 45), don't render a nonsense star score.
   const hasValidRating =
@@ -92,9 +94,16 @@ export function ActivityCard({
       />
       {imageLoading && <div className={styles.imageShimmer} />}
 
-      <span className={styles.wetBadge} title={`Wetness score: ${wet} out of 100`}>
+      {/*
+        * Words first, number second. "5% WET" told nobody anything unless they
+        * already knew what good looked like, and the native tooltip it carried
+        * just restated the number. The band label answers the question on sight,
+        * which matters most on mobile where there is no hover at all.
+        */}
+      <span className={styles.wetBadge} title={`${band.label}: ${band.blurb.toLowerCase()} (${wet}% wet)`}>
         <span className={styles.wetMeter}><i style={{ width: `${Math.max(5, wet)}%` }} /></span>
-        {wet}% WET
+        {band.label}
+        <span className={styles.wetPct}>{wet}%</span>
       </span>
 
       {badgeText && (

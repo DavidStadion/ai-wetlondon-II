@@ -7,6 +7,7 @@ import { BackToTop } from '@/components/common/BackToTop';
 import { Contributors } from '@/components/Contributors';
 import type { RouteProps } from '@/types';
 import styles from './AboutPage.module.css';
+import { WETNESS_BANDS, bandRange } from '@/utils/wetness';
 
 interface StatCardProps {
   target: number;
@@ -172,21 +173,27 @@ export function AboutPage(_props: RouteProps) {
         <h2 className={styles.sectionTitle}>What the wetness score means</h2>
         <div className={styles.grid}>
           <div className={styles.card}>
-            <h3 className={styles.cardTitle}>0–10% · Bone dry</h3>
+            <h3 className={styles.cardTitle}>
+              {bandRange(0)} · {WETNESS_BANDS[0].label}
+            </h3>
             <p className={styles.cardText}>
               Door to door under cover. Straight off the tube or a few steps from it,
               and everything you came for is inside.
             </p>
           </div>
           <div className={styles.card}>
-            <h3 className={styles.cardTitle}>10–40% · Mostly dry</h3>
+            <h3 className={styles.cardTitle}>
+              {bandRange(1)} · {WETNESS_BANDS[1].label}
+            </h3>
             <p className={styles.cardText}>
               A short dash. Five or ten minutes from a station, or a courtyard between
               buildings. A coat will do it.
             </p>
           </div>
           <div className={styles.card}>
-            <h3 className={styles.cardTitle}>40%+ · Bring a brolly</h3>
+            <h3 className={styles.cardTitle}>
+              {bandRange(2)} · {WETNESS_BANDS[2].label}
+            </h3>
             <p className={styles.cardText}>
               A proper walk at either end, or part of the visit is genuinely outside.
               Worth it, but know before you go.

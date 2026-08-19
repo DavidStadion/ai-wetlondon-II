@@ -24,6 +24,7 @@ const AREA_LABELS: Record<AreaType, string> = {
   east: 'East London',
   west: 'West London',
 };
+import { wetnessBand } from '@/utils/wetness';
 import styles from './VenuePage.module.css';
 
 interface VenueRouteProps extends RouteProps {
@@ -143,9 +144,12 @@ export function VenuePage({ slug }: VenueRouteProps) {
               </>
             )}
             <span className={styles.dot} aria-hidden="true" />
-            <span className={styles.wetInline}>
+            <span
+              className={styles.wetInline}
+              title={`${wetnessBand(wet).label}: ${wetnessBand(wet).blurb.toLowerCase()}`}
+            >
               <span className={styles.wetMeter}><i style={{ width: `${Math.max(5, wet)}%` }} /></span>
-              {wet}% wet
+              {wetnessBand(wet).label}, {wet}%
             </span>
             {openStatus !== null && (
               <>

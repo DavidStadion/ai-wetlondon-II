@@ -13,6 +13,7 @@ import {
   clearAllFilters,
 } from '@/signals/filterSignals';
 import type { VenueType, AreaType } from '@/types';
+import { WETNESS_BANDS } from '@/utils/wetness';
 import styles from './FilterBar.module.css';
 
 const AREAS: Array<{ value: AreaType; label: string }> = [
@@ -32,7 +33,7 @@ const PRICES: Array<{ value: number | null; label: string }> = [
 
 const WETNESS: Array<{ value: number; label: string }> = [
   { value: 100, label: 'Any' },
-  { value: 10, label: 'Bone dry' },
+  { value: WETNESS_BANDS[0].max, label: WETNESS_BANDS[0].label },
   { value: 40, label: 'Mostly dry' },
 ];
 
