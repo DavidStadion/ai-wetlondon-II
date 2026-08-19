@@ -1,5 +1,6 @@
 import type { Venue, VenueType } from '@/types';
 import { isVenueOpenNow } from '@/utils/openingHours';
+import { wetnessBand } from './wetness';
 
 export const DAY_ORDER = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 export const DAY_LABELS: Record<string, string> = {
@@ -76,8 +77,15 @@ export function getTransportInfo(description: string): {
     break;
   }
 
-  if (/direct/i.test(description)) {
-    details = 'Direct tube access - stay completely dry!';
+  /*
+   * Says what it knows about the transport and nothing about the weather. This
+   * promised "stay completely dry!" on any description containing "direct",
+   * which included Little Venice (45%, canal walks, badged "Bring a brolly")
+   * and Tower Bridge, where the word was "the river directly beneath your
+   * shoes". How wet you get is the band's job, and the band reads the score.
+   */
+  if (/\bdirect\b/i.test(description)) {
+    details = 'Direct access from the station';
   } else if (description.includes('min')) {
     const timeMatch = description.match(/(\d+)\s*min/);
     if (timeMatch) {
@@ -278,14 +286,13 @@ export function getWhatsIncluded(
 export function getGoodToKnow(venue: Venue): string[] {
   const tips: string[] = [];
 
-  if (venue.wetness === 'dry')
-    tips.push('Direct tube access - stay completely dry!');
-  else if (venue.wetness === 'slightly')
-    tips.push(
-      '5-10 minute walk from station - bring an umbrella on rainy days',
-    );
-  else if (venue.wetness === 'wet')
-    tips.push('10+ minute walk - dress for the weather');
+  /*
+   * From the score, not the legacy venue.wetness column. That column is set
+   * independently of the score and contradicts it on 123 of 341 venues, so this
+   * used to promise "Direct tube access - stay completely dry!" on venues that
+   * are a five minute walk across open ground.
+   */
+  tips.push(`${wetnessBand(venue.wetnessScore).blurb}.`);
 
   if (venue.prerequisites?.includes('booking required'))
     tips.push('Book ahead to guarantee entry');

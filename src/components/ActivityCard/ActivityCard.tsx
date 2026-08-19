@@ -100,10 +100,32 @@ export function ActivityCard({
         * just restated the number. The band label answers the question on sight,
         * which matters most on mobile where there is no hover at all.
         */}
-      <span className={styles.wetBadge} title={`${band.label}: ${band.blurb.toLowerCase()} (${wet}% wet)`}>
+      <span
+        className={styles.wetBadge}
+        role="img"
+        aria-label={`Rain exposure ${wet}%. ${band.label}: ${band.blurb.toLowerCase()}.`}
+      >
         <span className={styles.wetMeter}><i style={{ width: `${Math.max(5, wet)}%` }} /></span>
         {band.label}
         <span className={styles.wetPct}>{wet}%</span>
+      </span>
+
+      {/*
+        * Sibling of the badge rather than a child of it, so it is positioned
+        * against .image and can be told how wide it may get. Inside the badge
+        * its containing block would be the badge itself, which is 121px, and
+        * .image clips anything wider than the card.
+        *
+        * It drops downwards. There is no room above: the badge sits 0.7rem from
+        * the top of the card, so a tooltip above it would be cut off by .image
+        * and then by the card edge. No title attribute either, or the browser's
+        * own tooltip would appear alongside this one. The label carries the
+        * meaning for anyone without a mouse, and aria-label above carries it for
+        * screen readers, so nothing depends on the hover.
+        */}
+      <span className={styles.wetTip} aria-hidden="true">
+        <strong>{band.blurb}.</strong>
+        A rough estimate of how wet you'll get on the way.
       </span>
 
       {badgeText && (

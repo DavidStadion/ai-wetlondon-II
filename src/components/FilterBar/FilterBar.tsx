@@ -33,8 +33,7 @@ const PRICES: Array<{ value: number | null; label: string }> = [
 
 const WETNESS: Array<{ value: number; label: string }> = [
   { value: 100, label: 'Any' },
-  { value: WETNESS_BANDS[0].max, label: WETNESS_BANDS[0].label },
-  { value: 40, label: 'Mostly dry' },
+  ...WETNESS_BANDS.slice(0, -1).map((b) => ({ value: b.max, label: b.label })),
 ];
 
 const SORTS: Array<{ value: SortOption; label: string }> = [

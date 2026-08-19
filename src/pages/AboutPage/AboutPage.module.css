@@ -68,6 +68,11 @@
   gap: 1rem;
 }
 
+/* The wetness legend has four cards, unlike the three-card grids above. */
+.gridBands {
+  grid-template-columns: repeat(4, 1fr);
+}
+
 .gridWide {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -220,7 +225,8 @@
 
 /* Responsive */
 @media (max-width: 900px) {
-  .grid {
+  .grid,
+  .gridBands {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -234,7 +240,8 @@
 }
 
 @media (max-width: 640px) {
-  .grid {
+  .grid,
+  .gridBands {
     grid-template-columns: 1fr;
   }
 }

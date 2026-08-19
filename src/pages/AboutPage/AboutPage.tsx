@@ -171,34 +171,15 @@ export function AboutPage(_props: RouteProps) {
       {/* FAQ */}
       <section className={styles.section} aria-label="How the wetness score works">
         <h2 className={styles.sectionTitle}>What the wetness score means</h2>
-        <div className={styles.grid}>
-          <div className={styles.card}>
-            <h3 className={styles.cardTitle}>
-              {bandRange(0)} · {WETNESS_BANDS[0].label}
-            </h3>
-            <p className={styles.cardText}>
-              Door to door under cover. Straight off the tube or a few steps from it,
-              and everything you came for is inside.
-            </p>
-          </div>
-          <div className={styles.card}>
-            <h3 className={styles.cardTitle}>
-              {bandRange(1)} · {WETNESS_BANDS[1].label}
-            </h3>
-            <p className={styles.cardText}>
-              A short dash. Five or ten minutes from a station, or a courtyard between
-              buildings. A coat will do it.
-            </p>
-          </div>
-          <div className={styles.card}>
-            <h3 className={styles.cardTitle}>
-              {bandRange(2)} · {WETNESS_BANDS[2].label}
-            </h3>
-            <p className={styles.cardText}>
-              A proper walk at either end, or part of the visit is genuinely outside.
-              Worth it, but know before you go.
-            </p>
-          </div>
+        <div className={`${styles.grid} ${styles.gridBands}`}>
+          {WETNESS_BANDS.map((band, i) => (
+            <div className={styles.card} key={band.label}>
+              <h3 className={styles.cardTitle}>
+                {bandRange(i)} · {band.label}
+              </h3>
+              <p className={styles.cardText}>{band.detail}</p>
+            </div>
+          ))}
         </div>
         <p className={styles.intro} style={{ marginTop: '1.5rem' }}>
           It's our judgement, not a measurement. We weigh up how far you'll walk from

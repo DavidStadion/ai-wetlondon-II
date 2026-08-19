@@ -6,6 +6,14 @@ import { venues } from '@/signals/venueSignals';
 import { selectedVenue, isActivityModalOpen } from '@/signals/uiSignals';
 import type { Venue, VenueType } from '@/types';
 import styles from './WeatherRecommendations.module.css';
+import { WETNESS_BANDS } from '@/utils/wetness';
+
+/*
+ * "Not a drop on you between the station and the door" is a promise, so it has
+ * to come from the score the card shows, not from the legacy venue.wetness
+ * column that disagrees with it on 123 venues.
+ */
+const boneDry = (v: Venue) => (v.wetnessScore ?? 0) <= WETNESS_BANDS[0].max;
 
 interface WeatherConfig {
   title: string;
@@ -31,7 +39,7 @@ function getWeatherConfig(mood: string | null, temp: number): WeatherConfig {
     return {
       title: 'Stay completely dry',
       subtitle: "Not a drop on you between the station and the door",
-      filter: (v) => v.wetness === 'dry',
+      filter: boneDry,
     };
   }
 
@@ -39,7 +47,7 @@ function getWeatherConfig(mood: string | null, temp: number): WeatherConfig {
     return {
       title: 'Somewhere warm',
       subtitle: 'Thaw out properly',
-      filter: (v) => v.wetness === 'dry' && v.type.some((t) => COZY_TYPES.includes(t)),
+      filter: (v) => boneDry(v) && v.type.some((t) => COZY_TYPES.includes(t)),
     };
   }
 
@@ -60,7 +68,7 @@ const weatherRecommendations = computed(() => {
 
   // Whatever the weather, never show a thin rail, widen to anywhere indoors
   if (filtered.length < 4) {
-    filtered = allVenues.filter((v) => v.wetness === 'dry');
+    filtered = allVenues.filter(boneDry);
   }
 
   const sorted = [...filtered].sort((a, b) => b.rating - a.rating).slice(0, 6);
