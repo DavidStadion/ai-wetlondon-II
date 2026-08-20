@@ -1,0 +1,1 @@
+export { SwipePage } from './SwipePage';
