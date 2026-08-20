@@ -1,0 +1,117 @@
+/*
+ * Slim, bottom-anchored, and capped in height. It must stay a banner: the
+ * moment it grows into something that covers the page on a phone it becomes the
+ * kind of interstitial that costs search rankings.
+ */
+.bar {
+  position: fixed;
+  left: 50%;
+  bottom: calc(1rem + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 900;                 /* under the header at 1000, over the page */
+  width: min(34rem, calc(100vw - 1.5rem));
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 0.9rem 0.85rem 1.15rem;
+  border-radius: var(--radius-lg);
+  background: #17191d;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.34);
+  animation: riseIn 0.26s ease-out both;
+}
+
+@keyframes riseIn {
+  from { opacity: 0; transform: translate(-50%, 14px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.leaving {
+  animation: sinkOut 0.2s ease-in both;
+}
+
+@keyframes sinkOut {
+  from { opacity: 1; transform: translate(-50%, 0); }
+  to { opacity: 0; transform: translate(-50%, 12px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bar, .leaving { animation: none; }
+}
+
+.copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.body {
+  margin: 0.15rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+/* Both meet the 24px minimum target size, and 44px on the primary. */
+.dismiss,
+.try {
+  min-height: 40px;
+  padding: 0 0.95rem;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.dismiss {
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.dismiss:hover { color: #fff; text-decoration: underline; }
+
+.try {
+  border: 0;
+  background: #fff;
+  color: #101216;
+}
+
+.try:hover { opacity: 0.88; }
+
+.dismiss:focus-visible,
+.try:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@media (max-width: 460px) {
+  .bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.7rem;
+    padding: 0.95rem 1rem;
+  }
+
+  .actions { justify-content: flex-end; }
+  .body { font-size: 0.8rem; }
+}

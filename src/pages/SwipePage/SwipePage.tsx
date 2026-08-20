@@ -5,6 +5,8 @@ import { wetnessBand } from '@/utils/wetness';
 import { labelCategory } from '@/utils/formatters';
 import { situationsFor, SITUATIONS } from '@/utils/situationFilters';
 import { RainCanvas } from '@/components/RainCanvas';
+import { shareLink } from '@/utils/share';
+import { venueUrl } from '@/utils/slug';
 import type { RouteProps, Venue } from '@/types';
 import styles from './SwipePage.module.css';
 
@@ -120,6 +122,28 @@ function SwipeCard({ venue, hint, index }: { venue: Venue; hint: boolean; index:
             </div>
           )}
         </div>
+
+        {/*
+          * Shares the venue's own page, not /swipe. Whoever receives it should
+          * land on the thing being recommended, and that page is prerendered so
+          * a shared link is also a link Google can follow.
+          */}
+        <button
+          type="button"
+          className={styles.share}
+          onClick={() => shareLink({
+            title: venue.name,
+            text: `${venue.name} - ${band.label.toLowerCase()}, on Wet London`,
+            url: venueUrl(venue),
+          })}
+        >
+          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v12M12 3 8 7M12 3l4 4" />
+            <path d="M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7" />
+          </svg>
+          Share
+        </button>
 
         {hint && <p className={styles.hint} aria-hidden="true">Swipe for the next</p>}
       </article>

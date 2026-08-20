@@ -168,13 +168,42 @@
   white-space: nowrap;
 }
 
+/*
+ * Bottom right, opposite the copy, so it never lands under a thumb that is
+ * mid-swipe on the left. 44px tall for a comfortable target.
+ */
+.share {
+  position: absolute;
+  right: clamp(0.9rem, 3.5vw, 1.5rem);
+  bottom: calc(clamp(1rem, 4vh, 1.75rem) + env(safe-area-inset-bottom));
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.share:hover { background: rgba(255, 255, 255, 0.14); }
+.share:focus-visible { outline: 3px solid rgba(255, 255, 255, 0.8); outline-offset: 2px; }
+
 .hint {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: calc(1rem + env(safe-area-inset-bottom));
+  /* Clear of the share button, which now owns the bottom right. */
+  left: clamp(1.5rem, 6vw, 2.75rem);
+  right: 8rem;
+  bottom: calc(1.55rem + env(safe-area-inset-bottom));
   margin: 0;
-  text-align: center;
+  text-align: left;
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -220,6 +249,34 @@
   color: rgba(255, 255, 255, 0.9);
   white-space: nowrap;
 }
+
+/*
+ * Bottom right, opposite the copy, so it never lands under a thumb that is
+ * mid-swipe on the left. 44px tall for a comfortable target.
+ */
+.share {
+  position: absolute;
+  right: clamp(0.9rem, 3.5vw, 1.5rem);
+  bottom: calc(clamp(1rem, 4vh, 1.75rem) + env(safe-area-inset-bottom));
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.share:hover { background: rgba(255, 255, 255, 0.14); }
+.share:focus-visible { outline: 3px solid rgba(255, 255, 255, 0.8); outline-offset: 2px; }
 
 .hint { animation: none; }
 }

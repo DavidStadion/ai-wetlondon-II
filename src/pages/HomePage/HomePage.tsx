@@ -49,6 +49,8 @@ import { ShareModal } from '@/components/modals/ShareModal';
 import { BookingModal } from '@/components/modals/BookingModal';
 
 import styles from './HomePage.module.css';
+import { PromoBand } from '@/components/common/PromoBand';
+import { DRIP_FEED } from '@/utils/dripFeed';
 
 const PREVIEW_COUNT = 8;   // the homepage signposts; /all-activities is the destination
 
@@ -238,6 +240,18 @@ export function HomePage(_props: RouteProps) {
 
       {/* Popular Categories */}
       {!filtersActive && <PopularCategories />}
+
+      {!filtersActive && (
+        <PromoBand
+          title={DRIP_FEED.bandTitle}
+          titleAccent={DRIP_FEED.bandAccent}
+          body={DRIP_FEED.bandBody}
+          ctaLabel={DRIP_FEED.cta}
+          ctaHref={DRIP_FEED.path}
+          tone="bold"
+          mascot
+        />
+      )}
 
       {/* Banner ad, and still hidden while searching so results start higher.
           AdSlot itself now renders nothing until AdSense is actually serving,

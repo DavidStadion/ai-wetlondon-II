@@ -25,6 +25,8 @@ import { SkeletonLoader } from '@/components/common/SkeletonLoader';
 import { AdSlot } from '@/components/common/AdSlot';
 import type { Venue, CardVariant, RouteProps } from '@/types';
 import styles from './AllActivitiesPage.module.css';
+import { PromoBand } from '@/components/common/PromoBand';
+import { DRIP_FEED } from '@/utils/dripFeed';
 
 const PAGE_SIZE = 24;
 /** Break the grid with a promo/ad after this many cards. */
@@ -194,6 +196,18 @@ export function AllActivitiesPage(_props: RouteProps) {
           </div>
         )}
       </section>
+
+      {/* Someone who has scrolled the whole catalogue and picked nothing is
+          exactly who the feed is for, so it goes at the end rather than the top
+          where it would just push the activities down. */}
+      <PromoBand
+        title={DRIP_FEED.bandTitle}
+        titleAccent={DRIP_FEED.bandAccent}
+        body={DRIP_FEED.bandBody}
+        ctaLabel={DRIP_FEED.cta}
+        ctaHref={DRIP_FEED.path}
+        tone="bold"
+      />
 
       <BackToTop />
 

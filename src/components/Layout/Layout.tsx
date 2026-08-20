@@ -30,6 +30,7 @@ const shortLabel = (slug: string) => {
  */
 const isFooterCompact = signal(false);
 import { RainCanvas } from '@/components/RainCanvas';
+import { DripFeedPrompt } from '@/components/DripFeedPrompt';
 import styles from './Layout.module.css';
 
 const savedCount = computed(() => bookmarkedVenues.value.size);
@@ -465,6 +466,10 @@ export function Layout({ children }: LayoutProps) {
           <RainCanvas rgb="255, 255, 255" density={2.4} alpha={2.5} />
         </div>
       </footer>
+
+      {/* Last in the DOM, so it is last in tab order rather than ahead of the
+          page it is interrupting. */}
+      <DripFeedPrompt />
     </div>
   );
 }
