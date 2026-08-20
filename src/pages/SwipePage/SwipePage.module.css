@@ -9,9 +9,11 @@
   /*
    * Not pure black, because the cards are. If the gutter matched them the card
    * edge would disappear and the whole point of the slot-and-gutter split with
-   * it, so this sits a few shades lighter and the card reads as an object on it.
+   * it. #17191d was too close to read as a separate surface, so this is a
+   * proper step up: the black card now sits on a grey ground rather than
+   * dissolving into it.
    */
-  background: #17191d;
+  background: #33383f;
 
   --swipe-gutter: clamp(8px, 2.4vw, 18px);
 }

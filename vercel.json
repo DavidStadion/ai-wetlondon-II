@@ -2,7 +2,8 @@
   "devCommand": "echo 'No dev server needed'",
   "rewrites": [
     { "source": "/saved", "destination": "/" },
-    { "source": "/admin", "destination": "/" }
+    { "source": "/admin", "destination": "/" },
+    { "source": "/swipe", "destination": "/" }
   ],
   "headers": [
     {
