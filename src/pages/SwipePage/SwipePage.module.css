@@ -62,7 +62,8 @@
 
 .face {
   position: relative;
-  background: #000;
+  background: var(--card-bg);
+  color: var(--card-ink);
   flex: 1;
   min-width: 0;
   display: flex;
@@ -71,7 +72,7 @@
   overflow: hidden;
   border-radius: clamp(14px, 4vw, 22px);
   box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
-  color: #fff;
+  color: var(--card-ink);
 }
 
 /*
@@ -111,10 +112,10 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.14em;
-  color: rgba(255, 255, 255, 0.72);
+  color: color-mix(in srgb, var(--card-ink) 72%, transparent);
 }
 
-.dot { color: rgba(255, 255, 255, 0.4); }
+.dot { color: color-mix(in srgb, var(--card-ink) 42%, transparent); }
 
 .name {
   margin: 0 0 0.9rem;
@@ -129,7 +130,7 @@
   margin: 0;
   font-size: clamp(1rem, 4vw, 1.15rem);
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.82);
+  color: color-mix(in srgb, var(--card-ink) 82%, transparent);
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -146,7 +147,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: rgba(255, 255, 255, 0.5);
+  color: color-mix(in srgb, var(--card-ink) 55%, transparent);
 }
 
 .pills {
@@ -160,11 +161,11 @@
 
 .pill {
   padding: 0.34rem 0.72rem;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid color-mix(in srgb, var(--card-ink) 30%, transparent);
   border-radius: 999px;
   font-size: 0.78rem;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+  color: color-mix(in srgb, var(--card-ink) 90%, transparent);
   white-space: nowrap;
 }
 
@@ -182,19 +183,19 @@
   gap: 0.42rem;
   min-height: 44px;
   padding: 0 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border: 1px solid color-mix(in srgb, var(--card-ink) 32%, transparent);
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.4);
+  background: color-mix(in srgb, var(--card-bg) 55%, transparent);
   backdrop-filter: blur(6px);
-  color: #fff;
+  color: var(--card-ink);
   font-family: var(--font-sans);
   font-size: 0.8rem;
   font-weight: 700;
   cursor: pointer;
 }
 
-.share:hover { background: rgba(255, 255, 255, 0.14); }
-.share:focus-visible { outline: 3px solid rgba(255, 255, 255, 0.8); outline-offset: 2px; }
+.share:hover { background: color-mix(in srgb, var(--card-ink) 14%, var(--card-bg)); }
+.share:focus-visible { outline: 3px solid var(--card-ink); outline-offset: 2px; }
 
 .hint {
   position: absolute;
@@ -208,7 +209,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: rgba(255, 255, 255, 0.45);
+  color: color-mix(in srgb, var(--card-ink) 48%, transparent);
   animation: swipeHint 2.4s ease-in-out infinite;
 }
 
@@ -218,67 +219,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .goodFor {
-  margin-top: 1.4rem;
-}
-
-.goodForLabel {
-  margin: 0 0 0.55rem;
-  font-size: 0.66rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.pill {
-  padding: 0.34rem 0.72rem;
-  border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
-  white-space: nowrap;
-}
-
-/*
- * Bottom right, opposite the copy, so it never lands under a thumb that is
- * mid-swipe on the left. 44px tall for a comfortable target.
- */
-.share {
-  position: absolute;
-  right: clamp(0.9rem, 3.5vw, 1.5rem);
-  bottom: calc(clamp(1rem, 4vh, 1.75rem) + env(safe-area-inset-bottom));
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.42rem;
-  min-height: 44px;
-  padding: 0 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(6px);
-  color: #fff;
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 700;
-  cursor: pointer;
-}
-
-.share:hover { background: rgba(255, 255, 255, 0.14); }
-.share:focus-visible { outline: 3px solid rgba(255, 255, 255, 0.8); outline-offset: 2px; }
-
-.hint { animation: none; }
+  .hint { animation: none; }
 }
 
 .close {
@@ -291,8 +232,14 @@
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.42);
-  color: #fff;
+  /*
+   * Follows whichever card is in view, because a fixed dark scrim put a white
+   * cross on mid grey over the off-white card, which is about 2.5:1 and not
+   * good enough for the only way out. Inverting against the card's own ink
+   * keeps it high contrast on every tone.
+   */
+  background: color-mix(in srgb, var(--card-ink) 86%, transparent);
+  color: var(--card-bg);
   font-size: 1.5rem;
   line-height: 1;
   text-decoration: none;
@@ -328,3 +275,57 @@
     height: min(46rem, 92dvh);
   }
 }
+
+
+/*
+ * The panel after the last loaded card. Same slot and snap behaviour as a card,
+ * so scrolling onto it feels like reaching the end of the deck rather than
+ * hitting a wall, and the button is where a thumb already is.
+ */
+.endFace {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2rem;
+  border-radius: clamp(14px, 4vw, 22px);
+  background: #22262c;
+  color: #fff;
+  text-align: center;
+}
+
+.endCount {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.endTitle {
+  margin: 0 0 1.1rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 8vw, 2.6rem);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+}
+
+.loadMore {
+  min-height: 48px;
+  padding: 0 1.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: #fff;
+  color: #101216;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.loadMore:hover { opacity: 0.88; }
+.loadMore:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
