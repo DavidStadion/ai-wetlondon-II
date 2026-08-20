@@ -93,62 +93,10 @@
   to { transform: scale(1); opacity: 1; }
 }
 
-/*
- * Falling rain, two layers.
- *
- * Each layer is a tile holding one soft vertical streak, repeated, and animated
- * by translating down exactly one tile height so the loop is seamless. Streaks
- * rather than continuous lines, because a continuous line moved along its own
- * axis looks completely static, which is why the old diagonal gradient had to
- * stay still.
- *
- * Transform-animated, so it composites on the GPU and does not repaint. The
- * wrapper is rotated for the slant and oversized to cover the corners the
- * rotation would otherwise expose.
- */
-.rain {
-  position: absolute;
-  inset: -25%;
-  transform: rotate(7deg);
-  pointer-events: none;
-}
-
-.drops {
-  position: absolute;
-  inset: 0;
-  background-repeat: repeat;
-  animation: fall linear infinite;
-}
-
-.far {
-  --tile: 58px;
-  background-image: radial-gradient(0.9px 16px at 50% 50%, rgba(255, 255, 255, 0.3), transparent);
-  background-size: 26px var(--tile);
-  animation-duration: 2.1s;
-}
-
-.near {
-  --tile: 96px;
-  background-image: radial-gradient(1.3px 26px at 50% 50%, rgba(255, 255, 255, 0.42), transparent);
-  background-size: 38px var(--tile);
-  animation-duration: 1.15s;
-}
-
-@keyframes fall {
-  to { transform: translate3d(0, var(--tile), 0); }
-}
-
-/* Set by the observer on slots that are off-screen. */
-.still .drops { animation-play-state: paused; }
-
-/* Rain that cannot be turned off is a problem for anyone who gets motion sick. */
-@media (prefers-reduced-motion: reduce) {
-  .drops { animation: none; }
-}
-
-
 .body {
   position: relative;
+  /* Above the rain canvas, which paints at z-index 0. */
+  z-index: 1;
   padding: 0 clamp(1.5rem, 6vw, 2.75rem) clamp(3rem, 12vh, 6rem);
   /* Clear of the iPhone home bar. */
   padding-bottom: calc(clamp(3rem, 12vh, 6rem) + env(safe-area-inset-bottom));

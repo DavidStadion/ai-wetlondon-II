@@ -38,9 +38,15 @@ export interface RainCanvasProps {
   density?: number;
   /** Multiplies drop opacity. Pale rain on a dark ground needs more than 1. */
   alpha?: number;
+  /**
+   * Resting slant. The pointer still steers the wind while it is over the
+   * canvas; this is the lean it holds otherwise, and what it eases back to.
+   * Negative blows the other way.
+   */
+  wind?: number;
 }
 
-export function RainCanvas({ rgb = '31, 67, 255', density, alpha = 1 }: RainCanvasProps = {}) {
+export function RainCanvas({ rgb = '31, 67, 255', density, alpha = 1, wind: restWind = 0.35 }: RainCanvasProps = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const moodRef = useRef<string>('dull');
   moodRef.current = weatherMood.value ?? 'dull';
@@ -49,9 +55,11 @@ export function RainCanvas({ rgb = '31, 67, 255', density, alpha = 1 }: RainCanv
   const rgbRef = useRef(rgb);
   const densityRef = useRef(density);
   const alphaRef = useRef(alpha);
+  const windRef = useRef(restWind);
   rgbRef.current = rgb;
   densityRef.current = density;
   alphaRef.current = alpha;
+  windRef.current = restWind;
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -66,9 +74,9 @@ export function RainCanvas({ rgb = '31, 67, 255', density, alpha = 1 }: RainCanv
     let drops: Drop[] = [];
     let raf = 0;
 
-    // Pointer steers the wind; eases back to a gentle default when idle
-    let targetWind = 0.35;
-    let wind = 0.35;
+    // Pointer steers the wind; eases back to the resting lean when idle
+    let targetWind = windRef.current;
+    let wind = windRef.current;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
@@ -107,7 +115,7 @@ export function RainCanvas({ rgb = '31, 67, 255', density, alpha = 1 }: RainCanv
     }
 
     function onPointerLeave() {
-      targetWind = 0.35;
+      targetWind = windRef.current;
     }
 
     function draw() {
