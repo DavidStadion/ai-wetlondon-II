@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
 import type { VenueType } from '../types';
-import { toneFor } from '@/utils/venueTone';
 
 const IMAGE_CACHE_KEY = 'wet_london_images_cache';
 const CACHE_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days
@@ -166,8 +165,29 @@ async function fetchPlacesImage(venueName: string): Promise<string | null> {
  * card already prints it, and a placeholder that repeats it just competes.
  */
 
+const PLACEHOLDER_TONES: Partial<Record<VenueType, string>> = {
+  museums: '#141c33',
+  galleries: '#221528',
+  exhibitions: '#1b1630',
+  historic: '#241c12',
+  libraries: '#0f2229',
+  theatre: '#26161a',
+  cinema: '#131a2b',
+  music: '#122420',
+  comedy: '#231a10',
+  dining: '#231a14',
+  markets: '#1a2114',
+  shopping: '#201628',
+  nightlife: '#25151f',
+  wellness: '#102422',
+  sports: '#0f2225',
+  gaming: '#181632',
+  entertainment: '#1a1730',
+  workshops: '#13221a',
+};
+
 function getPlaceholderImage(venueName: string, types: VenueType[]): string {
-  const tone = toneFor(types);
+  const tone = (types[0] && PLACEHOLDER_TONES[types[0]]) || '#17181d';
   const first = venueName.trim().charAt(0).toUpperCase();
   const initial = /[A-Z0-9]/.test(first) ? first : '';
 
